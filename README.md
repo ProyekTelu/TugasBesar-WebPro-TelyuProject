@@ -1,7 +1,8 @@
 # Get Started (Lakukan secara linear)
 
 prequisite : 
-1. NodeJs LTS v18.18.1
+1. NodeJs LTS versi v18.18.1
+2. Nodemon versi 3.0.1
 2. Database MYSQL local sudah berjalan
 
 pada file Database.js di \Backend\config\Database.js
