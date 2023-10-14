@@ -3,7 +3,9 @@
 prequisite : 
 1. NodeJs LTS versi v18.18.1
 2. Nodemon versi 3.0.1
-2. Database MYSQL local sudah berjalan
+3. Database MYSQL local sudah berjalan
+
+# Change local database configuration
 
 pada file Database.js di \Backend\config\Database.js
 
