@@ -13,6 +13,18 @@ const db = new Sequelize("telyu_project", "root", "root", {
   dialect: "mysql",
 });
 
+# Install NPM in Backend
+
 pada folder Backend, jalankan perintah npm install.
 
+# Install NPM in telyu-project
+
 pada folder Frontend\telyu-project, jalankan perintah npm install.
+
+# How to Run backend
+
+buka terminal pada path backend, lalu tulis nodemon index
+
+# How to Run front-end
+
+buka terminal pada path telyu-project, lalu tulis npm start
