@@ -1,12 +1,18 @@
-# Get Started
+# Get Started (Lakukan secara linear)
+
+prequisite : 
+1. NodeJs LTS v18.18.1
+2. Database MYSQL local sudah berjalan
 
 pada file Database.js di \Backend\config\Database.js
 
 ubah parameter ke 1, 2 dan 3 sesuai dengan database local kalian 
 
-param 1 = nama database,
-param 2 = username nya (default root),
-param 3 = password nya (default "")
+param 1 = nama database contoh ("telyu_project",
+param 2 = username nya (contoh : "root"),
+param 3 = password nya (contoh : "root")
+
+code yang ini : 
 
 const db = new Sequelize("telyu_project", "root", "root", {
   host: "localhost",
@@ -15,11 +21,11 @@ const db = new Sequelize("telyu_project", "root", "root", {
 
 # Install NPM in Backend
 
-pada folder Backend, jalankan perintah npm install.
+pada folder Backend, jalankan perintah "npm install" pada terminal tanpa petik 2.
 
 # Install NPM in telyu-project
 
-pada folder Frontend\telyu-project, jalankan perintah npm install.
+pada folder Frontend\telyu-project, jalankan perintah "npm install" pada terminal tanpa petik 2.
 
 # How to Run backend
 
