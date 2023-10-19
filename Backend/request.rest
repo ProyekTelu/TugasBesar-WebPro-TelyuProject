@@ -2,21 +2,41 @@ GET http://localhost:5000/users
 
 ###
 
-GET http://localhost:5000/users/2
+GET http://localhost:5000/users/1302213067
 
 ###
 
 POST http://localhost:5000/users
 Content-Type: application/json
 
+# {
+#   "nim": "1302213067",
+#   "firstName": "Muhammad Zaky",
+#   "lastName": "Fathurahim",
+#   "email": "mzakyf@student.telkomuniversity.ac.id",
+#   "password": "ambasing123",
+#   "gender": "Male",
+#   "kodeDosen": "",
+#   "fakultas": "Informatika",
+#   "prodi": "Rekayasa Perangkat Lunak",
+#   "kelas": "SE-45-02",
+#   "role": "mahasiswa"
+# }
+
 {
-  "name": "John Doe",
-  "email": "johndoe@example.com",
-  "password" : "jondoe",
-  "userName": "john doe",
-  "gender" : "pria",
-  "role" : "admin"
+  "nim": "1234567890",
+  "firstName": "Zaky Admin",
+  "lastName": "Admin",
+  "email": "mzakyf@admin.ac.id",
+  "password": "ambasing123",
+  "gender": "Male",
+  "kodeDosen": "",
+  "fakultas": "Informatika",
+  "prodi": "Rekayasa Perangkat Lunak",
+  "kelas": "SE-45-02",
+  "role": "admin"
 }
+
 
 ###
 
@@ -24,6 +44,16 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-  "email": "johndoe@example.com",
-  "password" : "jondoe"
+  "email": "mzakyf@student.telkomuniversity.ac.id",
+  "password" : "ambasing123"
 }
+
+# {
+#   "email": "mzakyf@admin.ac.id",
+#   "password" : "ambasing123"
+# }
+###
+
+
+###
+DELETE http://localhost:5000/logout

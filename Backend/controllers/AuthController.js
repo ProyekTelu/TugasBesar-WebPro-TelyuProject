@@ -1,45 +1,46 @@
 import User from "../models/UserModel.js";
-import jwt from "jsonwebtoken";
+import argon2d from "argon2";
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
-
   try {
     const user = await User.findOne({
       where: {
-        email: email,
+        email: req.body.email,
       },
     });
 
-    if (!user) {
-      return res.status(401).json({ error: "Email tidak ditemukan" });
-    }
+    if (!user) return res.status(404).json({ msg: "User not found" });
 
-    const passwordSesuai = password === user.password;
+    const passwordSesuai = await argon2d.verify(
+      user.password,
+      req.body.password
+    );
 
-    if (!passwordSesuai) {
-      return res.status(401).json({ error: "Password atau Email tidak benar" });
-    }
-
-    const secretKey = "telyu-project-skuy";
-    const algorithm = "HS256";
+    if (!passwordSesuai) return res.status(400).json({ msg: "Wrong password" });
 
     const userData = {
-      id: user.id,
-      name: user.name,
-      role: user.role,
+      nim: user.nim,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
       gender: user.gender,
+      kodeDosen: user.kodeDosen,
+      fakultas: user.fakultas,
+      prodi: user.prodi,
+      kelas: user.kelas,
+      role: user.role,
     };
 
-    const token = jwt.sign(userData, secretKey, {
-      algorithm: algorithm,
-      expiresIn: "1m",
-    });
-
-    res.json({ token });
+    res.status(200).json({ userData });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error.message });
   }
+};
+
+export const logOut = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) return res.status(500).json({ msg: "cannot logout" });
+    res.status(200).json({ msg: "logout complete" });
+  });
 };

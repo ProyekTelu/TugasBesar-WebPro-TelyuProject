@@ -1,14 +1,23 @@
 import express from "express";
 import {
+  verifyUser,
+  adminOnly,
+  dosenAndAdminOnly,
+} from "../Middleware/AuthUser.js";
+import {
   createUser,
-  getUsers,
-  getUsersById,
+  deleteUserByNim,
+  getAllUsers,
+  getUsersByNim,
+  updateUserByNim,
 } from "../controllers/UserController.js";
 
 const router = express.Router();
 
-router.get("/users", getUsers);
-router.get("/users/:id", getUsersById);
+router.get("/users", verifyUser, dosenAndAdminOnly, getAllUsers);
+router.get("/users/:nim", verifyUser, getUsersByNim);
 router.post("/users", createUser);
+router.patch("/users/:nim", verifyUser, updateUserByNim);
+router.delete("/users/:nim", verifyUser, adminOnly, deleteUserByNim);
 
 export default router;
