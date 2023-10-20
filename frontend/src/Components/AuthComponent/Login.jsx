@@ -2,18 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser, reset } from "../../features/authSlice";
-
+import { Autoplay, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/autoplay";
+import "swiper/css/pagination";
 import TelkomLogo from "../../img/Telkom_University_Logo.png";
 import ImgCarousel1 from "../../img/loginImage1.jpg";
-import ImgCarousel2 from "../../img/loginImage1.jpg";
+import ImgCarousel2 from "../../img/loginImage2.png";
+import ImgCarousel3 from "../../img/loginImage3.png";
 import TelyuProjectLogo from "../../img/telyuProject.png";
 
-import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
-
-const images = [ImgCarousel1, ImgCarousel2];
+const images = [ImgCarousel1, ImgCarousel2, ImgCarousel3];
 
 const Login = ({ setShowLogin }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -25,7 +27,6 @@ const Login = ({ setShowLogin }) => {
     (state) => state.auth
   );
 
-  
   useEffect(() => {
     if (user || isSuccess) {
       // navigate("/home");
@@ -49,29 +50,6 @@ const Login = ({ setShowLogin }) => {
     setPassword(newPassword);
     setIsButtonDisabled(email === "" || newPassword === "");
   };
-
-  const handlePrevImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
-  };
-
-  const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      handleNextImage();
-    }, 7000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   return (
     <div
@@ -140,13 +118,17 @@ const Login = ({ setShowLogin }) => {
                 )}
               </div>
               <div className="w-full h-full flex justify-end pt-0 xs:pt-2">
-              <button
-  type="submit"
-  className={`text-secondary w-full py-1 cursor-pointer block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${isButtonDisabled ? 'bg-black cursor-not-allowed' : ' bg-primary hover:bg-brightPrimary'}`}
-  disabled={isButtonDisabled}
->
-  {isLoading ? "Loading..." : "Login "}
-</button>
+                <button
+                  type="submit"
+                  className={`text-secondary w-full py-1 cursor-pointer block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
+                    isButtonDisabled
+                      ? "bg-black cursor-not-allowed"
+                      : " bg-primary hover:bg-brightPrimary"
+                  }`}
+                  disabled={isButtonDisabled}
+                >
+                  {isLoading ? "Loading..." : "Login "}
+                </button>
               </div>
               <label
                 className="text-[10px] text-center sm:text-sm xl:text-base"
@@ -183,35 +165,24 @@ const Login = ({ setShowLogin }) => {
         </div>
       </div>
       <div className="w-1/2 hidden p-8 h-full lg:block relative rounded-r-2xl">
-        <div
-          className="absolute text-2xl ml-4 cursor-pointer left-8 top-1/2 p-4 bg-white rounded-full"
-          onClick={handlePrevImage}
+        <Swiper
+          modules={[Autoplay, Pagination]}
+          className="h-full"
+          spaceBetween={20}
+          slidesPerView={1}
+          pagination={{ clickable: true }}
+          autoplay={{ delay: 5000 }}
         >
-          <FaLongArrowAltLeft />
-        </div>
-        <div
-          className="absolute text-2xl mr-4 cursor-pointer right-8 top-1/2 p-4 bg-white rounded-full"
-          onClick={handleNextImage}
-        >
-          <FaLongArrowAltRight />
-        </div>
-        <img
-          src={images[currentImageIndex]}
-          className="w-full h-full object-cover rounded-xl"
-          style={{ userSelect: "none" }}
-          alt=""
-        />
-        <div className="absolute bottom-14 left-0 right-0 flex justify-center">
-          {images.map((_, index) => (
-            <div
-              key={index}
-              className={`h-4 w-4 mx-2 rounded-full cursor-pointer hover:border-2 border-black  ${
-                currentImageIndex === index ? "bg-primary" : "bg-white"
-              }`}
-              onClick={() => setCurrentImageIndex(index)}
-            />
+          {images.map((image, index) => (
+            <SwiperSlide key={index} className="bg-cover">
+              <img
+                src={image}
+                className="w-full h-full object-cover rounded-xl"
+                alt={`${index}`}
+              />
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
       </div>
     </div>
   );
