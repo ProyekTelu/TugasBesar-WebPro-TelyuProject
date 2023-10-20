@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios from "../config/axiosConfig";
+import jwt_decode from "jwt-decode";
 
 const initialState = {
   user: null,
@@ -17,7 +18,11 @@ export const loginUser = createAsyncThunk(
         email: user.email,
         password: user.password,
       });
-      return response.data;
+      const token = response.data.token;
+      const decodedUser = jwt_decode(token);
+      const userData = JSON.stringify(decodedUser);
+      localStorage.setItem("user", userData);
+      return userData;
     } catch (error) {
       if (error.response) {
         const message = error.response.data.msg;

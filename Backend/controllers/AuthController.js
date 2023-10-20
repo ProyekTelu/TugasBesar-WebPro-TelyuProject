@@ -1,5 +1,9 @@
 import User from "../models/UserModel.js";
 import argon2d from "argon2";
+import dotenv from "dotenv";
+dotenv.config();
+
+import jwt from "jsonwebtoken";
 
 export const login = async (req, res) => {
   try {
@@ -31,7 +35,13 @@ export const login = async (req, res) => {
       role: user.role,
     };
 
-    res.status(200).json({ userData });
+    const secretKey = "KKAOKSOA922K32NNAMBASINGK2K2IKA2Bassaj9J2";
+
+    const token = jwt.sign(userData, secretKey, {
+      expiresIn: "1h",
+    });
+
+    res.status(200).json({ token });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error.message });
