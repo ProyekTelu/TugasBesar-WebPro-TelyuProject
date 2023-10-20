@@ -142,7 +142,7 @@ const Login = ({ setShowLogin }) => {
                 for Lecturers{" "}
               </label>
               <label
-                className="text-xs text-center lg:text-base mb-4 "
+                className="text-[11px] text-center lg:text-base mb-4 "
                 htmlFor=""
               >
                 Dont have an account?{" "}
