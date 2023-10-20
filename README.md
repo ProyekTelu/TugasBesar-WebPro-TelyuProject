@@ -26,9 +26,9 @@ const db = new Sequelize("telyu_project", "root", "root", {
 
 pada folder Backend, jalankan perintah "npm install" pada terminal tanpa petik 2.
 
-# Install NPM in telyu-project
+# Install NPM in frontend
 
-pada folder Frontend\telyu-project, jalankan perintah "npm install" pada terminal tanpa petik 2.
+pada folder frontend, jalankan perintah "npm install" pada terminal tanpa petik 2.
 
 # How to Run backend
 
