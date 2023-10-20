@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser, reset } from "../../features/authSlice";
-import { Autoplay, Pagination } from "swiper/modules";
+import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import TelkomLogo from "../../img/Telkom_University_Logo.png";
 import ImgCarousel1 from "../../img/loginImage1.jpg";
@@ -166,12 +165,11 @@ const Login = ({ setShowLogin }) => {
       </div>
       <div className="w-1/2 hidden p-8 h-full lg:block relative rounded-r-2xl">
         <Swiper
-          modules={[Autoplay, Pagination]}
+          modules={[Pagination]}
           className="h-full"
           spaceBetween={20}
           slidesPerView={1}
           pagination={{ clickable: true }}
-          autoplay={{ delay: 5000 }}
         >
           {images.map((image, index) => (
             <SwiperSlide key={index} className="bg-cover">
