@@ -1,6 +1,7 @@
 import React from "react";
 import TelkomLogo from "../../img/Telkom_University_Logo.png";
 import reja from "../../img/reja.png";
+
 const Signup = ({ setShowLogin }) => {
   return (
     <div className="flex">
@@ -52,13 +53,11 @@ const Signup = ({ setShowLogin }) => {
             </div>
             <label
               className="m-auto text-[11px] text-center md:text-xl"
-              htmlFor=""
-            >
+              htmlFor="">
               Baru disini?{" "}
               <span
                 onClick={() => setShowLogin(true)}
-                className="text-primary font-bold cursor-pointer"
-              >
+                className="text-primary font-bold cursor-pointer">
                 Baca Bismillah
               </span>
             </label>
