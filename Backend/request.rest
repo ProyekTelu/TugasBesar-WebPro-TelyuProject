@@ -23,19 +23,19 @@ Content-Type: application/json
 #   "role": "mahasiswa"
 # }
 
-{
-  "nim": "1234567890",
-  "firstName": "Zaky Admin",
-  "lastName": "Admin",
-  "email": "mzakyf@admin.ac.id",
-  "password": "ambasing123",
-  "gender": "Male",
-  "kodeDosen": "",
-  "fakultas": "Informatika",
-  "prodi": "Rekayasa Perangkat Lunak",
-  "kelas": "SE-45-02",
-  "role": "admin"
-}
+# {
+#   "nim": "1234567890",
+#   "firstName": "Zaky Admin",
+#   "lastName": "Admin",
+#   "email": "mzakyf@admin.ac.id",
+#   "password": "ambasing123",
+#   "gender": "Male",
+#   "kodeDosen": "",
+#   "fakultas": "Informatika",
+#   "prodi": "Rekayasa Perangkat Lunak",
+#   "kelas": "SE-45-02",
+#   "role": "admin"
+# }
 
 
 ###
