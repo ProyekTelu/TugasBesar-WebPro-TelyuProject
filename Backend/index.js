@@ -33,8 +33,8 @@ app.use(AuthRoute);
 
 //2.
 // (async () => {
-// await db.sync();
-//  Users();
+//   await db.sync();
+//   Users();
 // })();
 
 app.listen(process.env.APP_PORT, () =>

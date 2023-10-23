@@ -23,7 +23,7 @@ export const login = async (req, res) => {
     if (!passwordSesuai) return res.status(400).json({ msg: "Wrong password" });
 
     const userData = {
-      nim: user.nim,
+      nomorInduk: user.nomorInduk,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
@@ -46,11 +46,4 @@ export const login = async (req, res) => {
     console.log(error);
     res.status(500).json({ error: error.message });
   }
-};
-
-export const logOut = (req, res) => {
-  req.session.destroy((err) => {
-    if (err) return res.status(500).json({ msg: "cannot logout" });
-    res.status(200).json({ msg: "logout complete" });
-  });
 };

@@ -1,13 +1,18 @@
 import User from "../models/UserModel.js";
+import argon2 from "argon2";
 
 const Users = async () => {
   try {
+    const password = "ambasing123";
+
+    const hashedPassword = await argon2.hash(password);
+
     await User.create({
       nomorInduk: "1234567890",
       firstName: "Zaky Admin",
       lastName: "Admin",
       email: "mzakyf@admin.ac.id",
-      password: "ambasing123",
+      password: hashedPassword,
       gender: "Male",
       kodeDosen: "",
       kodeFakultas: "FIF",
@@ -21,7 +26,7 @@ const Users = async () => {
       firstName: "Muhammad Zaky",
       lastName: "Fathurahim",
       email: "mzakyf@student.telkomuniversity.ac.id",
-      password: "ambasing123",
+      password: hashedPassword,
       gender: "Male",
       kodeDosen: "",
       kodeFakultas: "FIF",
@@ -30,7 +35,7 @@ const Users = async () => {
       role: "mahasiswa",
     });
   } catch (e) {
-    console.error("Gagal menambahkan data awal User:", e);
+    console.error("Failed to add initial User data:", e);
   }
 };
 
