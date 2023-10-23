@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthPage from "./pages/Auth";
 import WebFont from "webfontloader";
 import Layout from "./pages/Layout";
+import CreateProject from "./Components/CreateProject";
 
 function App() {
   useEffect(() => {
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<AuthPage />} />
         <Route path="/home" element={<Layout />} />
+        <Route path="/createproject" element={<CreateProject />} />
       </Routes>
     </BrowserRouter>
   );
