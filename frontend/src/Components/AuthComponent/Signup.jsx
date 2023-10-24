@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { reset } from "../../features/authSlice";
+import axios from "axios";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { IoCaretBackCircleOutline } from "react-icons/io5";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
@@ -20,6 +22,12 @@ const Signup = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [onSignUp, setOnSignUp] = useState(false);
 
+  const [fakultas, setFakultas] = useState([]);
+  const [selectedFakultas, setSelectedFakultas] = useState("");
+
+  const [majors, setMajors] = useState([]);
+  const [selectedMajor, setSelectedMajor] = useState("");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -33,6 +41,30 @@ const Signup = () => {
     }
     dispatch(reset());
   }, [user, isSuccess, dispatch, navigate]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/fakultas")
+      .then((response) => {
+        setFakultas(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching fakultas:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (selectedFakultas) {
+      axios
+        .get(`http://localhost:5000/prodi?/kodeFakultas=${selectedFakultas}`)
+        .then((response) => {
+          setMajors(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching majors:", error);
+        });
+    }
+  }, [selectedFakultas]);
 
   const signUpMode = () => {
     setOnSignUp(true);
@@ -153,7 +185,8 @@ const Signup = () => {
                   src={TelyuProjectLogo}
                   alt=""
                 />
-                <div className="flex p-10 lg:p-0 flex-col mx-10 w-2/3 self-center justify-center h-full gap-1">
+                <div className="flex p-10 lg:p-0 flex-col mx-10 w-2/3 self-center justify-center h-full gap-1 relative">
+                  <IoCaretBackCircleOutline className="text-4xl absolute left-[-6rem] cursor-pointer" />
                   <h1 className="text-center mt-4  text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
                     Welcome to Telyu Project
                   </h1>
@@ -212,13 +245,17 @@ const Signup = () => {
                         </label>
                         <select
                           className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
-                          name=""
-                          id=""
+                          name="faculty"
+                          id="faculty"
+                          value={selectedFakultas}
+                          onChange={(e) => setSelectedFakultas(e.target.value)}
                         >
-                          <option value="">ambasing</option>
-                          <option value="">ambasing</option>
-                          <option value="">ambasing</option>
-                          <option value="">ambasing</option>
+                          <option value="">Select a Faculty</option>
+                          {fakultas.map((faculty) => (
+                            <option key={faculty.kode} value={faculty.kode}>
+                              {faculty.nama}
+                            </option>
+                          ))}
                         </select>
                       </div>
                       <div className="flex-col flex w-full">
@@ -230,13 +267,17 @@ const Signup = () => {
                         </label>
                         <select
                           className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
-                          name=""
-                          id=""
+                          name="faculty"
+                          id="faculty"
+                          value={selectedMajor}
+                          onChange={(e) => setSelectedMajor(e.target.value)}
                         >
-                          <option value="">ambasing</option>
-                          <option value="">ambasing</option>
-                          <option value="">ambasing</option>
-                          <option value="">ambasing</option>
+                          <option value="">Select a Major</option>
+                          {majors.map((major) => (
+                            <option key={major.kode} value={major.kode}>
+                              {major.program} - {major.nama}
+                            </option>
+                          ))}
                         </select>
                       </div>
                     </div>
