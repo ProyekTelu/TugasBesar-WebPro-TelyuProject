@@ -32,10 +32,6 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const logOut = createAsyncThunk("user/logOut", async () => {
-  await axios.delete("http://localhost:5000/logout");
-});
-
 export const authSlice = createSlice({
   name: "auth",
   initialState,
