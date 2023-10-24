@@ -5,14 +5,14 @@ export const getAllUsers = async (req, res) => {
   try {
     const response = await User.findAll({
       attributes: [
-        "nim",
+        "nomorInduk",
         "firstName",
         "lastName",
         "email",
         "gender",
         "kodeDosen",
-        "fakultas",
-        "prodi",
+        "kodeFakultas",
+        "kodeProdi",
         "kelas",
         "role",
       ],
@@ -23,11 +23,11 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-export const getUsersByNim = async (req, res) => {
+export const getUsersByNomorInduk = async (req, res) => {
   try {
     const response = await User.findOne({
       where: {
-        nim: req.params.nim,
+        nomorInduk: req.params.nomorInduk,
       },
     });
     res.status(200).json(response);
@@ -38,30 +38,30 @@ export const getUsersByNim = async (req, res) => {
 
 export const createUser = async (req, res) => {
   const {
-    nim,
+    nomorInduk,
     firstName,
     lastName,
     email,
     password,
     gender,
     kodeDosen,
-    fakultas,
-    prodi,
+    kodeFakultas,
+    kodeProdi,
     kelas,
     role,
   } = req.body;
   const hashPassword = await argon2.hash(password);
   try {
     await User.create({
-      nim: nim,
+      nomorInduk: nomorInduk,
       firstName: firstName,
       lastName: lastName,
       email: email,
       password: hashPassword,
       gender: gender,
       kodeDosen: kodeDosen,
-      fakultas: fakultas,
-      prodi: prodi,
+      kodeFakultas: kodeFakultas,
+      kodeProdi: kodeProdi,
       kelas: kelas,
       role: role,
     });
@@ -71,7 +71,7 @@ export const createUser = async (req, res) => {
   }
 };
 
-export const updateUserByNim = async (req, res) => {
+export const updateUserByNomorInduk = async (req, res) => {
   try {
     await User.create(req.body);
     res.status(201).json({ msg: "User Created" });
@@ -80,7 +80,7 @@ export const updateUserByNim = async (req, res) => {
   }
 };
 
-export const deleteUserByNim = async (req, res) => {
+export const deleteUserByNomorInduk = async (req, res) => {
   try {
     await User.destroy(req.body);
     res.status(201).json({ msg: "User Created" });

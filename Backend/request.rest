@@ -1,5 +1,19 @@
 GET http://localhost:5000/users
+Content-Type: application/json
 
+{
+  "nomorInduk": "1234567890",
+  "firstName": "Zaky Admin",
+  "lastName": "Admin",
+  "email": "mzakyf@admin.ac.id",
+  "password": "ambasing123",
+  "gender": "Male",
+  "kodeDosen": "",
+  "fakultas": "Informatika",
+  "prodi": "Rekayasa Perangkat Lunak",
+  "kelas": "SE-45-02",
+  "role": "admin"
+}
 ###
 
 GET http://localhost:5000/users/1302213067
@@ -10,7 +24,7 @@ POST http://localhost:5000/users
 Content-Type: application/json
 
 # {
-#   "nim": "1302213067",
+#   "nomorInduk": "1302213067",
 #   "firstName": "Muhammad Zaky",
 #   "lastName": "Fathurahim",
 #   "email": "mzakyf@student.telkomuniversity.ac.id",
@@ -23,19 +37,19 @@ Content-Type: application/json
 #   "role": "mahasiswa"
 # }
 
-{
-  "nim": "1234567890",
-  "firstName": "Zaky Admin",
-  "lastName": "Admin",
-  "email": "mzakyf@admin.ac.id",
-  "password": "ambasing123",
-  "gender": "Male",
-  "kodeDosen": "",
-  "fakultas": "Informatika",
-  "prodi": "Rekayasa Perangkat Lunak",
-  "kelas": "SE-45-02",
-  "role": "admin"
-}
+# {
+#   "nomorInduk": "1234567890",
+#   "firstName": "Zaky Admin",
+#   "lastName": "Admin",
+#   "email": "mzakyf@admin.ac.id",
+#   "password": "ambasing123",
+#   "gender": "Male",
+#   "kodeDosen": "",
+#   "fakultas": "Informatika",
+#   "prodi": "Rekayasa Perangkat Lunak",
+#   "kelas": "SE-45-02",
+#   "role": "admin"
+# }
 
 
 ###
@@ -43,17 +57,13 @@ Content-Type: application/json
 POST http://localhost:5000/login
 Content-Type: application/json
 
-{
-  "email": "mzakyf@student.telkomuniversity.ac.id",
-  "password" : "ambasing123"
-}
-
 # {
-#   "email": "mzakyf@admin.ac.id",
+#   "email": "mzakyf@student.telkomuniversity.ac.id",
 #   "password" : "ambasing123"
 # }
-###
 
-
+{
+  "email": "mzakyf@admin.ac.id",
+  "password" : "ambasing123"
+}
 ###
-DELETE http://localhost:5000/logout

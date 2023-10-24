@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AuthPage from "./pages/Auth";
 import WebFont from "webfontloader";
 import Layout from "./pages/Layout";
 import Profile from "./Components/Profile";
+import Sidebar from "./Components/Sidebar";
+import Login from "./Components/AuthComponent/Login";
+import Signup from "./Components/AuthComponent/Signup";
 
 function App() {
   useEffect(() => {
@@ -17,9 +19,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<AuthPage />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Layout />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/sidebar" element={<Sidebar />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,12 +1,14 @@
-import { Sequelize } from "sequelize";
+import { HasMany, Sequelize } from "sequelize";
 import db from "../config/Database.js";
+import Fakultas from "./FakultasModel.js";
+import Prodi from "./ProdiModel.js";
 
 const { DataTypes } = Sequelize;
 
 const User = db.define(
   "users",
   {
-    nim: {
+    nomorInduk: {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
@@ -14,6 +16,7 @@ const User = db.define(
         notEmpty: true,
         len: [10],
       },
+      primaryKey: true,
     },
     firstName: {
       type: DataTypes.STRING,
@@ -57,11 +60,13 @@ const User = db.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    fakultas: {
+    kodeFakultas: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
-    prodi: {
+    kodeProdi: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     kelas: {
       type: DataTypes.STRING,
@@ -75,8 +80,18 @@ const User = db.define(
     },
   },
   {
-    freezTableName: true,
+    freezeTableName: true,
   }
 );
+
+Fakultas.hasMany(User, {
+  foreignKey: "kodeFakultas",
+  sourceKey: "kode",
+});
+
+Prodi.hasMany(User, {
+  foreignKey: "kodeProdi",
+  sourceKey: "kode",
+});
 
 export default User;
