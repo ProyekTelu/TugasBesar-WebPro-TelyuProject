@@ -22,6 +22,7 @@ export const loginUser = createAsyncThunk(
       const decodedUser = jwt_decode(token);
       const userData = JSON.stringify(decodedUser);
       localStorage.setItem("user", userData);
+      localStorage.setItem("currentNav", 0);
       return userData;
     } catch (error) {
       if (error.response) {

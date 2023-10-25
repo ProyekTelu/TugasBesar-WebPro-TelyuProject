@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Outlet, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Outlet, Link} from "react-router-dom";
 import PageButton from "../Components/SideBarComponent/PageButton";
 const Layout = () => {
 
-  useEffect(()=>{
-    
-  },[])
 
   const pageButtonContent = [
     { content: "Home", pageSession: "page1" },
@@ -38,7 +35,7 @@ const Layout = () => {
         <div>
           <div className="inline-block px-6 py-12 h-screen w-auto text-black bg-white border-r-grey border-r-[1px]">
 
-            
+
             <div className="mb-12 flex items-center gap-5">
               <div className="inline h-12 w-12 bg-black">
 
