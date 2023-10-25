@@ -92,7 +92,7 @@ const Login = () => {
                     </label>
                     <input
                       placeholder=""
-                      className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                      className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                       type="email"
                       value={email}
                       onChange={handleEmailChange}
@@ -112,7 +112,7 @@ const Login = () => {
                     </label>
                     <input
                       placeholder=""
-                      className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                      className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                       type="password"
                       value={password}
                       onChange={handlePasswordChange}
@@ -126,7 +126,7 @@ const Login = () => {
                   <div className="w-full h-full flex justify-end pt-0 xs:pt-2">
                     <button
                       type="submit"
-                      className={`text-secondary w-full py-1 block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
+                      className={`text-secondary w-full block py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
                         isButtonDisabled
                           ? "bg-black cursor-not-allowed"
                           : " bg-primary hover:bg-brightPrimary cursor-pointer"

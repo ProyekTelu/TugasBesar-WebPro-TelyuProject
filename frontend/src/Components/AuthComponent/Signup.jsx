@@ -38,8 +38,12 @@ const Signup = () => {
 
   const [selectedKelas, setSelectedKelas] = useState("");
 
+  const [validEmail, setValidEmail] = useState(false);
+
   const [isInputComplete, setIsInputComplete] = useState(false);
   const [canInputClass, setCanInputClass] = useState(false);
+
+  const [emailAlreadyExist, setEmailAlreadyExist] = useState(false);
 
   const years = [
     2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
@@ -136,14 +140,32 @@ const Signup = () => {
     }
   }, [selectedFakultas]);
 
+  const checkEmailDomain = (email) => {
+    const regex =
+      /@(student\.telkomuniversity\.ac\.id|telkomuniversity\.ac\.id)$/i;
+    return regex.test(email);
+  };
+
   const checkEmail = () => {
-    localStorage.setItem("cureentStep", 1);
-    setCurrentStep(1);
+    axios
+      .post("http://localhost:5000/checkMail", {
+        email: email,
+      })
+      .then((response) => {
+        if (response.data === true) {
+          setEmailAlreadyExist(true);
+        } else {
+          localStorage.setItem("cureentStep", 1);
+          setCurrentStep(1);
+        }
+      });
   };
 
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
+    setEmailAlreadyExist(false);
     setEmail(newEmail);
+    setValidEmail(checkEmailDomain(newEmail));
   };
 
   const navigateToLogin = () => {
@@ -159,7 +181,7 @@ const Signup = () => {
         >
           {currentStep === 0 && (
             <div className="w-full h-full relative lg:w-1/2 my-2 sm:my-0 bg-white justify-center flex lg:rounded-r-none">
-              <div className="md:p-10 w-full flex flex-col h-full align-middle sm:gap-4">
+              <div className="p-5 md:p-10 w-full flex flex-col h-full align-middle sm:gap-4">
                 <img
                   className="mt-2 ml-5 h-6 w-12 sm:h-12 sm:w-24"
                   src={TelyuProjectLogo}
@@ -184,14 +206,14 @@ const Signup = () => {
                       </label>
                       <input
                         placeholder=""
-                        className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                        className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                         type="email"
                         value={email}
                         onChange={handleEmailChange}
                       />
-                      {isError && message === "User not found" && (
+                      {emailAlreadyExist && (
                         <p className="text-red-500 text-xs md:text-base mt-1">
-                          {message}
+                          Email is already registered.
                         </p>
                       )}
                     </div>
@@ -200,12 +222,12 @@ const Signup = () => {
                       <button
                         type="button"
                         onClick={checkEmail}
-                        className={`text-secondary w-full py-1 block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
-                          email === ""
+                        className={`text-secondary w-full block py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
+                          !validEmail
                             ? "bg-black cursor-not-allowed"
                             : " bg-primary hover:bg-brightPrimary cursor-pointer"
                         }`}
-                        disabled={email === ""}
+                        disabled={!validEmail}
                       >
                         {isLoading ? "Loading..." : "Continue with SSO"}
                       </button>
@@ -249,7 +271,7 @@ const Signup = () => {
           )}
           {currentStep === 1 && (
             <div className="w-full h-full relative lg:w-1/2 my-2 sm:my-0 bg-white justify-center flex lg:rounded-r-none">
-              <div className="md:p-10 w-full flex flex-col h-full align-middle sm:gap-4">
+              <div className="p-10 md:p-10 w-full flex flex-col h-full align-middle sm:gap-4">
                 <img
                   className="mt-2 ml-5 h-6 w-12 sm:h-12 sm:w-24"
                   src={TelyuProjectLogo}
@@ -270,7 +292,7 @@ const Signup = () => {
                     You're new here! Tell us a little about yourself
                   </label>
                   <form className="flex flex-col gap-3 sm:gap-4" action="">
-                    <div className="flex justify-between gap-4">
+                    <div className="flex flex-col sm:flex-row justify-between gap-4">
                       <div className="flex-col flex w-full">
                         <label
                           className="font-medium text-xs md:text-base text-textGray "
@@ -285,7 +307,7 @@ const Signup = () => {
                         </label>
                         <input
                           placeholder=""
-                          className="p-1 sm:p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                           type="text"
                           value={firstName}
                           onChange={(e) => setFirstName(e.target.value)}
@@ -306,7 +328,7 @@ const Signup = () => {
                         <input
                           value={lastName}
                           placeholder=""
-                          className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                           type="text"
                           onChange={(e) => setLastName(e.target.value)}
                         />
@@ -321,7 +343,7 @@ const Signup = () => {
                           Gender
                         </label>
                         <select
-                          className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                           name="gender"
                           id="gender"
                           value={selectedGender}
@@ -336,8 +358,8 @@ const Signup = () => {
                         </select>
                       </div>
                     </div>
-                    <div className="flex justify-between gap-4">
-                      <div className="flex-col flex w-full">
+                    <div className="flex flex-col sm:flex-row justify-between gap-4">
+                      <div className="flex-col  flex w-full">
                         <label
                           className="font-medium text-xs md:text-base text-textGray "
                           htmlFor=""
@@ -345,7 +367,7 @@ const Signup = () => {
                           Faculty
                         </label>
                         <select
-                          className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                           name="faculty"
                           id="faculty"
                           value={selectedFakultas}
@@ -367,7 +389,7 @@ const Signup = () => {
                           Major
                         </label>
                         <select
-                          className={`p-1 sm:p-2 text-xs h-full ${
+                          className={`p-2 text-xs h-full ${
                             selectedFakultas === ""
                               ? "cursor-not-allowed"
                               : "cursor-default"
@@ -392,7 +414,7 @@ const Signup = () => {
                         </select>
                       </div>
                     </div>
-                    <div className="flex justify-between gap-4">
+                    <div className="flex flex-col sm:flex-row justify-between gap-4">
                       <div className="flex-col flex w-full">
                         <label
                           className="font-medium text-xs md:text-base text-textGray "
@@ -401,11 +423,11 @@ const Signup = () => {
                           Year
                         </label>
                         <select
-                          className={`p-1 ${
+                          className={` ${
                             selectedMajor === ""
                               ? "cursor-not-allowed"
                               : "cursor-default"
-                          } sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                          } p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                           name="Year"
                           id="Year"
                           value={selectedYear}
@@ -428,11 +450,11 @@ const Signup = () => {
                           Class
                         </label>
                         <select
-                          className={`p-1 ${
+                          className={`${
                             !canInputClass
                               ? "cursor-not-allowed"
                               : "cursor-default"
-                          } sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                          } p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                           name="kelas"
                           id="kelas"
                           disabled={!canInputClass}
@@ -458,7 +480,7 @@ const Signup = () => {
                         </label>
                         <input
                           placeholder=""
-                          className="p-1 sm:p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                           type="password"
                           onChange={(e) => setPassword(e.target.value)}
                           value={password}
@@ -477,7 +499,7 @@ const Signup = () => {
                           placeholder=""
                           value={confirmPassword}
                           onChange={(e) => setConfirmPassword(e.target.value)}
-                          className="p-1 sm:p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                           type="password"
                         />
                         <p
@@ -492,8 +514,7 @@ const Signup = () => {
                     <div className="w-full h-full flex justify-end pt-0 xs:pt-2">
                       <button
                         type="button"
-                        onClick={Signup}
-                        className={`text-secondary w-full py-1 block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
+                        className={`text-secondary w-full  block py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
                           !isInputComplete
                             ? "bg-black cursor-not-allowed"
                             : " bg-primary hover:bg-brightPrimary cursor-pointer"
@@ -515,7 +536,7 @@ const Signup = () => {
             </div>
           )}
           {
-            <div className="w-1/2 hidden p-8 h-full lg:block relative rounded-r-2xl">
+            <div className="w-1/2 hidden p-8 xl:h-screen lg:block relative rounded-r-2xl">
               <Swiper
                 modules={[Pagination, Autoplay]}
                 className="h-full"
