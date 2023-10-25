@@ -173,7 +173,11 @@ const Signup = () => {
   };
 
   return (
-    <div className="w-screen md:h-screen flex justify-center">
+    <div
+      className={`w-screen ${
+        currentStep === 0 ? "md:h-screen" : "xl:h-screen"
+      } flex justify-center`}
+    >
       <div className="flex justify-center h-full w-full">
         <div
           className="flex w-full h-full justify-center "
