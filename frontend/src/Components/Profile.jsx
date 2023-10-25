@@ -5,7 +5,7 @@ import EditProfile from "../img/editing.png";
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [userImage, setUserImage] = useState(user);
-  const User = localStorage.getItem("User");
+  //const User = localStorage.getItem("User");
 
   const handleEditProfile = () => {
     setIsEditing(!isEditing);
