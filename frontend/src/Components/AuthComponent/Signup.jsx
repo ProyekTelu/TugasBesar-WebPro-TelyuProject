@@ -19,6 +19,10 @@ const images = [ImgCarousel1, ImgCarousel2, ImgCarousel3];
 
 const Signup = () => {
   const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -35,6 +39,7 @@ const Signup = () => {
   const [selectedKelas, setSelectedKelas] = useState("");
 
   const [isInputComplete, setIsInputComplete] = useState(false);
+  const [canInputClass, setCanInputClass] = useState(false);
 
   const years = [
     2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
@@ -53,7 +58,7 @@ const Signup = () => {
     (state) => state.auth
   );
 
-  const genders = ["Man", "Woman"];
+  const genders = ["Male", "Female"];
 
   useEffect(() => {
     if (localStorage.getItem("user") != null) {
@@ -63,8 +68,35 @@ const Signup = () => {
   }, [user, isSuccess, dispatch, navigate]);
 
   useEffect(() => {
-    setIsInputComplete(email !== "" && fakultas !== "" && majors !== "");
-  }, []);
+    setIsInputComplete(
+      email !== "" &&
+        firstName !== "" &&
+        firstName.length >= 3 &&
+        lastName !== "" &&
+        lastName.length >= 3 &&
+        selectedFakultas !== "" &&
+        selectedGender !== "" &&
+        selectedMajor !== "" &&
+        selectedKelas !== "" &&
+        password !== "" &&
+        confirmPassword !== "" &&
+        password === confirmPassword
+    );
+  }, [
+    email,
+    firstName,
+    lastName,
+    selectedFakultas,
+    selectedGender,
+    selectedMajor,
+    selectedKelas,
+    password,
+    confirmPassword,
+  ]);
+
+  useEffect(() => {
+    setCanInputClass(selectedYear !== "" && selectedMajor !== "");
+  }, [selectedYear, selectedMajor]);
 
   useEffect(() => {
     if (selectedMajor !== "" && selectedYear !== "") {
@@ -224,7 +256,10 @@ const Signup = () => {
                   alt=""
                 />
                 <div className="flex p-10 lg:p-0 flex-col mx-10 w-2/3 self-center justify-center h-full gap-1 relative">
-                  <IoCaretBackCircleOutline className="text-4xl absolute left-[-6rem] cursor-pointer" />
+                  <IoCaretBackCircleOutline
+                    onClick={(e) => setCurrentStep(0)}
+                    className="text-4xl absolute left-[-6rem] cursor-pointer"
+                  />
                   <h1 className="text-center mt-4  text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
                     Welcome to Telyu Project
                   </h1>
@@ -241,39 +276,66 @@ const Signup = () => {
                           className="font-medium text-xs md:text-base text-textGray "
                           htmlFor=""
                         >
-                          First Name
+                          First Name{" "}
+                          {firstName.length < 3 && firstName !== "" && (
+                            <span className="text-primary">
+                              At least 3 characters.
+                            </span>
+                          )}
                         </label>
                         <input
                           placeholder=""
                           className="p-1 sm:p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                           type="text"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
                         />
-                        {isError && message === "User not found" && (
-                          <p className="text-red-500 text-xs md:text-base mt-1">
-                            {message}
-                          </p>
-                        )}
                       </div>
                       <div className="flex-col flex w-full">
                         <label
                           className="font-medium text-xs md:text-base text-textGray "
                           htmlFor=""
                         >
-                          Last Name
+                          Last Name{" "}
+                          {lastName.length < 3 && lastName !== "" && (
+                            <span className="text-primary">
+                              At least 3 characters.
+                            </span>
+                          )}
                         </label>
                         <input
+                          value={lastName}
                           placeholder=""
                           className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                           type="text"
+                          onChange={(e) => setLastName(e.target.value)}
                         />
-                        {isError && message === "User not found" && (
-                          <p className="text-red-500 text-xs md:text-base mt-1">
-                            {message}
-                          </p>
-                        )}
                       </div>
                     </div>
-
+                    <div className="flex justify-between gap-4">
+                      <div className="flex-col flex w-full">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          Gender
+                        </label>
+                        <select
+                          className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          name="gender"
+                          id="gender"
+                          value={selectedGender}
+                          onChange={(e) => setSelectedGender(e.target.value)}
+                        >
+                          <option value="">Select a Gender</option>
+                          {genders.map((gender, index) => (
+                            <option key={index} value={gender}>
+                              {gender}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
                     <div className="flex justify-between gap-4">
                       <div className="flex-col flex w-full">
                         <label
@@ -305,11 +367,20 @@ const Signup = () => {
                           Major
                         </label>
                         <select
-                          className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          className={`p-1 sm:p-2 text-xs h-full ${
+                            selectedFakultas === ""
+                              ? "cursor-not-allowed"
+                              : "cursor-default"
+                          }  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                           name="faculty"
                           id="faculty"
                           disabled={selectedFakultas === ""}
                           value={selectedMajor}
+                          title={
+                            selectedFakultas === ""
+                              ? "Fakultas must be selected"
+                              : ""
+                          }
                           onChange={(e) => setSelectedMajor(e.target.value)}
                         >
                           <option value="">Select a Major</option>
@@ -330,10 +401,15 @@ const Signup = () => {
                           Year
                         </label>
                         <select
-                          className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          className={`p-1 ${
+                            selectedMajor === ""
+                              ? "cursor-not-allowed"
+                              : "cursor-default"
+                          } sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                           name="Year"
                           id="Year"
                           value={selectedYear}
+                          disabled={selectedMajor === ""}
                           onChange={(e) => setSelectedYear(e.target.value)}
                         >
                           <option value="">Select a Year</option>
@@ -352,10 +428,14 @@ const Signup = () => {
                           Class
                         </label>
                         <select
-                          className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          className={`p-1 ${
+                            !canInputClass
+                              ? "cursor-not-allowed"
+                              : "cursor-default"
+                          } sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                           name="kelas"
                           id="kelas"
-                          disabled={selectedYear === "" && selectedMajor === ""}
+                          disabled={!canInputClass}
                           value={selectedKelas}
                           onChange={(e) => setSelectedKelas(e.target.value)}
                         >
@@ -380,13 +460,12 @@ const Signup = () => {
                           placeholder=""
                           className="p-1 sm:p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                           type="password"
+                          onChange={(e) => setPassword(e.target.value)}
+                          value={password}
                         />
-                        {isError && message === "User not found" && (
-                          <p className="text-red-500 text-xs md:text-base mt-1">
-                            {message}
-                          </p>
-                        )}
                       </div>
+                    </div>
+                    <div className="flex justify-between gap-4">
                       <div className="flex-col flex w-full">
                         <label
                           className="font-medium text-xs md:text-base text-textGray "
@@ -396,14 +475,17 @@ const Signup = () => {
                         </label>
                         <input
                           placeholder=""
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
                           className="p-1 sm:p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                           type="password"
                         />
-                        {isError && message === "User not found" && (
-                          <p className="text-red-500 text-xs md:text-base mt-1">
-                            {message}
-                          </p>
-                        )}
+                        <p
+                          hidden={password === confirmPassword}
+                          className="text-red-500 text-xs md:text-base mt-1"
+                        >
+                          Password and confirmation password don't match
+                        </p>
                       </div>
                     </div>
 
