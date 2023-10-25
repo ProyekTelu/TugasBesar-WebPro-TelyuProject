@@ -31,8 +31,8 @@ app.use(ProdiRoute);
 
 //1.
 // (async () => {
-// await db.sync();
-// FakulasAndProdi();
+//   await db.sync();
+//   FakulasAndProdi();
 // })();
 
 //2.

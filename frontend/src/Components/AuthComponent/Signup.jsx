@@ -19,14 +19,32 @@ const images = [ImgCarousel1, ImgCarousel2, ImgCarousel3];
 
 const Signup = () => {
   const [email, setEmail] = useState("");
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [onSignUp, setOnSignUp] = useState(false);
+
+  const [currentStep, setCurrentStep] = useState(0);
 
   const [fakultas, setFakultas] = useState([]);
   const [selectedFakultas, setSelectedFakultas] = useState("");
 
   const [majors, setMajors] = useState([]);
   const [selectedMajor, setSelectedMajor] = useState("");
+
+  const [selectedGender, setSelectedGender] = useState("");
+
+  const [selectedYear, setSelectedYear] = useState("");
+
+  const [selectedKelas, setSelectedKelas] = useState("");
+
+  const [isInputComplete, setIsInputComplete] = useState(false);
+
+  const years = [
+    2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
+    2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023,
+    2024, 2025, 2026, 2027,
+  ];
+
+  const [kelas, setKelas] = useState([]);
+
+  const descendingYears = years.sort((a, b) => b - a);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,12 +53,32 @@ const Signup = () => {
     (state) => state.auth
   );
 
+  const genders = ["Man", "Woman"];
+
   useEffect(() => {
     if (localStorage.getItem("user") != null) {
       // navigate("/home");
     }
     dispatch(reset());
   }, [user, isSuccess, dispatch, navigate]);
+
+  useEffect(() => {
+    setIsInputComplete(email !== "" && fakultas !== "" && majors !== "");
+  }, []);
+
+  useEffect(() => {
+    if (selectedMajor !== "" && selectedYear !== "") {
+      setKelas([
+        selectedMajor + "-" + selectedYear.slice(-2) + "-01",
+        selectedMajor + "-" + selectedYear.slice(-2) + "-02",
+        selectedMajor + "-" + selectedYear.slice(-2) + "-03",
+        selectedMajor + "-" + selectedYear.slice(-2) + "-04",
+        selectedMajor + "-" + selectedYear.slice(-2) + "-05",
+        selectedMajor + "-" + selectedYear.slice(-2) + "-06",
+        selectedMajor + "-" + selectedYear.slice(-2) + "-07",
+      ]);
+    }
+  }, [selectedMajor, selectedYear]);
 
   useEffect(() => {
     axios
@@ -66,14 +104,14 @@ const Signup = () => {
     }
   }, [selectedFakultas]);
 
-  const signUpMode = () => {
-    setOnSignUp(true);
+  const checkEmail = () => {
+    localStorage.setItem("cureentStep", 1);
+    setCurrentStep(1);
   };
 
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
-    setIsButtonDisabled(newEmail === "");
   };
 
   const navigateToLogin = () => {
@@ -87,7 +125,7 @@ const Signup = () => {
           className="flex w-full h-full justify-center "
           style={{ userSelect: "none" }}
         >
-          {!onSignUp && (
+          {currentStep === 0 && (
             <div className="w-full h-full relative lg:w-1/2 my-2 sm:my-0 bg-white justify-center flex lg:rounded-r-none">
               <div className="md:p-10 w-full flex flex-col h-full align-middle sm:gap-4">
                 <img
@@ -129,13 +167,13 @@ const Signup = () => {
                     <div className="w-full h-full flex justify-end pt-0 xs:pt-2">
                       <button
                         type="button"
-                        onClick={signUpMode}
+                        onClick={checkEmail}
                         className={`text-secondary w-full py-1 block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
-                          isButtonDisabled
+                          email === ""
                             ? "bg-black cursor-not-allowed"
                             : " bg-primary hover:bg-brightPrimary cursor-pointer"
                         }`}
-                        disabled={isButtonDisabled}
+                        disabled={email === ""}
                       >
                         {isLoading ? "Loading..." : "Continue with SSO"}
                       </button>
@@ -177,7 +215,7 @@ const Signup = () => {
               </div>
             </div>
           )}
-          {onSignUp && (
+          {currentStep === 1 && (
             <div className="w-full h-full relative lg:w-1/2 my-2 sm:my-0 bg-white justify-center flex lg:rounded-r-none">
               <div className="md:p-10 w-full flex flex-col h-full align-middle sm:gap-4">
                 <img
@@ -235,6 +273,7 @@ const Signup = () => {
                         )}
                       </div>
                     </div>
+
                     <div className="flex justify-between gap-4">
                       <div className="flex-col flex w-full">
                         <label
@@ -269,6 +308,7 @@ const Signup = () => {
                           className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                           name="faculty"
                           id="faculty"
+                          disabled={selectedFakultas === ""}
                           value={selectedMajor}
                           onChange={(e) => setSelectedMajor(e.target.value)}
                         >
@@ -281,54 +321,104 @@ const Signup = () => {
                         </select>
                       </div>
                     </div>
-                    <div className="flex-col flex w-full">
-                      <label
-                        className="font-medium text-xs md:text-base text-textGray "
-                        htmlFor=""
-                      >
-                        Password
-                      </label>
-                      <input
-                        placeholder=""
-                        className="p-1 sm:p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
-                        type="password"
-                      />
-                      {isError && message === "User not found" && (
-                        <p className="text-red-500 text-xs md:text-base mt-1">
-                          {message}
-                        </p>
-                      )}
+                    <div className="flex justify-between gap-4">
+                      <div className="flex-col flex w-full">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          Year
+                        </label>
+                        <select
+                          className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          name="Year"
+                          id="Year"
+                          value={selectedYear}
+                          onChange={(e) => setSelectedYear(e.target.value)}
+                        >
+                          <option value="">Select a Year</option>
+                          {descendingYears.map((year, index) => (
+                            <option key={index} value={year}>
+                              {year}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex-col flex w-full">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          Class
+                        </label>
+                        <select
+                          className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          name="kelas"
+                          id="kelas"
+                          disabled={selectedYear === "" && selectedMajor === ""}
+                          value={selectedKelas}
+                          onChange={(e) => setSelectedKelas(e.target.value)}
+                        >
+                          <option value="">Select a Class</option>
+                          {kelas.map((k, index) => (
+                            <option key={index} value={k}>
+                              {k}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
-                    <div className="flex-col flex w-full">
-                      <label
-                        className="font-medium text-xs md:text-base text-textGray "
-                        htmlFor=""
-                      >
-                        Confirmation Password
-                      </label>
-                      <input
-                        placeholder=""
-                        className="p-1 sm:p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
-                        type="password"
-                      />
-                      {isError && message === "User not found" && (
-                        <p className="text-red-500 text-xs md:text-base mt-1">
-                          {message}
-                        </p>
-                      )}
+                    <div className="flex justify-between gap-4">
+                      <div className="flex-col flex w-full">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          Password
+                        </label>
+                        <input
+                          placeholder=""
+                          className="p-1 sm:p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          type="password"
+                        />
+                        {isError && message === "User not found" && (
+                          <p className="text-red-500 text-xs md:text-base mt-1">
+                            {message}
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex-col flex w-full">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          Confirmation Password
+                        </label>
+                        <input
+                          placeholder=""
+                          className="p-1 sm:p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          type="password"
+                        />
+                        {isError && message === "User not found" && (
+                          <p className="text-red-500 text-xs md:text-base mt-1">
+                            {message}
+                          </p>
+                        )}
+                      </div>
                     </div>
+
                     <div className="w-full h-full flex justify-end pt-0 xs:pt-2">
                       <button
                         type="button"
-                        onClick={signUpMode}
+                        onClick={Signup}
                         className={`text-secondary w-full py-1 block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
-                          isButtonDisabled
+                          !isInputComplete
                             ? "bg-black cursor-not-allowed"
                             : " bg-primary hover:bg-brightPrimary cursor-pointer"
                         }`}
-                        disabled={isButtonDisabled}
+                        disabled={!isInputComplete}
                       >
-                        {isLoading ? "Loading..." : "Continue with SSO"}
+                        {isLoading ? "Loading..." : "Sign Up"}
                       </button>
                     </div>
                   </form>
