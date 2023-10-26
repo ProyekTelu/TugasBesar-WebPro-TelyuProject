@@ -61,9 +61,7 @@ const Signup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user, isError, isSuccess, isLoading, message } = useSelector(
-    (state) => state.auth
-  );
+  const { user, isSuccess, isLoading } = useSelector((state) => state.auth);
 
   const genders = ["Male", "Female"];
 
