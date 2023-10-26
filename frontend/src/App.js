@@ -6,6 +6,7 @@ import Profile from "./Components/Profile";
 import Sidebar from "./Components/Sidebar";
 import Login from "./Components/AuthComponent/Login";
 import Signup from "./Components/AuthComponent/Signup";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   useEffect(() => {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/Profile" element={<Profile />} />
         <Route path="/sidebar" element={<Sidebar />} />
       </Routes>
+      <ToastContainer autoClose={3000} />
     </BrowserRouter>
   );
 }

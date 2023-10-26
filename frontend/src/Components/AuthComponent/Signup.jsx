@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { reset } from "../../features/authSlice";
+import { reset, signupUser } from "../../features/authSlice";
 import axios from "axios";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,6 +14,8 @@ import ImgCarousel1 from "../../img/loginImage1.jpg";
 import ImgCarousel2 from "../../img/loginImage2.png";
 import ImgCarousel3 from "../../img/loginImage3.png";
 import TelyuProjectLogo from "../../img/telyuProject.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const images = [ImgCarousel1, ImgCarousel2, ImgCarousel3];
 
@@ -23,6 +25,7 @@ const Signup = () => {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [nomorInduk, setNomorInduk] = useState("");
 
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -67,6 +70,8 @@ const Signup = () => {
   useEffect(() => {
     if (localStorage.getItem("user") != null) {
       // navigate("/home");
+    } else if (user) {
+      navigate("/");
     }
     dispatch(reset());
   }, [user, isSuccess, dispatch, navigate]);
@@ -78,9 +83,12 @@ const Signup = () => {
         firstName.length >= 3 &&
         lastName !== "" &&
         lastName.length >= 3 &&
+        nomorInduk.length === 10 &&
+        nomorInduk !== "" &&
         selectedFakultas !== "" &&
         selectedGender !== "" &&
         selectedMajor !== "" &&
+        selectedYear !== "" &&
         selectedKelas !== "" &&
         password !== "" &&
         confirmPassword !== "" &&
@@ -90,9 +98,11 @@ const Signup = () => {
     email,
     firstName,
     lastName,
+    nomorInduk,
     selectedFakultas,
     selectedGender,
     selectedMajor,
+    selectedYear,
     selectedKelas,
     password,
     confirmPassword,
@@ -104,14 +114,16 @@ const Signup = () => {
 
   useEffect(() => {
     if (selectedMajor !== "" && selectedYear !== "") {
+      const selectedYearNumber = parseInt(selectedYear, 10);
+      const newYear = selectedYearNumber + 24;
       setKelas([
-        selectedMajor + "-" + selectedYear.slice(-2) + "-01",
-        selectedMajor + "-" + selectedYear.slice(-2) + "-02",
-        selectedMajor + "-" + selectedYear.slice(-2) + "-03",
-        selectedMajor + "-" + selectedYear.slice(-2) + "-04",
-        selectedMajor + "-" + selectedYear.slice(-2) + "-05",
-        selectedMajor + "-" + selectedYear.slice(-2) + "-06",
-        selectedMajor + "-" + selectedYear.slice(-2) + "-07",
+        selectedMajor + "-" + (newYear % 100) + "-01",
+        selectedMajor + "-" + (newYear % 100) + "-02",
+        selectedMajor + "-" + (newYear % 100) + "-03",
+        selectedMajor + "-" + (newYear % 100) + "-04",
+        selectedMajor + "-" + (newYear % 100) + "-05",
+        selectedMajor + "-" + (newYear % 100) + "-06",
+        selectedMajor + "-" + (newYear % 100) + "-07",
       ]);
     }
   }, [selectedMajor, selectedYear]);
@@ -161,11 +173,56 @@ const Signup = () => {
       });
   };
 
+  const signup = (e) => {
+    e.preventDefault();
+    dispatch(
+      signupUser({
+        nomorInduk,
+        email,
+        firstName,
+        lastName,
+        selectedGender,
+        selectedFakultas,
+        selectedMajor,
+        selectedKelas,
+        password,
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Sign Up Successful!");
+    }
+  });
+
+  function capitalizeFirstLetter(input) {
+    const words = input.split(" ");
+    const capitalizedWords = words.map((word) => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    });
+    return capitalizedWords.join(" ");
+  }
+
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
     setEmailAlreadyExist(false);
     setEmail(newEmail);
     setValidEmail(checkEmailDomain(newEmail));
+  };
+
+  const handleNomorIndukChange = (e) => {
+    if (e.target.value.length <= 10) {
+      setNomorInduk(e.target.value);
+    }
+  };
+
+  const handleFirstNameChange = (e) => {
+    setFirstName(capitalizeFirstLetter(e.target.value));
+  };
+
+  const handleLastNameChange = (e) => {
+    setLastName(capitalizeFirstLetter(e.target.value));
   };
 
   const navigateToLogin = () => {
@@ -178,13 +235,16 @@ const Signup = () => {
         currentStep === 0 ? "md:h-screen" : "xl:h-screen"
       } flex justify-center`}
     >
+      <ToastContainer />
       <div className="flex justify-center h-full w-full">
         <div
           className="flex w-full h-full justify-center "
           style={{ userSelect: "none" }}
         >
           {currentStep === 0 && (
-            <div className="w-full h-full relative lg:w-1/2 my-2 sm:my-0 bg-white justify-center flex lg:rounded-r-none">
+            <div
+              className={`w-full h-full relative lg:w-1/2 my-2 sm:my-0 bg-white justify-center flex lg:rounded-r-none`}
+            >
               <div className="p-5 md:p-10 w-full flex flex-col h-full align-middle sm:gap-4">
                 <img
                   className="mt-2 ml-5 h-6 w-12 sm:h-12 sm:w-24"
@@ -251,7 +311,7 @@ const Signup = () => {
                       for Lecturers{" "}
                     </label>
                     <label
-                      className="text-[11px] text-center lg:text-base mb-4 "
+                      className="text-[11px] text-center  sm:text-sm xl:text-base "
                       htmlFor=""
                     >
                       Already have an account?{" "}
@@ -275,7 +335,7 @@ const Signup = () => {
           )}
           {currentStep === 1 && (
             <div className="w-full h-full relative lg:w-1/2 my-2 sm:my-0 bg-white justify-center flex lg:rounded-r-none">
-              <div className="p-10 md:p-10 w-full flex flex-col h-full align-middle sm:gap-4">
+              <div className="p-5 md:p-10 w-full flex flex-col h-full align-middle sm:gap-4">
                 <img
                   className="mt-2 ml-5 h-6 w-12 sm:h-12 sm:w-24"
                   src={TelyuProjectLogo}
@@ -286,17 +346,21 @@ const Signup = () => {
                     onClick={(e) => setCurrentStep(0)}
                     className="text-4xl absolute left-[-6rem] cursor-pointer"
                   />
-                  <h1 className="text-center mt-4  text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
+                  <h1 className="text-center mt-4 text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
                     Welcome to Telyu Project
                   </h1>
                   <label
-                    className="text-[11px] text-center text-textGray lg:text-base mb-4 "
+                    className="text-[9px] text-center text-textGray sm:text-sm  md:text-base mb-4 "
                     htmlFor=""
                   >
                     You're new here! Tell us a little about yourself
                   </label>
-                  <form className="flex flex-col gap-3 sm:gap-4" action="">
-                    <div className="flex flex-col sm:flex-row justify-between gap-4">
+                  <form
+                    className="flex flex-col gap-3 sm:gap-4"
+                    action=""
+                    onSubmit={signup}
+                  >
+                    <div className="flex flex-col xl:flex-row justify-between gap-4">
                       <div className="flex-col flex w-full">
                         <label
                           className="font-medium text-xs md:text-base text-textGray "
@@ -304,17 +368,18 @@ const Signup = () => {
                         >
                           First Name{" "}
                           {firstName.length < 3 && firstName !== "" && (
-                            <span className="text-primary">
+                            <span className="text-brightPrimary font-normal">
                               At least 3 characters.
                             </span>
                           )}
                         </label>
                         <input
                           placeholder=""
+                          maxLength={30}
                           className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                           type="text"
                           value={firstName}
-                          onChange={(e) => setFirstName(e.target.value)}
+                          onChange={handleFirstNameChange}
                         />
                       </div>
                       <div className="flex-col flex w-full">
@@ -324,17 +389,18 @@ const Signup = () => {
                         >
                           Last Name{" "}
                           {lastName.length < 3 && lastName !== "" && (
-                            <span className="text-primary">
+                            <span className="text-brightPrimary font-normal">
                               At least 3 characters.
                             </span>
                           )}
                         </label>
                         <input
                           value={lastName}
+                          maxLength={30}
                           placeholder=""
                           className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                           type="text"
-                          onChange={(e) => setLastName(e.target.value)}
+                          onChange={handleLastNameChange}
                         />
                       </div>
                     </div>
@@ -361,8 +427,28 @@ const Signup = () => {
                           ))}
                         </select>
                       </div>
+                      <div className="flex-col flex w-full">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          NIM{" "}
+                          {nomorInduk.length < 10 && nomorInduk !== "" && (
+                            <span className="text-brightPrimary font-normal">
+                              Must be 10 characters.
+                            </span>
+                          )}
+                        </label>
+                        <input
+                          placeholder=""
+                          className={`p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                          type="number"
+                          value={nomorInduk}
+                          onChange={handleNomorIndukChange}
+                        />
+                      </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row justify-between gap-4">
+                    <div className="flex flex-col xl:flex-row justify-between gap-4">
                       <div className="flex-col  flex w-full">
                         <label
                           className="font-medium text-xs md:text-base text-textGray "
@@ -508,16 +594,15 @@ const Signup = () => {
                         />
                         <p
                           hidden={password === confirmPassword}
-                          className="text-red-500 text-xs md:text-base mt-1"
+                          className="text-brightPrimary text-xs md:text-base mt-1"
                         >
                           Password and confirmation password don't match
                         </p>
                       </div>
                     </div>
-
                     <div className="w-full h-full flex justify-end pt-0 xs:pt-2">
                       <button
-                        type="button"
+                        type="submit"
                         className={`text-secondary w-full  block py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
                           !isInputComplete
                             ? "bg-black cursor-not-allowed"

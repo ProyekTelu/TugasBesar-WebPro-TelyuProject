@@ -12,6 +12,7 @@ import ImgCarousel1 from "../../img/loginImage1.jpg";
 import ImgCarousel2 from "../../img/loginImage2.png";
 import ImgCarousel3 from "../../img/loginImage3.png";
 import TelyuProjectLogo from "../../img/telyuProject.png";
+import { toast } from "react-toastify";
 
 const images = [ImgCarousel1, ImgCarousel2, ImgCarousel3];
 
@@ -34,10 +35,16 @@ const Login = () => {
     dispatch(reset());
   }, [user, isSuccess, dispatch, navigate]);
 
-  const Auth = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     dispatch(loginUser({ email, password }));
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Log in Successful!");
+    }
+  }, [isSuccess]);
 
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
@@ -79,7 +86,7 @@ const Login = () => {
                   Log in
                 </h1>
                 <form
-                  onSubmit={Auth}
+                  onSubmit={handleLogin}
                   className="flex flex-col gap-3 sm:gap-4"
                   action=""
                 >
@@ -151,7 +158,7 @@ const Login = () => {
                     for Lecturers{" "}
                   </label>
                   <label
-                    className="text-[11px] text-center lg:text-base mb-4 "
+                    className="text-[11px] text-center sm:text-sm xl:text-base "
                     htmlFor=""
                   >
                     Dont have an account?{" "}
