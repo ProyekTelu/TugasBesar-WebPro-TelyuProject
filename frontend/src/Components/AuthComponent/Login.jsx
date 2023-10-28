@@ -30,7 +30,7 @@ const Login = () => {
 
   useEffect(() => {
     if (localStorage.getItem("user") != null) {
-      // navigate("/home");
+      navigate("/home/page1");
     }
     dispatch(reset());
   }, [user, isSuccess, dispatch, navigate]);
