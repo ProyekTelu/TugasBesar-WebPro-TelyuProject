@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Imgbg from "../img/consul2.png";
@@ -11,6 +11,7 @@ const CreateProject = () => {
   const [faculty, setFaculty] = useState("Informatika");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [isInputComplete, setIsInputComplete] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,6 +27,30 @@ const CreateProject = () => {
     });
   };
 
+  useEffect(() => {
+    setIsInputComplete(
+        projectTitle !== "" &&
+        projectTitle.length > 2 &&
+        groupChatLink !== "" &&
+        groupChatLink.includes(".com") &&
+        description !== "" &&
+        description.length > 11 &&
+        maxMembers !== "" &&
+        maxMembers > 0 &&
+        faculty !== "" &&
+        startDate !== "" &&
+        endDate !== ""
+    );
+  }, [
+    projectTitle,
+    groupChatLink,
+    description,
+    maxMembers,
+    faculty,
+    startDate,
+    endDate,
+  ]);
+
   return (
     <div
       className="flex justify-center w-screen h-screen bg-cover bg-center"
@@ -39,7 +64,11 @@ const CreateProject = () => {
           <div className="flex gap-5 flex-row pt-6 w-full justify-center">
             <div className="w-full">
               <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
-                Project Title
+                Project Title{" "}
+                {projectTitle.length < 3 && projectTitle != "" &&(
+                  <span className="text-brightPrimary font-normal">
+                    At least 3 characters.</span>
+                )}
               </label>
               <div className="">
                 <input
@@ -47,14 +76,19 @@ const CreateProject = () => {
                   value={projectTitle}
                   onChange={(e) => setProjectTitle(e.target.value)}
                   className="p-1 sm:p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
-                  placeholder="Project Name"
+                  placeholder="Project Title"
                 />
               </div>
             </div>
 
             <div className="w-full">
               <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
-                Group Chat Link
+                Group Chat Link{" "}
+                {(!groupChatLink.includes(".com")) && groupChatLink !== "" && (
+                  <span className="text-brightPrimary font-normal">
+                    Fill the correct link.
+                  </span>
+                )}
               </label>
               <div className="">
                 <input
@@ -71,7 +105,11 @@ const CreateProject = () => {
           <div className="flex gap-5 flex-row pt-6 w-full justify-center">
             <div className="w-full">
               <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
-                Description
+                Description{" "}
+                {description.length < 12 && description != "" &&(
+                  <span className="text-brightPrimary font-normal">
+                    At least 12 characters.</span>
+                )}
               </label>
               <div className="lb">
                 <textarea
@@ -88,7 +126,11 @@ const CreateProject = () => {
 
             <div className="w-full">
               <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block ">
-                Maximum Member
+                Maximum Member{" "}
+                {maxMembers < 1 && maxMembers != "" &&(
+                  <span className="text-brightPrimary font-normal">
+                    At least 1 member.</span>
+                )}
               </label>
               <div className="control">
                 <input
@@ -131,7 +173,12 @@ const CreateProject = () => {
                 <div className="">
                   <DatePicker
                     selected={startDate}
-                    onChange={(date) => setStartDate(date)}
+                    onChange={(date) => {
+                      setStartDate(date);
+                      if (date > endDate){
+                        setEndDate(date);
+                      }
+                    }}
                     className="p-1 sm:p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                     placeholderText="Set Date"
                   />
@@ -146,6 +193,7 @@ const CreateProject = () => {
                   <DatePicker
                     selected={endDate}
                     onChange={(date) => setEndDate(date)}
+                    minDate={startDate}
                     className="p-1 sm:p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                     placeholderText="Set Date"
                   />
@@ -157,7 +205,12 @@ const CreateProject = () => {
           <div className="w-full flex justify-center mt-10 pt-0 xs:pt-2">
             <button
               type="submit"
-              className="text-secondary bg-primary w-1/4 py-1 cursor-pointer block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg"
+              className={`"text-secondary text-white w-1/4 py-1 block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg" ${
+                !isInputComplete
+                ? "bg-black cursor-not-allowed"
+                : " bg-primary hover:bg-brightPrimary cursor-pointer"
+              }`}
+              disabled={!isInputComplete}
             >
               Create
             </button>
