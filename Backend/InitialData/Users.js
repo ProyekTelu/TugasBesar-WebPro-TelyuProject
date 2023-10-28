@@ -32,7 +32,7 @@ const Users = async () => {
       kodeFakultas: "FIF",
       kodeProdi: "SE",
       kelas: "SE-45-02",
-      role: "mahasiswa",
+      role: "student",
     });
   } catch (e) {
     console.error("Failed to add initial User data:", e);

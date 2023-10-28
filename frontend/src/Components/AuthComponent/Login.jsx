@@ -12,6 +12,7 @@ import ImgCarousel1 from "../../img/loginImage1.jpg";
 import ImgCarousel2 from "../../img/loginImage2.png";
 import ImgCarousel3 from "../../img/loginImage3.png";
 import TelyuProjectLogo from "../../img/telyuProject.png";
+import { toast } from "react-toastify";
 
 const images = [ImgCarousel1, ImgCarousel2, ImgCarousel3];
 
@@ -34,10 +35,16 @@ const Login = () => {
     dispatch(reset());
   }, [user, isSuccess, dispatch, navigate]);
 
-  const Auth = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     dispatch(loginUser({ email, password }));
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Log in Successful!");
+    }
+  }, [isSuccess]);
 
   const handleEmailChange = (e) => {
     const newEmail = e.target.value;
@@ -79,7 +86,7 @@ const Login = () => {
                   Log in
                 </h1>
                 <form
-                  onSubmit={Auth}
+                  onSubmit={handleLogin}
                   className="flex flex-col gap-3 sm:gap-4"
                   action=""
                 >
@@ -92,7 +99,7 @@ const Login = () => {
                     </label>
                     <input
                       placeholder=""
-                      className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                      className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                       type="email"
                       value={email}
                       onChange={handleEmailChange}
@@ -112,7 +119,7 @@ const Login = () => {
                     </label>
                     <input
                       placeholder=""
-                      className="p-1 sm:p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                      className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                       type="password"
                       value={password}
                       onChange={handlePasswordChange}
@@ -126,7 +133,7 @@ const Login = () => {
                   <div className="w-full h-full flex justify-end pt-0 xs:pt-2">
                     <button
                       type="submit"
-                      className={`text-secondary w-full py-1 block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
+                      className={`text-secondary w-full block py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
                         isButtonDisabled
                           ? "bg-black cursor-not-allowed"
                           : " bg-primary hover:bg-brightPrimary cursor-pointer"
@@ -151,7 +158,7 @@ const Login = () => {
                     for Lecturers{" "}
                   </label>
                   <label
-                    className="text-[11px] text-center lg:text-base mb-4 "
+                    className="text-[11px] text-center sm:text-sm xl:text-base "
                     htmlFor=""
                   >
                     Dont have an account?{" "}

@@ -9,6 +9,7 @@ import Page2 from "./Components/PageComponent/Page2";
 import Profile from "./Components/Profile";
 import Login from "./Components/AuthComponent/Login";
 import Signup from "./Components/AuthComponent/Signup";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   useEffect(() => {
@@ -32,6 +33,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/Profile" element={<Profile />} />
       </Routes>
+      <ToastContainer autoClose={3000} />
     </BrowserRouter>
   );
 }
