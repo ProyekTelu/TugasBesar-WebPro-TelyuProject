@@ -26,27 +26,20 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nomorInduk, setNomorInduk] = useState("");
-
   const [currentStep, setCurrentStep] = useState(0);
-
   const [fakultas, setFakultas] = useState([]);
   const [selectedFakultas, setSelectedFakultas] = useState("");
-
   const [majors, setMajors] = useState([]);
   const [selectedMajor, setSelectedMajor] = useState("");
-
   const [selectedGender, setSelectedGender] = useState("");
-
   const [selectedYear, setSelectedYear] = useState("");
-
   const [selectedKelas, setSelectedKelas] = useState("");
-
   const [validEmail, setValidEmail] = useState(false);
-
   const [isInputComplete, setIsInputComplete] = useState(false);
   const [canInputClass, setCanInputClass] = useState(false);
-
   const [emailAlreadyExist, setEmailAlreadyExist] = useState(false);
+  const [kodeDosen, setKodeDosen] = useState("");
+  const [isLecture, setIsLecture] = useState(false);
 
   const years = [
     2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
@@ -140,7 +133,7 @@ const Signup = () => {
   useEffect(() => {
     if (selectedFakultas) {
       axios
-        .get(`http://localhost:5000/prodi?/kodeFakultas=${selectedFakultas}`)
+        .get(`http://localhost:5000/prodi/${selectedFakultas}`)
         .then((response) => {
           setMajors(response.data);
         })
@@ -165,6 +158,12 @@ const Signup = () => {
         if (response.data === true) {
           setEmailAlreadyExist(true);
         } else {
+          const domain = email.split("@")[1];
+          if (domain === "telkomuniversity.ac.id") {
+            setIsLecture(true);
+          } else {
+            setIsLecture(false);
+          }
           localStorage.setItem("cureentStep", 1);
           setCurrentStep(1);
         }
@@ -179,6 +178,7 @@ const Signup = () => {
         email,
         firstName,
         lastName,
+        kodeDosen,
         selectedGender,
         selectedFakultas,
         selectedMajor,
@@ -207,6 +207,11 @@ const Signup = () => {
     setEmailAlreadyExist(false);
     setEmail(newEmail);
     setValidEmail(checkEmailDomain(newEmail));
+  };
+
+  const handleFakultasChange = (e) => {
+    setSelectedFakultas(e.target.value);
+    setSelectedMajor("");
   };
 
   const handleNomorIndukChange = (e) => {
@@ -459,17 +464,17 @@ const Signup = () => {
                           name="faculty"
                           id="faculty"
                           value={selectedFakultas}
-                          onChange={(e) => setSelectedFakultas(e.target.value)}
+                          onChange={handleFakultasChange}
                         >
                           <option value="">Select a Faculty</option>
                           {fakultas.map((faculty) => (
                             <option key={faculty.kode} value={faculty.kode}>
-                              {faculty.nama}
+                              {faculty.kode} - {faculty.nama}
                             </option>
                           ))}
                         </select>
                       </div>
-                      <div className="flex-col flex w-full">
+                      <div className="flex-col flex w-full ">
                         <label
                           className="font-medium text-xs md:text-base text-textGray "
                           htmlFor=""
@@ -556,6 +561,287 @@ const Signup = () => {
                             </option>
                           ))}
                         </select>
+                      </div>
+                    </div>
+                    <div className="flex justify-between gap-4">
+                      <div className="flex-col flex w-full">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          Password
+                        </label>
+                        <input
+                          placeholder=""
+                          className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          type="password"
+                          onChange={(e) => setPassword(e.target.value)}
+                          value={password}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-between gap-4">
+                      <div className="flex-col flex w-full">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          Confirmation Password
+                        </label>
+                        <input
+                          placeholder=""
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          type="password"
+                        />
+                        <p
+                          hidden={password === confirmPassword}
+                          className="text-brightPrimary text-xs md:text-base mt-1"
+                        >
+                          Password and confirmation password don't match
+                        </p>
+                      </div>
+                    </div>
+                    <div className="w-full h-full flex justify-end pt-0 xs:pt-2">
+                      <button
+                        type="submit"
+                        className={`text-secondary w-full  block py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
+                          !isInputComplete
+                            ? "bg-black cursor-not-allowed"
+                            : " bg-primary hover:bg-brightPrimary cursor-pointer"
+                        }`}
+                        disabled={!isInputComplete}
+                      >
+                        {isLoading ? "Loading..." : "Sign Up"}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+                <div className="absolute mt-2 lg:mt-0 md:static bottom-0 left-0 right-0 flex justify-center text-[8px] sm:text-xs md:text-xs lg:text-base">
+                  <label htmlFor="" className="text-center">
+                    {" "}
+                    © 2023 Kelompok 7, Inc. All rights reserved. Terms - Privacy
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
+          {currentStep === 1 && isLecture && (
+            <div className="w-full h-full relative lg:w-1/2 my-2 sm:my-0 bg-white justify-center flex lg:rounded-r-none">
+              <div className="p-5 md:p-10 w-full flex flex-col h-full align-middle sm:gap-4">
+                <img
+                  className="mt-2 ml-5 h-6 w-12 sm:h-12 sm:w-24"
+                  src={TelyuProjectLogo}
+                  alt=""
+                />
+                <div className="flex p-10 lg:p-0 flex-col mx-10 w-2/3 self-center justify-center h-full gap-1 relative">
+                  <IoCaretBackCircleOutline
+                    onClick={() => setCurrentStep(0)}
+                    className="text-4xl absolute left-[-6rem] cursor-pointer"
+                  />
+                  <h1 className="text-center mt-4 text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
+                    Welcome to Telyu Project
+                  </h1>
+                  <label
+                    className="text-[9px] text-center text-textGray sm:text-sm  md:text-base mb-4 "
+                    htmlFor=""
+                  >
+                    You're new here! Tell us a little about yourself
+                  </label>
+                  <form
+                    className="flex flex-col gap-3 sm:gap-4"
+                    action=""
+                    onSubmit={signup}
+                  >
+                    <div className="flex flex-col xl:flex-row justify-between gap-4">
+                      <div className="flex-col flex w-full">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          First Name{" "}
+                          {firstName.length < 3 && firstName !== "" && (
+                            <span className="text-brightPrimary font-normal">
+                              At least 3 characters.
+                            </span>
+                          )}
+                        </label>
+                        <input
+                          placeholder=""
+                          maxLength={30}
+                          className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          type="text"
+                          value={firstName}
+                          onChange={handleFirstNameChange}
+                        />
+                      </div>
+                      <div className="flex-col flex w-full">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          Last Name{" "}
+                          {lastName.length < 3 && lastName !== "" && (
+                            <span className="text-brightPrimary font-normal">
+                              At least 3 characters.
+                            </span>
+                          )}
+                        </label>
+                        <input
+                          value={lastName}
+                          maxLength={30}
+                          placeholder=""
+                          className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          type="text"
+                          onChange={handleLastNameChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-between gap-4">
+                      <div className="flex-col flex w-full">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          Gender
+                        </label>
+                        <select
+                          className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          name="gender"
+                          id="gender"
+                          value={selectedGender}
+                          onChange={(e) => setSelectedGender(e.target.value)}
+                        >
+                          <option value="">Select a Gender</option>
+                          {genders.map((gender, index) => (
+                            <option key={index} value={gender}>
+                              {gender}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex-col flex w-full">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          NIM{" "}
+                          {nomorInduk.length < 10 && nomorInduk !== "" && (
+                            <span className="text-brightPrimary font-normal">
+                              Must be 10 characters.
+                            </span>
+                          )}
+                        </label>
+                        <input
+                          placeholder=""
+                          className={`p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                          type="number"
+                          value={nomorInduk}
+                          onChange={handleNomorIndukChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex flex-col xl:flex-row justify-between gap-4">
+                      <div className="flex-col  flex w-full">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          Faculty
+                        </label>
+                        <select
+                          className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          name="faculty"
+                          id="faculty"
+                          value={selectedFakultas}
+                          onChange={handleFakultasChange}
+                        >
+                          <option value="">Select a Faculty</option>
+                          {fakultas.map((faculty) => (
+                            <option key={faculty.kode} value={faculty.kode}>
+                              {faculty.kode} - {faculty.nama}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex-col flex w-full ">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          Major
+                        </label>
+                        <select
+                          className={`p-2 text-xs h-full ${
+                            selectedFakultas === ""
+                              ? "cursor-not-allowed"
+                              : "cursor-default"
+                          }  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                          name="faculty"
+                          id="faculty"
+                          disabled={selectedFakultas === ""}
+                          value={selectedMajor}
+                          title={
+                            selectedFakultas === ""
+                              ? "Fakultas must be selected"
+                              : ""
+                          }
+                          onChange={(e) => setSelectedMajor(e.target.value)}
+                        >
+                          <option value="">Select a Major</option>
+                          {majors.map((major) => (
+                            <option key={major.kode} value={major.kode}>
+                              {major.program} - {major.nama}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="flex flex-col sm:flex-row justify-between gap-4">
+                      <div className="flex-col flex w-full">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          Year
+                        </label>
+                        <select
+                          className={` ${
+                            selectedMajor === ""
+                              ? "cursor-not-allowed"
+                              : "cursor-default"
+                          } p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                          name="Year"
+                          id="Year"
+                          value={selectedYear}
+                          disabled={selectedMajor === ""}
+                          onChange={(e) => setSelectedYear(e.target.value)}
+                        >
+                          <option value="">Select a Year</option>
+                          {descendingYears.map((year, index) => (
+                            <option key={index} value={year}>
+                              {year}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex-col flex w-full">
+                        <label
+                          className="font-medium text-xs md:text-base text-textGray "
+                          htmlFor=""
+                        >
+                          Lecture Code
+                        </label>
+                        <input
+                          placeholder=""
+                          className={`p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                          type="text"
+                          maxLength={3}
+                          minLength={3}
+                          value={kodeDosen}
+                          onChange={(e) => setKodeDosen(e.target.value)}
+                        />
                       </div>
                     </div>
                     <div className="flex justify-between gap-4">
