@@ -26,7 +26,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Landingpage />} />
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
         <Route path="home" element={<Layout />}>
           <Route path="page1" element={<Page1 />} />
           <Route path="page2" element={<Page2 />} />
@@ -34,10 +36,8 @@ function App() {
           <Route path="page4" element={<Page4 />} />
           <Route path="profilePage" element={<ProfilePage />} />
         </Route>
-        <Route path="/createproject" element={<CreateProject />} />
-        <Route path="/joinproject" element={<JoinProject />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/landingpage" element={<Landingpage />} />
+        <Route path="createproject" element={<CreateProject />} />
+        <Route path="joinproject" element={<JoinProject />} />
       </Routes>
       <ToastContainer autoClose={3000} />
     </BrowserRouter>

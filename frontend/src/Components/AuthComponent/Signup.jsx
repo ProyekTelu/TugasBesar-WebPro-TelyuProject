@@ -281,7 +281,7 @@ const Signup = () => {
   };
 
   const navigateToLogin = () => {
-    navigate("/");
+    navigate("/login");
   };
 
   return (
