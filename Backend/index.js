@@ -5,6 +5,7 @@ import UserRoute from "./routes/UserRoutes.js";
 import AuthRoute from "./routes/AuthRoutes.js";
 import FakultasRoute from "./routes/FakultasRoutes.js";
 import ProdiRoute from "./routes/ProdiRoutes.js";
+import fileUpload from "express-fileupload";
 import db from "./config/Database.js";
 import FakulasAndProdi from "./InitialData/FakultasAndProdi.js";
 import Users from "./InitialData/Users.js";
@@ -12,6 +13,7 @@ import Users from "./InitialData/Users.js";
 dotenv.config();
 
 const app = express();
+app.use(fileUpload());
 
 app.use(
   cors({
@@ -31,8 +33,8 @@ app.use(ProdiRoute);
 
 //1.
 // (async () => {
-// await db.sync();
-// FakulasAndProdi();
+//   await db.sync();
+//   FakulasAndProdi();
 // })();
 
 //2.
