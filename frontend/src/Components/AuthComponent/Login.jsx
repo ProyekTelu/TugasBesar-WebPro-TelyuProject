@@ -133,10 +133,10 @@ const Login = () => {
                   <div className="w-full h-full flex justify-end pt-0 xs:pt-2">
                     <button
                       type="submit"
-                      className={`text-secondary w-full block py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
+                      className={`text-white w-full block py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
                         isButtonDisabled
                           ? "bg-black cursor-not-allowed"
-                          : " bg-primary hover:bg-brightPrimary cursor-pointer"
+                          : " bg-primary hover:bg-red-600 cursor-pointer"
                       }`}
                       disabled={isButtonDisabled}
                     >
