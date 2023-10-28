@@ -32,36 +32,41 @@ const Profile = () => {
         <div className="absolute -bottom-20">
           <img
             src={userImage}
-            className="object-cover border-4 border-white w-40 h-40 rounded-full"
+            className={`${
+              isEditing ? "bg-gray-200 cursor-pointer" : "pointer-events-none"
+            } object-cover border-4 border-white w-40 h-40 md:w-52 md:h-52 xl:w-72 xl:h-72 rounded-full`}
             alt="cover"
+            onClick={() => document.getElementById("file").click()}
+          />
+          <input
+            className="hidden"
+            type="file"
+            id="file"
+            accept="image/*"
+            onChange={handleImageChange}
           />
         </div>
       </div>
-      <div className="text-center pt-20 text-3xl font-bold text-black">
+      <div className="text-center pt-10 xs:pt-12 md:pt-16 xl:pt-20 text-3xl xs:text-4xl xl:text-5xl font-bold text-black">
         <div className="flex items-center justify-between">
           Profile
-          <label htmlFor="file" className="cursor-pointer">
+          <div className="cursor-pointer">
             <img
               src={EditProfile}
               className="w-5 h-auto cursor-pointer"
               alt="edit"
               onClick={handleEditProfile}
             />
-          </label>
-          <input
-            type="file"
-            id="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{ display: "none" }}
-          />
+          </div>
         </div>
       </div>
-      <div className="border border-gray-500 mt-3 mb-2 border-opacity-1"></div>
+      <div className="border border-gray-500 mt-2"></div>
 
       {/* Label Biodata */}
-      <form className="flex flex-col sm:flex-row gap-3 sm:gap-4" action="">
-        <div className="w-1/2">
+      <form
+        className="flex flex-col sm:flex-row gap-4 xs:gap-6 md:gap-8 xl:gap-10"
+        action="">
+        <div className="w-full xs:w-1/2">
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
@@ -70,9 +75,9 @@ const Profile = () => {
             </label>
             <input
               placeholder=""
-              className={`p-1 sm:p-2 ${
+              className={`p-2 ${
                 isEditing ? "bg-gray-200" : ""
-              } text-xs h-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+              } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="nama"
               readOnly={!isEditing}
@@ -86,9 +91,9 @@ const Profile = () => {
             </label>
             <input
               placeholder=""
-              className={`p-1 sm:p-2 ${
+              className={`p-2 ${
                 isEditing ? "bg-gray-200" : ""
-              } text-xs h-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+              } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="NIM"
               readOnly={!isEditing}
@@ -102,16 +107,16 @@ const Profile = () => {
             </label>
             <input
               placeholder=""
-              className={`p-1 sm:p-2 ${
+              className={`p-2 ${
                 isEditing ? "bg-gray-200" : ""
-              } text-xs h-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+              } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="Gender"
               readOnly={!isEditing}
             />
           </div>
         </div>
-        <div className="w-1/2">
+        <div className="w-full xs:w-1/2">
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
@@ -120,9 +125,9 @@ const Profile = () => {
             </label>
             <input
               placeholder=""
-              className={`p-1 sm:p-2 ${
+              className={`p-2 ${
                 isEditing ? "bg-gray-200" : ""
-              } text-xs h-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+              } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="Nomor HP"
               readOnly={!isEditing}
@@ -136,9 +141,9 @@ const Profile = () => {
             </label>
             <input
               placeholder=""
-              className={`p-1 sm:p-2 ${
+              className={`p-2 ${
                 isEditing ? "bg-gray-200" : ""
-              } text-xs h-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+              } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="Fakultas"
               readOnly={!isEditing}
@@ -152,9 +157,9 @@ const Profile = () => {
             </label>
             <input
               placeholder=""
-              className={`p-1 sm:p-2 ${
+              className={`p-2 ${
                 isEditing ? "bg-gray-200" : ""
-              } text-xs h-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+              } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="Jurusan"
               readOnly={!isEditing}
@@ -162,7 +167,7 @@ const Profile = () => {
           </div>
         </div>
       </form>
-      <div className="mt-4 flex w-1/2">
+      <div className="mt-6 xs:mt-8 md:mt-10 xl:mt-12 flex w-full xs:w-1/2">
         {isEditing && (
           <button
             className="
@@ -180,16 +185,7 @@ const Profile = () => {
           </button>
         )}
         <button
-          className="
-          items-center 
-          justify-center 
-          rounded-md 
-          border border-transparent 
-          bg-red-300
-          px-8 py-3 
-          text-base 
-          font-medium text-white
-          hover:bg-red-500"
+          className="items-center justify-center rounded-md border border-transparent bg-red-300 px-8 py-2 mb-9 text-base font-medium text-white hover:bg-red-500"
           onClick={handleDoneEditing}>
           Back
         </button>
