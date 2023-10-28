@@ -2,7 +2,11 @@ import React from 'react'
 
 const Page1 = () => {
     return (
-        <div>Page1</div>
+        <>
+            <div className='w-72 h-32 bg-black'>
+
+            </div>
+        </>
     )
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import user from "../img/user.png";
-import EditProfile from "../img/editing.png";
+import user from "../../img/user.png";
+import EditProfile from "../../img/editing.png";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -27,10 +27,8 @@ const Profile = () => {
   };
 
   return (
-    <div
-      className="px-4 xs:px-8 sm:px-10 md:px-12 lg:px-20 xl:px-32"
-      id="Profile">
-      <div className="relative h-40 mb-8 md:h-46 xl:h-96 rounded-b-3xl flex justify-center bg-red-600">
+    <>
+      <div className="relative h-60 rounded-b-3xl flex justify-center bg-red-600">
         <div className="absolute -bottom-20">
           <img
             src={userImage}
@@ -172,8 +170,16 @@ const Profile = () => {
       <div className="mt-6 xs:mt-8 md:mt-10 xl:mt-12 flex w-full xs:w-1/2">
         {isEditing && (
           <button
-            className="mr-3 items-center justify-center rounded-md border border-transparent bg-green-300 px-8 py-2 mb-9
-            \]]6yy text-base font-medium text-white hover:bg-green-500 "
+            className="
+            items-center 
+            justify-center 
+            rounded-md 
+            border border-transparent 
+            bg-green-300
+            px-8 py-3 
+            text-base 
+            font-medium text-white
+            hover:bg-green-500 "
             onClick={handleDoneEditing}>
             Done
           </button>
@@ -184,7 +190,7 @@ const Profile = () => {
           Back
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
