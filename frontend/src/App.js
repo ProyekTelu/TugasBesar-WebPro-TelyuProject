@@ -4,6 +4,7 @@ import AuthPage from "./pages/Auth";
 import WebFont from "webfontloader";
 import Layout from "./pages/Layout";
 import CreateProject from "./Components/CreateProject";
+import JoinProject from "./Components/JoinProject";
 
 function App() {
   useEffect(() => {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<AuthPage />} />
         <Route path="/home" element={<Layout />} />
         <Route path="/createproject" element={<CreateProject />} />
+        <Route path="/joinproject" element={<JoinProject />} />
       </Routes>
     </BrowserRouter>
   );
