@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import user from "../img/user.png";
-import EditProfile from "../img/editing.png";
+import user from "../../img/user.png";
+import EditProfile from "../../img/editing.png";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -27,7 +27,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="px-20">
+    <>
       <div className="relative h-60 rounded-b-3xl flex justify-center bg-red-600">
         <div className="absolute -bottom-20">
           <img
@@ -166,7 +166,6 @@ const Profile = () => {
         {isEditing && (
           <button
             className="
-            mr-3
             items-center 
             justify-center 
             rounded-md 
@@ -195,7 +194,7 @@ const Profile = () => {
           Back
         </button>
       </div>
-    </div>
+    </>
   );
 };
 

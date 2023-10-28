@@ -16,7 +16,7 @@ const PageButton = ({isClicked, isExpand ,logo, content}) => {
                 <div className={`h-4 w-4 rounded-full ${isClicked?  "bg-white" : "bg-black"}`}>
                     <img src={logo} alt="" className='bg-cover bg-center'/>
                 </div>
-                <p className={`duration-0 ease-in  ${isExpand ? "block" : "hidden"}`}>{content}</p>
+                <p className={`duration-0 ease-in ${isExpand ? "block" : "hidden"}`}>{content}</p>
             </div>
         </>
     )

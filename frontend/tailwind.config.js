@@ -14,10 +14,32 @@ module.exports = {
         minimizeSideBar: {
           '0%, 100%': { transform: 'rotate(0deg)' },
           '50%': { transform: 'rotate(90deg)' },
+        },
+        fadeAway: {
+          '0%': { opacity : '1'},
+          '100%': { opacity : '0'}
+        }, 
+        fadeAppears:{
+          '0%': { opacity : '0'},
+          '100%': { opacity : '1'}
+        },
+        rotateLeft:{
+          '0%': { transform: 'rotate(180deg)'},
+          '70%': { transform: 'rotate(-40deg)'},
+          '100%': {transform: 'rotate(0deg)'}
+        },
+        rotateRight:{
+          '0%': { transform: 'rotate(0deg)'},
+          '70%': { transform: 'rotate(220deg)'},
+          '100%': {transform: 'rotate(180deg)'}
         }
       },
       animation: {
-        minimizeSideBar : 'minimizeSideBar 1s ease-in alternate'
+        minimizeSideBar : 'minimizeSideBar 1s ease-in ',
+        fadeAway : 'fadeAway 0.2s ease-out normal forwards',
+        fadeAppears : 'fadeAppears 0.2s ease-out normal forwards',
+        rotateLeft : 'rotatLeft 0.3s ease-out',
+        rotateRight : 'rotateRight 0.3s ease-out forwards'
       }
     },
     screens: {
