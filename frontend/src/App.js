@@ -12,6 +12,7 @@ import ProfilePage from "./Components/PageComponent/ProfilePage";
 import Login from "./Components/AuthComponent/Login";
 import Signup from "./Components/AuthComponent/Signup";
 import { ToastContainer } from "react-toastify";
+import Landingpage from "./Components/Landingpage";
 
 function App() {
   useEffect(() => {
@@ -36,6 +37,7 @@ function App() {
         <Route path="/createproject" element={<CreateProject />} />
         <Route path="/joinproject" element={<JoinProject />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/landingpage" element={<Landingpage />} />
       </Routes>
       <ToastContainer autoClose={3000} />
     </BrowserRouter>
