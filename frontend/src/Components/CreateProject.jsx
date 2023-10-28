@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Imgbg from "../img/consul2.png";
+import { IoCaretBackCircleOutline } from "react-icons/io5";
 
 const CreateProject = () => {
   const [projectTitle, setProjectTitle] = useState("");
@@ -17,19 +18,19 @@ const CreateProject = () => {
     e.preventDefault();
     // Logic for submitting form data
     console.log({
-        projectTitle,
-        groupChatLink,
-        description,
-        maxMembers,
-        faculty,
-        startDate,
-        endDate
+      projectTitle,
+      groupChatLink,
+      description,
+      maxMembers,
+      faculty,
+      startDate,
+      endDate,
     });
   };
 
   useEffect(() => {
     setIsInputComplete(
-        projectTitle !== "" &&
+      projectTitle !== "" &&
         projectTitle.length > 2 &&
         groupChatLink !== "" &&
         groupChatLink.includes(".com") &&
@@ -56,7 +57,11 @@ const CreateProject = () => {
       className="flex justify-center w-screen h-screen bg-cover bg-center"
       style={{ backgroundImage: `url(${Imgbg})` }}
     >
-      <div className="columns w-2/3  flex justify-center flex-col">
+      <div className="columns w-2/3  flex justify-center flex-col relative">
+        <IoCaretBackCircleOutline
+          onClick={(e) => window.history.back()} 
+          className="text-4xl absolute left-[-6rem] cursor-pointer"
+        />
         <h1 className="text-center mt-4 text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
           Create Project
         </h1>
@@ -65,9 +70,10 @@ const CreateProject = () => {
             <div className="w-full">
               <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
                 Project Title{" "}
-                {projectTitle.length < 3 && projectTitle != "" &&(
+                {projectTitle.length < 3 && projectTitle != "" && (
                   <span className="text-brightPrimary font-normal">
-                    At least 3 characters.</span>
+                    At least 3 characters.
+                  </span>
                 )}
               </label>
               <div className="">
@@ -84,7 +90,7 @@ const CreateProject = () => {
             <div className="w-full">
               <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
                 Group Chat Link{" "}
-                {(!groupChatLink.includes(".com")) && groupChatLink !== "" && (
+                {!groupChatLink.includes(".com") && groupChatLink !== "" && (
                   <span className="text-brightPrimary font-normal">
                     Fill the correct link.
                   </span>
@@ -106,9 +112,10 @@ const CreateProject = () => {
             <div className="w-full">
               <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
                 Description{" "}
-                {description.length < 12 && description != "" &&(
+                {description.length < 12 && description != "" && (
                   <span className="text-brightPrimary font-normal">
-                    At least 12 characters.</span>
+                    At least 12 characters.
+                  </span>
                 )}
               </label>
               <div className="lb">
@@ -127,9 +134,10 @@ const CreateProject = () => {
             <div className="w-full">
               <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block ">
                 Maximum Member{" "}
-                {maxMembers < 1 && maxMembers != "" &&(
+                {maxMembers < 1 && maxMembers != "" && (
                   <span className="text-brightPrimary font-normal">
-                    At least 1 member.</span>
+                    At least 1 member.
+                  </span>
                 )}
               </label>
               <div className="control">
@@ -175,7 +183,7 @@ const CreateProject = () => {
                     selected={startDate}
                     onChange={(date) => {
                       setStartDate(date);
-                      if (date > endDate){
+                      if (date > endDate) {
                         setEndDate(date);
                       }
                     }}
@@ -207,8 +215,8 @@ const CreateProject = () => {
               type="submit"
               className={`"text-secondary text-white w-1/4 py-1 block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg" ${
                 !isInputComplete
-                ? "bg-black cursor-not-allowed"
-                : " bg-primary hover:bg-brightPrimary cursor-pointer"
+                  ? "bg-black cursor-not-allowed"
+                  : " bg-primary hover:bg-brightPrimary cursor-pointer"
               }`}
               disabled={!isInputComplete}
             >

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Imgbg from "../img/consul2.png";
+import { IoCaretBackCircleOutline } from "react-icons/io5";
 
 const JoinProject = () => {
   const userName = "Reza Adhie Dharmawan";
@@ -9,7 +10,6 @@ const JoinProject = () => {
   const [reason, setReason] = useState("");
   const [uploadedCV, setUploadedCV] = useState(null);
   const [isInputComplete, setIsInputComplete] = useState(false);
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,7 +25,9 @@ const JoinProject = () => {
 
   useEffect(() => {
     setIsInputComplete(
-      reason !== "" && reason.length > 11 && uploadedCV !== null
+      reason !== "" 
+      && reason.length > 11 
+      && uploadedCV !== null
     );
   }, [reason, uploadedCV]);
 
@@ -49,13 +51,11 @@ const JoinProject = () => {
       className="flex justify-center w-screen h-screen bg-cover bg-center"
       style={{ backgroundImage: `url(${Imgbg})` }}
     >
-      <div className="columns w-2/3 flex justify-center flex-col">
-        <button
-          onClick={() => window.history.back()} 
-          className="absolute top-4 left-4 bg-gray-200 px-3 py-1 rounded-md"
-        >
-          Kembali
-        </button>
+      <div className="columns w-2/3 flex justify-center flex-col relative">
+        <IoCaretBackCircleOutline
+          onClick={(e) => window.history.back()} 
+          className="text-4xl absolute left-[-6rem] cursor-pointer"
+        />
         <h1 className="text-center mt-4 text-xl sm:text-2xl md:text-4xl md:my-4 font-bold">
           Join Project
         </h1>
