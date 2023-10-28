@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import WebFont from "webfontloader";
 import Layout from "./pages/Layout";
+import CreateProject from "./Components/CreateProject";
+import JoinProject from "./Components/JoinProject";
 import Page1 from "./Components/PageComponent/Page1";
 import Page4 from "./Components/PageComponent/Page4";
 import Page3 from "./Components/PageComponent/Page3";
@@ -30,6 +32,8 @@ function App() {
           <Route path="page3" element={<Page3/>}/>
           <Route path="page4" element={<Page4/>}/>
         </Route>
+        <Route path="/createproject" element={<CreateProject />} />
+        <Route path="/joinproject" element={<JoinProject />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/Profile" element={<Profile />} />
       </Routes>
