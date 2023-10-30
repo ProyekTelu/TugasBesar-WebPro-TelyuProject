@@ -65,7 +65,7 @@ const Signup = () => {
     if (localStorage.getItem("user") != null) {
       // navigate("/home");
     } else if (user) {
-      navigate("/");
+      navigate("/login");
     }
     dispatch(reset());
   }, [user, isSuccess, dispatch, navigate]);
@@ -286,7 +286,7 @@ const Signup = () => {
 
   return (
     <div
-      className={`w-screen ${
+      className={`w-screen  ${
         currentStep === 0 ? "md:h-screen" : "xl:h-screen"
       } flex justify-center`}
     >
@@ -329,7 +329,7 @@ const Signup = () => {
                     <form className="flex flex-col gap-3 sm:gap-4" action="">
                       <div className="flex flex-col">
                         <label
-                          className="font-medium text-xs md:text-base text-textGray "
+                          className="font-medium text-xs md:text-base "
                           htmlFor=""
                         >
                           Email SSO
@@ -411,7 +411,7 @@ const Signup = () => {
                       Welcome to Telyu Project
                     </h1>
                     <label
-                      className="text-[9px] text-center text-textGray sm:text-sm  md:text-base mb-4 "
+                      className="text-[9px] text-center sm:text-sm  md:text-base mb-4 "
                       htmlFor=""
                     >
                       You're new here! Tell us a little about yourself
@@ -424,12 +424,12 @@ const Signup = () => {
                       <div className="flex flex-col xl:flex-row justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             First Name{" "}
                             {firstName.length < 3 && firstName !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 At least 3 characters.
                               </span>
                             )}
@@ -445,12 +445,12 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             Last Name{" "}
                             {lastName.length < 3 && lastName !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 At least 3 characters.
                               </span>
                             )}
@@ -468,7 +468,7 @@ const Signup = () => {
                       <div className="flex flex-col md:flex-row justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             Gender
@@ -490,12 +490,12 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             NIM{" "}
                             {nomorInduk.length < 10 && nomorInduk !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 Must be 10 characters.
                               </span>
                             )}
@@ -512,7 +512,7 @@ const Signup = () => {
                       <div className="flex flex-col xl:flex-row justify-between gap-4">
                         <div className="flex-col  flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             Faculty
@@ -534,7 +534,7 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full ">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             Major
@@ -568,7 +568,7 @@ const Signup = () => {
                       <div className="flex flex-col sm:flex-row justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             Year
@@ -595,7 +595,7 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             Class
@@ -624,7 +624,7 @@ const Signup = () => {
                       <div className="flex justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             Password
@@ -641,7 +641,7 @@ const Signup = () => {
                       <div className="flex justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             Confirmation Password
@@ -655,7 +655,7 @@ const Signup = () => {
                           />
                           <p
                             hidden={password === confirmPassword}
-                            className="text-brightPrimary text-xs md:text-base mt-1"
+                            className="text-red-500 text-xs md:text-base mt-1"
                           >
                             Password and confirmation password don't match
                           </p>
@@ -697,7 +697,7 @@ const Signup = () => {
                       Welcome to Telyu Project
                     </h1>
                     <label
-                      className="text-[9px] text-center text-textGray sm:text-sm  md:text-base mb-4 "
+                      className="text-[9px] text-center sm:text-sm  md:text-base mb-4 "
                       htmlFor=""
                     >
                       You're new here! Tell us a little about yourself
@@ -710,12 +710,12 @@ const Signup = () => {
                       <div className="flex flex-col xl:flex-row justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             First Name{" "}
                             {firstName.length < 3 && firstName !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 At least 3 characters.
                               </span>
                             )}
@@ -731,12 +731,12 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             Last Name{" "}
                             {lastName.length < 3 && lastName !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 At least 3 characters.
                               </span>
                             )}
@@ -754,7 +754,7 @@ const Signup = () => {
                       <div className="flex flex-col md:flex-row  justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             Gender
@@ -776,13 +776,13 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             NIDN{" "}
                             {nomorIndukDosen.length < 10 &&
                               nomorIndukDosen !== "" && (
-                                <span className="text-brightPrimary font-normal">
+                                <span className="text-red-500 font-normal">
                                   Must be 10 characters.
                                 </span>
                               )}
@@ -799,7 +799,7 @@ const Signup = () => {
                       <div className="flex flex-col xl:flex-row justify-between gap-4">
                         <div className="flex-col  flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             Faculty
@@ -821,12 +821,12 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full ">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             Lecture Code {""}
                             {kodeDosen.length < 3 && kodeDosen !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 Must be 3 characters.
                               </span>
                             )}
@@ -843,7 +843,7 @@ const Signup = () => {
                       <div className="flex justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             Password
@@ -860,7 +860,7 @@ const Signup = () => {
                       <div className="flex justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-base "
                             htmlFor=""
                           >
                             Confirmation Password
@@ -874,7 +874,7 @@ const Signup = () => {
                           />
                           <p
                             hidden={password === confirmPassword}
-                            className="text-brightPrimary text-xs md:text-base mt-1"
+                            className="text-red-500 text-xs md:text-base mt-1"
                           >
                             Password and confirmation password don't match
                           </p>
