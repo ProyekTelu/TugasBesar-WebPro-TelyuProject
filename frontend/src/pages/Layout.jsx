@@ -13,7 +13,7 @@ const Layout = () => {
   const pageButtonContent = [
     { content: "Home", logo:"", pageSession: "page1" },
     { content: "Project List", logo:"", pageSession: "page2" },
-    { content: "Requested", logo:"", pageSession: "page3" },
+    { content: "Requested", logo:"", pageSession: "requested" },
     { content: "My Project", logo:"", pageSession: "page4" }
   ];
 

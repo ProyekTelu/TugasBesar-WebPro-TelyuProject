@@ -6,13 +6,13 @@ import CreateProject from "./Components/CreateProject";
 import JoinProject from "./Components/JoinProject";
 import Page1 from "./Components/PageComponent/Page1";
 import Page4 from "./Components/PageComponent/Page4";
-import Page3 from "./Components/PageComponent/Page3";
 import Page2 from "./Components/PageComponent/Page2";
 import ProfilePage from "./Components/PageComponent/ProfilePage";
 import Login from "./Components/AuthComponent/Login";
 import Signup from "./Components/AuthComponent/Signup";
 import { ToastContainer } from "react-toastify";
 import Landingpage from "./Components/Landingpage";
+import Requested from "./Components/PageComponent/Requested";
 
 function App() {
   useEffect(() => {
@@ -32,7 +32,7 @@ function App() {
         <Route path="home" element={<Layout />}>
           <Route path="page1" element={<Page1 />} />
           <Route path="page2" element={<Page2 />} />
-          <Route path="page3" element={<Page3 />} />
+          <Route path="requested" element={<Requested />} />
           <Route path="page4" element={<Page4 />} />
           <Route path="profilePage" element={<ProfilePage />} />
         </Route>
