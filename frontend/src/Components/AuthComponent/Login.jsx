@@ -63,10 +63,10 @@ const Login = () => {
   };
 
   return (
-    <div className="w-screen md:h-screen flex justify-center">
+    <div className="w-screen h-screen justify-center">
       <div className="flex justify-center h-full w-full">
         <div
-          className="flex w-full h-full justify-center "
+          className="flex flex-wrap w-full h-auto justify-center "
           style={{ userSelect: "none" }}
         >
           <div className="w-full h-full relative lg:w-1/2 my-2 sm:my-0 bg-white justify-center flex lg:rounded-r-none">
@@ -78,11 +78,11 @@ const Login = () => {
               />
               <div className="flex p-10 lg:p-0 flex-col mx-10 w-full sm:w-2/3 self-center justify-center h-full gap-1">
                 <img
-                  className="w-[30%] xs:w-[10%] sm:w-[15%] self-center"
+                  className="w-[20%] xs:w-[10%] sm:w-[15%] self-center"
                   src={TelkomLogo}
                   alt=""
                 />
-                <h1 className="text-center mt-4  text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
+                <h1 className="text-center mt-4 text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
                   Log in
                 </h1>
                 <form
@@ -92,14 +92,14 @@ const Login = () => {
                 >
                   <div className="flex flex-col">
                     <label
-                      className="font-medium text-xs md:text-base text-textGray "
+                      className="font-medium text-xs md:text-sm  "
                       htmlFor=""
                     >
                       Email SSO
                     </label>
                     <input
                       placeholder=""
-                      className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                      className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                       type="email"
                       value={email}
                       onChange={handleEmailChange}
@@ -111,10 +111,7 @@ const Login = () => {
                     )}
                   </div>
                   <div className="flex flex-col">
-                    <label
-                      className="text-xs md:text-base text-textGray "
-                      htmlFor=""
-                    >
+                    <label className="text-xs md:text-sm  " htmlFor="">
                       Password
                     </label>
                     <input
@@ -133,7 +130,7 @@ const Login = () => {
                   <div className="w-full h-full flex justify-end pt-0 xs:pt-2">
                     <button
                       type="submit"
-                      className={`text-white w-full block py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
+                      className={`text-white w-full block py-2 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
                         isButtonDisabled
                           ? "bg-black cursor-not-allowed"
                           : " bg-primary hover:bg-red-600 cursor-pointer"
