@@ -13,6 +13,7 @@ import Signup from "./Components/AuthComponent/Signup";
 import { ToastContainer } from "react-toastify";
 import Landingpage from "./Components/Landingpage";
 import Requested from "./Components/PageComponent/Requested";
+import JoinForm from "./Components/PageComponent/JoinForm";
 
 function App() {
   useEffect(() => {
@@ -35,6 +36,7 @@ function App() {
           <Route path="requested" element={<Requested />} />
           <Route path="page4" element={<Page4 />} />
           <Route path="profilePage" element={<ProfilePage />} />
+          <Route path="joinForm" element={<JoinForm />} />
         </Route>
         <Route path="createproject" element={<CreateProject />} />
         <Route path="joinproject" element={<JoinProject />} />

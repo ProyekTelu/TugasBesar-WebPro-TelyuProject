@@ -7,12 +7,12 @@ import Logo from "../img/Logo.png"
 const Layout = () => {
 
   const currentNav = useNavigate();
-  const [isExpand, setIsExpand] = useState(localStorage.getItem("isExpand") === "true" ? true : false);
+  const [isExpand, setIsExpand] = useState(true);
 
   // Sidebar Content
   const pageButtonContent = [
     { content: "Home", logo:"", pageSession: "page1" },
-    { content: "Project List", logo:"", pageSession: "page2" },
+    { content: "Project List", logo:"", pageSession: "joinForm" },
     { content: "Requested", logo:"", pageSession: "requested" },
     { content: "My Project", logo:"", pageSession: "page4" }
   ];
@@ -106,7 +106,7 @@ const Layout = () => {
 
         {/* CONTENT */}
 
-        <div className={`h-screen basis-full overflow-y-auto`}>
+        <div className={`h-screen basis-full overflow-hidden`}>
           <div className="p-12">
             <Outlet />
           </div>
