@@ -673,11 +673,11 @@ const Signup = () => {
                       stiffness: 260,
                       damping: 20,
                     }}
-                    className="flex p-10 lg:p-0 flex-col mx-10 md:w-2/3  self-center justify-center h-full gap-1 relative"
+                    className="flex p-10 lg:p-0 flex-col mx-10 md:w-2/3 self-center justify-center h-full gap-1 relative"
                   >
                     <IoCaretBackCircleOutline
                       onClick={() => setCurrentStep(0)}
-                      className="text-4xl absolute left-[-6rem] cursor-pointer"
+                      className="text-4xl absolute left-[-2rem] lg:left-[-5rem] cursor-pointer"
                     />
                     <h1 className="text-center mt-4 text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
                       Welcome to Telyu Project
@@ -876,7 +876,7 @@ const Signup = () => {
                     </form>
                   </motion.div>
                 )}
-                <div className="absolute mt-2 lg:mt-0 md:static bottom-0 left-0 right-0 flex justify-center text-[8px] sm:text-xs md:text-xs lg:text-base">
+                <div className="absolute mt-2 lg:mt-0 md:static bottom-5 left-0 right-0 flex justify-center text-[8px] sm:text-xs md:text-xs lg:text-base">
                   <label htmlFor="" className="text-center">
                     {" "}
                     © 2023 Kelompok 7, Inc. All rights reserved. Terms - Privacy
