@@ -2,19 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser, reset } from "../../features/authSlice";
-import { Pagination, Autoplay } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/autoplay";
+
 import TelkomLogo from "../../img/Telkom_University_Logo.png";
-import ImgCarousel1 from "../../img/loginImage1.jpg";
-import ImgCarousel2 from "../../img/loginImage2.png";
-import ImgCarousel3 from "../../img/loginImage3.png";
 import TelyuProjectLogo from "../../img/telyuProject.png";
 import { toast } from "react-toastify";
-
-const images = [ImgCarousel1, ImgCarousel2, ImgCarousel3];
+import CarouselAuth from "./CarouselAuth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -92,7 +84,7 @@ const Login = () => {
                 >
                   <div className="flex flex-col">
                     <label
-                      className="font-medium text-xs md:text-sm  "
+                      className="font-medium text-xs md:text-sm "
                       htmlFor=""
                     >
                       Email SSO
@@ -111,7 +103,10 @@ const Login = () => {
                     )}
                   </div>
                   <div className="flex flex-col">
-                    <label className="text-xs md:text-sm  " htmlFor="">
+                    <label
+                      className="text-xs md:text-sm font-medium"
+                      htmlFor=""
+                    >
                       Password
                     </label>
                     <input
@@ -168,7 +163,7 @@ const Login = () => {
                   </label>
                 </form>
               </div>
-              <div className="absolute mt-2 lg:mt-0 md:static bottom-0 left-0 right-0 flex justify-center text-[8px] sm:text-xs md:text-xs lg:text-base">
+              <div className="absolute lg:mt-0 md:static bottom-5 left-0 right-0 flex justify-center text-[8px] sm:text-xs md:text-xs lg:text-base">
                 <label htmlFor="" className="text-center">
                   {" "}
                   © 2023 Kelompok 7, Inc. All rights reserved. Terms - Privacy
@@ -176,26 +171,7 @@ const Login = () => {
               </div>
             </div>
           </div>
-          <div className="w-1/2 hidden p-8 h-full lg:block relative rounded-r-2xl">
-            <Swiper
-              modules={[Pagination, Autoplay]}
-              className="h-full"
-              spaceBetween={22}
-              slidesPerView={1}
-              pagination={{ clickable: true }}
-              autoplay={{ delay: 3000, disableOnInteraction: false }}
-            >
-              {images.map((image, index) => (
-                <SwiperSlide key={index} className="bg-cover">
-                  <img
-                    src={image}
-                    className="w-full h-full object-cover rounded-xl"
-                    alt={`${index}`}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
+          <CarouselAuth />
         </div>
       </div>
     </div>

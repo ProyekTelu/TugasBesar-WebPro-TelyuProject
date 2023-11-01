@@ -3,22 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { reset, signupUser } from "../../features/authSlice";
 import axios from "axios";
-import { Pagination, Autoplay } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import CarouselAuth from "./CarouselAuth";
 import { IoCaretBackCircleOutline } from "react-icons/io5";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import TelkomLogo from "../../img/Telkom_University_Logo.png";
 import { motion, AnimatePresence } from "framer-motion";
-import ImgCarousel1 from "../../img/loginImage1.jpg";
-import ImgCarousel2 from "../../img/loginImage2.png";
-import ImgCarousel3 from "../../img/loginImage3.png";
+
 import TelyuProjectLogo from "../../img/telyuProject.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-const images = [ImgCarousel1, ImgCarousel2, ImgCarousel3];
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -27,7 +22,7 @@ const Signup = () => {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [nomorInduk, setNomorInduk] = useState("");
+  const [phoneNumber, setphoneNumber] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
   const [fakultas, setFakultas] = useState([]);
   const [selectedFakultas, setSelectedFakultas] = useState("");
@@ -42,7 +37,6 @@ const Signup = () => {
   const [emailAlreadyExist, setEmailAlreadyExist] = useState(false);
   const [kodeDosen, setKodeDosen] = useState("");
   const [isLecture, setIsLecture] = useState(false);
-  const [nomorIndukDosen, setNomorIndukDosen] = useState("");
 
   const years = [
     2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
@@ -78,8 +72,7 @@ const Signup = () => {
           firstName.length >= 3 &&
           lastName !== "" &&
           lastName.length >= 3 &&
-          nomorInduk.length === 10 &&
-          nomorInduk !== "" &&
+          phoneNumber !== "" &&
           selectedFakultas !== "" &&
           selectedGender !== "" &&
           selectedMajor !== "" &&
@@ -96,8 +89,7 @@ const Signup = () => {
           firstName.length >= 3 &&
           lastName !== "" &&
           lastName.length >= 3 &&
-          nomorInduk.length === 10 &&
-          nomorInduk !== "" &&
+          phoneNumber !== "" &&
           kodeDosen !== "" &&
           kodeDosen.length === 3 &&
           selectedFakultas !== "" &&
@@ -112,9 +104,8 @@ const Signup = () => {
     email,
     firstName,
     lastName,
-    nomorInduk,
+    phoneNumber,
     kodeDosen,
-    nomorIndukDosen,
     selectedFakultas,
     selectedGender,
     selectedMajor,
@@ -193,13 +184,12 @@ const Signup = () => {
           if (email !== tempEmail) {
             setFirstName("");
             setLastName("");
-            setNomorInduk("");
+            setphoneNumber("");
             setSelectedGender("");
             setSelectedFakultas("");
             setSelectedMajor("");
             setSelectedYear("");
             setSelectedKelas("");
-            setNomorIndukDosen("");
             setKodeDosen("");
           }
           setPassword("");
@@ -214,7 +204,7 @@ const Signup = () => {
     e.preventDefault();
     dispatch(
       signupUser({
-        nomorInduk,
+        phoneNumber,
         email,
         firstName,
         lastName,
@@ -254,15 +244,9 @@ const Signup = () => {
     setSelectedMajor("");
   };
 
-  const handleNomorIndukChange = (e) => {
-    if (e.target.value.length <= 10) {
-      setNomorInduk(e.target.value);
-    }
-  };
-
-  const handleNomorIndukDosenChange = (e) => {
-    if (e.target.value.length <= 10) {
-      setNomorIndukDosen(e.target.value);
+  const handlephoneNumberChange = (e) => {
+    if (e.target.value.length <= 12) {
+      setphoneNumber(e.target.value);
     }
   };
 
@@ -428,7 +412,7 @@ const Signup = () => {
                       action=""
                       onSubmit={signup}
                     >
-                      <div className="flex flex-col xl:flex-row justify-between gap-4">
+                      <div className="flex flex-col md:flex-row justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
                             className="font-medium text-xs md:text-sm "
@@ -500,19 +484,14 @@ const Signup = () => {
                             className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
-                            NIM{" "}
-                            {nomorInduk.length < 10 && nomorInduk !== "" && (
-                              <span className="text-red-500 font-normal">
-                                Must be 10 characters.
-                              </span>
-                            )}
+                            Phone Number
                           </label>
                           <input
-                            placeholder=""
+                            placeholder="+62"
                             className={`p-2 text-xs h-full w-full md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                             type="number"
-                            value={nomorInduk}
-                            onChange={handleNomorIndukChange}
+                            value={phoneNumber}
+                            onChange={handlephoneNumberChange}
                           />
                         </div>
                       </div>
@@ -714,7 +693,7 @@ const Signup = () => {
                       action=""
                       onSubmit={signup}
                     >
-                      <div className="flex flex-col xl:flex-row justify-between gap-4">
+                      <div className="flex flex-col md:flex-row justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
                             className="font-medium text-xs md:text-sm "
@@ -786,20 +765,14 @@ const Signup = () => {
                             className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
-                            NIDN{" "}
-                            {nomorIndukDosen.length < 10 &&
-                              nomorIndukDosen !== "" && (
-                                <span className="text-red-500 font-normal">
-                                  Must be 10 characters.
-                                </span>
-                              )}
+                            Phone Number
                           </label>
                           <input
-                            placeholder=""
+                            placeholder="+62"
                             className={`p-2 text-xs h-full w-full md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                             type="number"
-                            value={nomorIndukDosen}
-                            onChange={handleNomorIndukDosenChange}
+                            value={phoneNumber}
+                            onChange={handlephoneNumberChange}
                           />
                         </div>
                       </div>
@@ -912,26 +885,7 @@ const Signup = () => {
               </div>
             </AnimatePresence>
           </div>
-          <div className="w-1/2 hidden p-8 xl:h-screen lg:block relative rounded-r-2xl">
-            <Swiper
-              modules={[Pagination, Autoplay]}
-              className="h-full"
-              spaceBetween={22}
-              slidesPerView={1}
-              pagination={{ clickable: true }}
-              autoplay={{ delay: 3000, disableOnInteraction: false }}
-            >
-              {images.map((image, index) => (
-                <SwiperSlide key={index} className="bg-cover">
-                  <img
-                    src={image}
-                    className="w-full h-full object-cover rounded-xl"
-                    alt={`${index}`}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
+          <CarouselAuth />
         </div>
       </div>
     </div>
