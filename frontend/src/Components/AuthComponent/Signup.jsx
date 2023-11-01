@@ -65,7 +65,7 @@ const Signup = () => {
     if (localStorage.getItem("user") != null) {
       // navigate("/home");
     } else if (user) {
-      navigate("/");
+      navigate("/login");
     }
     dispatch(reset());
   }, [user, isSuccess, dispatch, navigate]);
@@ -272,6 +272,11 @@ const Signup = () => {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    checkEmail();
+  };
+
   const handleFirstNameChange = (e) => {
     setFirstName(capitalizeFirstLetter(e.target.value));
   };
@@ -286,14 +291,14 @@ const Signup = () => {
 
   return (
     <div
-      className={`w-screen ${
-        currentStep === 0 ? "md:h-screen" : "xl:h-screen"
+      className={`w-screen  ${
+        currentStep === 0 ? "h-screen" : "xl:h-screen"
       } flex justify-center`}
     >
       <ToastContainer />
-      <div className="flex justify-center h-full w-full">
+      <div className="flex justify-center w-full">
         <div
-          className="flex w-full h-full justify-center "
+          className="flex w-full justify-center "
           style={{ userSelect: "none" }}
         >
           <div
@@ -326,23 +331,26 @@ const Signup = () => {
                     <h1 className="text-center mt-4  text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
                       Sign Up
                     </h1>
-                    <form className="flex flex-col gap-3 sm:gap-4" action="">
+                    <form
+                      className="flex flex-col gap-3 sm:gap-4"
+                      onSubmit={handleSubmit}
+                    >
                       <div className="flex flex-col">
                         <label
-                          className="font-medium text-xs md:text-base text-textGray "
+                          className="font-medium text-xs md:text-sm "
                           htmlFor=""
                         >
                           Email SSO
                         </label>
                         <input
                           placeholder=""
-                          className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                           type="email"
                           value={email}
                           onChange={handleEmailChange}
                         />
                         {emailAlreadyExist && (
-                          <p className="text-red-500 text-xs md:text-base mt-1">
+                          <p className="text-red-500 text-xs md:text-sm mt-1">
                             Email is already registered.
                           </p>
                         )}
@@ -350,9 +358,8 @@ const Signup = () => {
 
                       <div className="w-full h-full flex justify-end pt-0 xs:pt-2">
                         <button
-                          type="button"
-                          onClick={checkEmail}
-                          className={`text-white w-full block py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
+                          type="submit"
+                          className={`text-white w-full block py-2 md:text-base text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
                             !validEmail
                               ? "bg-black cursor-not-allowed"
                               : " bg-primary hover:bg-red-600 cursor-pointer"
@@ -401,17 +408,17 @@ const Signup = () => {
                       stiffness: 260,
                       damping: 20,
                     }}
-                    className="flex p-10 lg:p-0 flex-col mx-10 w-2/3 self-center justify-center h-full gap-1 relative"
+                    className="flex p-10 lg:p-0 flex-col mx-10 md:w-2/3 self-center justify-center h-full gap-1 relative"
                   >
                     <IoCaretBackCircleOutline
                       onClick={(e) => setCurrentStep(0)}
-                      className="text-4xl absolute left-[-6rem] cursor-pointer"
+                      className="text-4xl absolute left-[-2rem] lg:left-[-5rem] cursor-pointer"
                     />
-                    <h1 className="text-center mt-4 text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
+                    <h1 className="text-center text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
                       Welcome to Telyu Project
                     </h1>
                     <label
-                      className="text-[9px] text-center text-textGray sm:text-sm  md:text-base mb-4 "
+                      className="text-[9px] text-center sm:text-sm  md:text-sm mb-4 "
                       htmlFor=""
                     >
                       You're new here! Tell us a little about yourself
@@ -424,12 +431,12 @@ const Signup = () => {
                       <div className="flex flex-col xl:flex-row justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             First Name{" "}
                             {firstName.length < 3 && firstName !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 At least 3 characters.
                               </span>
                             )}
@@ -437,7 +444,7 @@ const Signup = () => {
                           <input
                             placeholder=""
                             maxLength={30}
-                            className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full w-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="text"
                             value={firstName}
                             onChange={handleFirstNameChange}
@@ -445,12 +452,12 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Last Name{" "}
                             {lastName.length < 3 && lastName !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 At least 3 characters.
                               </span>
                             )}
@@ -459,7 +466,7 @@ const Signup = () => {
                             value={lastName}
                             maxLength={30}
                             placeholder=""
-                            className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="text"
                             onChange={handleLastNameChange}
                           />
@@ -468,13 +475,13 @@ const Signup = () => {
                       <div className="flex flex-col md:flex-row justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Gender
                           </label>
                           <select
-                            className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             name="gender"
                             id="gender"
                             value={selectedGender}
@@ -490,19 +497,19 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             NIM{" "}
                             {nomorInduk.length < 10 && nomorInduk !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 Must be 10 characters.
                               </span>
                             )}
                           </label>
                           <input
                             placeholder=""
-                            className={`p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                            className={`p-2 text-xs h-full w-full md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                             type="number"
                             value={nomorInduk}
                             onChange={handleNomorIndukChange}
@@ -512,13 +519,13 @@ const Signup = () => {
                       <div className="flex flex-col xl:flex-row justify-between gap-4">
                         <div className="flex-col  flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Faculty
                           </label>
                           <select
-                            className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             name="faculty"
                             id="faculty"
                             value={selectedFakultas}
@@ -534,7 +541,7 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full ">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Major
@@ -544,7 +551,7 @@ const Signup = () => {
                               selectedFakultas === ""
                                 ? "cursor-not-allowed"
                                 : "cursor-default"
-                            }  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                            }  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                             name="faculty"
                             id="faculty"
                             disabled={selectedFakultas === ""}
@@ -568,7 +575,7 @@ const Signup = () => {
                       <div className="flex flex-col sm:flex-row justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Year
@@ -578,7 +585,7 @@ const Signup = () => {
                               selectedMajor === ""
                                 ? "cursor-not-allowed"
                                 : "cursor-default"
-                            } p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                            } p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                             name="Year"
                             id="Year"
                             value={selectedYear}
@@ -595,7 +602,7 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Class
@@ -605,7 +612,7 @@ const Signup = () => {
                               !canInputClass
                                 ? "cursor-not-allowed"
                                 : "cursor-default"
-                            } p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                            } p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                             name="kelas"
                             id="kelas"
                             disabled={!canInputClass}
@@ -624,14 +631,14 @@ const Signup = () => {
                       <div className="flex justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Password
                           </label>
                           <input
                             placeholder=""
-                            className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full w-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="password"
                             onChange={(e) => setPassword(e.target.value)}
                             value={password}
@@ -641,7 +648,7 @@ const Signup = () => {
                       <div className="flex justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Confirmation Password
@@ -650,12 +657,12 @@ const Signup = () => {
                             placeholder=""
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full w-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="password"
                           />
                           <p
                             hidden={password === confirmPassword}
-                            className="text-brightPrimary text-xs md:text-base mt-1"
+                            className="text-red-500 text-xs md:text-sm mt-1"
                           >
                             Password and confirmation password don't match
                           </p>
@@ -687,7 +694,7 @@ const Signup = () => {
                       stiffness: 260,
                       damping: 20,
                     }}
-                    className="flex p-10 lg:p-0 flex-col mx-10 w-2/3 self-center justify-center h-full gap-1 relative"
+                    className="flex p-10 lg:p-0 flex-col mx-10 md:w-2/3  self-center justify-center h-full gap-1 relative"
                   >
                     <IoCaretBackCircleOutline
                       onClick={() => setCurrentStep(0)}
@@ -697,7 +704,7 @@ const Signup = () => {
                       Welcome to Telyu Project
                     </h1>
                     <label
-                      className="text-[9px] text-center text-textGray sm:text-sm  md:text-base mb-4 "
+                      className="text-[9px] text-center sm:text-sm  md:text-sm mb-4 "
                       htmlFor=""
                     >
                       You're new here! Tell us a little about yourself
@@ -710,12 +717,12 @@ const Signup = () => {
                       <div className="flex flex-col xl:flex-row justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             First Name{" "}
                             {firstName.length < 3 && firstName !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 At least 3 characters.
                               </span>
                             )}
@@ -723,7 +730,7 @@ const Signup = () => {
                           <input
                             placeholder=""
                             maxLength={30}
-                            className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full w-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="text"
                             value={firstName}
                             onChange={handleFirstNameChange}
@@ -731,12 +738,12 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Last Name{" "}
                             {lastName.length < 3 && lastName !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 At least 3 characters.
                               </span>
                             )}
@@ -745,7 +752,7 @@ const Signup = () => {
                             value={lastName}
                             maxLength={30}
                             placeholder=""
-                            className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="text"
                             onChange={handleLastNameChange}
                           />
@@ -754,13 +761,13 @@ const Signup = () => {
                       <div className="flex flex-col md:flex-row  justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Gender
                           </label>
                           <select
-                            className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             name="gender"
                             id="gender"
                             value={selectedGender}
@@ -776,20 +783,20 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             NIDN{" "}
                             {nomorIndukDosen.length < 10 &&
                               nomorIndukDosen !== "" && (
-                                <span className="text-brightPrimary font-normal">
+                                <span className="text-red-500 font-normal">
                                   Must be 10 characters.
                                 </span>
                               )}
                           </label>
                           <input
                             placeholder=""
-                            className={`p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                            className={`p-2 text-xs h-full w-full md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                             type="number"
                             value={nomorIndukDosen}
                             onChange={handleNomorIndukDosenChange}
@@ -799,13 +806,13 @@ const Signup = () => {
                       <div className="flex flex-col xl:flex-row justify-between gap-4">
                         <div className="flex-col  flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Faculty
                           </label>
                           <select
-                            className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             name="faculty"
                             id="faculty"
                             value={selectedFakultas}
@@ -821,19 +828,19 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full ">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Lecture Code {""}
                             {kodeDosen.length < 3 && kodeDosen !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 Must be 3 characters.
                               </span>
                             )}
                           </label>
                           <input
                             placeholder=""
-                            className={`p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                            className={`p-2 text-xs h-full w-full md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                             type="text"
                             value={kodeDosen}
                             onChange={handleKodeDosenChange}
@@ -843,14 +850,14 @@ const Signup = () => {
                       <div className="flex justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Password
                           </label>
                           <input
                             placeholder=""
-                            className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full w-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="password"
                             onChange={(e) => setPassword(e.target.value)}
                             value={password}
@@ -860,7 +867,7 @@ const Signup = () => {
                       <div className="flex justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Confirmation Password
@@ -869,12 +876,12 @@ const Signup = () => {
                             placeholder=""
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full w-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="password"
                           />
                           <p
                             hidden={password === confirmPassword}
-                            className="text-brightPrimary text-xs md:text-base mt-1"
+                            className="text-red-500 text-xs md:text-sm mt-1"
                           >
                             Password and confirmation password don't match
                           </p>
