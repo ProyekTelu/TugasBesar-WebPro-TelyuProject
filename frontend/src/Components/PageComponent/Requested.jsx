@@ -1,6 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
+
+
+
+
 
 const Requested = () => {
+  
+    const [modal, setModal] = useState(false);
+
+    const toggleModal = () => {
+        setModal(!modal);
+    };
+
+    if (modal) {
+        document.body.classList.add('active-modal')
+    } else {
+        document.body.classList.remove('active-modal')
+    }
     return (
 
         <div className=" flex justify-center w-full px-4">
@@ -10,10 +26,10 @@ const Requested = () => {
 
                     <label className=" text-3xl font-bold sm:w-min">REQUESTED</label>
 
-                    <input className=" transition-transform transform hover:scale-110  flex space-x-4 placeholder:italic align-middle w-auto placeholder:text-slate-400  bg-white  border border-slate-300 rounded-md py-2 pl-9 pr-10 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" placeholder="Search..." type="text" name="search" 
-                    
-                    
-                    
+                    <input className=" transition-transform transform hover:scale-110  flex space-x-4 placeholder:italic align-middle w-auto placeholder:text-slate-400  bg-white  border border-slate-300 rounded-md py-2 pl-9 pr-10 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm" placeholder="Search..." type="text" name="search"
+
+
+
                     />
 
 
@@ -32,36 +48,46 @@ const Requested = () => {
                         <div className=' flex flex-auto flex-col gap-2 w-full align-bottom '>
                             <button className='  hover:bg-green-400  transition-transform transform hover:scale-110 p-4 bg-green-500  w-32 ml-auto rounded-md  text-white'>Approve</button>
                             <button className='  hover:bg-red-400 transition-transform transform hover:scale-110  p-4 bg-red-500 w-32 ml-auto rounded-md text-white'>Decline</button>
-                            <label className='transition-transform transform hover:scale-110   text-cyan-400'>View {"Naufal"} Requested</label>
+                            <label onClick={toggleModal} className='transition-transform transform hover:scale-110  text-cyan-400 '>View {"Naufal"} Requested</label>
+
                         </div>
                         <div className=''>
-                            
-                        </div>
 
+                        </div>
+ 
 
 
                     </div>
-                    <div className='  w-full shadow-xl flex flex-col lg:flex-row p-4 my-4 rounded-lg hover:scale-105 duration-300 py-12 px-6  bg-silver'>
+                  
 
-                        <img className='  flex-none rounded-full  w-32 h-32 mx-1  bg-white' src={""} alt="/" />
+                   
 
-                        <div className='flex flex-auto flex-col my-auto w-full gap-1'>
-                            <label className='mx-8 font-bold '>Naufal</label>
-                            <label className=' mx-8'><span className='font-semibold'>Project : </span><span className='text-blue-800'>TPLM</span></label>
-                            <label className='mx-8'><span className='font-semibold'>Team :</span> Webpro</label>
-                            <label className='mx-8'><span className='font-semibold'>Message</span> : izin kan saya masuk</label>
+                    {modal && (
+                        <div className=" fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm">
+                            <div  onClick={toggleModal} > </div>
+                                <div className="modal-container transition-transform transform hover:scale-110">
+
+                                    <div className="bg-white rounded-lg shadow-xl p-8">
+                                        <h2 className="text-xl font-semibold mb-4">Requested From {"Naufal"}</h2>
+                                        <div className="mb-4">
+                                            <label className="text-gray-600 font-semibold">Descriotion :</label>
+                                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae delectus sapiente cumque <br />
+                                            corporis deleniti vero culpa perspiciatis animi reprehenderit  repellat voluptas voluptate voluptates, <br />
+                                            quis nobis nulla, consectetur repudiandae assumenda laudantium." </p>
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="text-gray-600 font-semibold">Dokumen File :</label>
+                                            <p>https://git-scm.com/download/win</p>
+                                        </div>
+                                        <button
+                                         onClick={toggleModal}
+                                         className=" bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-400  focus:outline-none transition-transform transform hover:scale-110" 
+                                         >CLOSE</button>
+                                    </div>
+                                </div>
+                               
                         </div>
-                        <div className=' flex flex-auto flex-col gap-2 w-full align-bottom'>
-                            <button className='  hover:bg-green-400  transition-transform transform hover:scale-110 p-4 bg-green-500  w-32 ml-auto rounded-md  text-white'>Approve</button>
-                            <button className='  hover:bg-red-400 transition-transform transform hover:scale-110  p-4 bg-red-500 w-32 ml-auto rounded-md text-white'>Decline</button>
-                            <label className=' transition-transform transform hover:scale-110  text-cyan-400 '>View {"Naufal"} Requested</label>
-                        </div>
-                     
-
-                    </div>
-
-
-
+                    )}
 
 
 
