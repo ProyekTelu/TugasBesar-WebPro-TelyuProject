@@ -77,7 +77,7 @@ const Requested = () => {
                                         </div>
                                         <div className="mb-4">
                                             <label className="text-gray-600 font-semibold">Dokumen File :</label>
-                                            <p>https://git-scm.com/download/winaa</p>
+                                            <p>https://git-scm.com/download/win</p>
                                         </div>
                                         <button
                                          onClick={toggleModal}

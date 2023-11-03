@@ -40,7 +40,17 @@ module.exports = {
         fadeAppears : 'fadeAppears 0.2s ease-out normal forwards',
         rotateLeft : 'rotatLeft 0.3s ease-out',
         rotateRight : 'rotateRight 0.3s ease-out forwards'
-      }
+      },
+      modalOverlay: {
+        position: "fixed",
+        top: "0",
+        left: "0",
+         width: "100%",
+         height: "100%",
+         background:" rgba(0, 0, 0, 0.5)",
+        zindex: "49",
+      },
+
     },
     screens: {
       'xs': '480px',
@@ -49,7 +59,10 @@ module.exports = {
       'md': '1060px',
       'lg': '1200px',
       'xl': '1700px',
+
+      
     }
+     
   },
   plugins: [],
 };
