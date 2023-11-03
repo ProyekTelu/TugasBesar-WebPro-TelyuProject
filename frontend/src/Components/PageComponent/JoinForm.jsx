@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Imgbg from "../../img/consul2.png";
 import { IoCaretBackCircleOutline } from "react-icons/io5";
 
 function JoinForm() {
@@ -60,7 +59,7 @@ function JoinForm() {
         <h1 className="text-center text-xl sm:text-2xl md:text-4xl font-bold">
           Join Project
         </h1>
-        <div className="w-full shadow-xl lg:flex-row p-5 my-4 rounded-lg justify-center h-full overflow-y-auto" style={{ maxHeight: '80vh' }}>
+        <div className="w-full relative shadow-lg lg:flex-row p-5 my-4 rounded-lg justify-center h-full overflow-y-auto max-h-[75vh]">
           <form onSubmit={handleSubmit}>
             <div className="flex gap-5 flex-col pt-6 w-full m-auto">
               <div className="w-full">
@@ -161,7 +160,7 @@ function JoinForm() {
                 </label>
               </div>
 
-              <div className="w-full flex justify-center mt-10 pt-0 xs:pt-2">
+              <div className="w-full flex justify-center xs:pt-2">
                 <button
                   type="submit"
                   className={`"text-secondary text-white w-1/4 py-1 block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg" ${
@@ -176,10 +175,12 @@ function JoinForm() {
               </div>
             </div>
           </form>
-          <div className="text-center mt-4 absolute bottom-0 right-0 p-10">
-            <span className="text-xs sm:text-sm md:text-base">request letter for </span>
-            <span className="text-sm sm:text-lg md:text-xl font-bold">EcoScape </span>
-          </div>
+        </div>
+        
+        <div className="text-right h-auto w-full rounded-lg p-1 flex justify-end align-middle">
+              <label className="my-auto text-xs sm:text-sm md:text-base">request letter for 
+              <span className="text-sm sm:text-lg md:text-xl font-bold"> EcoScape </span>
+              </label>
         </div>
       </div>
     </div>
