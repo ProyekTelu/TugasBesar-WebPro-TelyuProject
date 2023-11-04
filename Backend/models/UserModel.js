@@ -10,12 +10,8 @@ const User = db.define(
   {
     nomorInduk: {
       type: DataTypes.STRING,
+      allowNull: true,
       unique: true,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-        len: [10],
-      },
       primaryKey: true,
     },
     firstName: {
@@ -66,10 +62,16 @@ const User = db.define(
     },
     kodeProdi: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     kelas: {
       type: DataTypes.STRING,
+    },
+    phoneNumber: {
+      type: DataTypes.STRING,
+    },
+    photoProfile: {
+      type: DataTypes.BLOB("long"),
     },
     role: {
       type: DataTypes.STRING,
@@ -84,13 +86,31 @@ const User = db.define(
   }
 );
 
-Fakultas.hasMany(User, {
-  foreignKey: "kodeFakultas",
-  sourceKey: "kode",
+User.addHook("beforeCreate", async (user) => {
+  const prefix = "130";
+  let isUnique = false;
+  let generatedNomorInduk;
+
+  while (!isUnique) {
+    const randomDigits = Math.floor(Math.random() * 10000000);
+    generatedNomorInduk = prefix + randomDigits.toString().padStart(3, "0");
+
+    const existingUser = await User.findOne({
+      where: {
+        nomorInduk: generatedNomorInduk,
+      },
+    });
+
+    if (!existingUser) {
+      isUnique = true;
+    }
+  }
+
+  user.nomorInduk = generatedNomorInduk;
 });
 
-Prodi.hasMany(User, {
-  foreignKey: "kodeProdi",
+Fakultas.hasMany(User, {
+  foreignKey: "kodeFakultas",
   sourceKey: "kode",
 });
 
