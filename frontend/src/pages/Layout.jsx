@@ -20,6 +20,7 @@ const Layout = () => {
     { content: "Requested", logo: "", pageSession: "requested" },
     { content: "My Project", logo: "", pageSession: "createForm" },
     { content: "Project Detail", logo: "", pageSession: "projectDetail" },
+    { content: "My Project", logo: "", pageSession: "myProject" },
   ];
 
   // Apply "true" to the button which is clicked by user and the rest is "false"
