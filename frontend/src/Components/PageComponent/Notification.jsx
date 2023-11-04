@@ -34,14 +34,14 @@ const Notification = () => {
       <div
         hidden={!notifActive}
         className={
-          "absolute w-auto rounded-lg py-4 bg-white md:right-28  left-10 right-10 z-10 md:left-auto top-10 max-h-full overflow-y-auto border-2 scroll-smooth "
+          "absolute w-auto rounded-lg py-4 bg-white md:right-28  left-10 right-10 z-10 md:left-auto top-10  border-2 scroll-smooth "
         }
         style={{ userSelect: "none" }}
       >
         <h1 className="px-5 text-xl sm:text-2xl text-black font-bold ">
           Notification
         </h1>
-        <div className="md:w-full text-xs sm:text-base sm:px-5 pt-2 flex gap-2 overflow-x-auto w-4/5 mx-auto pb-2 sm:pb-0">
+        <div className="md:w-full text-xs sm:text-base sm:px-5 pt-2 flex gap-2 overflow-x-auto w-4/5 mx-auto pb-2 sm:pb-0 ">
           {options.map((option) => (
             <div
               key={option.value}
@@ -57,44 +57,99 @@ const Notification = () => {
           ))}
         </div>
 
-        <div className="w-auto my-auto p-5 text-base flex flex-col gap-2 ">
-          <div className="bg-white group hover:bg-secondary border-2 rounded-lg active:scale-105 transition w-full md:w-96 p-2 flex flex-row  gap-2 cursor-pointer ">
+        <div className="w-auto my-auto p-5 text-base flex flex-col gap-2 max-h-80 overflow-y-auto ">
+          <div className="bg-white group h-auto hover:bg-secondary border-2 rounded-lg active:scale-105 transition w-full md:w-96 p-2 flex flex-row  gap-2 cursor-pointer ">
             <div className="my-auto bg-white border-2 rounded-full">
-              <FaDotCircle className="text-lg text-yellow-500" />
+              <FaDotCircle className="text-lg text-yellow-400" />
             </div>
-            <div>
+            <div className="w-auto">
               <label
                 htmlFor=""
-                className="font-medium cursor-pointer text-black group-hover:text-white"
+                className="font-medium cursor-pointer text-black group-hover:text-white  max-h-20 overflow-y-auto"
               >
-                <span>EcoScapeeeeeeeeeeeeeeeeeeeee</span> - Waiting for
-                Acceptance
+                <span className="font-bold">
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Distinctio, nesciunt.{" "}
+                </span>
+                - Waiting for Approve
               </label>
             </div>
           </div>
-          <div className="bg-white group hover:bg-secondary border-2 rounded-lg active:scale-105 transition w-full md:w-96 p-2 flex flex-row gap-2 cursor-pointer">
+          <div className="bg-white group h-auto hover:bg-secondary border-2 rounded-lg active:scale-105 transition w-full md:w-96 p-2 flex flex-row  gap-2 cursor-pointer ">
             <div className="my-auto bg-white border-2 rounded-full">
-              <FaDotCircle className="text-lg text-green-600" />
+              <FaDotCircle className="text-lg text-yellow-400" />
             </div>
-            <div>
+            <div className="w-auto">
               <label
                 htmlFor=""
-                className="font-medium cursor-pointer text-black group-hover:text-white"
+                className="font-medium cursor-pointer text-black group-hover:text-white  max-h-20 overflow-y-auto"
               >
-                Eco Enzym PT Astaga hutan - Approved
+                <span className="font-bold">
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Distinctio, nesciunt.{" "}
+                </span>
+                - Waiting for Approve
               </label>
             </div>
           </div>
-          <div className="bg-white group hover:bg-secondary border-2 rounded-lg active:scale-105 transition w-full md:w-96 p-2 flex flex-row gap-2 cursor-pointer">
+          <div className="bg-white group h-auto hover:bg-secondary border-2 rounded-lg active:scale-105 transition w-full md:w-96 p-2 flex flex-row  gap-2 cursor-pointer ">
+            <div className="my-auto bg-white border-2 rounded-full">
+              <FaDotCircle className="text-lg text-yellow-400" />
+            </div>
+            <div className="w-auto">
+              <label
+                htmlFor=""
+                className="font-medium cursor-pointer text-black group-hover:text-white  max-h-20 overflow-y-auto"
+              >
+                <span className="font-bold">
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Distinctio, nesciunt.{" "}
+                </span>
+                - Waiting for Approve
+              </label>
+            </div>
+          </div>
+          <div className="bg-white group h-auto hover:bg-secondary border-2 rounded-lg active:scale-105 transition w-full md:w-96 p-2 flex flex-row  gap-2 cursor-pointer ">
+            <div className="my-auto bg-white border-2 rounded-full">
+              <FaDotCircle className="text-lg text-yellow-400" />
+            </div>
+            <div className="w-auto">
+              <label
+                htmlFor=""
+                className="font-medium cursor-pointer text-black group-hover:text-white  max-h-20 overflow-y-auto"
+              >
+                <span className="font-bold">
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Distinctio, nesciunt.{" "}
+                </span>
+                - Waiting for Approve
+              </label>
+            </div>
+          </div>
+          <div className="bg-white group h-auto hover:bg-secondary border-2 rounded-lg active:scale-105 transition w-full md:w-96 p-2 flex flex-row  gap-2 cursor-pointer ">
+            <div className="my-auto bg-white border-2 rounded-full">
+              <FaDotCircle className="text-lg text-green-500" />
+            </div>
+            <div className="w-auto">
+              <label
+                htmlFor=""
+                className="font-medium cursor-pointer text-black group-hover:text-white  max-h-20 overflow-y-auto"
+              >
+                <span className="font-bold">Echo Warrior </span>- Accepted
+              </label>
+            </div>
+          </div>
+          <div className="bg-white group h-auto hover:bg-secondary border-2 rounded-lg active:scale-105 transition w-full md:w-96 p-2 flex flex-row  gap-2 cursor-pointer ">
             <div className="my-auto bg-white border-2 rounded-full">
               <FaDotCircle className="text-lg text-primary" />
             </div>
-            <div>
+            <div className="w-auto">
               <label
                 htmlFor=""
-                className="font-medium cursor-pointer text-black group-hover:text-white"
+                className="font-medium cursor-pointer text-black group-hover:text-white  max-h-20 overflow-y-auto"
               >
-                EcoScape - Declined
+                <span className="font-bold">Echoschopus Endropus </span>-
+                Declined
               </label>
             </div>
           </div>
