@@ -29,7 +29,7 @@ const Profile = () => {
   return (
     <>
       <div className="relative h-60 rounded-b-3xl flex justify-center">
-        <div className="absolute -bottom-10">
+        <div className="absolute -bottom-2 xs:-bottom-10 md:-bottom-10 xl:-bottom-4">
           <img
             src={userImage}
             className={`${
@@ -167,19 +167,18 @@ const Profile = () => {
           </div>
         </div>
       </form>
-      <div className="mt-6 xs:mt-8 md:mt-10 xl:mt-12 flex w-full xs:w-1/2">
+      <div className="mt-6 xs:mt-8 md:mt-10 xl:mt-12 flex flex-col w-1/12 xs:w-min">
         {isEditing && (
           <button
-            className="
-            items-center justify-center rounded-md border border-transparent bg-green-300 px-8 py-2 mb-9 mr-4 text-base font-medium text-white hover:bg-green-500"
+            className="items-center justify-center rounded-md border border-transparent bg-green-300 px-8 py-2 mb-2 xs:mb-4 text-base font-medium text-white hover:bg-green-500"
             onClick={handleDoneEditing}>
-            Done
+            <span className="flex items-center justify-center">Done</span>
           </button>
         )}
         <button
-          className="items-center justify-center rounded-md border border-transparent bg-red-300 px-8 py-2 mb-9 text-base font-medium text-white hover:bg-red-500"
+          className="items-center justify-center rounded-md border border-transparent bg-red-300 px-8 py-2 text-base font-medium text-white hover:bg-red-500"
           onClick={handleDoneEditing}>
-          Back
+          <span className="flex items-center justify-center">Back</span>
         </button>
       </div>
     </>
