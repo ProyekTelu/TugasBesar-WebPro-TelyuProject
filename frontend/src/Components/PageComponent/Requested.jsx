@@ -58,7 +58,7 @@ const Requested = () => {
                         <div className=' flex flex-auto flex-col gap-2 w-full align-bottom '>
                             <button className='  hover:bg-green-400  transition-transform transform hover:scale-110 p-4 bg-green-500  w-32 ml-auto rounded-md  text-white'>Approve</button>
                             <button className='  hover:bg-red-400 transition-transform transform hover:scale-110  p-4 bg-red-500 w-32 ml-auto rounded-md text-white'>Decline</button>
-                            <label onClick={toggleModal} className='transition-transform transform hover:scale-110 xs:mt-4 text-cyan-400 '>View {"Naufal"} Requested</label>
+                            <label onClick={toggleModal} className='transiion-transform transform hover:scale-110 xs:mt-4 text-cyan-400 '>View {"Naufal"} Requested</label>
 
                         </div>
                         <div className=''>
