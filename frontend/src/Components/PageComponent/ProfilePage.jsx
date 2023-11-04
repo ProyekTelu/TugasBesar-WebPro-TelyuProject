@@ -28,13 +28,13 @@ const Profile = () => {
 
   return (
     <>
-      <div className="relative h-60 rounded-b-3xl flex justify-center bg-red-600">
-        <div className="absolute -bottom-20">
+      <div className="relative h-60 rounded-b-3xl flex justify-center">
+        <div className="absolute -bottom-2 xs:-bottom-10 md:-bottom-10 xl:-bottom-4">
           <img
             src={userImage}
             className={`${
               isEditing ? "bg-gray-200 cursor-pointer" : "pointer-events-none"
-            } object-cover border-4 border-white w-40 h-40 md:w-52 md:h-52 xl:w-72 xl:h-72 rounded-full`}
+            } object-cover border-4 border-white w-40 h-40 xs:h-52 -bottom-6 md:w-52 md:h-52 xl:w-72 xl:h-72 rounded-full`}
             alt="cover"
             onClick={() => document.getElementById("file").click()}
           />
@@ -167,27 +167,18 @@ const Profile = () => {
           </div>
         </div>
       </form>
-      <div className="mt-6 xs:mt-8 md:mt-10 xl:mt-12 flex w-full xs:w-1/2">
+      <div className="mt-6 xs:mt-8 md:mt-10 xl:mt-12 flex flex-col w-1/12 xs:w-min">
         {isEditing && (
           <button
-            className="
-            items-center 
-            justify-center 
-            rounded-md 
-            border border-transparent 
-            bg-green-300
-            px-8 py-3 
-            text-base 
-            font-medium text-white
-            hover:bg-green-500 "
+            className="items-center justify-center rounded-md border border-transparent bg-green-300 px-8 py-2 mb-2 xs:mb-4 text-base font-medium text-white hover:bg-green-500"
             onClick={handleDoneEditing}>
-            Done
+            <span className="flex items-center justify-center">Done</span>
           </button>
         )}
         <button
-          className="items-center justify-center rounded-md border border-transparent bg-red-300 px-8 py-2 mb-9 text-base font-medium text-white hover:bg-red-500"
+          className="items-center justify-center rounded-md border border-transparent bg-red-300 px-8 py-2 text-base font-medium text-white hover:bg-red-500"
           onClick={handleDoneEditing}>
-          Back
+          <span className="flex items-center justify-center">Back</span>
         </button>
       </div>
     </>
