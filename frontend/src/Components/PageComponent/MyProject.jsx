@@ -52,8 +52,8 @@ function MyProject() {
             </div>
           </div>
           <div className="flex justify-end mt-8">
-            <button className="w-60 h-10 bg-lime-400 rounded-3xl shadow">
-              <div className="text-white text-xl font-bold font-['Inter']">
+            <button className="w-60 h-10 bg-lime-400 rounded-3xl shadow hover:bg-white">
+              <div className="text-white hover:text-lime-400 text-xl font-bold font-['Inter']">
                 {" "}
                 <Link to="/home/createForm">Create Project</Link>
               </div>
@@ -66,7 +66,6 @@ function MyProject() {
 }
 
 export default MyProject;
-
 
 // Kodingan 2
 // import React from "react";
