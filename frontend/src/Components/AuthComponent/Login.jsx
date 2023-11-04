@@ -2,19 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser, reset } from "../../features/authSlice";
-import { Pagination, Autoplay } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/autoplay";
+
 import TelkomLogo from "../../img/Telkom_University_Logo.png";
-import ImgCarousel1 from "../../img/loginImage1.jpg";
-import ImgCarousel2 from "../../img/loginImage2.png";
-import ImgCarousel3 from "../../img/loginImage3.png";
 import TelyuProjectLogo from "../../img/telyuProject.png";
 import { toast } from "react-toastify";
-
-const images = [ImgCarousel1, ImgCarousel2, ImgCarousel3];
+import CarouselAuth from "./CarouselAuth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -63,10 +55,10 @@ const Login = () => {
   };
 
   return (
-    <div className="w-screen md:h-screen flex justify-center">
+    <div className="w-screen h-screen justify-center">
       <div className="flex justify-center h-full w-full">
         <div
-          className="flex w-full h-full justify-center "
+          className="flex flex-wrap w-full h-auto justify-center "
           style={{ userSelect: "none" }}
         >
           <div className="w-full h-full relative lg:w-1/2 my-2 sm:my-0 bg-white justify-center flex lg:rounded-r-none">
@@ -78,11 +70,11 @@ const Login = () => {
               />
               <div className="flex p-10 lg:p-0 flex-col mx-10 w-full sm:w-2/3 self-center justify-center h-full gap-1">
                 <img
-                  className="w-[30%] xs:w-[10%] sm:w-[15%] self-center"
+                  className="w-[20%] xs:w-[10%] sm:w-[15%] self-center"
                   src={TelkomLogo}
                   alt=""
                 />
-                <h1 className="text-center mt-4  text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
+                <h1 className="text-center mt-4 text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
                   Log in
                 </h1>
                 <form
@@ -92,14 +84,14 @@ const Login = () => {
                 >
                   <div className="flex flex-col">
                     <label
-                      className="font-medium text-xs md:text-base text-textGray "
+                      className="font-medium text-xs md:text-sm "
                       htmlFor=""
                     >
                       Email SSO
                     </label>
                     <input
                       placeholder=""
-                      className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                      className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                       type="email"
                       value={email}
                       onChange={handleEmailChange}
@@ -112,7 +104,7 @@ const Login = () => {
                   </div>
                   <div className="flex flex-col">
                     <label
-                      className="text-xs md:text-base text-textGray "
+                      className="text-xs md:text-sm font-medium"
                       htmlFor=""
                     >
                       Password
@@ -133,7 +125,7 @@ const Login = () => {
                   <div className="w-full h-full flex justify-end pt-0 xs:pt-2">
                     <button
                       type="submit"
-                      className={`text-white w-full block py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
+                      className={`text-white w-full block py-2 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
                         isButtonDisabled
                           ? "bg-black cursor-not-allowed"
                           : " bg-primary hover:bg-red-600 cursor-pointer"
@@ -171,7 +163,7 @@ const Login = () => {
                   </label>
                 </form>
               </div>
-              <div className="absolute mt-2 lg:mt-0 md:static bottom-0 left-0 right-0 flex justify-center text-[8px] sm:text-xs md:text-xs lg:text-base">
+              <div className="absolute lg:mt-0 md:static bottom-5 left-0 right-0 flex justify-center text-[8px] sm:text-xs md:text-xs lg:text-base">
                 <label htmlFor="" className="text-center">
                   {" "}
                   © 2023 Kelompok 7, Inc. All rights reserved. Terms - Privacy
@@ -179,26 +171,7 @@ const Login = () => {
               </div>
             </div>
           </div>
-          <div className="w-1/2 hidden p-8 h-full lg:block relative rounded-r-2xl">
-            <Swiper
-              modules={[Pagination, Autoplay]}
-              className="h-full"
-              spaceBetween={22}
-              slidesPerView={1}
-              pagination={{ clickable: true }}
-              autoplay={{ delay: 3000, disableOnInteraction: false }}
-            >
-              {images.map((image, index) => (
-                <SwiperSlide key={index} className="bg-cover">
-                  <img
-                    src={image}
-                    className="w-full h-full object-cover rounded-xl"
-                    alt={`${index}`}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
+          <CarouselAuth />
         </div>
       </div>
     </div>
