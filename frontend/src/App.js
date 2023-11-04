@@ -16,6 +16,7 @@ import Requested from "./Components/PageComponent/Requested";
 import JoinForm from "./Components/PageComponent/JoinForm";
 import CreateForm from "./Components/PageComponent/CreateForm";
 import ProjectDetail from "./Components/PageComponent/ProjectDetail";
+import MyProject from "./Components/PageComponent/MyProject";
 
 function App() {
   useEffect(() => {
@@ -33,6 +34,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
         <Route path="home" element={<Layout />}>
+          <Route path="myProject" element={<MyProject />} />
           <Route path="page1" element={<Page1 />} />
           <Route path="page2" element={<Page2 />} />
           <Route path="requested" element={<Requested />} />
