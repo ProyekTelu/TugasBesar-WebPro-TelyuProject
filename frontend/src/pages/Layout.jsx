@@ -16,9 +16,10 @@ const Layout = () => {
   // Sidebar Content
   const pageButtonContent = [
     { content: "Home", logo: "", pageSession: "page1" },
-    { content: "Project List", logo: "", pageSession: "page2" },
+    { content: "Project List", logo: "", pageSession: "joinForm" },
     { content: "Requested", logo: "", pageSession: "requested" },
-    { content: "My Project", logo: "", pageSession: "page4" },
+    { content: "My Project", logo: "", pageSession: "createForm" },
+    { content: "Project Detail", logo: "", pageSession: "projectDetail" },
   ];
 
   // Apply "true" to the button which is clicked by user and the rest is "false"
@@ -57,25 +58,21 @@ const Layout = () => {
         {/* SIDEBAR */}
 
         <div
-          className={`relative px-6 py-12 h-screen text-black bg-white border-r-grey border-r-[1px]`}
-        >
+          className={`relative px-6 py-12 h-screen text-black bg-white border-r-grey border-r-[1px]`}>
           <div
             className={`h-full w-auto flex flex-col flex-nowrap justify-center ${
               isExpand ? "min-w-[200px]" : "w-auto"
-            }`}
-          >
+            }`}>
             {/* HEADER */}
             <div
               className={`mb-6 flex items-center gap-2 basis-[10%] ${
                 isExpand ? "" : "flex flex-col items-center justify-center  "
-              }`}
-            >
+              }`}>
               <div className="inline h-8 w-8">
                 <img src={Logo} alt="png" />
               </div>
               <p
-                className={`text-[24px] font-bold ${isExpand ? "" : "hidden"}`}
-              >
+                className={`text-[24px] font-bold ${isExpand ? "" : "hidden"}`}>
                 Tel-U Project
               </p>
             </div>
@@ -84,8 +81,7 @@ const Layout = () => {
             <div
               className={`mb-5 w-auto overflow-y-auto basis-[80%] flex flex-col ${
                 isExpand ? "" : "items-center"
-              }`}
-            >
+              }`}>
               <p className="mb-2 text-gray-300 font-light text-[12px]">HOME</p>
               {pageButtonStates.map((isClicked, index) => (
                 <div
@@ -95,8 +91,7 @@ const Layout = () => {
                       ? "pointer-event-none cursor-auto"
                       : "pointer-event-auto"
                   }`}
-                  onClick={() => handlePageButtonClick(index)}
-                >
+                  onClick={() => handlePageButtonClick(index)}>
                   <PageButton
                     isExpand={isExpand}
                     isClicked={isClicked}
@@ -112,8 +107,7 @@ const Layout = () => {
               className="absolute flex items-center justify-center h-12 w-12 
             bg-white drop-shadow-md hover:shadow-lg right-0 bottom-0 translate-x-6 -translate-y-32 
             rounded-xl cursor-pointer ease-in duration-0"
-              onClick={toogleNavbarSize}
-            >
+              onClick={toogleNavbarSize}>
               <img
                 src={arrowLogo}
                 className={`${
@@ -127,15 +121,13 @@ const Layout = () => {
             <div
               className={`basis-[10%] ${
                 isExpand ? "" : "flex flex-col items-center justify-center"
-              }`}
-            >
+              }`}>
               <p className="mb-2 text-gray-300 font-light text-[12px]">
                 PROFILE
               </p>
               <div
                 className="flex items-center gap-4 cursor-pointer"
-                onClick={profilePage}
-              >
+                onClick={profilePage}>
                 <div className="h-10 w-10 rounded-full bg-black ease-in duration-100 hover:h-11 hover:w-11"></div>
                 <div className={`${isExpand ? "block" : "hidden"}`}>
                   <p className="text-primary text-md font-bold">Jhonny Sins</p>
@@ -160,8 +152,7 @@ const Layout = () => {
               }  absolute flex justify-center right-10 top-10 rounded-full cursor-pointer`}
               onClick={() => {
                 setNotifActive(!notifActive);
-              }}
-            >
+              }}>
               <IoMdNotifications
                 className={`h-full w-full p-4 my-auto  text-white transition duration-75 focus:scale-90`}
               />
@@ -173,8 +164,7 @@ const Layout = () => {
               hidden={!notifActive}
               className={
                 "absolute w-72 rounded-lg py-4 bg-red-400 right-28 top-10"
-              }
-            >
+              }>
               <h1 className="px-5 text-2xl text-white font-bold">Notifikasi</h1>
               <div className="w-full my-auto p-5 flex flex-col gap-2 max-h-44 overflow-y-auto">
                 <div className="bg-white w-full p-2 rounded-md flex flex-row gap-2 cursor-pointer">
