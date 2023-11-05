@@ -10,7 +10,7 @@ const PageButton = ({isClicked, isExpand ,logo, content}) => {
         <>
             <div className={`flex rounded-xl my-1 px-4 py-2 ${isExpand ? ""
             : " md:inline-block my-1 rounded-xl py-2 px-3"}  
-            gap-7 items-center  ease-in duration-100 text-sm
+            gap-7 items-center  ease-in duration-150 text-sm
             ${isClicked ? 
             "bg-primary py-3 font-bold text-white cursor-pointer " 
             : 

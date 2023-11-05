@@ -30,27 +30,40 @@ const Layout = () => {
 
   const pageButtonContent =
     user.role === "student"
-      ? [
+      ? [ 
+          // STUDENT SESSION
           {
             content: "Home",
             logo: "BsFillHouseDoorFill",
-            pageSession: "page1",
+            pageSession: "homeStudent",
           },
           {
             content: "Project List",
-            logo: "BsFillAirplaneEnginesFill",
+            logo: "BsListNested",
             pageSession: "joinForm",
           },
           {
-            content: "Project List",
-            logo: "BsFillHouseDoorFill",
+            content: "My Project",
+            logo: "BsFillAirplaneEnginesFill",
             pageSession: "joinForm",
           },
         ]
       : [
-          { content: "Requested", logo: "", pageSession: "requested" },
-          { content: "My Project", logo: "", pageSession: "createForm" },
-          { content: "Project Detail", logo: "", pageSession: "projectDetail" },
+          // LECTURER SESSION
+          { 
+            content: "Requested", 
+            logo: "", 
+            pageSession: "requested" 
+          },
+          {
+            content: "My Project",
+            logo: "BsFillBarChartLineFill",
+            pageSession: "createForm",
+          },
+          { content: "Project Detail", 
+            logo: "", 
+            pageSession: "projectDetail" 
+          },
         ];
 
   const handleDocumentClick = (e) => {

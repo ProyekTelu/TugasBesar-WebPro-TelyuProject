@@ -4,7 +4,7 @@ import WebFont from "webfontloader";
 import Layout from "./pages/Layout";
 import CreateProject from "./Components/CreateProject";
 import JoinProject from "./Components/JoinProject";
-import Page1 from "./Components/PageComponent/Page1";
+import HomeStudent from "./Components/PageComponent/Student/HomeStudent";
 import Status from "./Components/PageComponent/Status";
 import Page2 from "./Components/PageComponent/Page2";
 import ProfilePage from "./Components/PageComponent/ProfilePage";
@@ -13,7 +13,7 @@ import Signup from "./Components/AuthComponent/Signup";
 import { ToastContainer } from "react-toastify";
 import Landingpage from "./Components/Landingpage";
 import Requested from "./Components/PageComponent/Requested";
-import JoinForm from "./Components/PageComponent/JoinForm";
+import JoinForm from "./Components/PageComponent/Student/JoinForm";
 import CreateForm from "./Components/PageComponent/CreateForm";
 import ProjectDetail from "./Components/PageComponent/ProjectDetail";
 import MyProject from "./Components/PageComponent/MyProject";
@@ -34,10 +34,13 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
         <Route path="home" element={<Layout />}>
+          {/* STUDENT SESSION */}
           <Route path="myProject" element={<MyProject />} />
-          <Route path="page1" element={<Page1 />} />
+          <Route path="homeStudent" element={<HomeStudent />} />
           <Route path="page2" element={<Page2 />} />
           <Route path="requested" element={<Requested />} />
+
+          {/* LECTURER SESSION */}
           <Route path="status" element={<Status />} />
           <Route path="profilePage" element={<ProfilePage />} />
           <Route path="joinForm" element={<JoinForm />} />
