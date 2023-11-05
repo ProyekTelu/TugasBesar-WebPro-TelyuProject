@@ -58,7 +58,7 @@ function CreateProjectModal({ isOpen, closeModal }) {
             onClick={closeModal}
             className=" my-auto focus:outline-none cursor-pointer self-end active:scale-95 duration-100 ease-in hover:scale-105"
           >
-            <AiFillCloseCircle className="text-4xl  " />
+            <AiFillCloseCircle className="text-4xl" />
           </button>
           <h1 className="text-center text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
             Create Project
@@ -69,7 +69,7 @@ function CreateProjectModal({ isOpen, closeModal }) {
                 <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
                   Project Title{" "}
                   {projectTitle.length < 3 && projectTitle != "" && (
-                    <span className="text-brightPrimary font-normal">
+                    <span className="text-primary font-normal">
                       At least 3 characters.
                     </span>
                   )}
@@ -89,7 +89,7 @@ function CreateProjectModal({ isOpen, closeModal }) {
                 <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
                   Group Chat Link{" "}
                   {!groupChatLink.includes(".com") && groupChatLink !== "" && (
-                    <span className="text-brightPrimary font-normal">
+                    <span className="text-primary font-normal">
                       Fill the correct link.
                     </span>
                   )}
@@ -111,7 +111,7 @@ function CreateProjectModal({ isOpen, closeModal }) {
                 <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
                   Description{" "}
                   {description.length < 12 && description !== "" && (
-                    <span className="text-brightPrimary font-normal">
+                    <span className="text-primary font-normal">
                       At least 12 characters.
                     </span>
                   )}
@@ -133,7 +133,7 @@ function CreateProjectModal({ isOpen, closeModal }) {
                 <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block ">
                   Maximum Member{" "}
                   {maxMembers < 1 && maxMembers !== "" && (
-                    <span className="text-brightPrimary font-normal">
+                    <span className="text-primary font-normal">
                       At least 1 member.
                     </span>
                   )}
