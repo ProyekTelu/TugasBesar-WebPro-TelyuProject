@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import user from "../../img/user.png";
 import EditProfile from "../../img/editing.png";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +8,56 @@ const Profile = () => {
   const [userImage, setUserImage] = useState(user);
   const User = JSON.parse(localStorage.getItem("user"));
   const [firstName, setfirstName] = useState(User.firstName);
-  const [lastName, setLastName] = useState(User.lastName);
-  const [nim, setNHim] = useState(User.nomorInduk);
+  const [lastName, setlastName] = useState(User.lastName);
+  const [nomorInduk, setnim] = useState(User.nomorInduk);
+  const [phoneNumber, setphoneNumber] = useState(User.phoneNumber);
+  const [gender, setgender] = useState(User.gender);
+  const [kelas, setkelas] = useState(User.kelas);
+  const [kodeFakultas, setkodeFakultas] = useState("FIF");
+  const [kodeProdi, setkodeProdi] = useState("S1 Rekayasa Perangkat Lunak");
+  const [role, setrole] = useState(User.role);
+  const [kodeDosen, setkodeDosen] = useState(User.kodeDosen);
+
+  const handleFirstNameChange = (e) => {
+    setfirstName(e.target.value);
+  };
+
+  const handlelastNameChange = (e) => {
+    setlastName(e.target.value);
+  };
+
+  const handleroleChange = (e) => {
+    setrole(e.target.value);
+  };
+
+  const handlekodeDosenChange = (e) => {
+    setkodeDosen(e.target.value);
+  };
+
+  const handlenomorIndukChange = (e) => {
+    setnim(e.target.value);
+  };
+
+  const handlegenderChange = (e) => {
+    setgender(e.target.value);
+  };
+
+  const handlephoneNumberChange = (e) => {
+    setphoneNumber(e.target.value);
+  };
+
+  const handlekodeFakultas = (e) => {
+    setkodeFakultas(e.target.value);
+  };
+
+  const handlekodeProdi = (e) => {
+    setkodeProdi(e.target.value);
+  };
+
+  const handlekelasChange = (e) => {
+    setkelas(e.target.value);
+  };
+
   const navigate = useNavigate();
 
   const handleEditProfile = () => {
@@ -33,13 +81,13 @@ const Profile = () => {
 
   return (
     <>
-      <div className="relative h-60 rounded-b-3xl flex justify-center">
-        <div className="absolute -bottom-2 xs:-bottom-10 md:-bottom-10 xl:-bottom-4">
+      <div className="relative h-60 rounded-b-3xl flex justify-center sm:h-55">
+        <div className="absolute -bottom-2 sm:-bottom-0 md:-bottom-10 xl:-bottom-14">
           <img
             src={userImage}
             className={`${
               isEditing ? "bg-gray-200 cursor-pointer" : "pointer-events-none"
-            } object-cover border-4 border-white w-40 h-40 xs:h-52 -bottom-6 md:w-52 md:h-52 xl:w-72 xl:h-72 rounded-full`}
+            } object-cover border-4 border-white w-40 h-40 xs:h-52 -bottom-6 sm:w-100 sm:h-40 md:w-100 md:h-52 lg:w-60 lg:h-60 xl:w-72 xl:h-72 rounded-full`}
             alt="cover"
             onClick={() => document.getElementById("file").click()}
           />
@@ -52,7 +100,7 @@ const Profile = () => {
           />
         </div>
       </div>
-      <div className="text-center pt-10 xs:pt-12 md:pt-16 xl:pt-20 text-3xl xs:text-4xl xl:text-5xl font-bold text-black">
+      <div className="text-center pt-10 xs:pt-12 sm:pt-0 md:pt-16 xl:pt-20 text-3xl xs:text-4xl xl:text-5xl font-bold text-black">
         <div className="flex items-center justify-between">
           Profile
           <div className="cursor-pointer">
@@ -70,15 +118,13 @@ const Profile = () => {
       {/* Label Biodata */}
       <form
         className="flex flex-col sm:flex-row gap-4 xs:gap-6 md:gap-8 xl:gap-10"
-        action=""
-      >
+        action="">
         <div className="w-full xs:w-1/2">
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
-              Nama
+              htmlFor="">
+              First Name
             </label>
             <input
               placeholder=""
@@ -87,15 +133,15 @@ const Profile = () => {
               } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="nama"
-              value={firstName}
+              onChange={handleFirstNameChange}
               readOnly={!isEditing}
+              value={firstName}
             />
           </div>
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               NIM
             </label>
             <input
@@ -105,16 +151,36 @@ const Profile = () => {
               } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="NIM"
-              value={nim}
+              onChange={handlenomorIndukChange}
               readOnly={!isEditing}
+              value={nomorInduk}
             />
           </div>
+          {User.role === "lecturer" && (
+            <div className="flex flex-col mt-4">
+              <label
+                className="font-medium text-xs md:text-base text-textGray "
+                htmlFor="">
+                Role
+              </label>
+              <input
+                placeholder=""
+                className={`p-2 ${
+                  isEditing ? "bg-gray-200" : ""
+                } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                type="text"
+                id="nama"
+                onChange={handleroleChange}
+                readOnly={!isEditing}
+                value={role}
+              />
+            </div>
+          )}
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
-              Jenis Kelamin
+              htmlFor="">
+              Gender
             </label>
             <input
               placeholder=""
@@ -123,17 +189,38 @@ const Profile = () => {
               } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="Gender"
+              onChange={handlegenderChange}
               readOnly={!isEditing}
+              value={gender}
             />
           </div>
+          {User.role === "student" && (
+            <div className="flex flex-col mt-4">
+              <label
+                className="font-medium text-xs md:text-base text-textGray "
+                htmlFor="">
+                Class
+              </label>
+              <input
+                placeholder=""
+                className={`p-2 ${
+                  isEditing ? "bg-gray-200" : ""
+                } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                type="text"
+                id="nama"
+                onChange={handlekelasChange}
+                readOnly={!isEditing}
+                value={kelas}
+              />
+            </div>
+          )}
         </div>
         <div className="w-full xs:w-1/2">
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
-              Nomor HP
+              htmlFor="">
+              Last Name
             </label>
             <input
               placeholder=""
@@ -142,15 +229,54 @@ const Profile = () => {
               } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="Nomor HP"
+              onChange={handlelastNameChange}
               readOnly={!isEditing}
+              value={lastName}
             />
           </div>
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
-              Fakultas
+              htmlFor="">
+              Phone Number
+            </label>
+            <input
+              placeholder=""
+              className={`p-2 ${
+                isEditing ? "bg-gray-200" : ""
+              } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+              type="text"
+              id="Nomor HP"
+              onChange={handlephoneNumberChange}
+              readOnly={!isEditing}
+              value={phoneNumber}
+            />
+          </div>
+          {User.role === "lecturer" && (
+            <div className="flex flex-col mt-4">
+              <label
+                className="font-medium text-xs md:text-base text-textGray "
+                htmlFor="">
+                Lecturer Code
+              </label>
+              <input
+                placeholder=""
+                className={`p-2 ${
+                  isEditing ? "bg-gray-200" : ""
+                } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                type="text"
+                id="NIM"
+                onChange={handlekodeDosenChange}
+                readOnly={!isEditing}
+                value={kodeDosen}
+              />
+            </div>
+          )}
+          <div className="flex flex-col mt-4">
+            <label
+              className="font-medium text-xs md:text-base text-textGray "
+              htmlFor="">
+              Faculty
             </label>
             <input
               placeholder=""
@@ -159,26 +285,31 @@ const Profile = () => {
               } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="Fakultas"
+              onChange={handlekodeFakultas}
               readOnly={!isEditing}
+              value={kodeFakultas}
             />
           </div>
-          <div className="flex flex-col mt-4">
-            <label
-              className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
-              Jurusan
-            </label>
-            <input
-              placeholder=""
-              className={`p-2 ${
-                isEditing ? "bg-gray-200" : ""
-              } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
-              type="text"
-              id="Jurusan"
-              readOnly={!isEditing}
-            />
-          </div>
+          {User.role === "student" && (
+            <div className="flex flex-col mt-4">
+              <label
+                className="font-medium text-xs md:text-base text-textGray "
+                htmlFor="">
+                Major
+              </label>
+              <input
+                placeholder=""
+                className={`p-2 ${
+                  isEditing ? "bg-gray-200" : ""
+                } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                type="text"
+                id="Jurusan"
+                onChange={handlekodeProdi}
+                readOnly={!isEditing}
+                value={kodeProdi}
+              />
+            </div>
+          )}
         </div>
       </form>
       <div className="gap-3 mt-6 xs:mt-8 md:mt-10 xl:mt-12 flex ">
@@ -188,16 +319,14 @@ const Profile = () => {
               className="rounded-md border border-transparent bg-secondary px-8 py-2 
               text-base font-medium text-white duration-100 ease-out hover:bg-secondaryAlternative
               hover:scale-105 active:scale-95"
-              onClick={handleDoneEditing}
-            >
+              onClick={handleDoneEditing}>
               Save
             </button>
             <button
               className="rounded-md border border-transparent bg-primary px-8 py-2 
               text-base font-medium text-white duration-100 ease-out hover:bg-primaryAlternative
               hover:scale-105 active:scale-95"
-              onClick={handleDoneEditing}
-            >
+              onClick={handleDoneEditing}>
               Cancel
             </button>
           </>
@@ -209,8 +338,7 @@ const Profile = () => {
             onClick={() => {
               localStorage.clear();
               navigate("/login");
-            }}
-          >
+            }}>
             Log Out
           </button>
         )}

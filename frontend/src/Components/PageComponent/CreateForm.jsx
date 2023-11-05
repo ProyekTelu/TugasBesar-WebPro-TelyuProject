@@ -62,13 +62,13 @@ function CreateForm() {
           Create Project
         </h1>
         <div className="w-full relative shadow-lg lg:flex-row p-5 my-4 rounded-lg justify-center h-full overflow-y-auto max-h-[75vh]">
-          <form onSubmit={handleSubmit}>
-            <div className="flex gap-5 flex-row pt-6 w-full m-auto justify-center">
+        <form onSubmit={handleSubmit}>
+            <div className="flex gap-5 flex-row w-full m-auto justify-center">
               <div className="w-full">
                 <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
                   Project Title{" "}
                   {projectTitle.length < 3 && projectTitle != "" && (
-                    <span className="text-brightPrimary font-normal">
+                    <span className="text-primary font-normal">
                       At least 3 characters.
                     </span>
                   )}
@@ -88,7 +88,7 @@ function CreateForm() {
                 <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
                   Group Chat Link{" "}
                   {!groupChatLink.includes(".com") && groupChatLink !== "" && (
-                    <span className="text-brightPrimary font-normal">
+                    <span className="text-primary font-normal">
                       Fill the correct link.
                     </span>
                   )}
@@ -109,8 +109,8 @@ function CreateForm() {
               <div className="w-full">
                 <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
                   Description{" "}
-                  {description.length < 12 && description != "" && (
-                    <span className="text-brightPrimary font-normal">
+                  {description.length < 12 && description !== "" && (
+                    <span className="text-primary font-normal">
                       At least 12 characters.
                     </span>
                   )}
@@ -131,8 +131,8 @@ function CreateForm() {
               <div className="w-full">
                 <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block ">
                   Maximum Member{" "}
-                  {maxMembers < 1 && maxMembers != "" && (
-                    <span className="text-brightPrimary font-normal">
+                  {maxMembers < 1 && maxMembers !== "" && (
+                    <span className="text-primary font-normal">
                       At least 1 member.
                     </span>
                   )}
@@ -206,8 +206,9 @@ function CreateForm() {
                 </div>
               </div>
             </div>
-
-            <div className="w-full flex justify-center mt-10 pt-0 xs:pt-2">
+          </form>
+          
+          <div className="w-full flex justify-center mt-10 pt-0 xs:pt-2">
               <button
                 type="submit"
                 className={`"text-secondary text-white w-1/4 py-1 block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg" ${
@@ -220,7 +221,6 @@ function CreateForm() {
                 Create
               </button>
             </div>
-          </form>
         </div>
       </div>
     </div>
