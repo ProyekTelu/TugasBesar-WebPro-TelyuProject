@@ -13,9 +13,9 @@ const Layout = () => {
   const pageButtonRef = useRef(null);
 
   useEffect(() => {
-    localStorage.getItem("user") === ""
-      ? currentNav("/login")
-      : setUser(JSON.parse(localStorage.getItem("user")));
+    localStorage.getItem("user")
+      ? setUser(JSON.parse(localStorage.getItem("user")))
+      : currentNav("/login");
   }, [currentNav]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Layout = () => {
 
   const pageButtonContent =
     user.role === "student"
-      ? [ 
+      ? [
           // STUDENT SESSION
           {
             content: "Home",
@@ -45,25 +45,22 @@ const Layout = () => {
           {
             content: "My Project",
             logo: "BsFillAirplaneEnginesFill",
-            pageSession: "joinForm",
+            pageSession: "myProject",
           },
         ]
       : [
           // LECTURER SESSION
-          { 
-            content: "Requested", 
-            logo: "", 
-            pageSession: "requested" 
+          {
+            content: "Requested",
+            logo: "",
+            pageSession: "requested",
           },
           {
             content: "My Project",
             logo: "BsFillBarChartLineFill",
             pageSession: "createForm",
           },
-          { content: "Project Detail", 
-            logo: "", 
-            pageSession: "projectDetail" 
-          },
+          { content: "Project Detail", logo: "", pageSession: "projectDetail" },
         ];
 
   const handleDocumentClick = (e) => {

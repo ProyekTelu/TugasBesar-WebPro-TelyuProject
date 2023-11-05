@@ -8,12 +8,12 @@ module.exports = {
         black: "#3D3C42",
         grey: "#ECEAE9",
         primary: "#D31C1C",
-        secondary : "#77D31C",
-        whiteAlternative : "#fff",
-        blackAlternative : "#252422",
-        greyAlternative : "#C5C3C4",
+        secondary: "#77D31C",
+        whiteAlternative: "#fff",
+        blackAlternative: "#252422",
+        greyAlternative: "#C5C3C4",
         primaryAlternative: "#E53D3D",
-        secondaryAlternative : "#91E53D"
+        secondaryAlternative: "#91E53D",
       },
       keyframes: {
         minimizeSideBar: {
