@@ -40,7 +40,7 @@ export const signupUser = createAsyncThunk(
       const splitedEmail = user.email.split("@");
       const domain = splitedEmail[1];
       const response = await axios.post("http://localhost:5000/signup", {
-        nomorInduk: user.nomorInduk,
+        phoneNumber: user.phoneNumber,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,

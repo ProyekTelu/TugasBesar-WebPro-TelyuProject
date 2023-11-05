@@ -27,6 +27,8 @@ export const login = async (req, res) => {
       nomorInduk: user.nomorInduk,
       firstName: user.firstName,
       lastName: user.lastName,
+      phoneNumber: user.phoneNumber,
+      photoProfile: user.photoProfile,
       email: user.email,
       gender: user.gender,
       kodeDosen: user.kodeDosen,
@@ -51,7 +53,7 @@ export const login = async (req, res) => {
 
 export const signup = async (req, res) => {
   const {
-    nomorInduk,
+    phoneNumber,
     firstName,
     lastName,
     email,
@@ -66,7 +68,7 @@ export const signup = async (req, res) => {
   const hashPassword = await argon2.hash(password);
   try {
     await User.create({
-      nomorInduk: nomorInduk,
+      phoneNumber: phoneNumber,
       firstName: firstName,
       lastName: lastName,
       email: email,

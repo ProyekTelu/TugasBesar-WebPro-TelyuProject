@@ -3,22 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { reset, signupUser } from "../../features/authSlice";
 import axios from "axios";
-import { Pagination, Autoplay } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import CarouselAuth from "./CarouselAuth";
 import { IoCaretBackCircleOutline } from "react-icons/io5";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import TelkomLogo from "../../img/Telkom_University_Logo.png";
 import { motion, AnimatePresence } from "framer-motion";
-import ImgCarousel1 from "../../img/loginImage1.jpg";
-import ImgCarousel2 from "../../img/loginImage2.png";
-import ImgCarousel3 from "../../img/loginImage3.png";
 import TelyuProjectLogo from "../../img/telyuProject.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-const images = [ImgCarousel1, ImgCarousel2, ImgCarousel3];
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -27,7 +21,7 @@ const Signup = () => {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [nomorInduk, setNomorInduk] = useState("");
+  const [phoneNumber, setphoneNumber] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
   const [fakultas, setFakultas] = useState([]);
   const [selectedFakultas, setSelectedFakultas] = useState("");
@@ -42,7 +36,6 @@ const Signup = () => {
   const [emailAlreadyExist, setEmailAlreadyExist] = useState(false);
   const [kodeDosen, setKodeDosen] = useState("");
   const [isLecture, setIsLecture] = useState(false);
-  const [nomorIndukDosen, setNomorIndukDosen] = useState("");
 
   const years = [
     2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
@@ -65,7 +58,7 @@ const Signup = () => {
     if (localStorage.getItem("user") != null) {
       // navigate("/home");
     } else if (user) {
-      navigate("/");
+      navigate("/login");
     }
     dispatch(reset());
   }, [user, isSuccess, dispatch, navigate]);
@@ -78,8 +71,7 @@ const Signup = () => {
           firstName.length >= 3 &&
           lastName !== "" &&
           lastName.length >= 3 &&
-          nomorInduk.length === 10 &&
-          nomorInduk !== "" &&
+          phoneNumber !== "" &&
           selectedFakultas !== "" &&
           selectedGender !== "" &&
           selectedMajor !== "" &&
@@ -96,8 +88,7 @@ const Signup = () => {
           firstName.length >= 3 &&
           lastName !== "" &&
           lastName.length >= 3 &&
-          nomorInduk.length === 10 &&
-          nomorInduk !== "" &&
+          phoneNumber !== "" &&
           kodeDosen !== "" &&
           kodeDosen.length === 3 &&
           selectedFakultas !== "" &&
@@ -112,9 +103,8 @@ const Signup = () => {
     email,
     firstName,
     lastName,
-    nomorInduk,
+    phoneNumber,
     kodeDosen,
-    nomorIndukDosen,
     selectedFakultas,
     selectedGender,
     selectedMajor,
@@ -193,13 +183,12 @@ const Signup = () => {
           if (email !== tempEmail) {
             setFirstName("");
             setLastName("");
-            setNomorInduk("");
+            setphoneNumber("");
             setSelectedGender("");
             setSelectedFakultas("");
             setSelectedMajor("");
             setSelectedYear("");
             setSelectedKelas("");
-            setNomorIndukDosen("");
             setKodeDosen("");
           }
           setPassword("");
@@ -214,7 +203,7 @@ const Signup = () => {
     e.preventDefault();
     dispatch(
       signupUser({
-        nomorInduk,
+        phoneNumber,
         email,
         firstName,
         lastName,
@@ -254,15 +243,9 @@ const Signup = () => {
     setSelectedMajor("");
   };
 
-  const handleNomorIndukChange = (e) => {
-    if (e.target.value.length <= 10) {
-      setNomorInduk(e.target.value);
-    }
-  };
-
-  const handleNomorIndukDosenChange = (e) => {
-    if (e.target.value.length <= 10) {
-      setNomorIndukDosen(e.target.value);
+  const handlephoneNumberChange = (e) => {
+    if (e.target.value.length <= 12) {
+      setphoneNumber(e.target.value);
     }
   };
 
@@ -270,6 +253,11 @@ const Signup = () => {
     if (e.target.value.length <= 3) {
       setKodeDosen(e.target.value.toUpperCase());
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    checkEmail();
   };
 
   const handleFirstNameChange = (e) => {
@@ -286,14 +274,14 @@ const Signup = () => {
 
   return (
     <div
-      className={`w-screen ${
-        currentStep === 0 ? "md:h-screen" : "xl:h-screen"
+      className={`w-screen  ${
+        currentStep === 0 ? "h-screen" : "xl:h-screen"
       } flex justify-center`}
     >
       <ToastContainer />
-      <div className="flex justify-center h-full w-full">
+      <div className="flex justify-center w-full">
         <div
-          className="flex w-full h-full justify-center "
+          className="flex w-full justify-center "
           style={{ userSelect: "none" }}
         >
           <div
@@ -326,23 +314,26 @@ const Signup = () => {
                     <h1 className="text-center mt-4  text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
                       Sign Up
                     </h1>
-                    <form className="flex flex-col gap-3 sm:gap-4" action="">
+                    <form
+                      className="flex flex-col gap-3 sm:gap-4"
+                      onSubmit={handleSubmit}
+                    >
                       <div className="flex flex-col">
                         <label
-                          className="font-medium text-xs md:text-base text-textGray "
+                          className="font-medium text-xs md:text-sm "
                           htmlFor=""
                         >
                           Email SSO
                         </label>
                         <input
                           placeholder=""
-                          className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                          className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                           type="email"
                           value={email}
                           onChange={handleEmailChange}
                         />
                         {emailAlreadyExist && (
-                          <p className="text-red-500 text-xs md:text-base mt-1">
+                          <p className="text-red-500 text-xs md:text-sm mt-1">
                             Email is already registered.
                           </p>
                         )}
@@ -350,9 +341,8 @@ const Signup = () => {
 
                       <div className="w-full h-full flex justify-end pt-0 xs:pt-2">
                         <button
-                          type="button"
-                          onClick={checkEmail}
-                          className={`text-white w-full block py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
+                          type="submit"
+                          className={`text-white w-full block py-2 md:text-base text-xs px-2 md:px-5 rounded-md md:rounded-lg ${
                             !validEmail
                               ? "bg-black cursor-not-allowed"
                               : " bg-primary hover:bg-red-600 cursor-pointer"
@@ -401,17 +391,17 @@ const Signup = () => {
                       stiffness: 260,
                       damping: 20,
                     }}
-                    className="flex p-10 lg:p-0 flex-col mx-10 w-2/3 self-center justify-center h-full gap-1 relative"
+                    className="flex p-10 lg:p-0 flex-col mx-10 md:w-2/3 self-center justify-center h-full gap-1 relative"
                   >
                     <IoCaretBackCircleOutline
                       onClick={(e) => setCurrentStep(0)}
-                      className="text-4xl absolute left-[-6rem] cursor-pointer"
+                      className="text-4xl absolute left-[-2rem] lg:left-[-5rem] cursor-pointer"
                     />
-                    <h1 className="text-center mt-4 text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
+                    <h1 className="text-center text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
                       Welcome to Telyu Project
                     </h1>
                     <label
-                      className="text-[9px] text-center text-textGray sm:text-sm  md:text-base mb-4 "
+                      className="text-[9px] text-center sm:text-sm  md:text-sm mb-4 "
                       htmlFor=""
                     >
                       You're new here! Tell us a little about yourself
@@ -421,15 +411,15 @@ const Signup = () => {
                       action=""
                       onSubmit={signup}
                     >
-                      <div className="flex flex-col xl:flex-row justify-between gap-4">
+                      <div className="flex flex-col md:flex-row justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             First Name{" "}
                             {firstName.length < 3 && firstName !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 At least 3 characters.
                               </span>
                             )}
@@ -437,7 +427,7 @@ const Signup = () => {
                           <input
                             placeholder=""
                             maxLength={30}
-                            className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full w-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="text"
                             value={firstName}
                             onChange={handleFirstNameChange}
@@ -445,12 +435,12 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Last Name{" "}
                             {lastName.length < 3 && lastName !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 At least 3 characters.
                               </span>
                             )}
@@ -459,7 +449,7 @@ const Signup = () => {
                             value={lastName}
                             maxLength={30}
                             placeholder=""
-                            className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="text"
                             onChange={handleLastNameChange}
                           />
@@ -468,13 +458,13 @@ const Signup = () => {
                       <div className="flex flex-col md:flex-row justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Gender
                           </label>
                           <select
-                            className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             name="gender"
                             id="gender"
                             value={selectedGender}
@@ -490,35 +480,30 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
-                            NIM{" "}
-                            {nomorInduk.length < 10 && nomorInduk !== "" && (
-                              <span className="text-brightPrimary font-normal">
-                                Must be 10 characters.
-                              </span>
-                            )}
+                            Phone Number
                           </label>
                           <input
-                            placeholder=""
-                            className={`p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                            placeholder="+62"
+                            className={`p-2 text-xs h-full w-full md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                             type="number"
-                            value={nomorInduk}
-                            onChange={handleNomorIndukChange}
+                            value={phoneNumber}
+                            onChange={handlephoneNumberChange}
                           />
                         </div>
                       </div>
                       <div className="flex flex-col xl:flex-row justify-between gap-4">
                         <div className="flex-col  flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Faculty
                           </label>
                           <select
-                            className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             name="faculty"
                             id="faculty"
                             value={selectedFakultas}
@@ -534,7 +519,7 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full ">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Major
@@ -544,7 +529,7 @@ const Signup = () => {
                               selectedFakultas === ""
                                 ? "cursor-not-allowed"
                                 : "cursor-default"
-                            }  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                            }  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                             name="faculty"
                             id="faculty"
                             disabled={selectedFakultas === ""}
@@ -568,7 +553,7 @@ const Signup = () => {
                       <div className="flex flex-col sm:flex-row justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Year
@@ -578,7 +563,7 @@ const Signup = () => {
                               selectedMajor === ""
                                 ? "cursor-not-allowed"
                                 : "cursor-default"
-                            } p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                            } p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                             name="Year"
                             id="Year"
                             value={selectedYear}
@@ -595,7 +580,7 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Class
@@ -605,7 +590,7 @@ const Signup = () => {
                               !canInputClass
                                 ? "cursor-not-allowed"
                                 : "cursor-default"
-                            } p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                            } p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                             name="kelas"
                             id="kelas"
                             disabled={!canInputClass}
@@ -624,14 +609,14 @@ const Signup = () => {
                       <div className="flex justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Password
                           </label>
                           <input
                             placeholder=""
-                            className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full w-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="password"
                             onChange={(e) => setPassword(e.target.value)}
                             value={password}
@@ -641,7 +626,7 @@ const Signup = () => {
                       <div className="flex justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Confirmation Password
@@ -650,12 +635,12 @@ const Signup = () => {
                             placeholder=""
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full w-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="password"
                           />
                           <p
                             hidden={password === confirmPassword}
-                            className="text-brightPrimary text-xs md:text-base mt-1"
+                            className="text-red-500 text-xs md:text-sm mt-1"
                           >
                             Password and confirmation password don't match
                           </p>
@@ -687,17 +672,17 @@ const Signup = () => {
                       stiffness: 260,
                       damping: 20,
                     }}
-                    className="flex p-10 lg:p-0 flex-col mx-10 w-2/3 self-center justify-center h-full gap-1 relative"
+                    className="flex p-10 lg:p-0 flex-col mx-10 md:w-2/3 self-center justify-center h-full gap-1 relative"
                   >
                     <IoCaretBackCircleOutline
                       onClick={() => setCurrentStep(0)}
-                      className="text-4xl absolute left-[-6rem] cursor-pointer"
+                      className="text-4xl absolute left-[-2rem] lg:left-[-5rem] cursor-pointer"
                     />
                     <h1 className="text-center mt-4 text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
                       Welcome to Telyu Project
                     </h1>
                     <label
-                      className="text-[9px] text-center text-textGray sm:text-sm  md:text-base mb-4 "
+                      className="text-[9px] text-center sm:text-sm  md:text-sm mb-4 "
                       htmlFor=""
                     >
                       You're new here! Tell us a little about yourself
@@ -707,15 +692,15 @@ const Signup = () => {
                       action=""
                       onSubmit={signup}
                     >
-                      <div className="flex flex-col xl:flex-row justify-between gap-4">
+                      <div className="flex flex-col md:flex-row justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             First Name{" "}
                             {firstName.length < 3 && firstName !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 At least 3 characters.
                               </span>
                             )}
@@ -723,7 +708,7 @@ const Signup = () => {
                           <input
                             placeholder=""
                             maxLength={30}
-                            className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full w-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="text"
                             value={firstName}
                             onChange={handleFirstNameChange}
@@ -731,12 +716,12 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Last Name{" "}
                             {lastName.length < 3 && lastName !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 At least 3 characters.
                               </span>
                             )}
@@ -745,7 +730,7 @@ const Signup = () => {
                             value={lastName}
                             maxLength={30}
                             placeholder=""
-                            className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="text"
                             onChange={handleLastNameChange}
                           />
@@ -754,13 +739,13 @@ const Signup = () => {
                       <div className="flex flex-col md:flex-row  justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Gender
                           </label>
                           <select
-                            className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             name="gender"
                             id="gender"
                             value={selectedGender}
@@ -776,36 +761,30 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
-                            NIDN{" "}
-                            {nomorIndukDosen.length < 10 &&
-                              nomorIndukDosen !== "" && (
-                                <span className="text-brightPrimary font-normal">
-                                  Must be 10 characters.
-                                </span>
-                              )}
+                            Phone Number
                           </label>
                           <input
-                            placeholder=""
-                            className={`p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                            placeholder="+62"
+                            className={`p-2 text-xs h-full w-full md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                             type="number"
-                            value={nomorIndukDosen}
-                            onChange={handleNomorIndukDosenChange}
+                            value={phoneNumber}
+                            onChange={handlephoneNumberChange}
                           />
                         </div>
                       </div>
                       <div className="flex flex-col xl:flex-row justify-between gap-4">
                         <div className="flex-col  flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Faculty
                           </label>
                           <select
-                            className="p-2 text-xs h-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             name="faculty"
                             id="faculty"
                             value={selectedFakultas}
@@ -821,19 +800,19 @@ const Signup = () => {
                         </div>
                         <div className="flex-col flex w-full ">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Lecture Code {""}
                             {kodeDosen.length < 3 && kodeDosen !== "" && (
-                              <span className="text-brightPrimary font-normal">
+                              <span className="text-red-500 font-normal">
                                 Must be 3 characters.
                               </span>
                             )}
                           </label>
                           <input
                             placeholder=""
-                            className={`p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                            className={`p-2 text-xs h-full w-full md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                             type="text"
                             value={kodeDosen}
                             onChange={handleKodeDosenChange}
@@ -843,14 +822,14 @@ const Signup = () => {
                       <div className="flex justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Password
                           </label>
                           <input
                             placeholder=""
-                            className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full w-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="password"
                             onChange={(e) => setPassword(e.target.value)}
                             value={password}
@@ -860,7 +839,7 @@ const Signup = () => {
                       <div className="flex justify-between gap-4">
                         <div className="flex-col flex w-full">
                           <label
-                            className="font-medium text-xs md:text-base text-textGray "
+                            className="font-medium text-xs md:text-sm "
                             htmlFor=""
                           >
                             Confirmation Password
@@ -869,12 +848,12 @@ const Signup = () => {
                             placeholder=""
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                            className="p-2 text-xs h-full w-full  md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                             type="password"
                           />
                           <p
                             hidden={password === confirmPassword}
-                            className="text-brightPrimary text-xs md:text-base mt-1"
+                            className="text-red-500 text-xs md:text-sm mt-1"
                           >
                             Password and confirmation password don't match
                           </p>
@@ -896,7 +875,7 @@ const Signup = () => {
                     </form>
                   </motion.div>
                 )}
-                <div className="absolute mt-2 lg:mt-0 md:static bottom-0 left-0 right-0 flex justify-center text-[8px] sm:text-xs md:text-xs lg:text-base">
+                <div className="absolute mt-2 lg:mt-0 md:static bottom-5 left-0 right-0 flex justify-center text-[8px] sm:text-xs md:text-xs lg:text-base">
                   <label htmlFor="" className="text-center">
                     {" "}
                     © 2023 Kelompok 7, Inc. All rights reserved. Terms - Privacy
@@ -905,26 +884,7 @@ const Signup = () => {
               </div>
             </AnimatePresence>
           </div>
-          <div className="w-1/2 hidden p-8 xl:h-screen lg:block relative rounded-r-2xl">
-            <Swiper
-              modules={[Pagination, Autoplay]}
-              className="h-full"
-              spaceBetween={22}
-              slidesPerView={1}
-              pagination={{ clickable: true }}
-              autoplay={{ delay: 3000, disableOnInteraction: false }}
-            >
-              {images.map((image, index) => (
-                <SwiperSlide key={index} className="bg-cover">
-                  <img
-                    src={image}
-                    className="w-full h-full object-cover rounded-xl"
-                    alt={`${index}`}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
+          <CarouselAuth />
         </div>
       </div>
     </div>
