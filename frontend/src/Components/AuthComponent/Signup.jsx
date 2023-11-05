@@ -10,7 +10,6 @@ import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import TelkomLogo from "../../img/Telkom_University_Logo.png";
 import { motion, AnimatePresence } from "framer-motion";
-
 import TelyuProjectLogo from "../../img/telyuProject.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
