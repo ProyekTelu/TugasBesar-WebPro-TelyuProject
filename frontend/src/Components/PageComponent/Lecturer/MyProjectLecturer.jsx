@@ -33,7 +33,7 @@ function MyProjectLecturer() {
 
   return (
     <div className="flex justify-center w-full">
-      <div className="w-11/12 flex justify-center relative">
+      <div className="flex justify-center relative w-full">
         <div className="w-full h-full flex flex-col gap-6">
           <div className="w-full h-min relative border-2 lg:flex-col p-5  rounded-lg justify-center overflow-y-auto max-h-[70vh]">
             <h1 className="text-left text-primary text-xl font-bold">
@@ -113,8 +113,14 @@ function MyProjectLecturer() {
           onRequestClose={closeModal}>
           <CreateProjectModal isOpen={modalIsOpen} closeModal={closeModal} />
         </Modal>
+        <Modal
+          className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
+          isOpen={isModalOpenDetail}
+          onRequestClose={closeModalDetail}>
+            {isModalOpenDetail && <ProjectDetailModal onClose={closeModalDetail} />}
+        </Modal>
       </div>
-      {isModalOpenDetail && <ProjectDetailModal onClose={closeModalDetail} />}
+      
     </div>
   );
 }
