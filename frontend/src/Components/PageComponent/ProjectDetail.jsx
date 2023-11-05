@@ -10,7 +10,7 @@ function ProjectDetail() {
     <div className="flex justify-center w-full">
         <div className='w-11/12 m-2 flex justify-center relative'>
             <div className='w-full h-full'>
-                <div className="w-full relative shadow-lg lg:flex-row p-5 my-4 rounded-lg justify-center h-full overflow-y-auto max-h-[75vh]">
+                <div className="w-full relative shadow-lg lg:flex-row p-5 my-4 rounded-lg justify-center h-full overflow-y-auto max-h-[100vh]">
                     <h1 className="text-left text-secondary text-xl sm:text-2xl md:text-4xl font-bold">
                     {projectTitle}
                     </h1>
@@ -40,8 +40,8 @@ function ProjectDetail() {
                     <h1 className='text-left text-xl mb-4 mt-4 font-bold'>
                         Member
                     </h1>
-                    <table className='table-auto border-collapse border border-slate-500'>
-                        <thead>
+                    <table className=' w-full table-auto'>
+                        <thead className="text-left border-b-2 border-b-slate-950 my-5">
                             <th>Name</th>
                             <th>NIM</th>
                             <th>Generation</th>
@@ -79,3 +79,4 @@ function ProjectDetail() {
 }
 
 export default ProjectDetail
+
