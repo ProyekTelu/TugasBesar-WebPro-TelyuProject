@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { IoCaretBackCircleOutline } from "react-icons/io5";
 
-function ProjectDetail() {
+function ProjectDetail({ onClose }) {
 
     const projectTitle = "EcoScape";
     const owner = "Reza Adhie Dharmawan";

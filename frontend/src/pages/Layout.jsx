@@ -17,7 +17,6 @@ const Layout = () => {
     { content: "Project List", logo: "", pageSession: "joinForm" },
     { content: "Requested", logo: "", pageSession: "requested" },
     { content: "My Project", logo: "", pageSession: "createForm" },
-    { content: "Project Detail", logo: "", pageSession: "projectDetail" },
     { content: "My Project", logo: "", pageSession: "myProject" },
   ];
 
