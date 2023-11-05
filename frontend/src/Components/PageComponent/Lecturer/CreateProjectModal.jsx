@@ -105,16 +105,14 @@ function CreateProjectModal({ isOpen, closeModal }) {
                     placeholder="Write your project description here"
                     className="p-1 sm:p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  ></textarea>
+                    onChange={(e) => setDescription(e.target.value)}></textarea>
                 </div>
               </div>
 
               <div className="flex flex-col mt-4">
                 <label
                   className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block"
-                  htmlFor=""
-                >
+                  htmlFor="">
                   Faculty
                 </label>
                 <select
@@ -122,8 +120,7 @@ function CreateProjectModal({ isOpen, closeModal }) {
                   onChange={(e) => setFaculty(e.target.value)}
                   className="p-1 sm:p-2 text-xs w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                   name=""
-                  id=""
-                >
+                  id="">
                   <option>Informatika</option>
                   <option>Industri Kreatif</option>
                   <option>Teknik Elektro</option>
