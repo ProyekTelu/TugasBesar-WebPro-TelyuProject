@@ -67,7 +67,7 @@ function CreateProjectModal({ isOpen, closeModal }) {
             className="flex flex-col sm:flex-row gap-4 xs:gap-6 md:gap-8 xl:gap-10"
             onSubmit={handleSubmit}
           >
-            <div className="w-full xs:w-1/2">
+            <div className="w-full ">
               <div className="flex flex-col mt-4">
                 <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
                   Project Title{" "}
@@ -128,7 +128,7 @@ function CreateProjectModal({ isOpen, closeModal }) {
               </div>
             </div>
 
-            <div className="w-full xs:w-1/2">
+            <div className="w-full">
               <div className="flex flex-col mt-4">
                 <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
                   Group Chat Link{" "}
