@@ -1,6 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import JoinForm from "./JoinForm";
+import Modal from "react-modal";
 
 function CardListProject({ items, handleRequestForm }) {
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  Modal.setAppElement(document.getElementById("root"));
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   return (
     <>
       {items.map((data, index) => (
@@ -21,12 +35,20 @@ function CardListProject({ items, handleRequestForm }) {
             <button
               className="py-3 px-4 font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:scale-105 active:scale-100"
               type="submit"
-              onClick={() => {
-                handleRequestForm(data.title);
-              }}
+              onClick={openModal}
+              // onClick={() => {
+              //   handleRequestForm(data.title);
+              // }}
             >
               Send Join Request
             </button>
+            <Modal
+              className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
+              isOpen={modalIsOpen}
+              onRequestClose={closeModal}
+            >
+              <JoinForm isOpen={modalIsOpen} closeModal={closeModal} title={data.title} />
+            </Modal>
           </div>
         </div>
       ))}

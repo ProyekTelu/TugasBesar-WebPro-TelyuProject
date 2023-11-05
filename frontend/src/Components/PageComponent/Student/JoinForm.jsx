@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { IoCaretBackCircleOutline } from "react-icons/io5";
+import { AiFillCloseCircle } from "react-icons/ai";
 
-function JoinForm({title}) {
+function JoinForm({ title, closeModal }) {
   const userName = "Reza Adhie Dharmawan";
   const userEmail = "reza@student.telkomuniversity.ac.id";
   const userPhone = "+1234567890";
@@ -38,7 +38,7 @@ function JoinForm({title}) {
         setFileUploaded(true);
         const uploadText = document.getElementById("uploadText");
         if (uploadText) {
-            uploadText.textContent = file.name;
+          uploadText.textContent = file.name;
         }
       } else {
         alert(
@@ -50,12 +50,15 @@ function JoinForm({title}) {
   };
 
   return (
-    <div className="flex justify-center w-full">
-      <div className="columns w-3/4 flex justify-center flex-col relative" >
-        <IoCaretBackCircleOutline
-          onClick={(e) => window.history.back()}
-          className="text-4xl absolute left-[-6rem] cursor-pointer"
-        />
+    <div className=" w-full">
+      <div className="justify-center modal-container w-4/5 md:w-3/5 mx-auto transition-transform transform">
+      <div className="w-full relative shadow-lg p-4 md:p-12 my-4 rounded-3xl justify-center h-full overflow-y-auto bg-whiteAlternative flex flex-col">
+      <button
+          onClick={closeModal}
+          className=" my-auto focus:outline-none cursor-pointer self-end active:scale-95 duration-100 ease-in hover:scale-105"
+        >
+          <AiFillCloseCircle className="text-4xl" />
+        </button>
         <h1 className="text-center text-xl sm:text-2xl md:text-4xl font-bold">
           Join Project
         </h1>
@@ -130,37 +133,48 @@ function JoinForm({title}) {
               </div> */}
 
               <div className="w-full">
-                <label className={`flex justify-center h-32 px-4 transition bg-white border-2 ${fileUploaded ? 'border-green-400' : 'border-gray-300'} border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none`}>
+                <label
+                  className={`flex justify-center h-32 px-4 transition bg-white border-2 ${
+                    fileUploaded ? "border-green-400" : "border-gray-300"
+                  } border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none`}
+                >
                   <span className="flex flex-col items-center space-x-2 pt-5">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="w-6 h-6 text-gray-600"
+                      className="w-6 h-6 text-gray-600"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
-                      stroke-width="2"
+                      strokeWidth="2"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                       />
                     </svg>
-                    <span className="font-medium text-gray-600 text-center">
-                    Drop your CV, Portofolio, Certificate, any other file that support your worthiness or
+                    <span className="font-medium text-xs md:text-base text-gray-600 text-center">
+                      Drop your CV, Portofolio, Certificate, any other file that
+                      support your worthiness or
                     </span>
-                    <span className="text-blue-600 underline" id="uploadText"> Click here to upload your file</span>
+                    <span className="text-blue-600 underline  text-xs md:text-base" id="uploadText">
+                      {" "}
+                      Click here to upload your file
+                    </span>
                   </span>
-                  <input 
-                  type="file" 
-                  accept=".pdf,.doc,.docx" 
-                  name="file_upload" 
-                  onChange={handleFileChange}
-                  className="hidden" />
+                  <input
+                    type="file"
+                    accept=".pdf,.doc,.docx"
+                    name="file_upload"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
                 </label>
               </div>
-
-              <div className="w-full flex justify-center xs:pt-2">
+            </div>
+          </form>
+          
+          <div className="w-full flex justify-center md:pt-4 xs:pt-6">
                 <button
                   type="submit"
                   className={`"text-secondary text-white w-1/4 py-1 block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg" ${
@@ -173,15 +187,18 @@ function JoinForm({title}) {
                   Submit
                 </button>
               </div>
-            </div>
-          </form>
         </div>
-        
+
         <div className="text-right h-auto w-full rounded-lg p-1 flex justify-end align-middle">
-              <label className="my-auto text-xs sm:text-sm md:text-base">request letter for 
-              <span className="text-sm sm:text-lg md:text-xl font-bold"> {title} </span>
-              </label>
+          <label className="my-auto text-xs sm:text-sm md:text-base">
+            request letter for
+            <span className="text-sm sm:text-lg md:text-xl font-bold">
+              {" "}
+              {title}{" "}
+            </span>
+          </label>
         </div>
+      </div> 
       </div>
     </div>
   );
