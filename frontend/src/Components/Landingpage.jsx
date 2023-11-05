@@ -79,7 +79,7 @@ const Landingpage = () => {
     <div className="w-screen h-screen flex flex-col">
       <div className="flex justify-center w-full">
         <div className="flex flex-col md:flex-row items-center justify-between w-11/12 md:w-3/4 py-4 md:py-10" id="navbar">
-          <div className="mb-4 md:mb-0 flex items-center">
+          <div className="mb-4 md:mb-4 flex items-center">
             <img src={logo} alt="Tel-u Project" className="w-20" />
             <p className="ml-2 text-3xl font-bold text-gray-800">
               Tel-u Project
@@ -92,11 +92,11 @@ const Landingpage = () => {
       <div className="flex w-full h-full justify-center mt-6 md:mt-20">
         <div className="flex flex-col md:flex-row justify-between w-3/4 lg:w-3/4">
           <div className="w-full md:w-3/4 flex flex-col gap-4">
-            <p className="text-xl md:text-3xl lg:text-8xl leading-relaxed font-bold">
-              Embrace your dreams and passions, whether by discovering or creating projects, to be a positive change-maker in a world full of possibilities.
+            <p className="text-xl md:text-xl lg:text-9xl leading-relaxed font-bold">
+            Discover your dream project or help create one.
             </p>
           </div>
-          <div className="w-full md:w-1/2 lg:w-1/4 flex flex-col gap-12">
+          <div className="w-full md:w-1/2 lg:w-2/4 flex flex-col gap-12">
             <div className="text-lg md:text-xl lg:text-2xl leading-relaxed p-4 bg-white rounded-lg shadow-lg">
               <Link to="/login" className="text-black hover:underline text-center md:text-left">
                 JOIN AS LECTURE
