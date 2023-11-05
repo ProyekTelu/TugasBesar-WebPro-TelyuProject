@@ -38,10 +38,10 @@ app.use(ProdiRoute);
 // })();
 
 //2.
-(async () => {
-  await db.sync();
-  Users();
-})();
+// (async () => {
+//   await db.sync();
+//   Users();
+// })();
 
 app.listen(process.env.APP_PORT, () =>
   console.log("server listening on port " + process.env.APP_PORT)

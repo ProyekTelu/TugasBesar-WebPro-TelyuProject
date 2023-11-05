@@ -21,8 +21,8 @@ const Login = () => {
   );
 
   useEffect(() => {
-    if (localStorage.getItem("user") != null) {
-      navigate("/home/page1");
+    if (localStorage.getItem("user")) {
+      navigate("/telyuProject");
     }
     dispatch(reset());
   }, [user, isSuccess, dispatch, navigate]);
@@ -30,6 +30,8 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     dispatch(loginUser({ email, password }));
+    localStorage.setItem("isExpand", true);
+    localStorage.setItem("currentNav", 0);
   };
 
   useEffect(() => {

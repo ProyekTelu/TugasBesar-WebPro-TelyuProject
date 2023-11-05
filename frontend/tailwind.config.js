@@ -4,11 +4,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#D31C1C",
-        secondary: "#EF233C",
         white: "#FEFBF6",
         black: "#3D3C42",
         grey: "#ECEAE9",
+        primary: "#D31C1C",
+        secondary: "#77D31C",
+        whiteAlternative: "#fff",
+        blackAlternative: "#252422",
+        greyAlternative: "#C5C3C4",
+        primaryAlternative: "#E53D3D",
+        secondaryAlternative: "#91E53D",
       },
       keyframes: {
         minimizeSideBar: {
@@ -40,6 +45,15 @@ module.exports = {
         fadeAppears: "fadeAppears 0.2s ease-out normal forwards",
         rotateLeft: "rotatLeft 0.3s ease-out",
         rotateRight: "rotateRight 0.3s ease-out forwards",
+      },
+      modalOverlay: {
+        position: "fixed",
+        top: "0",
+        left: "0",
+        width: "100%",
+        height: "100%",
+        background: " rgba(0, 0, 0, 0.5)",
+        zindex: "49",
       },
     },
     screens: {
