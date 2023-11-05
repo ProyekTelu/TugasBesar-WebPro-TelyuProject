@@ -129,9 +129,12 @@ const Layout = () => {
           >
             {/* HEADER */}
             <div
-              className={`mb-6 flex items-center gap-2 basis-[10%] ${
+              className={`mb-6 flex items-center gap-2 basis-[10%] cursor-pointer ${
                 isExpand ? "" : "flex flex-col items-center justify-center  "
               }`}
+              onClick={() => {
+                currentNav("/");
+              }}
             >
               <div className="inline h-8 w-8">
                 <img src={Logo} alt="png" />
@@ -226,8 +229,14 @@ const Layout = () => {
               <div className="h-1 w-1 rounded-full bg-greyAlternative"></div>
               <div className="h-1 w-1 rounded-full bg-greyAlternative"></div>
             </div>
-            <div className="inline h-7 w-7">
-              <img src={Logo} alt="png" />
+            <div className="inline h-7 w-7 cursor-pointer">
+              <img
+                src={Logo}
+                alt="png"
+                onClick={() => {
+                  currentNav("/");
+                }}
+              />
             </div>
             <div
               className="h-7 aspect-square rounded-full bg-black cursor-pointer"
@@ -274,7 +283,7 @@ const Layout = () => {
         <div
           className={`h-screen basis-full overflow-y-auto relative bg-white pointer-events-auto`}
         >
-          <div className="p-12 h-full">
+          <div className="p-4 md:p-12 h-full">
             <Outlet />
 
             {/* NOTIF BALOON */}

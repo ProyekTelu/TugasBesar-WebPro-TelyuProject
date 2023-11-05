@@ -6,8 +6,11 @@ import { useNavigate } from "react-router-dom";
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [userImage, setUserImage] = useState(user);
-  const User = JSON.parse(localStorage.getItem("User"));
-  const navigate = useNavigate()
+  const User = JSON.parse(localStorage.getItem("user"));
+  const [firstName, setfirstName] = useState(User.firstName);
+  const [lastName, setLastName] = useState(User.lastName);
+  const [nim, setNHim] = useState(User.nomorInduk);
+  const navigate = useNavigate();
 
   const handleEditProfile = () => {
     setIsEditing(!isEditing);
@@ -84,6 +87,7 @@ const Profile = () => {
               } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="nama"
+              value={firstName}
               readOnly={!isEditing}
             />
           </div>
@@ -101,6 +105,7 @@ const Profile = () => {
               } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="NIM"
+              value={nim}
               readOnly={!isEditing}
             />
           </div>
@@ -203,7 +208,7 @@ const Profile = () => {
             hover:scale-105 active:scale-95"
             onClick={() => {
               localStorage.clear();
-              navigate("/login")
+              navigate("/login");
             }}
           >
             Log Out

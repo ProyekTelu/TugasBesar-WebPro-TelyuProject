@@ -36,9 +36,8 @@ function App() {
         <Route path="telyuProject" element={<Layout />}>
           {/* SESSION BASED */}
           <Route path="home" element={<Home />} />
-          <Route path="listProject" element={<ListProject/>} />
+          <Route path="listProject" element={<ListProject />} />
           <Route path="myProject" element={<MyProject />} />
-
           {/* GLOBAL */}
           <Route path="joinForm" element={<JoinForm />} />
           <Route path="status" element={<Status />} />

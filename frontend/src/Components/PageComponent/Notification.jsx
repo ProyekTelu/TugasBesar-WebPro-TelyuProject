@@ -48,7 +48,7 @@ const Notification = () => {
   const [notifState, setNotifState] = useState("ALL");
 
   return (
-    <div>
+    <div className="hidden md:block">
       <div
         style={{ userSelect: "none" }}
         className={`w-16 h-16 ${
