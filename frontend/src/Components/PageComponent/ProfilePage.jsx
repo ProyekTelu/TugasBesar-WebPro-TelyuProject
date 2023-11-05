@@ -7,7 +7,7 @@ const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [userImage, setUserImage] = useState(user);
   const User = JSON.parse(localStorage.getItem("User"));
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleEditProfile = () => {
     setIsEditing(!isEditing);
@@ -30,13 +30,13 @@ const Profile = () => {
 
   return (
     <>
-      <div className="relative h-60 rounded-b-3xl flex justify-center">
-        <div className="absolute -bottom-2 xs:-bottom-10 md:-bottom-10 xl:-bottom-4">
+      <div className="relative h-60 rounded-b-3xl flex justify-center sm:h-55">
+        <div className="absolute -bottom-2 sm:-bottom-0 md:-bottom-10 xl:-bottom-4">
           <img
             src={userImage}
             className={`${
               isEditing ? "bg-gray-200 cursor-pointer" : "pointer-events-none"
-            } object-cover border-4 border-white w-40 h-40 xs:h-52 -bottom-6 md:w-52 md:h-52 xl:w-72 xl:h-72 rounded-full`}
+            } object-cover border-4 border-white w-40 h-40 xs:h-52 -bottom-6 sm:w-100 sm:h-40 md:w-52 md:h-32 lg:w-56 lg:h-56 xl:w-72 xl:h-72 rounded-full`}
             alt="cover"
             onClick={() => document.getElementById("file").click()}
           />
@@ -49,7 +49,7 @@ const Profile = () => {
           />
         </div>
       </div>
-      <div className="text-center pt-10 xs:pt-12 md:pt-16 xl:pt-20 text-3xl xs:text-4xl xl:text-5xl font-bold text-black">
+      <div className="text-center pt-10 xs:pt-12 sm:pt-0 md:pt-16 xl:pt-20 text-3xl xs:text-4xl xl:text-5xl font-bold text-black">
         <div className="flex items-center justify-between">
           Profile
           <div className="cursor-pointer">
@@ -67,14 +67,12 @@ const Profile = () => {
       {/* Label Biodata */}
       <form
         className="flex flex-col sm:flex-row gap-4 xs:gap-6 md:gap-8 xl:gap-10"
-        action=""
-      >
+        action="">
         <div className="w-full xs:w-1/2">
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               Nama
             </label>
             <input
@@ -90,8 +88,7 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               NIM
             </label>
             <input
@@ -107,8 +104,7 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               Jenis Kelamin
             </label>
             <input
@@ -126,8 +122,7 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               Nomor HP
             </label>
             <input
@@ -143,8 +138,7 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               Fakultas
             </label>
             <input
@@ -160,8 +154,7 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               Jurusan
             </label>
             <input
@@ -183,16 +176,14 @@ const Profile = () => {
               className="rounded-md border border-transparent bg-secondary px-8 py-2 
               text-base font-medium text-white duration-100 ease-out hover:bg-secondaryAlternative
               hover:scale-105 active:scale-95"
-              onClick={handleDoneEditing}
-            >
+              onClick={handleDoneEditing}>
               Save
             </button>
             <button
               className="rounded-md border border-transparent bg-primary px-8 py-2 
               text-base font-medium text-white duration-100 ease-out hover:bg-primaryAlternative
               hover:scale-105 active:scale-95"
-              onClick={handleDoneEditing}
-            >
+              onClick={handleDoneEditing}>
               Cancel
             </button>
           </>
@@ -203,9 +194,8 @@ const Profile = () => {
             hover:scale-105 active:scale-95"
             onClick={() => {
               localStorage.clear();
-              navigate("/login")
-            }}
-          >
+              navigate("/login");
+            }}>
             Log Out
           </button>
         )}

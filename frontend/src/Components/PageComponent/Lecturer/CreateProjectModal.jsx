@@ -56,8 +56,7 @@ function CreateProjectModal({ isOpen, closeModal }) {
         <div className="w-full relative shadow-lg p-12 my-4 rounded-3xl justify-center h-full overflow-y-auto bg-whiteAlternative flex flex-col">
           <button
             onClick={closeModal}
-            className=" my-auto focus:outline-none cursor-pointer self-end active:scale-95 duration-100 ease-in hover:scale-105"
-          >
+            className=" my-auto focus:outline-none cursor-pointer self-end active:scale-95 duration-100 ease-in hover:scale-105">
             <AiFillCloseCircle className="text-4xl  " />
           </button>
           <h1 className="text-center text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
@@ -124,8 +123,7 @@ function CreateProjectModal({ isOpen, closeModal }) {
                     placeholder="Write your project description here"
                     className="p-1 sm:p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  ></textarea>
+                    onChange={(e) => setDescription(e.target.value)}></textarea>
                 </div>
               </div>
 
@@ -154,8 +152,7 @@ function CreateProjectModal({ isOpen, closeModal }) {
               <div className="w-1/2">
                 <label
                   className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block"
-                  htmlFor=""
-                >
+                  htmlFor="">
                   Faculty
                 </label>
                 <select
@@ -163,8 +160,7 @@ function CreateProjectModal({ isOpen, closeModal }) {
                   onChange={(e) => setFaculty(e.target.value)}
                   className="p-1 sm:p-2 text-xs w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                   name=""
-                  id=""
-                >
+                  id="">
                   <option>Informatika</option>
                   <option>Industri Kreatif</option>
                   <option>Teknik Elektro</option>
@@ -191,6 +187,8 @@ function CreateProjectModal({ isOpen, closeModal }) {
                   </div>
                 </div>
 
+                <div className="mx-3 h-14 pt-8">-</div>
+
                 <div className="">
                   <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
                     Project End
@@ -216,8 +214,7 @@ function CreateProjectModal({ isOpen, closeModal }) {
                     ? "bg-black cursor-not-allowed"
                     : " bg-primary hover:bg-brightPrimary cursor-pointer"
                 }`}
-                disabled={!isInputComplete}
-              >
+                disabled={!isInputComplete}>
                 Create
               </button>
             </div>
