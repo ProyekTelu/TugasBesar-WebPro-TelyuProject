@@ -1,8 +1,14 @@
 import React from 'react'
 
 function HomeStudent() {
+
+  const dataProjects = [
+
+  ]
   return (
-    <div>HomeStudent</div>
+    <>
+      hehe
+    </>
   )
 }
 

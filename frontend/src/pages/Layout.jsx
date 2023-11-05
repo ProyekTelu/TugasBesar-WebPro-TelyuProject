@@ -115,7 +115,7 @@ const Layout = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row h-screen w-screen">
+      <div className="flex flex-col md:flex-row h-screen w-screen text-black">
         {/* SIDEBAR MD> */}
         <div
           className={`hidden relative px-6 py-12 h-screen text-black bg-white border-r-grey border-r-[1px] md:block`}
@@ -223,7 +223,7 @@ const Layout = () => {
               <div className="h-1 w-1 rounded-full bg-greyAlternative"></div>
               <div className="h-1 w-1 rounded-full bg-greyAlternative"></div>
               <div className="h-1 w-1 rounded-full bg-greyAlternative"></div>
-            </div>
+            </div> 
             <div className="inline h-7 w-7">
               <img src={Logo} alt="png" />
             </div>
@@ -272,12 +272,12 @@ const Layout = () => {
         <div
           className={`h-screen basis-full overflow-y-auto relative bg-white pointer-events-auto`}
         >
-          <div className="p-12">
+          <div className="p-12 h-full">
 
             <Outlet />
 
             {/* NOTIF BALOON */}
-            <Notification />
+            {/* <Notification /> */}
           </div>
         </div>
       </div>

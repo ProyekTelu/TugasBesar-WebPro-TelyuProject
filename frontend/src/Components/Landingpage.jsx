@@ -76,81 +76,26 @@ const Landingpage = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col">
-      <div className="flex justify-center w-full">
-        <div className="flex flex-col md:flex-row items-center justify-between w-11/12 md:w-3/4 py-4 md:py-10" id="navbar">
-          <div className="mb-4 md:mb-0 flex items-center">
-            <img src={logo} alt="Tel-u Project" className="w-20" />
-            <p className="ml-2 text-3xl font-bold text-gray-800">
-              Tel-u Project
-            </p>
-          </div>
-        </div>
-      </div>
-      <br />
-      <br />
-      <div className="flex w-full h-full justify-center mt-6 md:mt-20">
-        <div className="flex flex-col md:flex-row justify-between w-3/4 lg:w-3/4">
-          <div className="w-full md:w-3/4 flex flex-col gap-4">
-            <p className="text-xl md:text-3xl lg:text-8xl leading-relaxed font-bold">
-              Embrace your dreams and passions, whether by discovering or creating projects, to be a positive change-maker in a world full of possibilities.
-            </p>
-          </div>
-          <div className="w-full md:w-1/2 lg:w-1/4 flex flex-col gap-12">
-            <div className="text-lg md:text-xl lg:text-2xl leading-relaxed p-4 bg-white rounded-lg shadow-lg">
-              <Link to="/login" className="text-black hover:underline text-center md:text-left">
-                JOIN AS LECTURE
-              </Link>
-              <p className="text-gray-500 lg:text-xl">
-                Explore exciting project opportunities, collaborate with peers, and enhance your academic journey.
-              </p>
+    <div className="py-12 px-24  h-screen w-screen">
+      <div className="grid grid-cols-2 w-full h-full">
+        <div className="grid items-center ">
+          <div>
+            <div className="flex gap-4">
+              <img className="w-8 h-8" src={logo} alt=".png" />
+              <h1 className="text-2xl mb-6">Telyu Project</h1>
             </div>
-            <div className="text-lg md:text-xl lg:text-2xl leading-relaxed p-4 bg-white rounded-lg shadow-lg">
-              <Link to="/login" className="text-black hover:underline text-center md:text-left">
-                JOIN AS STUDENT
-              </Link>
-              <p className="text-gray-500 lg:text-xl">
-                Seeking to post and manage your research or class projects and find talented students to work with.
-              </p>
+            <h1 className="text-6xl font-bold">Discover your dream project or help create one.</h1>
+          </div>
+        </div>
+        <div className="p-12 gap-12 grid grid-rows-2">
+            <div className="border-2 rounded-xl border-black">
+
             </div>
-          </div>
+            <div className="border-2 rounded-xl border-black">
+
+            </div>
         </div>
       </div>
-      <div className="w-3/4 md:w-3/4 mx-auto my-20">
-        <div className="mb-8">
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">FAKULTAS TELKOM UNIVERSITY</h2>
-        </div>
-        {faculties.map((faculty, index) => (
-          <div
-            key={index}
-            className="mb-6 p-6 bg-white rounded-lg shadow-lg cursor-pointer transition transform hover:scale-105 duration-300"
-            onClick={() => toggleItem(index)}
-          >
-            <h3 className="text-lg lg:text-xl font-bold">{faculty.name}</h3>
-            {expanded === index && <p className="text-gray-600">{faculty.description}</p>}
-          </div>
-        ))}
-      </div>
-      <div className="w-3/4 md:w-3/4 mx-auto my-8">
-        <div className="mb-8">
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">Pertanyaan Umum (FAQ)</h2>
-        </div>
-        {faqItems.map((section, sectionIndex) => (
-          <div key={sectionIndex}>
-            {section.items.map((item, index) => (
-              <div
-                key={index}
-                className="mb-6 p-6 bg-white rounded-lg shadow-lg cursor-pointer transition transform hover:scale-105 duration-300"
-                onClick={() => toggleItem(index)}
-              >
-                <h3 className="text-lg lg:text-xl font-bold">{item.question}</h3>
-                {expanded === index && <p className="text-gray-600">{item.answer}</p>}
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-      <Footer/>
     </div>
   );
 };
