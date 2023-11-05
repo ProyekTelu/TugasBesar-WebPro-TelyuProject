@@ -12,6 +12,7 @@ import CreateProjectModal from "./CreateProjectModal";
 function MyProjectLecturer() {
   const [isModalOpenDetail, setModalOpenDetail] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const User = JSON.parse(localStorage.getItem("user"));
 
   Modal.setAppElement(document.getElementById("root"));
 
@@ -95,11 +96,12 @@ function MyProjectLecturer() {
             </div>
           </div>
 
-          {!isModalOpenDetail && (
+          {!isModalOpenDetail && User.role === "lecturer" && (
             <div className="flex justify-end mt-8">
               <button
                 onClick={openModal}
-                className="w-60 h-10 bg-secondary rounded-md shadow hover:bg-secondaryAlternative hover:scale-105 transition active:scale-95">
+                className="w-60 h-10 bg-secondary rounded-md shadow hover:bg-secondaryAlternative hover:scale-105 transition active:scale-95"
+              >
                 <div className="text-white text-xl font-bold font-['Inter']">
                   Create Project
                 </div>
@@ -110,17 +112,20 @@ function MyProjectLecturer() {
         <Modal
           className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
           isOpen={modalIsOpen}
-          onRequestClose={closeModal}>
+          onRequestClose={closeModal}
+        >
           <CreateProjectModal isOpen={modalIsOpen} closeModal={closeModal} />
         </Modal>
         <Modal
           className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
           isOpen={isModalOpenDetail}
-          onRequestClose={closeModalDetail}>
-            {isModalOpenDetail && <ProjectDetailModal onClose={closeModalDetail} />}
+          onRequestClose={closeModalDetail}
+        >
+          {isModalOpenDetail && (
+            <ProjectDetailModal onClose={closeModalDetail} />
+          )}
         </Modal>
       </div>
-      
     </div>
   );
 }

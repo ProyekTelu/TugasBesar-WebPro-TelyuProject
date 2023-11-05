@@ -287,7 +287,7 @@ const Layout = () => {
             <Outlet />
 
             {/* NOTIF BALOON */}
-            {/* <Notification /> */}
+            <Notification />
           </div>
         </div>
       </div>
