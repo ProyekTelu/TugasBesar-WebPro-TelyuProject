@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Imgbg from "../img/consul2.png";
+import Imgbg from "../../img/consul2.png";
 import { IoCaretBackCircleOutline } from "react-icons/io5";
 
 const JoinProject = () => {
@@ -22,6 +22,8 @@ const JoinProject = () => {
       uploadedCV,
     });
   };
+
+  
 
   useEffect(() => {
     setIsInputComplete(

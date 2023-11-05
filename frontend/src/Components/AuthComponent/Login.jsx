@@ -22,7 +22,7 @@ const Login = () => {
 
   useEffect(() => {
     if (localStorage.getItem("user")) {
-      navigate("/home");
+      navigate("/telyuProject");
     }
     dispatch(reset());
   }, [user, isSuccess, dispatch, navigate]);

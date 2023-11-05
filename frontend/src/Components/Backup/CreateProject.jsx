@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Imgbg from "../img/consul2.png";
+import Imgbg from "../../img/consul2.png";
 import { IoCaretBackCircleOutline } from "react-icons/io5";
 
 const CreateProject = () => {

@@ -8,15 +8,15 @@ import Notification from "../Components/PageComponent/Notification";
 const Layout = () => {
   const currentNav = useNavigate();
   const [isExpand, setIsExpand] = useState(localStorage.getItem("isExpand"));
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null );
   const [isPageButtonShow, setIsPageButtonShow] = useState(false);
   const pageButtonRef = useRef(null);
 
-  useEffect(() => {
-    localStorage.getItem("user")
-      ? setUser(JSON.parse(localStorage.getItem("user")))
-      : currentNav("/login");
-  }, [currentNav]);
+  if (!localStorage.getItem("user")) {
+    currentNav("/login")
+  }
 
   useEffect(() => {
     // Add event listener when the component mounts
@@ -35,32 +35,41 @@ const Layout = () => {
           {
             content: "Home",
             logo: "BsFillHouseDoorFill",
-            pageSession: "homeStudent",
+            endPoint: "home",
           },
           {
             content: "Project List",
             logo: "BsListNested",
-            pageSession: "joinForm",
+            endPoint: "listProject",
           },
           {
             content: "My Project",
-            logo: "BsFillAirplaneEnginesFill",
-            pageSession: "myProject",
+            logo: "BsFillBarChartLineFill",
+            endPoint: "myProject",
           },
         ]
       : [
           // LECTURER SESSION
           {
+            content: "Home",
+            logo: "BsFillHouseDoorFill",
+            endPoint: "home",
+          },
+          {
+            content: "Project List",
+            logo: "BsListNested",
+            endPoint: "listProject",
+          },
+          {
             content: "Requested",
-            logo: "",
-            pageSession: "requested",
+            logo: "BsFileEarmarkPersonFill",
+            endPoint: "requested",
           },
           {
             content: "My Project",
             logo: "BsFillBarChartLineFill",
-            pageSession: "createForm",
+            endPoint: "myProject",
           },
-          { content: "Project Detail", logo: "", pageSession: "projectDetail" },
         ];
 
   const handleDocumentClick = (e) => {
@@ -88,7 +97,7 @@ const Layout = () => {
     const newPageButtonStates = pageButtonStates;
     newPageButtonStates.fill(false);
     newPageButtonStates[index] = true;
-    currentNav(pageButtonContent[index].pageSession);
+    currentNav(pageButtonContent[index].endPoint);
     localStorage.setItem("currentNav", index);
     setPageButtonStates(newPageButtonStates);
   };
@@ -163,7 +172,7 @@ const Layout = () => {
             <div
               className="absolute flex items-center justify-center h-12 w-12 
             bg-white drop-shadow-md hover:shadow-lg right-0 bottom-0 translate-x-6 -translate-y-32 
-            rounded-xl cursor-pointer ease-in duration-0 z-10"
+            rounded-xl cursor-pointer ease-in duration-0 z-[1]"
               onClick={toogleNavbarSize}
             >
               <img
@@ -264,6 +273,7 @@ const Layout = () => {
           className={`h-screen basis-full overflow-y-auto relative bg-white pointer-events-auto`}
         >
           <div className="p-12">
+
             <Outlet />
 
             {/* NOTIF BALOON */}
