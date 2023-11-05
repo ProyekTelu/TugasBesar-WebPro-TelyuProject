@@ -3,9 +3,9 @@ import React from 'react'
 const Page1 = () => {
     return (
         <>
-            <div className='w-72 h-32 bg-black'>
-
-            </div>
+            <button className='p-6 w-auto bg-secondary rounded-full hover:p-8'>
+                Button
+            </button>
         </>
     )
 }

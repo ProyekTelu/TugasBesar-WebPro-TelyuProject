@@ -12,8 +12,8 @@ const Layout = () => {
   const [notifActive, setNotifActive] = useState(false);
   const [user, setUser] = useState([])
   const [isPageButtonShow,setIsPageButtonShow] = useState(false);
-  const pageButtonRef = useRef(null);
-  console.log(isPageButtonShow)
+  const pageButtonRef = useRef(null)
+  
 
   useEffect(() => {
     localStorage.getItem("user") === "" ?
@@ -33,7 +33,7 @@ const Layout = () => {
 
   const pageButtonContent = user.role === "student" ? [
     { content: "Home", logo: "BsFillHouseDoorFill", pageSession: "page1" },
-    { content: "Project List", logo: "BsFillHouseDoorFill", pageSession: "joinForm" },
+    { content: "Project List", logo: "BsFillAirplaneEnginesFill", pageSession: "joinForm" },
     { content: "Project List", logo: "BsFillHouseDoorFill", pageSession: "joinForm" }
   ] :
     [
@@ -48,14 +48,11 @@ const Layout = () => {
         // Clicked inside the pageButton; do nothing.
         return;
       }
+  
       // Clicked outside the pageButton; hide it.
       setIsPageButtonShow(false);
   };
 
-  const toggleShowPageButton = (e) => {
-    e.stopPropagation();
-    setIsPageButtonShow((prevShow) => !prevShow);
-  };
 
   // Apply "true" to the button which is clicked by user and the rest is "false"
   const [pageButtonStates, setPageButtonStates] = useState(() => {
@@ -170,9 +167,9 @@ const Layout = () => {
         <div className="block md:hidden">
           
           {/* HEADER */}
-          <div className="flex fixed w-full px-8 justify-between items-center h-16 bg-white border-b-[1px] border-greyAlternative ">
+          <div className="flex sticky top-0 w-full px-8 justify-between items-center h-16 bg-white border-b-[1px] border-greyAlternative ">
             <div className="flex items-center p-1 rounded-full gap-1 w-auto aspect-square ease-in duration-75 hover:bg-grey active:bg-grey cursor-pointer"
-              onClick={toggleShowPageButton}>
+              onClick={(e) => {e.stopPropagation();setIsPageButtonShow(!isPageButtonShow)}}>
               <div className="h-1 w-1 rounded-full bg-greyAlternative"></div>
               <div className="h-1 w-1 rounded-full bg-greyAlternative"></div>
               <div className="h-1 w-1 rounded-full bg-greyAlternative"></div>
@@ -185,8 +182,9 @@ const Layout = () => {
           </div>
 
           {/* PAGE BUTTON */}
-          <div className={`bg-white absolute h-screen w-1/3 min-w-[250px] px-6 py-10 
-            ${isPageButtonShow ? "translate-x-0" : "-translate-x-full hidden"} `} ref={pageButtonRef}>
+          <div className={`z-10 top-0 h-full bg-white absolute w-1/3 min-w-[250px] px-6 py-10 
+            ${isPageButtonShow ? "translate-x-0" : "-translate-x-full hidden"} shadow-md
+            `} ref={pageButtonRef}>
             <div
               className={`mb-5 w-auto overflow-y-auto basis-[80%] flex flex-col tr`}>
               <p className="mb-2 text-gray-300 font-light text-[12px]">HOME</p>
@@ -211,7 +209,7 @@ const Layout = () => {
         </div>
 
         {/* CONTENT */}
-        <div className={`-z-10 h-screen basis-full overflow-y-auto relative bg-white`}>
+        <div className={`h-screen basis-full overflow-y-auto relative bg-white pointer-events-auto`}>
           <div className="p-12">
             <Outlet />
 
