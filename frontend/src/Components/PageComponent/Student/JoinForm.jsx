@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { IoCaretBackCircleOutline } from "react-icons/io5";
 
-function JoinForm() {
+function JoinForm({title}) {
   const userName = "Reza Adhie Dharmawan";
   const userEmail = "reza@student.telkomuniversity.ac.id";
   const userPhone = "+1234567890";
@@ -179,7 +179,7 @@ function JoinForm() {
         
         <div className="text-right h-auto w-full rounded-lg p-1 flex justify-end align-middle">
               <label className="my-auto text-xs sm:text-sm md:text-base">request letter for 
-              <span className="text-sm sm:text-lg md:text-xl font-bold"> EcoScape </span>
+              <span className="text-sm sm:text-lg md:text-xl font-bold"> {title} </span>
               </label>
         </div>
       </div>

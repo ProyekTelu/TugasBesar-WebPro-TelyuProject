@@ -9,11 +9,15 @@ module.exports = {
         grey: "#ECEAE9",
         primary: "#D31C1C",
         secondary: "#77D31C",
+        tertiary: "#1CD3D3",
+        quarternary : "#771CD3",
         whiteAlternative: "#fff",
         blackAlternative: "#252422",
         greyAlternative: "#C5C3C4",
         primaryAlternative: "#E53D3D",
         secondaryAlternative: "#91E53D",
+        tertiaryAlternative: "#3DE5E5",
+        quarternaryAlternative: "#913DE5",
       },
       keyframes: {
         minimizeSideBar: {

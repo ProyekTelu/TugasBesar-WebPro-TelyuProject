@@ -117,7 +117,7 @@ const Layout = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row h-screen w-screen">
+      <div className="flex flex-col md:flex-row h-screen w-screen text-black">
         {/* SIDEBAR MD> */}
         <div
           className={`hidden relative px-6 py-12 h-screen text-black bg-white border-r-grey border-r-[1px] md:block`}
@@ -287,7 +287,7 @@ const Layout = () => {
             <Outlet />
 
             {/* NOTIF BALOON */}
-            <Notification />
+            {/* <Notification /> */}
           </div>
         </div>
       </div>
