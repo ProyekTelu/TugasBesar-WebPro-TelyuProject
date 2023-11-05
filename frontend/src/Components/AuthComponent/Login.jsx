@@ -21,7 +21,7 @@ const Login = () => {
   );
 
   useEffect(() => {
-    if (localStorage.getItem("user") != null) {
+    if (localStorage.getItem("user") !== "") {
       navigate("/home/page1");
     }
     dispatch(reset());
@@ -30,6 +30,8 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     dispatch(loginUser({ email, password }));
+    localStorage.setItem("isExpand", true)
+    localStorage.setItem("currentNav", 0)
   };
 
   useEffect(() => {

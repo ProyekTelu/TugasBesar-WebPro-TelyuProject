@@ -4,11 +4,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#D31C1C",
-        secondary: "#EF233C",
         white: "#FEFBF6",
         black: "#3D3C42",
         grey: "#ECEAE9",
+        primary: "#D31C1C",
+        secondary : "#77D31C",
+        whiteAlternative : "#fff",
+        blackAlternative : "#252422",
+        greyAlternative : "#C5C3C4",
+        primaryAlternative: "#E53D3D",
+        secondaryAlternative : "#91E53D"
       },
       keyframes: {
         minimizeSideBar: {
