@@ -8,14 +8,16 @@ import Notification from "../Components/PageComponent/Notification";
 const Layout = () => {
   const currentNav = useNavigate();
   const [isExpand, setIsExpand] = useState(localStorage.getItem("isExpand"));
-  const [user, setUser] = useState(localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user"))
-    : null );
+  const [user, setUser] = useState(
+    localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user"))
+      : null
+  );
   const [isPageButtonShow, setIsPageButtonShow] = useState(false);
   const pageButtonRef = useRef(null);
 
   if (!localStorage.getItem("user")) {
-    currentNav("/login")
+    currentNav("/login");
   }
 
   useEffect(() => {
@@ -272,8 +274,7 @@ const Layout = () => {
         <div
           className={`h-screen basis-full overflow-y-auto relative bg-white pointer-events-auto`}
         >
-          <div className="p-12">
-
+          <div className="p-12 h-full">
             <Outlet />
 
             {/* NOTIF BALOON */}

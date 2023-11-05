@@ -53,7 +53,7 @@ const Notification = () => {
         style={{ userSelect: "none" }}
         className={`w-16 h-16 ${
           notifActive ? "bg-primary" : "bg-black hover:bg-gray-600 "
-        }  absolute flex justify-center md:right-10 right-0 z-20 top-10 rounded-full cursor-pointer`}
+        }  fixed flex justify-center md:right-10 right-0 z-20 top-10 rounded-full cursor-pointer`}
         onClick={() => {
           setNotifActive(!notifActive);
         }}
@@ -68,7 +68,7 @@ const Notification = () => {
       <div
         hidden={!notifActive}
         className={
-          "absolute w-auto md:w-[450px] rounded-lg py-4 bg-white md:right-28  left-10 right-10 z-10 md:left-auto top-10  border-2 scroll-smooth "
+          "fixed w-auto md:w-[450px] rounded-lg py-4 bg-white md:right-28  left-10 right-10 z-10 md:left-auto top-10  border-2 scroll-smooth "
         }
         style={{ userSelect: "none" }}
       >
@@ -100,7 +100,7 @@ const Notification = () => {
             .map((notification) => (
               <div
                 key={notification.id}
-                className="bg-white group h-auto hover:bg-primaryAlternative border-2 rounded-lg active:scale-105 transition w-full md:w-96 p-2 flex flex-row gap-2 cursor-pointer"
+                className="bg-white group h-auto hover:bg-primaryAlternative border-2 rounded-lg active:scale-95 transition w-full md:w-96 p-2 flex flex-row gap-2 cursor-pointer"
               >
                 <div
                   className={`my-auto bg-white border-2 rounded-full ${notification.dotColor}`}
