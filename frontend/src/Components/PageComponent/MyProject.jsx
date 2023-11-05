@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
+import ProjectDetailModal from './ProjectDetailModal';
+import CreateFormModal from './CreateFormModal';
+
 
 function MyProject() {
+
+  const [isModalOpenDetail, setModalOpenDetail] = useState(false);
+  const [isModalOpenCreate, setModalOpenCreate] = useState(false);
+
+  const openModalDetail = () => {
+    setModalOpenDetail(true);
+  };
+
+  const closeModalDetail = () => {
+    setModalOpenDetail(false);
+  };
+
+  const openModalCreate = () => {
+    setModalOpenCreate(true);
+  };
+
+  const closeModalCreate = () => {
+    setModalOpenCreate(false);
+  };
+
   return (
     <div className="flex justify-center w-full">
       <div className="w-11/12 lg:mt-10 flex justify-center relative">
@@ -18,7 +41,7 @@ function MyProject() {
               and flowers, we can ....
             </p>
             <div className="text-right mt-3 text-blue-800 font-semibold">
-              <Link to="/home/projectDetail">Show More</Link>
+              <Link onClick={openModalDetail}>Show More</Link>
             </div>
           </div>
           <div className="w-full h-min relative border-2 lg:flex-col p-5 my-4 rounded-lg justify-center overflow-y-auto max-h-[75vh]">
@@ -33,7 +56,7 @@ function MyProject() {
               participate fully in the modern ....
             </p>
             <div className="text-right mt-3 text-blue-800 font-semibold">
-              <Link to="/home/projectDetail">Show More</Link>
+              <Link onClick={openModalDetail}>Show More</Link>
             </div>
           </div>
           <div className="w-full h-min relative border-2 lg:flex-col p-5 my-4 rounded-lg justify-center overflow-y-auto max-h-[75vh]">
@@ -48,19 +71,25 @@ function MyProject() {
               individuals ....
             </p>
             <div className="text-right mt-3 text-blue-800 font-semibold">
-              <Link to="/home/projectDetail">Show More</Link>
+            <Link onClick={openModalDetail}>Show More</Link>
             </div>
           </div>
           <div className="flex justify-end mt-8">
             <button className="w-60 h-10 bg-lime-400 rounded-3xl shadow hover:bg-white">
               <div className="text-white hover:text-lime-400 text-xl font-bold font-['Inter']">
                 {" "}
-                <Link to="/home/createForm">Create Project</Link>
+                <Link onClick={openModalCreate}>Create Project</Link>
               </div>
             </button>
           </div>
         </div>
       </div>
+      {isModalOpenDetail && (
+        <ProjectDetailModal onClose={closeModalDetail} />
+      )}
+      {isModalOpenCreate && (
+        <CreateFormModal onClose={closeModalCreate} />
+      )}
     </div>
   );
 }
