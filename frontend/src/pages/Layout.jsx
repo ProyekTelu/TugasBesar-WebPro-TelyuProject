@@ -154,7 +154,8 @@ const Layout = () => {
               className="absolute flex items-center justify-center h-12 w-12 
             bg-white drop-shadow-md hover:shadow-lg right-0 bottom-0 translate-x-6 -translate-y-32 
             rounded-xl cursor-pointer ease-in duration-0 z-10"
-              onClick={toogleNavbarSize}>
+              onClick={toogleNavbarSize}
+            >
               <img
                 src={arrowLogo}
                 className={`${
@@ -168,13 +169,15 @@ const Layout = () => {
             <div
               className={`basis-[10%] ${
                 isExpand ? "" : "flex flex-col items-center justify-center"
-              }`}>
+              }`}
+            >
               <p className="mb-2 text-gray-300 font-light text-[12px]">
                 PROFILE
               </p>
               <div
                 className="flex items-center gap-4 cursor-pointer ease-in-out duration-75 hover:scale-105"
-                onClick={profilePage}>
+                onClick={profilePage}
+              >
                 <div className="h-10 aspect-square rounded-full bg-black"></div>
                 <div className={`${isExpand ? "block" : "hidden"}`}>
                   <p className="text-primary text-md font-bold">
