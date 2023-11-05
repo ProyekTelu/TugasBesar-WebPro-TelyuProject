@@ -16,7 +16,8 @@ const Layout = () => {
     { content: "Home", logo: "", pageSession: "page1" },
     { content: "Project List", logo: "", pageSession: "joinForm" },
     { content: "Requested", logo: "", pageSession: "requested" },
-    { content: "My Project", logo: "", pageSession: "createForm" },
+    { content: "Status", logo: "", pageSession: "status" },
+    { content: "Create Project", logo: "", pageSession: "createForm" },
     { content: "Project Detail", logo: "", pageSession: "projectDetail" },
     { content: "My Project", logo: "", pageSession: "myProject" },
   ];
@@ -57,21 +58,25 @@ const Layout = () => {
         {/* SIDEBAR */}
 
         <div
-          className={`relative px-6 py-12 h-screen text-black bg-white border-r-grey border-r-[1px]`}>
+          className={`relative px-6 py-12 h-screen text-black bg-white border-r-grey border-r-[1px]`}
+        >
           <div
             className={`h-full w-auto flex flex-col flex-nowrap justify-center ${
               isExpand ? "min-w-[200px]" : "w-auto"
-            }`}>
+            }`}
+          >
             {/* HEADER */}
             <div
               className={`mb-6 flex items-center gap-2 basis-[10%] ${
                 isExpand ? "" : "flex flex-col items-center justify-center  "
-              }`}>
+              }`}
+            >
               <div className="inline h-8 w-8">
                 <img src={Logo} alt="png" />
               </div>
               <p
-                className={`text-[24px] font-bold ${isExpand ? "" : "hidden"}`}>
+                className={`text-[24px] font-bold ${isExpand ? "" : "hidden"}`}
+              >
                 Tel-U Project
               </p>
             </div>
@@ -80,7 +85,8 @@ const Layout = () => {
             <div
               className={`mb-5 w-auto overflow-y-auto basis-[80%] flex flex-col ${
                 isExpand ? "" : "items-center"
-              }`}>
+              }`}
+            >
               <p className="mb-2 text-gray-300 font-light text-[12px]">HOME</p>
               {pageButtonStates.map((isClicked, index) => (
                 <div
@@ -90,7 +96,8 @@ const Layout = () => {
                       ? "pointer-event-none cursor-auto"
                       : "pointer-event-auto"
                   }`}
-                  onClick={() => handlePageButtonClick(index)}>
+                  onClick={() => handlePageButtonClick(index)}
+                >
                   <PageButton
                     isExpand={isExpand}
                     isClicked={isClicked}
@@ -106,7 +113,8 @@ const Layout = () => {
               className="absolute flex items-center justify-center h-12 w-12 
             bg-white drop-shadow-md hover:shadow-lg right-0 bottom-0 translate-x-6 -translate-y-32 
             rounded-xl cursor-pointer ease-in duration-0"
-              onClick={toogleNavbarSize}>
+              onClick={toogleNavbarSize}
+            >
               <img
                 src={arrowLogo}
                 className={`${
@@ -120,13 +128,15 @@ const Layout = () => {
             <div
               className={`basis-[10%] ${
                 isExpand ? "" : "flex flex-col items-center justify-center"
-              }`}>
+              }`}
+            >
               <p className="mb-2 text-gray-300 font-light text-[12px]">
                 PROFILE
               </p>
               <div
                 className="flex items-center gap-4 cursor-pointer"
-                onClick={profilePage}>
+                onClick={profilePage}
+              >
                 <div className="h-10 w-10 rounded-full bg-black ease-in duration-100 hover:h-11 hover:w-11"></div>
                 <div className={`${isExpand ? "block" : "hidden"}`}>
                   <p className="text-primary text-md font-bold">Jhonny Sins</p>

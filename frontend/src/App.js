@@ -5,7 +5,7 @@ import Layout from "./pages/Layout";
 import CreateProject from "./Components/CreateProject";
 import JoinProject from "./Components/JoinProject";
 import Page1 from "./Components/PageComponent/Page1";
-import Page4 from "./Components/PageComponent/Page4";
+import Status from "./Components/PageComponent/Status";
 import Page2 from "./Components/PageComponent/Page2";
 import ProfilePage from "./Components/PageComponent/ProfilePage";
 import Login from "./Components/AuthComponent/Login";
@@ -38,7 +38,7 @@ function App() {
           <Route path="page1" element={<Page1 />} />
           <Route path="page2" element={<Page2 />} />
           <Route path="requested" element={<Requested />} />
-          <Route path="page4" element={<Page4 />} />
+          <Route path="status" element={<Status />} />
           <Route path="profilePage" element={<ProfilePage />} />
           <Route path="joinForm" element={<JoinForm />} />
           <Route path="createForm" element={<CreateForm />} />
