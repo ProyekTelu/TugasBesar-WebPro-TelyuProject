@@ -3,15 +3,13 @@ import { Outlet, useNavigate } from "react-router-dom";
 import PageButton from "../Components/SideBarComponent/PageButton";
 import arrowLogo from "../img/arrow.png";
 import Logo from "../img/Logo.png";
-import { IoMdNotifications } from "react-icons/io";
-import { FaDotCircle } from "react-icons/fa";
+import Notification from "../Components/PageComponent/Notification";
 
 const Layout = () => {
   const currentNav = useNavigate();
   const [isExpand, setIsExpand] = useState(
     localStorage.getItem("isExpand") === "true" ? true : false
   );
-  const [notifActive, setNotifActive] = useState(false);
 
   // Sidebar Content
   const pageButtonContent = [
@@ -146,50 +144,7 @@ const Layout = () => {
             <Outlet />
 
             {/* NOTIF BALOON */}
-            <div
-              style={{ userSelect: "none" }}
-              className={`w-16 h-16 ${
-                notifActive ? "bg-primary" : "bg-black hover:bg-gray-600 "
-              }  absolute flex justify-center right-10 top-10 rounded-full cursor-pointer`}
-              onClick={() => {
-                setNotifActive(!notifActive);
-              }}>
-              <IoMdNotifications
-                className={`h-full w-full p-4 my-auto  text-white transition duration-75 focus:scale-90`}
-              />
-              <div className="absolute right-3 top-2  bg-primary rounded-full h-5 w-5 flex justify-center">
-                <div className="my-auto text-xs text-white font-medium">10</div>
-              </div>
-            </div>
-            <div
-              hidden={!notifActive}
-              className={
-                "absolute w-72 rounded-lg py-4 bg-red-400 right-28 top-10"
-              }>
-              <h1 className="px-5 text-2xl text-white font-bold">Notifikasi</h1>
-              <div className="w-full my-auto p-5 flex flex-col gap-2 max-h-44 overflow-y-auto">
-                <div className="bg-white w-full p-2 rounded-md flex flex-row gap-2 cursor-pointer">
-                  <div className="my-auto">
-                    <FaDotCircle className="text-lg text-yellow-400" />
-                  </div>
-                  <div>
-                    <label htmlFor="" className="font-medium cursor-pointer">
-                      EcoScape
-                    </label>
-                  </div>
-                </div>
-                <div className="bg-white w-full p-2 rounded-md flex flex-row gap-2 cursor-pointer">
-                  <div className="my-auto">
-                    <FaDotCircle className="text-lg text-primary" />
-                  </div>
-                  <div>
-                    <label htmlFor="" className="font-medium cursor-pointer">
-                      EcoScape
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Notification />
           </div>
         </div>
       </div>

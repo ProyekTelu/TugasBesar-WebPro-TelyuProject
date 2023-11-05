@@ -41,6 +41,15 @@ module.exports = {
         rotateLeft: "rotatLeft 0.3s ease-out",
         rotateRight: "rotateRight 0.3s ease-out forwards",
       },
+      modalOverlay: {
+        position: "fixed",
+        top: "0",
+        left: "0",
+        width: "100%",
+        height: "100%",
+        background: " rgba(0, 0, 0, 0.5)",
+        zindex: "49",
+      },
     },
     screens: {
       xs: "480px",
