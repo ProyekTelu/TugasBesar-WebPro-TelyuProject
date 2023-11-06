@@ -275,7 +275,7 @@ const Signup = () => {
   return (
     <div
       className={`w-screen  ${
-        currentStep === 0 ? "h-screen" : "xl:h-screen"
+        currentStep === 0 ? "h-screen" : "md:h-screen"
       } flex justify-center`}
     >
       <ToastContainer />
