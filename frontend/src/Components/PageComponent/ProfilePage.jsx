@@ -150,7 +150,7 @@ const Profile = () => {
                 isEditing ? "bg-gray-200" : ""
               } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
-              id="NIM"
+              id="nim"
               onChange={handlenomorIndukChange}
               readOnly={!isEditing}
               value={nomorInduk}
@@ -169,7 +169,7 @@ const Profile = () => {
                   isEditing ? "bg-gray-200" : ""
                 } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                 type="text"
-                id="nama"
+                id="role"
                 onChange={handleroleChange}
                 readOnly={!isEditing}
                 value={role}
@@ -188,7 +188,7 @@ const Profile = () => {
                 isEditing ? "bg-gray-200" : ""
               } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
-              id="Gender"
+              id="gender"
               onChange={handlegenderChange}
               readOnly={!isEditing}
               value={gender}
@@ -207,7 +207,7 @@ const Profile = () => {
                   isEditing ? "bg-gray-200" : ""
                 } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                 type="text"
-                id="nama"
+                id="kelas"
                 onChange={handlekelasChange}
                 readOnly={!isEditing}
                 value={kelas}
@@ -228,7 +228,7 @@ const Profile = () => {
                 isEditing ? "bg-gray-200" : ""
               } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
-              id="Nomor HP"
+              id="namaAkhir"
               onChange={handlelastNameChange}
               readOnly={!isEditing}
               value={lastName}
@@ -246,7 +246,7 @@ const Profile = () => {
                 isEditing ? "bg-gray-200" : ""
               } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
-              id="Nomor HP"
+              id="nomorHp"
               onChange={handlephoneNumberChange}
               readOnly={!isEditing}
               value={phoneNumber}
@@ -265,7 +265,7 @@ const Profile = () => {
                   isEditing ? "bg-gray-200" : ""
                 } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                 type="text"
-                id="NIM"
+                id="kodeDosen"
                 onChange={handlekodeDosenChange}
                 readOnly={!isEditing}
                 value={kodeDosen}
@@ -284,7 +284,7 @@ const Profile = () => {
                 isEditing ? "bg-gray-200" : ""
               } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
-              id="Fakultas"
+              id="fakultas"
               onChange={handlekodeFakultas}
               readOnly={!isEditing}
               value={kodeFakultas}
@@ -303,7 +303,7 @@ const Profile = () => {
                   isEditing ? "bg-gray-200" : ""
                 } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                 type="text"
-                id="Jurusan"
+                id="jurusan"
                 onChange={handlekodeProdi}
                 readOnly={!isEditing}
                 value={kodeProdi}
