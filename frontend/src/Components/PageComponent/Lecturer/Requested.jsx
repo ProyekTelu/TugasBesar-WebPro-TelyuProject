@@ -22,7 +22,7 @@ const Requested = () => {
     <div className=" flex justify-center w-full ">
       <div className="w-full mx-auto grid md:grid-cols-1 gap-4 xs:grid-cols-1  xs:gap-4 xss:grid-cols-1 ">
         <div className="flex justify-between gap-5 xss:flex-col xs:flex-row">
-          <label className="xss:text-2xl xs:text-3xl font-bold  ">
+          <label className=" font-bold">
             REQUESTED
           </label>
 
@@ -46,26 +46,26 @@ const Requested = () => {
                 />
               </div>
 
-              <div className="flex flex-auto flex-col my-auto w-full gap-1 sm:text-left">
-                <label className="font-bold xss:text-xs md:text-lg xs:text-lg mx-auto md:mx-8">
+              <div className="flex flex-auto flex-col my-auto w-full gap-1 sm:text-left mb-4">
+                <label className="font-bold mx-auto md:mx-8 text-2xl md:text-3xl mb-2"> 
                   Naufal Zaki Kemana
                 </label>
-                <label className="mx-auto md:mx-8">
-                  <span className="font-semibold xss:text-xs md:text-lg xs:text-lg">
+                <label className="mx-auto md:mx-8 text-md md:text-lg">
+                  <span className="font-semibold text-md md:text-lg ">
                     Project :{" "}
                   </span>
-                  <span className=" text-blue-800 xss:text-xs md:text-lg xs:text-lg">
+                  <span className=" text-blue-800 text-md md:text-lg">
                     TPLM
                   </span>
                 </label>
-                <label className="mx-auto md:mx-8 ">
-                  <span className="font-semibold xss:text-xs md:text-lg xs:text-lg">
+                <label className="mx-auto md:mx-8 text-md md:text-lg">
+                  <span className="font-semibold text-md md:text-lg">
                     Team :
                   </span>{" "}
                   Webpro
                 </label>
-                <label className="mx-auto md:mx-8">
-                  <span className="font-semibold xss:text-xs md:text-lg xs:text-lg">
+                <label className="mx-auto md:mx-8 text-md md:text-lg">
+                  <span className="font-semibold text-md md:text-lg">
                     Message
                   </span>{" "}
                   : izin kan saya masuk
@@ -96,7 +96,7 @@ const Requested = () => {
               className=" fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
             >
               <div className="modal-container transition-transform transform hover:scale-110">
-                <div className=" bg-gray-50 rounded-lg shadow-xl p-8">
+                <div className=" bg-white rounded-lg shadow-xl p-8">
                   <div className=" mb-4 flex justify-between">
                     <h2 className=" text-2xl font-semibold my-auto">
                       Requested From {"Naufal Zaki Kemana"}
