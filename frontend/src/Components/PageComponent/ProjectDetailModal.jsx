@@ -24,23 +24,26 @@ function ProjectDetailModal({ onClose }) {
     <div className="w-full">
       <div className="modal-content relative flex justify-center w-4/5 mx-auto">
         <div className="w-11/12 flex justify-center relative border-2 rounded-lg">
-          <div className="w-full h-full ">
+          <div className="w-full h-full relative">
             <div className="w-full relative shadow-lg lg:flex-row p-5 rounded-lg justify-center h-full overflow-y-auto max-h-[100vh] bg-whiteAlternative">
               <div className="flex flex-row justify-between">
-                <div className="flex gap-5">
-                  <h1 className="text-left text-primary text-xl sm:text-2xl md:text-4xl font-bold">
-                    {projectTitle}
-                  </h1>
-                  {!isEditing && (
-                    <div className="my-auto focus:outline-none cursor-pointer self-end active:scale-95 duration-100 ease-in hover:scale-105">
-                      <FaEdit
-                        className="text-3xl cursor-pointer "
-                        onClick={handleEditProfile}
-                      />
-                    </div>
-                  )}
+                <div className="flex gap-5 flex-col md:flex-row">
+                  <div className="flex flex-row gap-4">
+                    <h1 className="text-left text-primary text-xl sm:text-2xl md:text-4xl font-bold">
+                      {projectTitle}
+                    </h1>
+                    {!isEditing && (
+                      <div className="my-auto focus:outline-none cursor-pointer self-end active:scale-95 duration-100 ease-in hover:scale-105">
+                        <FaEdit
+                          className="text-3xl cursor-pointer "
+                          onClick={handleEditProfile}
+                        />
+                      </div>
+                    )}
+                  </div>
+
                   {isEditing && (
-                    <>
+                    <div className="flex flex-row gap-2 justify-center mx-auto">
                       <button
                         className="rounded-md border border-transparent bg-secondary px-8 py-2 
                       text-base font-medium text-white duration-100 ease-out hover:bg-secondaryAlternative
@@ -57,10 +60,10 @@ function ProjectDetailModal({ onClose }) {
                       >
                         Cancel
                       </button>
-                    </>
+                    </div>
                   )}
                 </div>
-                <div className="my-auto focus:outline-none cursor-pointer self-end active:scale-95 duration-100 ease-in hover:scale-105">
+                <div className="absolute right-5 top-5 focus:outline-none cursor-pointer self-end active:scale-95 duration-100 ease-in hover:scale-105">
                   <AiFillCloseCircle
                     onClick={onClose}
                     className="text-4xl cursor-pointer  "
@@ -70,7 +73,9 @@ function ProjectDetailModal({ onClose }) {
 
               <hr className="border-b-2 border-b-slate-950 my-5 mb-8" />
               <h1 className="text-left text-xl mb-4 font-bold">Description</h1>
-              {!isEditing && <p>{desc}</p>}
+              {!isEditing && (
+                <p className="h-32 overflow-y-auto md:h-auto">{desc}</p>
+              )}
               {isEditing && (
                 <textarea
                   rows="5"
@@ -99,42 +104,41 @@ function ProjectDetailModal({ onClose }) {
 
               <h1 className="text-left text-xl mb-4 mt-4 font-bold">Member</h1>
               <div className="overflow-x-auto">
-              <table className=" w-full table-auto">
-                <thead className="text-left border-b-2 border-b-slate-950 my-5">
-                  <th>Name</th>
-                  <th>NIM</th>
-                  <th>Generation</th>
-                  <th>Major</th>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Reza Adhie Dharmawan</td>
-                    <td>13022213016</td>
-                    <td>2021</td>
-                    <td>Software Engineering</td>
-                  </tr>
-                  <tr>
-                    <td>Reza Adhie Dharmawan</td>
-                    <td>13022213016</td>
-                    <td>2021</td>
-                    <td>Software Engineering</td>
-                  </tr>
-                  <tr>
-                    <td>Reza Adhie Dharmawan</td>
-                    <td>13022213016</td>
-                    <td>2021</td>
-                    <td>Software Engineering</td>
-                  </tr>
-                  <tr>
-                    <td>Reza Adhie Dharmawan</td>
-                    <td>13022213016</td>
-                    <td>2021</td>
-                    <td>Software Engineering</td>
-                  </tr>
-                </tbody>
-              </table>
+                <table className=" w-full table-auto">
+                  <thead className="text-left border-b-2 border-b-slate-950 my-5">
+                    <th colSpan={2}>Name</th>
+                    <th colSpan={2}>NIM</th>
+                    <th colSpan={2}>Generation</th>
+                    <th colSpan={2}>Major</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td colSpan={2}>Reza Adhie Dharmawan</td>
+                      <td colSpan={2}>13022213016</td>
+                      <td colSpan={2}>2021</td>
+                      <td colSpan={2}>Software Engineering</td>
+                    </tr>
+                    <tr>
+                      <td colSpan={2}>Reza Adhie Dharmawan</td>
+                      <td colSpan={2}>13022213016</td>
+                      <td colSpan={2}>2021</td>
+                      <td colSpan={2}>Software Engineering</td>
+                    </tr>
+                    <tr>
+                      <td colSpan={2}>Reza Adhie Dharmawan</td>
+                      <td colSpan={2}>13022213016</td>
+                      <td colSpan={2}>2021</td>
+                      <td colSpan={2}>Software Engineering</td>
+                    </tr>
+                    <tr>
+                      <td colSpan={2}>Reza Adhie Dharmawan</td>
+                      <td colSpan={2}>13022213016</td>
+                      <td colSpan={2}>2021</td>
+                      <td colSpan={2}>Software Engineering</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              
             </div>
           </div>
         </div>

@@ -106,7 +106,7 @@ function ListProjectStudent() {
         <JoinForm title={requestFormSession} />
       ) : (
         <>
-          <div className="flex justify-between">
+          <div className="flex gap-5 flex-col-reverse md:flex-row justify-between">
             <ReactPaginate
               breakLabel="..."
               nextLabel="NEXT"
