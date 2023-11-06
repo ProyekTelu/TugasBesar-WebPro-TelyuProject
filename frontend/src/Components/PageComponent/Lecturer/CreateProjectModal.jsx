@@ -52,8 +52,8 @@ function CreateProjectModal({ isOpen, closeModal }) {
   ]);
   return (
     <div className="w-full ">
-      <div className="justify-center modal-container w-3/5 mx-auto transition-transform transform hover:scale-105">
-        <div className="w-full relative shadow-lg p-12 my-4 rounded-3xl justify-center h-full overflow-y-auto bg-whiteAlternative flex flex-col">
+      <div className="justify-center modal-container w-4/5 md:w-3/5 mx-auto transition-transform transform ">
+        <div className="w-full relative shadow-lg p-4 md:p-12 my-4 rounded-3xl justify-center h-full overflow-y-auto bg-whiteAlternative flex flex-col">
           <button
             onClick={closeModal}
             className=" my-auto focus:outline-none cursor-pointer self-end active:scale-95 duration-100 ease-in hover:scale-105"
@@ -67,7 +67,7 @@ function CreateProjectModal({ isOpen, closeModal }) {
             className="flex flex-col sm:flex-row gap-4 xs:gap-6 md:gap-8 xl:gap-10"
             onSubmit={handleSubmit}
           >
-            <div className="w-full xs:w-1/2">
+            <div className="w-full ">
               <div className="flex flex-col mt-4">
                 <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
                   Project Title{" "}
@@ -105,14 +105,16 @@ function CreateProjectModal({ isOpen, closeModal }) {
                     placeholder="Write your project description here"
                     className="p-1 sm:p-2 text-xs h-full w-full  md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}></textarea>
+                    onChange={(e) => setDescription(e.target.value)}
+                  ></textarea>
                 </div>
               </div>
 
               <div className="flex flex-col mt-4">
                 <label
                   className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block"
-                  htmlFor="">
+                  htmlFor=""
+                >
                   Faculty
                 </label>
                 <select
@@ -120,7 +122,8 @@ function CreateProjectModal({ isOpen, closeModal }) {
                   onChange={(e) => setFaculty(e.target.value)}
                   className="p-1 sm:p-2 text-xs w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                   name=""
-                  id="">
+                  id=""
+                >
                   <option>Informatika</option>
                   <option>Industri Kreatif</option>
                   <option>Teknik Elektro</option>
@@ -128,7 +131,7 @@ function CreateProjectModal({ isOpen, closeModal }) {
               </div>
             </div>
 
-            <div className="w-full xs:w-1/2">
+            <div className="w-full">
               <div className="flex flex-col mt-4">
                 <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
                   Group Chat Link{" "}
@@ -168,43 +171,42 @@ function CreateProjectModal({ isOpen, closeModal }) {
                   />
                 </div>
               </div>
-              
 
-            <div className="flex flex-row justify-between mt-4">
-              <div className="">
-                <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
-                  Project Start
-                </label>
+              <div className="flex flex-row justify-between mt-4 gap-2">
                 <div className="">
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date) => {
-                      setStartDate(date);
-                      if (date > endDate) {
-                        setEndDate(date);
-                      }
-                    }}
-                    className="p-1 sm:p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
-                    placeholderText="Set Date"
-                  />
+                  <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
+                    Project Start
+                  </label>
+                  <div className="">
+                    <DatePicker
+                      selected={startDate}
+                      onChange={(date) => {
+                        setStartDate(date);
+                        if (date > endDate) {
+                          setEndDate(date);
+                        }
+                      }}
+                      className="p-1 sm:p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                      placeholderText="Set Date"
+                    />
+                  </div>
+                </div>
+
+                <div className="">
+                  <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
+                    Project End
+                  </label>
+                  <div className="">
+                    <DatePicker
+                      selected={endDate}
+                      onChange={(date) => setEndDate(date)}
+                      minDate={startDate}
+                      className="p-1 sm:p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                      placeholderText="Set Date"
+                    />
+                  </div>
                 </div>
               </div>
-
-              <div className="">
-                <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
-                  Project End
-                </label>
-                <div className="">
-                  <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                    minDate={startDate}
-                    className="p-1 sm:p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
-                    placeholderText="Set Date"
-                  />
-                </div>
-              </div>
-            </div>
             </div>
           </form>
 

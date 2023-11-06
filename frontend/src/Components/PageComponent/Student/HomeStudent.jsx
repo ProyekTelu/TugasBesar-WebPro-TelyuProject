@@ -2,42 +2,45 @@ import React from "react";
 import { BsFillPlayFill } from "react-icons/bs";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useNavigate } from "react-router-dom";
 
 function HomeStudent() {
+  const navigate = useNavigate();
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="bg-secondary h-full px-20 py-10 rounded-3xl flex flex-col">
+      <div className="bg-secondary h-auto px-5 py-2 md:px-20 md:py-10 rounded-3xl flex flex-col">
         <Swiper
           modules={[Pagination, Autoplay]}
           spaceBetween={22}
           slidesPerView={1}
           pagination={{ clickable: true }}
-          className="h-full w-full"
+          className="h-full w-full text-[26px] md:text-[68px] font-extrabold pb-5 xs:pb-10 sm:pb-20"
           autoplay={{ delay: 3000, disableOnInteraction: false }}
         >
-          <SwiperSlide className="cursor-pointer text-[64px] font-bold">
+          <SwiperSlide className="cursor-pointer    mt-1">
             Progress begins with knowledge, and knowledge begins here.
           </SwiperSlide>
-          <SwiperSlide className="cursor-pointer text-[64px] font-bold">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Culpa,
-            reiciendis!
+          <SwiperSlide className="cursor-pointer   mt-1">
+            Beras habis? Live solusinya swipe up swipe up give coin
           </SwiperSlide>
-          <SwiperSlide className="cursor-pointer text-[64px] font-bold">
+          <SwiperSlide className="cursor-pointer  mt-1">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima quia
           </SwiperSlide>
         </Swiper>
       </div>
-      <div className="flex flex-row h-full mt-8 gap-6 ">
-        <div className="px-12 py-6 rounded-3xl w-3/4 h-full bg-whiteAlternative">
-          <h1 className="text-5xl  font-bold text-center">Active Project</h1>
+      <div className="flex flex-col md:flex-row h-full mt-8 gap-6 ">
+        <div className="md:px-12 py-6 rounded-3xl w-full md:w-3/4 h-full bg-whiteAlternative">
+          <h1 className="text-[26px] md:text-5xl font-bold text-center">
+            Active Project
+          </h1>
           <Swiper
             modules={[Pagination]}
-            className="h-[80%] mt-8"
+            className="h-[80%] mt-8 pb-2"
             spaceBetween={22}
             slidesPerView={1}
             pagination={{ clickable: true }}
           >
-            <SwiperSlide className="w-full inline-block h-[85%] relative border-2 hover:shadow-lg hover:bg-white lg:flex-col p-5 rounded-lg justify-center overflow-y-auto cursor-pointer transition active:scale-95">
+            <SwiperSlide className="w-full inline-block h-[85%] relative border-2 hover:shadow-lg  hover:bg-white lg:flex-col p-5 rounded-lg justify-center overflow-y-auto cursor-pointer transition active:scale-95">
               <h1 className="text-left text-primary text-xl font-bold">
                 EcoScape
               </h1>
@@ -60,7 +63,7 @@ function HomeStudent() {
             </SwiperSlide>
             <SwiperSlide className="w-full inline-block h-[85%] relative border-2 hover:shadow-lg hover:bg-white lg:flex-col p-5 rounded-lg justify-center overflow-y-auto cursor-pointer transition active:scale-95">
               <h1 className="text-left text-primary text-xl font-bold">
-                EcoScape
+                Penanaman pohon pada daerah karanganyar
               </h1>
               <h1 className="border-b-2 border-gray-400 my-2"> </h1>
               <p className="line-clamp-3 ">
@@ -81,7 +84,7 @@ function HomeStudent() {
             </SwiperSlide>
             <SwiperSlide className="w-full inline-block h-[85%] relative border-2 hover:shadow-lg hover:bg-white lg:flex-col p-5 rounded-lg justify-center overflow-y-auto cursor-pointer transition active:scale-95">
               <h1 className="text-left text-primary text-xl font-bold">
-                EcoScape
+                Beras habis live solusinya
               </h1>
               <h1 className="border-b-2 border-gray-400 my-2"> </h1>
               <p className="line-clamp-3 ">
@@ -103,13 +106,16 @@ function HomeStudent() {
           </Swiper>
         </div>
         <div
-          className="flex flex-col  py-6 w-full rounded-3xl bg-whiteAlternative cursor-pointer transition active:scale-95 "
+          className="flex md:flex-col py-6 px-4 justify-center items-center w-full rounded-3xl bg-whiteAlternative cursor-pointer transition active:scale-95 "
           style={{ userSelect: "none" }}
+          onClick={() => {
+            navigate("/telyuProject/listProject");
+          }}
         >
-          <div className="mx-auto my-auto ">
-            <BsFillPlayFill className="w-40 h-40" />
+          <div className="">
+            <BsFillPlayFill className="w-20 h-20 md:w-40 md:h-40" />
           </div>
-          <div className="text-5xl flex  mx-auto font-bold my-auto ">
+          <div className="text-xl sm:text-2xl md:text-4xl xl:text-6xl flex font-bold ">
             Find <br /> Your <br /> Projects
           </div>
         </div>
