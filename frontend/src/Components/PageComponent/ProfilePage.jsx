@@ -312,7 +312,7 @@ const Profile = () => {
           )}
         </div>
       </form>
-      <div className="gap-3 mt-6 xs:mt-8 md:mt-10 xl:mt-12 flex ">
+      <div className="gap-3 mt-6 pb-2 xs:mt-8 md:mt-10 xl:mt-12 flex ">
         {isEditing ? (
           <>
             <button

@@ -36,7 +36,7 @@ function MyProjectLecturer() {
     <div className="flex justify-center w-full">
       <div className="flex justify-center relative w-full">
         <div className="w-full h-full flex flex-col gap-6">
-          <div className="w-full h-min relative border-2 lg:flex-col p-5  rounded-lg justify-center overflow-y-auto max-h-[70vh]">
+          <div className="w-full h-min relative border-2 lg:flex-col p-5  rounded-lg justify-center overflow-y-auto max-h-[70vh] bg-whiteAlternative">
             <h1 className="text-left text-primary text-xl font-bold">
               EcoScape
             </h1>
@@ -56,7 +56,7 @@ function MyProjectLecturer() {
               <Link onClick={openModalDetail}>Show More</Link>
             </div>
           </div>
-          <div className="w-full h-min relative border-2 lg:flex-col p-5  rounded-lg justify-center overflow-y-auto max-h-[75vh]">
+          <div className="w-full h-min relative border-2 lg:flex-col p-5  rounded-lg justify-center overflow-y-auto max-h-[75vh] bg-whiteAlternative">
             <h1 className="text-left text-primary text-xl font-bold">
               TechLink
             </h1>
@@ -75,7 +75,7 @@ function MyProjectLecturer() {
               <Link onClick={openModalDetail}>Show More</Link>
             </div>
           </div>
-          <div className="w-full h-min relative border-2 lg:flex-col p-5  rounded-lg justify-center overflow-y-auto max-h-[75vh]">
+          <div className="w-full h-min relative border-2 lg:flex-col p-5  rounded-lg justify-center overflow-y-auto max-h-[75vh] bg-whiteAlternative">
             <h1 className="text-left text-primary text-xl font-bold">
               HealthSync
             </h1>
