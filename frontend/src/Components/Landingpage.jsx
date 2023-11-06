@@ -83,7 +83,7 @@ const Landingpage = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col">
+    <div className="w-screen h-screen flex flex-col overflow-x-hidden">
       <div className="flex justify-center w-full">
         <div
           className="flex flex-col md:flex-row items-center justify-between w-11/12 md:w-3/4 py-4 md:py-10"
@@ -106,7 +106,7 @@ const Landingpage = () => {
               Discover your dream project or help create one.
             </p>
           </div>
-          <div className="w-full md:w-1/2 lg:w-2/4 flex flex-col gap-12">
+          <div className="w-full md:w-2/3 lg:w-2/5 flex flex-col gap-12 mt-10">
             <div className="text-lg md:text-xl lg:text-2xl leading-relaxed p-4 bg-white rounded-lg shadow-lg">
               <Link
                 to="/login"
