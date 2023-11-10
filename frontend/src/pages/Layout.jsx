@@ -117,11 +117,10 @@ const Layout = () => {
 
   return (
     <>
-      <div className="flex flex-col-reverse md:flex-row-reverse h-screen w-screen text-black">
-
-         {/* CONTENT */}
+      <div className="flex flex-col-reverse md:flex-row-reverse min-h-screen w-screen text-black">
+        {/* CONTENT */}
         <div
-          className={`h-screen basis-full overflow-y-auto relative bg-white pointer-events-auto`}
+          className={`min-h-screen basis-full overflow-y-auto relative bg-white pointer-events-auto`}
         >
           <div className="p-4 md:p-12 h-full">
             <Outlet />
@@ -129,11 +128,11 @@ const Layout = () => {
             {/* NOTIF BALOON */}
             <Notification />
           </div>
-        </div>    
+        </div>
 
         {/* SIDEBAR MD> */}
         <div
-          className={`hidden relative px-6 py-12 h-screen text-black bg-white border-r-grey border-r-[1px] md:block`}
+          className={`hidden relative px-6 py-12 min-h-screen text-black bg-white border-r-grey border-r-[1px] md:block`}
         >
           <div
             className={`h-full w-auto flex flex-col flex-nowrap justify-center ${
@@ -291,7 +290,6 @@ const Layout = () => {
             </div>
           </div>
         </div>
-        
       </div>
     </>
   );
