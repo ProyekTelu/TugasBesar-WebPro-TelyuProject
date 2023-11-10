@@ -117,7 +117,20 @@ const Layout = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row h-screen w-screen text-black">
+      <div className="flex flex-col-reverse md:flex-row-reverse h-screen w-screen text-black">
+
+         {/* CONTENT */}
+        <div
+          className={`h-screen basis-full overflow-y-auto relative bg-white pointer-events-auto`}
+        >
+          <div className="p-4 md:p-12 h-full">
+            <Outlet />
+
+            {/* NOTIF BALOON */}
+            <Notification />
+          </div>
+        </div>    
+
         {/* SIDEBAR MD> */}
         <div
           className={`hidden relative px-6 py-12 h-screen text-black bg-white border-r-grey border-r-[1px] md:block`}
@@ -177,7 +190,7 @@ const Layout = () => {
             <div
               className="absolute flex items-center justify-center h-12 w-12 
             bg-white drop-shadow-md hover:shadow-lg right-0 bottom-0 translate-x-6 -translate-y-32 
-            rounded-xl cursor-pointer ease-in duration-0 z-[1]"
+            rounded-xl cursor-pointer ease-in duration-0"
               onClick={toogleNavbarSize}
             >
               <img
@@ -278,18 +291,7 @@ const Layout = () => {
             </div>
           </div>
         </div>
-
-        {/* CONTENT */}
-        <div
-          className={`h-screen basis-full overflow-y-auto relative bg-white pointer-events-auto`}
-        >
-          <div className="p-4 md:p-12 h-full">
-            <Outlet />
-
-            {/* NOTIF BALOON */}
-            <Notification />
-          </div>
-        </div>
+        
       </div>
     </>
   );
