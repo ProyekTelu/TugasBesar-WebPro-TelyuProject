@@ -1,46 +1,85 @@
-import React from "react";
+import React, { useState } from "react";
 import { BsFillPlayFill } from "react-icons/bs";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useNavigate } from "react-router-dom";
+import "../../../Style/homePage.css";
 
 function HomeStudent() {
   const navigate = useNavigate();
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="bg-primary bg-opacity-90 h-auto px-5 py-2 md:px-20 md:py-10 rounded-3xl flex flex-col">
+      <div
+        className={` py-4 flex-none w-fit  bg-whiteAlternative rounded-2xl border-2 border-b-0 `}
+      >
+        <h1 className="text-[26px] md:text-5xl font-bold text-start px-4">
+          New <span className="text-primary">Hot</span> Project
+        </h1>
+      </div>
+      <div className=" h-full rounded-3xl flex flex-col">
         <Swiper
-          modules={[Pagination, Autoplay]}
+          modules={[Pagination]}
+          className="w-full h-full"
           spaceBetween={22}
           slidesPerView={1}
           pagination={{ clickable: true }}
-          className="h-full w-full text-[26px] md:text-[68px] font-extrabold pb-5 xs:pb-10 text-whiteAlternative sm:pb-20"
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
         >
-          <SwiperSlide className="cursor-pointer    mt-1">
-            Progress begins with knowledge, and knowledge begins here.
+          <SwiperSlide className="w-full  border-2 hover:shadow-lg bg-whiteAlternative lg:flex-col pt-5 px-5 pb-10 rounded-lg justify-center  cursor-pointer transition h-[85%]">
+            <h1 className="text-left text-primary text-xl font-bold">
+              EcoScape
+            </h1>
+            <h1 className="border-b-2 border-gray-400 my-2"> </h1>
+            <p className="line-clamp-4 overflow-y-auto">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
+              provident totam, perferendis repellendus ullam animi dignissimos
+              ipsam excepturi, accusantium alias beatae quam rem iure in,
+              cupiditate maxime unde? Accusamus ut ducimus doloremque nemo
+              consequuntur veniam minus autem cum nostrum nam rerum ipsa
+              molestias illo dolorem, eum quos nisi atque beatae praesentium
+              maiores vero natus. Culpa vero, eligendi sapiente eveniet
+              cupiditate tenetur aliquid, accusamus consequuntur omnis, id
+              perspiciatis unde. Nulla dolorum dolore in magnam quisquam
+              cupiditate, error aspernatur neque explicabo labore at vel
+              voluptates totam ducimus itaque eos quidem vitae tempore? Error
+              sequi non vero dolorum nesciunt sint libero, harum reprehenderit.
+            </p>
           </SwiperSlide>
-          <SwiperSlide className="cursor-pointer   mt-1">
-            Beras habis? Live solusinya swipe up swipe up give coin
-          </SwiperSlide>
-          <SwiperSlide className="cursor-pointer  mt-1">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima quia
+          <SwiperSlide className="w-full  border-2 hover:shadow-lg bg-whiteAlternative lg:flex-col pt-5 px-5 pb-10 rounded-lg justify-center  cursor-pointer transition h-[85%]">
+            <h1 className="text-left text-primary text-xl font-bold">
+              EcoScape
+            </h1>
+            <h1 className="border-b-2 border-gray-400 my-2"> </h1>
+            <p className="line-clamp-4 overflow-y-auto">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
+              provident totam, perferendis repellendus ullam animi dignissimos
+              ipsam excepturi, accusantium alias beatae quam rem iure in,
+              cupiditate maxime unde? Accusamus ut ducimus doloremque nemo
+              consequuntur veniam minus autem cum nostrum nam rerum ipsa
+              molestias illo dolorem, eum quos nisi atque beatae praesentium
+              maiores vero natus. Culpa vero, eligendi sapiente eveniet
+              cupiditate tenetur aliquid, accusamus consequuntur omnis, id
+              perspiciatis unde. Nulla dolorum dolore in magnam quisquam
+              cupiditate, error aspernatur neque explicabo labore at vel
+              voluptates totam ducimus itaque eos quidem vitae tempore? Error
+              sequi non vero dolorum nesciunt sint libero, harum reprehenderit.
+            </p>
           </SwiperSlide>
         </Swiper>
       </div>
+
       <div className="flex flex-col md:flex-row h-full mt-8 gap-6 ">
-        <div className="md:px-12 py-6 rounded-3xl w-full md:w-3/4 h-full ">
+        <div className="rounded-3xl w-full md:w-3/4 flex flex-col gap-4">
           <h1 className="text-[26px] md:text-5xl font-bold text-center">
             Active Project
           </h1>
           <Swiper
             modules={[Pagination]}
-            className="h-[80%] mt-8 pb-2"
+            className="w-full h-full"
             spaceBetween={22}
             slidesPerView={1}
             pagination={{ clickable: true }}
           >
-            <SwiperSlide className="w-full inline-block h-[85%] relative border-2 hover:shadow-lg  hover:bg-whiteAlternative lg:flex-col p-5 rounded-lg justify-center overflow-y-auto cursor-pointer transition active:scale-95">
+            <SwiperSlide className="w-full h-[85%] border-2 hover:shadow-lg bg-whiteAlternative lg:flex-col p-5 rounded-lg justify-center overflow-y-auto cursor-pointer transition active:scale-95">
               <h1 className="text-left text-primary text-xl font-bold">
                 EcoScape
               </h1>
@@ -61,33 +100,12 @@ function HomeStudent() {
                 reprehenderit.
               </p>
             </SwiperSlide>
-            <SwiperSlide className="w-full inline-block h-[85%] relative border-2 hover:shadow-lg hover:bg-whiteAlternative lg:flex-col p-5 rounded-lg justify-center overflow-y-auto cursor-pointer transition active:scale-95">
+            <SwiperSlide className="w-full h-[85%] border-2 hover:shadow-lg bg-whiteAlternative lg:flex-col p-5 rounded-lg justify-center overflow-y-auto cursor-pointer transition active:scale-95">
               <h1 className="text-left text-primary text-xl font-bold">
-                Penanaman pohon pada daerah karanganyar
+                EcoScape
               </h1>
               <h1 className="border-b-2 border-gray-400 my-2"> </h1>
-              <p className="line-clamp-3 ">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
-                provident totam, perferendis repellendus ullam animi dignissimos
-                ipsam excepturi, accusantium alias beatae quam rem iure in,
-                cupiditate maxime unde? Accusamus ut ducimus doloremque nemo
-                consequuntur veniam minus autem cum nostrum nam rerum ipsa
-                molestias illo dolorem, eum quos nisi atque beatae praesentium
-                maiores vero natus. Culpa vero, eligendi sapiente eveniet
-                cupiditate tenetur aliquid, accusamus consequuntur omnis, id
-                perspiciatis unde. Nulla dolorum dolore in magnam quisquam
-                cupiditate, error aspernatur neque explicabo labore at vel
-                voluptates totam ducimus itaque eos quidem vitae tempore? Error
-                sequi non vero dolorum nesciunt sint libero, harum
-                reprehenderit.
-              </p>
-            </SwiperSlide>
-            <SwiperSlide className="w-full inline-block h-[85%] relative border-2 hover:shadow-lg hover:bg-whiteAlternative lg:flex-col p-5 rounded-lg justify-center overflow-y-auto cursor-pointer transition active:scale-95">
-              <h1 className="text-left text-primary text-xl font-bold">
-                Beras habis live solusinya
-              </h1>
-              <h1 className="border-b-2 border-gray-400 my-2"> </h1>
-              <p className="line-clamp-3 ">
+              <p className="line-clamp-3">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
                 provident totam, perferendis repellendus ullam animi dignissimos
                 ipsam excepturi, accusantium alias beatae quam rem iure in,
@@ -106,7 +124,7 @@ function HomeStudent() {
           </Swiper>
         </div>
         <div
-          className="flex md:flex-col py-6 px-4 justify-center items-center w-full rounded-3xl bg-whiteAlternative cursor-pointer transition active:scale-95 "
+          className="flex md:flex-col hover:shadow-lg py-6 px-4 justify-center items-center w-full h-full rounded-3xl bg-whiteAlternative cursor-pointer transition active:scale-95 "
           style={{ userSelect: "none" }}
           onClick={() => {
             navigate("/telyuProject/listProject");
