@@ -26,6 +26,9 @@ function HomeLecturer() {
           <SwiperSlide className="cursor-pointer  mt-1">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima quia
           </SwiperSlide>
+          <SwiperSlide className="cursor-pointer  mt-1">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima quia
+          </SwiperSlide>
         </Swiper>
       </div>
       <div className="flex flex-col md:flex-row h-full mt-8 gap-6 ">
