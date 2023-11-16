@@ -40,37 +40,25 @@ function HomeStudent() {
     <div className="w-full h-full flex flex-col">
       <div className={` py-4 flex-none w-fit  rounded-2xl `}>
         <h1 className="text-[26px] md:text-5xl font-bold text-start px-4">
-          New <span className="text-primary">Hot</span> Project
+          Newest Projects
         </h1>
       </div>
-      <div className="max-h-full flex flex-col shadow-md">
+      <div className="max-h-full flex flex-col">
         <Swiper
           modules={[Pagination]}
-          className="w-full h-full z-0"
+          className="w-full h-full z-0 shadow-md"
           spaceBetween={22}
-          slidesPerView={1}
-          pagination={{ clickable: true }}
+          slidesPerView={2}
+          pagination={{
+            clickable: true,
+          }}
         >
           <SwiperSlide className="w-full z-10 h-full shadow-lg bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-center  cursor-pointer transition ">
-            <div className="flex w-full justify-between gap-2 ">
+            <div className="flex w-full ">
               <div className="">
                 <h1 className="text-left text-primary text-3xl font-bold">
                   EcoScape
                 </h1>
-              </div>
-              <div className="flex gap-2">
-                <button
-                  className="px-2 md:py-3 md:px-4 rounded-md font-semibold text-xs text-white bg-primary rouned-md duration-75 ease-out hover:shadow-md  hover:bg-primaryAlternative hover:scale-105 active:scale-100"
-                  type="submit"
-                >
-                  Delete
-                </button>
-                <button
-                  className="px-2 md:py-3 md:px-4 rounded-md font-semibold text-xs text-white bg-blue-500 rouned-md duration-75 ease-out hover:shadow-md  hover:bg-blue-400 hover:scale-105 active:scale-100"
-                  type="submit"
-                >
-                  Edit
-                </button>
               </div>
             </div>
 
@@ -94,7 +82,7 @@ function HomeStudent() {
               dolorem, eum quos nisi atque beatae praesentium maiores vero
               natus. Culpa vero, eligendi sapiente eveniet.
             </p>
-            <div className="py-3 rounded-2xl flex flex-row gap-4 ">
+            <div className="py-3 rounded-2xl flex flex-row gap-4 mt-2">
               <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
                 {tags.map((tag, index) => (
                   <div
@@ -119,7 +107,7 @@ function HomeStudent() {
                 /> */}
               </div>
             </div>
-            <div className=" rounded-2xl flex flex-row gap-4 ">
+            <div className="rounded-2xl flex flex-row gap-4 ">
               <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
                 {prodi.map((tag, index) => (
                   <div
@@ -144,7 +132,164 @@ function HomeStudent() {
                 /> */}
               </div>
             </div>
-            <div className="flex justify-end ">
+            <div className="flex justify-end mt-2">
+              <button
+                className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
+                type="submit"
+              >
+                Send Join Request
+              </button>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide className="w-full z-10 h-full shadow-lg bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-center  cursor-pointer transition ">
+            <div className="flex w-full ">
+              <div className="">
+                <h1 className="text-left text-primary text-3xl font-bold">
+                  EcoScape
+                </h1>
+              </div>
+            </div>
+
+            <h1 className="text-left text-lg mt-2 font-medium text-black">
+              By Muhammad Zaky Fathurahim
+            </h1>
+            <hr className="my-2 rounded-full" />
+            <p className="line-clamp-3 overflow-y-auto min-h-[4rem]">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
+              provident totam, perferendis repellendus ullam animi dignissimos
+              ipsam excepturi, accusantium alias beatae quam rem iure in,
+            </p>
+            <div className="py-3 rounded-2xl flex flex-row gap-4 mt-2">
+              <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
+                {tags.map((tag, index) => (
+                  <div
+                    key={index}
+                    className="bg-primary px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
+                  >
+                    <span>{tag}</span>
+                    {/* <button
+                      onClick={() => removeTag(index)}
+                      className="ml-2 focus:outline-none"
+                    >
+                      &#10005;
+                    </button> */}
+                  </div>
+                ))}
+                {/* <input
+                  type="text"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyDown={handleInputKeyDown}
+                  className="p-2 border-none outline-none"
+                /> */}
+              </div>
+            </div>
+            <div className="rounded-2xl flex flex-row gap-4 ">
+              <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
+                {prodi.map((tag, index) => (
+                  <div
+                    key={index}
+                    className="bg-blue-400 px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
+                  >
+                    <span>{tag}</span>
+                    {/* <button
+                      onClick={() => removeTag(index)}
+                      className="ml-2 focus:outline-none"
+                    >
+                      &#10005;
+                    </button> */}
+                  </div>
+                ))}
+                {/* <input
+                  type="text"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyDown={handleInputKeyDown}
+                  className="p-2 border-none outline-none"
+                /> */}
+              </div>
+            </div>
+            <div className="flex justify-end mt-2">
+              <button
+                className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
+                type="submit"
+              >
+                Send Join Request
+              </button>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide className="w-full z-10 h-full shadow-lg bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-center  cursor-pointer transition ">
+            <div className="flex w-full ">
+              <div className="">
+                <h1 className="text-left text-primary text-3xl font-bold">
+                  EcoScape
+                </h1>
+              </div>
+            </div>
+
+            <h1 className="text-left text-lg mt-2 font-medium text-black">
+              By Muhammad Zaky Fathurahim
+            </h1>
+            <hr className="my-2 rounded-full" />
+            <p className="line-clamp-3 overflow-y-auto min-h-[4rem]">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Accusantium dolore deserunt dignissimos, facilis inventore
+              distinctio quae natus blanditiis iusto repudiandae! Ut facere iure
+              nisi enim mollitia accusantium sapiente, quo, unde reiciendis
+              incidunt, velit aspernatur et adipisci debitis minima quia ipsum
+              porro rerum vel! Ratione, qui dolorum vero omnis ipsa vitae!
+            </p>
+            <div className="py-3 rounded-2xl flex flex-row gap-4 mt-2">
+              <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
+                {tags.map((tag, index) => (
+                  <div
+                    key={index}
+                    className="bg-primary px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
+                  >
+                    <span>{tag}</span>
+                    {/* <button
+                      onClick={() => removeTag(index)}
+                      className="ml-2 focus:outline-none"
+                    >
+                      &#10005;
+                    </button> */}
+                  </div>
+                ))}
+                {/* <input
+                  type="text"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyDown={handleInputKeyDown}
+                  className="p-2 border-none outline-none"
+                /> */}
+              </div>
+            </div>
+            <div className="rounded-2xl flex flex-row gap-4 ">
+              <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
+                {prodi.map((tag, index) => (
+                  <div
+                    key={index}
+                    className="bg-blue-400 px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
+                  >
+                    <span>{tag}</span>
+                    {/* <button
+                      onClick={() => removeTag(index)}
+                      className="ml-2 focus:outline-none"
+                    >
+                      &#10005;
+                    </button> */}
+                  </div>
+                ))}
+                {/* <input
+                  type="text"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyDown={handleInputKeyDown}
+                  className="p-2 border-none outline-none"
+                /> */}
+              </div>
+            </div>
+            <div className="flex justify-end mt-2">
               <button
                 className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
                 type="submit"
