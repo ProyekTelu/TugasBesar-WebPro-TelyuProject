@@ -6,8 +6,7 @@ function ProjectDetailModal({ onClose }) {
   const projectTitle = "EcoScape";
   const owner = "Reza Adhie Dharmawan";
   const [groupLink, setGroupLink] = useState("https//www.grouplink.com");
-  const descs =
-    "EcoScape is an ambitious environmental conservation project aimed at preserving and restoring natural ecosystems in urban areas. We believe that by creating green spaces and planting native trees and flowers, we can improve air quality, provide habitat for wildlife, and enhance the overall quality of life for local communities. Our mission is to transform concrete jungles into thriving urban oases, where both people and nature can coexist harmoniously. Join us in the journey to create a greener, healthier, and more sustainable future.";
+  const descs = "e future.";
 
   const [desc, setDesc] = useState(descs);
   const [isEditing, setIsEditing] = useState(false);
@@ -21,11 +20,11 @@ function ProjectDetailModal({ onClose }) {
   };
 
   return (
-    <div className="w-full">
-      <div className="modal-content relative flex justify-center w-4/5 mx-auto">
-        <div className="w-11/12 flex justify-center relative border-2 rounded-lg">
-          <div className="w-full h-full relative">
-            <div className="w-full relative shadow-lg lg:flex-row p-5 rounded-lg justify-center h-full overflow-y-auto max-h-[100vh] bg-whiteAlternative">
+    <div className="max-w-screen-xl max-h-screen">
+      <div className="modal-content relative flex justify-center w-full ">
+        <div className="w-full flex justify-center relative border-2 rounded-lg">
+          <div className="w-screen h-full relative">
+            <div className="relative shadow-lg lg:flex-row p-5 rounded-lg justify-center  overflow-y-auto max-h-screen bg-whiteAlternative">
               <div className="flex flex-row justify-between">
                 <div className="flex gap-5 flex-col md:flex-row">
                   <div className="flex flex-row gap-4">
@@ -103,41 +102,87 @@ function ProjectDetailModal({ onClose }) {
               )}
 
               <h1 className="text-left text-xl mb-4 mt-4 font-bold">Member</h1>
-              <div className="overflow-x-auto">
-                <table className=" w-full table-auto">
-                  <thead className="text-left border-b-2 border-b-slate-950 my-5">
-                    <th colSpan={2}>Name</th>
-                    <th colSpan={2}>NIM</th>
-                    <th colSpan={2}>Generation</th>
-                    <th colSpan={2}>Major</th>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td colSpan={2}>Reza Adhie Dharmawan</td>
-                      <td colSpan={2}>13022213016</td>
-                      <td colSpan={2}>2021</td>
-                      <td colSpan={2}>Software Engineering</td>
-                    </tr>
-                    <tr>
-                      <td colSpan={2}>Reza Adhie Dharmawan</td>
-                      <td colSpan={2}>13022213016</td>
-                      <td colSpan={2}>2021</td>
-                      <td colSpan={2}>Software Engineering</td>
-                    </tr>
-                    <tr>
-                      <td colSpan={2}>Reza Adhie Dharmawan</td>
-                      <td colSpan={2}>13022213016</td>
-                      <td colSpan={2}>2021</td>
-                      <td colSpan={2}>Software Engineering</td>
-                    </tr>
-                    <tr>
-                      <td colSpan={2}>Reza Adhie Dharmawan</td>
-                      <td colSpan={2}>13022213016</td>
-                      <td colSpan={2}>2021</td>
-                      <td colSpan={2}>Software Engineering</td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div className="w-full flex flex-col gap-4 overflow-y-auto max-h-80">
+                <div className="flex flex-row gap-2 w-full justify-between bg-white p-4 rounded-lg">
+                  <div className="flex flex-row gap-4 items-center">
+                    <div className="h-10 aspect-square rounded-full bg-black "></div>
+                    <div className="flex flex-col">
+                      <label className="font-semibold text-lg" htmlFor="">
+                        Samsudin
+                      </label>
+                      <label htmlFor="">Frontend</label>
+                    </div>
+                  </div>
+                  <div className="flex flex-row gap-4 items-center">
+                    <button
+                      className="rounded-md border border-transparent bg-secondary px-8 py-2 
+                      text-base font-medium text-white duration-100 ease-out hover:bg-secondaryAlternative
+                      hover:scale-105 active:scale-95"
+                    >
+                      Detail
+                    </button>
+                  </div>
+                </div>
+                <div className="flex flex-row gap-2 w-full justify-between bg-white p-4 rounded-lg">
+                  <div className="flex flex-row gap-4 items-center">
+                    <div className="h-10 aspect-square rounded-full bg-black "></div>
+                    <div className="flex flex-col">
+                      <label className="font-semibold text-lg" htmlFor="">
+                        Samsudin
+                      </label>
+                      <label htmlFor="">Frontend</label>
+                    </div>
+                  </div>
+                  <div className="flex flex-row gap-4 items-center">
+                    <button
+                      className="rounded-md border border-transparent bg-secondary px-8 py-2 
+                      text-base font-medium text-white duration-100 ease-out hover:bg-secondaryAlternative
+                      hover:scale-105 active:scale-95"
+                    >
+                      Detail
+                    </button>
+                  </div>
+                </div>
+                <div className="flex flex-row gap-2 w-full justify-between bg-white p-4 rounded-lg">
+                  <div className="flex flex-row gap-4 items-center">
+                    <div className="h-10 aspect-square rounded-full bg-black "></div>
+                    <div className="flex flex-col">
+                      <label className="font-semibold text-lg" htmlFor="">
+                        Samsudin
+                      </label>
+                      <label htmlFor="">Frontend</label>
+                    </div>
+                  </div>
+                  <div className="flex flex-row gap-4 items-center">
+                    <button
+                      className="rounded-md border border-transparent bg-secondary px-8 py-2 
+                      text-base font-medium text-white duration-100 ease-out hover:bg-secondaryAlternative
+                      hover:scale-105 active:scale-95"
+                    >
+                      Detail
+                    </button>
+                  </div>
+                </div>
+                <div className="flex flex-row gap-2 w-full justify-between bg-white p-4 rounded-lg">
+                  <div className="flex flex-row gap-4 items-center">
+                    <div className="h-10 aspect-square rounded-full bg-black "></div>
+                    <div className="flex flex-col">
+                      <label className="font-semibold text-lg" htmlFor="">
+                        Samsudin
+                      </label>
+                      <label htmlFor="">Frontend</label>
+                    </div>
+                  </div>
+                  <div className="flex flex-row gap-4 items-center">
+                    <button
+                      className="rounded-md border border-transparent bg-secondary px-8 py-2 
+                      text-base font-medium text-white duration-100 ease-out hover:bg-secondaryAlternative
+                      hover:scale-105 active:scale-95"
+                    >
+                      Detail
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

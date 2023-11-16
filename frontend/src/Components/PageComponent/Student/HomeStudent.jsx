@@ -13,28 +13,11 @@ function HomeStudent() {
     "Teamworks",
     "Machine Learning",
     "Python",
-    "Data Analysis",
-    "React.js",
-    "Artificial Intelligence",
-    "Problem Solving",
-    "Communication Skills",
-    "Node.js",
-    "Java",
-    "HTML/CSS",
-    "Deep Learning",
-    "Cloud Computing",
-    "Time Management",
-    "UX/UI Design",
-    "Version Control (Git)",
-    "Agile Methodologies",
-    "Critical Thinking",
-    "Deep Learning",
-    "Cloud Computing",
-    "Time Management",
-    "UX/UI Design",
-    "Version Control (Git)",
-    "Agile Methodologies",
-    "Critical Thinking",
+  ]);
+
+  const [prodi, setProdi] = useState([
+    "Frontend Engineer",
+    "S1 - Teknik Elektro",
   ]);
 
   const [inputValue, setInputValue] = useState("");
@@ -92,7 +75,7 @@ function HomeStudent() {
             </div>
 
             <h1 className="text-left text-lg mt-2 font-medium text-black">
-              Muhammad Zaky Fathurahim
+              By Muhammad Zaky Fathurahim
             </h1>
             <hr className="my-2 rounded-full" />
             <p className="line-clamp-3 overflow-y-auto min-h-[4rem]">
@@ -102,14 +85,46 @@ function HomeStudent() {
               cupiditate maxime unde? Accusamus ut ducimus doloremque nemo
               consequuntur veniam minus autem cum nostrum nam rerum ipsa
               molestias illo dolorem, eum quos nisi atque beatae praesentium
-              maiores vero natus. Culpa vero, eligendi sapiente eveniet.
+              maiores vero natus. Culpa vero, eligendi sapiente eveniet. Lorem
+              ipsum dolor sit amet consectetur adipisicing elit. Neque provident
+              totam, perferendis repellendus ullam animi dignissimos ipsam
+              excepturi, accusantium alias beatae quam rem iure in, cupiditate
+              maxime unde? Accusamus ut ducimus doloremque nemo consequuntur
+              veniam minus autem cum nostrum nam rerum ipsa molestias illo
+              dolorem, eum quos nisi atque beatae praesentium maiores vero
+              natus. Culpa vero, eligendi sapiente eveniet.
             </p>
-            <div className="py-3 rounded-2xl mt-2 ">
-              <div className="flex flex-wrap gap-2 max-h-20  overflow-y-auto">
+            <div className="py-3 rounded-2xl flex flex-row gap-4 ">
+              <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
                 {tags.map((tag, index) => (
                   <div
                     key={index}
                     className="bg-primary px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
+                  >
+                    <span>{tag}</span>
+                    {/* <button
+                      onClick={() => removeTag(index)}
+                      className="ml-2 focus:outline-none"
+                    >
+                      &#10005;
+                    </button> */}
+                  </div>
+                ))}
+                {/* <input
+                  type="text"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyDown={handleInputKeyDown}
+                  className="p-2 border-none outline-none"
+                /> */}
+              </div>
+            </div>
+            <div className=" rounded-2xl flex flex-row gap-4 ">
+              <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
+                {prodi.map((tag, index) => (
+                  <div
+                    key={index}
+                    className="bg-blue-400 px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
                   >
                     <span>{tag}</span>
                     {/* <button
