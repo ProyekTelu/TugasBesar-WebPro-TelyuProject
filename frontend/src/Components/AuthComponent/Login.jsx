@@ -57,8 +57,8 @@ const Login = () => {
   };
 
   return (
-    <div className="w-screen h-screen justify-center">
-      <div className="flex justify-center h-full w-full">
+    <div className="w-screen min-h-screen justify-center">
+      <div className="flex justify-center min-h-screen w-full">
         <div
           className="flex flex-wrap w-full h-auto justify-center "
           style={{ userSelect: "none" }}

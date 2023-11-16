@@ -273,11 +273,7 @@ const Signup = () => {
   };
 
   return (
-    <div
-      className={`w-screen  ${
-        currentStep === 0 ? "h-screen" : "xl:h-screen"
-      } flex justify-center`}
-    >
+    <div className={`w-screen min-h-screen flex justify-center`}>
       <ToastContainer />
       <div className="flex justify-center w-full">
         <div

@@ -33,7 +33,7 @@ function CardListProject({ items, handleRequestForm }) {
           <p>{data.due_project}</p>
           <div className="flex justify-end">
             <button
-              className="py-3 px-4 font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:scale-105 active:scale-100"
+              className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
               type="submit"
               onClick={openModal}
               // onClick={() => {
