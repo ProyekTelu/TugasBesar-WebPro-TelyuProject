@@ -85,7 +85,7 @@ function ListProjectStudent() {
   // following the API or data you're working with.
   const [itemOffset, setItemOffset] = useState(0);
 
-  const itemsPerPage = 4;
+  const itemsPerPage = 3;
   const endOffset = itemOffset + itemsPerPage;
   console.log(`Loading items from ${itemOffset} to ${endOffset}`);
   const currentItems = dataProject.slice(itemOffset, endOffset);
@@ -127,13 +127,15 @@ function ListProjectStudent() {
               placeholder="Search"
             />
           </div>
-          <CardListProject
-            items={currentItems}
-            handleRequestForm={(title) => {
-              setRequestFormSession(title);
-              setIsShowRequestForm(true);
-            }}
-          />
+          <div className="">
+            <CardListProject
+              items={currentItems}
+              handleRequestForm={(title) => {
+                setRequestFormSession(title);
+                setIsShowRequestForm(true);
+              }}
+            />
+          </div>
         </>
       )}
     </>

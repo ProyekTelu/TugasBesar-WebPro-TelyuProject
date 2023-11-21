@@ -47,7 +47,11 @@ function CardListProject({ items, handleRequestForm }) {
               isOpen={modalIsOpen}
               onRequestClose={closeModal}
             >
-              <JoinForm isOpen={modalIsOpen} closeModal={closeModal} title={data.title} />
+              <JoinForm
+                isOpen={modalIsOpen}
+                closeModal={closeModal}
+                title={data.title}
+              />
             </Modal>
           </div>
         </div>
