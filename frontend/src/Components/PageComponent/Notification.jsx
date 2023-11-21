@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { IoMdNotifications } from "react-icons/io";
 import { FaDotCircle } from "react-icons/fa";
 
@@ -46,6 +46,23 @@ const dummyNotifications = [
 const Notification = () => {
   const [notifActive, setNotifActive] = useState(false);
   const [notifState, setNotifState] = useState("ALL");
+  const notificationRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target)
+      ) {
+        setNotifActive(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="hidden md:block">
@@ -66,6 +83,7 @@ const Notification = () => {
         </div>
       </div>
       <div
+        ref={notificationRef}
         hidden={!notifActive}
         className={
           "fixed w-auto md:w-[450px] rounded-lg py-4 bg-white md:right-28  left-10 right-10 z-10 md:left-auto top-10  border-2 scroll-smooth "

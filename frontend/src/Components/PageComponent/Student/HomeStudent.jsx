@@ -145,7 +145,7 @@ function HomeStudent() {
                 className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
                 type="submit"
               >
-                Send Join Request
+                Detail Project
               </button>
             </div>
           </SwiperSlide>
@@ -237,7 +237,7 @@ function HomeStudent() {
                 className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
                 type="submit"
               >
-                Send Join Request
+                Detail Project
               </button>
             </div>
           </SwiperSlide>
@@ -329,7 +329,7 @@ function HomeStudent() {
                 className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
                 type="submit"
               >
-                Send Join Request
+                Detail Project
               </button>
             </div>
           </SwiperSlide>
