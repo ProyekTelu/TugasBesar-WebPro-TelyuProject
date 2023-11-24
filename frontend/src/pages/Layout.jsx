@@ -15,10 +15,25 @@ const Layout = () => {
   );
   const [isPageButtonShow, setIsPageButtonShow] = useState(false);
   const pageButtonRef = useRef(null);
+  const [userImage, setUserImage] = useState("");
 
   if (!localStorage.getItem("user")) {
     currentNav("/login");
   }
+
+  //convert blob ke gambar
+  useEffect(() => {
+    if (user.photoProfile && user.photoProfile.data) {
+      const base64String = btoa(
+        new Uint8Array(user.photoProfile.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ""
+        )
+      );
+      const url = `data:image/png;base64,${base64String}`;
+      setUserImage(url);
+    }
+  }, [user.photoProfile]);
 
   useEffect(() => {
     // Add event listener when the component mounts
@@ -214,7 +229,11 @@ const Layout = () => {
                 className="flex items-center gap-4 cursor-pointer ease-in-out duration-75 hover:scale-105"
                 onClick={profilePage}
               >
-                <div className="h-10 aspect-square rounded-full bg-black"></div>
+                <img
+                  src={userImage}
+                  alt="photoProfile"
+                  className="h-10 aspect-square rounded-full bg-whiteAlternative"
+                />
                 <div className={`${isExpand ? "block" : "hidden"}`}>
                   <p className="text-primary text-md font-bold">
                     {user.firstName} {user.lastName}

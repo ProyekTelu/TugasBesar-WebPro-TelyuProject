@@ -33,9 +33,9 @@ export const login = async (req, res) => {
 
     if (!faculty) return res.status(400).json({ msg: "Faculty Not Found" });
 
-    const majorName = null;
+    var majorName = null;
 
-    if (user.role === "Student") {
+    if (user.role === "student") {
       const major = await Major.findOne({
         where: {
           code: user.majorCode,

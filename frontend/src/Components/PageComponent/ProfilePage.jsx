@@ -5,11 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [userImage, setUserImage] = useState(user);
   const User = JSON.parse(localStorage.getItem("user"));
   const [firstName, setfirstName] = useState(User.firstName);
   const [lastName, setlastName] = useState(User.lastName);
   const [nomorInduk, setnim] = useState(User.userID);
+  const [photoProfile, setphotoProfile] = useState(User.photoProfile);
+  const [userImage, setUserImage] = useState(user);
   const [phoneNumber, setphoneNumber] = useState(User.phoneNumber);
   const [gender, setgender] = useState(User.gender);
   const [kelas, setkelas] = useState(User.kelas);
@@ -17,6 +18,20 @@ const Profile = () => {
   const [kodeProdi, setkodeProdi] = useState(User.majorName);
   const [role, setrole] = useState(User.role);
   const [kodeDosen, setkodeDosen] = useState(User.lectureCode);
+
+  //convert blob ke gambar
+  useEffect(() => {
+    if (photoProfile && photoProfile.data) {
+      const base64String = btoa(
+        new Uint8Array(photoProfile.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ""
+        )
+      );
+      const url = `data:image/png;base64,${base64String}`;
+      setUserImage(url);
+    }
+  }, [photoProfile]);
 
   const handleFirstNameChange = (e) => {
     setfirstName(e.target.value);

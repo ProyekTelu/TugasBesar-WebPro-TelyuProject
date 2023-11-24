@@ -1,47 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BsFillPlayFill } from "react-icons/bs";
-import { Scrollbar } from "swiper/modules";
+import { Pagination, Scrollbar } from "swiper/modules";
 import { Dropdown } from "primereact/dropdown";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useNavigate } from "react-router-dom";
 import { GoPersonFill } from "react-icons/go";
+import axios from "axios";
 import "../../../Style/homePage.css";
 import "swiper/css";
 import "swiper/css/scrollbar";
 
 function HomeStudent() {
+  const [slidesPerView, setSlidesPerView] = useState(1);
+
   const navigate = useNavigate();
   const [status, setStatus] = useState("Active");
   const listStatus = ["Active", "Finished"];
-  const [tags, setTags] = useState([
-    "C++",
-    "JavaScript",
-    "Teamworks",
-    "Machine Learning",
-    "Python",
-  ]);
+  const [newestProject, setNewestProject] = useState([]);
 
-  const [prodi, setProdi] = useState([
-    "S1 - Teknik Mesin",
-    "S1 - Teknik Elektro",
-  ]);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1060) {
+        setSlidesPerView(2);
+      } else {
+        setSlidesPerView(1);
+      }
+
+      if (newestProject.length === 0) {
+        setSlidesPerView(1);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [newestProject]);
+
+  useEffect(() => {
+    const fetchNewestProjects = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/newestProjects"
+        );
+        setNewestProject(response.data);
+      } catch (error) {
+        console.error("Failed to fetch newest projects:", error);
+      }
+    };
+
+    fetchNewestProjects();
+  }, []);
 
   const [inputValue, setInputValue] = useState("");
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleInputKeyDown = (e) => {
-    if (e.key === "Enter" && inputValue.trim() !== "") {
-      setTags([...tags, inputValue.trim()]);
-      setInputValue("");
-    }
-  };
-
-  const removeTag = (indexToRemove) => {
-    setTags(tags.filter((_, index) => index !== indexToRemove));
-  };
   return (
     <div className="w-full h-full flex flex-col">
       <div className={` py-4 flex-none w-fit  rounded-2xl `}>
@@ -51,288 +66,79 @@ function HomeStudent() {
       </div>
       <div className="max-h-full flex flex-col">
         <Swiper
-          modules={[]}
+          modules={[Pagination]}
           className="w-full h-full z-0 "
           spaceBetween={22}
+          pagination
           navigation
-          slidesPerView={2}
+          slidesPerView={slidesPerView}
         >
-          <SwiperSlide className="w-full z-10 h-full  bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-center  cursor-pointer transition ">
-            <div className="flex flex-col md:flex-row w-full justify-between">
-              <div className="">
-                <h1 className="text-left text-primary text-3xl font-bold">
-                  EcoScape
-                </h1>
-              </div>
-              <div className="flex my-auto gap-2">
-                <GoPersonFill className="text-3xl" />
-                <p className="text-2xl font-bold">1/4</p>
-              </div>
-            </div>
-
-            <h1 className="text-left text-lg mt-2 font-medium text-black">
-              By Muhammad Zaky Fathurahim
-            </h1>
-            <hr className="my-2 rounded-full" />
-            <p className="line-clamp-3 overflow-y-auto min-h-[4rem]">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
-              provident totam, perferendis repellendus ullam animi dignissimos
-              ipsam excepturi, accusantium alias beatae quam rem iure in,
-              cupiditate maxime unde? Accusamus ut ducimus doloremque nemo
-              consequuntur veniam minus autem cum nostrum nam rerum ipsa
-              molestias illo dolorem, eum quos nisi atque beatae praesentium
-              maiores vero natus. Culpa vero, eligendi sapiente eveniet. Lorem
-              ipsum dolor sit amet consectetur adipisicing elit. Neque provident
-              totam, perferendis repellendus ullam animi dignissimos ipsam
-              excepturi, accusantium alias beatae quam rem iure in, cupiditate
-              maxime unde? Accusamus ut ducimus doloremque nemo consequuntur
-              veniam minus autem cum nostrum nam rerum ipsa molestias illo
-              dolorem, eum quos nisi atque beatae praesentium maiores vero
-              natus. Culpa vero, eligendi sapiente eveniet.
-            </p>
-            <div className="py-3 rounded-2xl flex flex-row gap-4 mt-2">
-              <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
-                {tags.map((tag, index) => (
-                  <div
-                    key={index}
-                    className="bg-primary px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
-                  >
-                    <span>{tag}</span>
-                    {/* <button
-                      onClick={() => removeTag(index)}
-                      className="ml-2 focus:outline-none"
-                    >
-                      &#10005;
-                    </button> */}
-                  </div>
-                ))}
-                {/* <input
-                  type="text"
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  onKeyDown={handleInputKeyDown}
-                  className="p-2 border-none outline-none"
-                /> */}
-              </div>
-            </div>
-            <div className="rounded-2xl flex flex-row gap-4 ">
-              <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
-                {prodi.map((tag, index) => (
-                  <div
-                    key={index}
-                    className="bg-blue-400 px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
-                  >
-                    <span>{tag}</span>
-                    {/* <button
-                      onClick={() => removeTag(index)}
-                      className="ml-2 focus:outline-none"
-                    >
-                      &#10005;
-                    </button> */}
-                  </div>
-                ))}
-                {/* <input
-                  type="text"
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  onKeyDown={handleInputKeyDown}
-                  className="p-2 border-none outline-none"
-                /> */}
-              </div>
-            </div>
-            <div className="flex justify-end mt-2">
-              <button
-                className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
-                type="submit"
+          {newestProject.length > 0 ? (
+            newestProject.map((project, index) => (
+              <SwiperSlide
+                key={index}
+                className="w-full z-10 h-full bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-center  cursor-pointer transition "
               >
-                Detail Project
-              </button>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className="w-full z-10 h-full  bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-center  cursor-pointer transition ">
-            <div className="flex flex-col md:flex-row w-full justify-between">
-              <div className="">
-                <h1 className="text-left text-primary text-3xl font-bold">
-                  EcoScape
-                </h1>
-              </div>
-              <div className="flex my-auto gap-2">
-                <GoPersonFill className="text-3xl" />
-                <p className="text-2xl font-bold">1/4</p>
-              </div>
-            </div>
+                <div className="flex flex-col md:flex-row w-full justify-between">
+                  <div className="">
+                    <h1 className="text-left text-primary text-3xl font-bold line-clamp-1">
+                      {project.title}
+                    </h1>
+                  </div>
+                  <div className="flex gap-2 mt-2 md:my-auto">
+                    <GoPersonFill className="text-3xl" />
+                    <p className="text-2xl font-bold">1/4</p>
+                  </div>
+                </div>
 
-            <h1 className="text-left text-lg mt-2 font-medium text-black">
-              By Muhammad Zaky Fathurahim
-            </h1>
-            <hr className="my-2 rounded-full" />
-            <p className="line-clamp-3 overflow-y-auto min-h-[4rem]">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
-              provident totam, perferendis repellendus ullam animi dignissimos
-              ipsam excepturi, accusantium alias beatae quam rem iure in,
-              cupiditate maxime unde? Accusamus ut ducimus doloremque nemo
-              consequuntur veniam minus autem cum nostrum nam rerum ipsa
-              molestias illo dolorem, eum quos nisi atque beatae praesentium
-              maiores vero natus. Culpa vero, eligendi sapiente eveniet. Lorem
-              ipsum dolor sit amet consectetur adipisicing elit. Neque provident
-              totam, perferendis repellendus ullam animi dignissimos ipsam
-              excepturi, accusantium alias beatae quam rem iure in, cupiditate
-              maxime unde? Accusamus ut ducimus doloremque nemo consequuntur
-              veniam minus autem cum nostrum nam rerum ipsa molestias illo
-              dolorem, eum quos nisi atque beatae praesentium maiores vero
-              natus. Culpa vero, eligendi sapiente eveniet.
-            </p>
-            <div className="py-3 rounded-2xl flex flex-row gap-4 mt-2">
-              <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
-                {tags.map((tag, index) => (
-                  <div
-                    key={index}
-                    className="bg-primary px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
-                  >
-                    <span>{tag}</span>
-                    {/* <button
-                      onClick={() => removeTag(index)}
-                      className="ml-2 focus:outline-none"
-                    >
-                      &#10005;
-                    </button> */}
-                  </div>
-                ))}
-                {/* <input
-                  type="text"
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  onKeyDown={handleInputKeyDown}
-                  className="p-2 border-none outline-none"
-                /> */}
-              </div>
-            </div>
-            <div className="rounded-2xl flex flex-row gap-4 ">
-              <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
-                {prodi.map((tag, index) => (
-                  <div
-                    key={index}
-                    className="bg-blue-400 px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
-                  >
-                    <span>{tag}</span>
-                    {/* <button
-                      onClick={() => removeTag(index)}
-                      className="ml-2 focus:outline-none"
-                    >
-                      &#10005;
-                    </button> */}
-                  </div>
-                ))}
-                {/* <input
-                  type="text"
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  onKeyDown={handleInputKeyDown}
-                  className="p-2 border-none outline-none"
-                /> */}
-              </div>
-            </div>
-            <div className="flex justify-end mt-2">
-              <button
-                className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
-                type="submit"
-              >
-                Detail Project
-              </button>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className="w-full z-10 h-full  bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-center  cursor-pointer transition ">
-            <div className="flex flex-col md:flex-row w-full justify-between">
-              <div className="">
-                <h1 className="text-left text-primary text-3xl font-bold">
-                  EcoScape
+                <h1 className="text-left text-lg mt-2 font-medium text-black">
+                  By {project.user.firstName + " " + project.user.lastName}
                 </h1>
-              </div>
-              <div className="flex my-auto gap-2">
-                <GoPersonFill className="text-3xl" />
-                <p className="text-2xl font-bold">1/4</p>
-              </div>
-            </div>
-
-            <h1 className="text-left text-lg mt-2 font-medium text-black">
-              By Muhammad Zaky Fathurahim
-            </h1>
-            <hr className="my-2 rounded-full" />
-            <p className="line-clamp-3 overflow-y-auto min-h-[4rem]">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
-              provident totam, perferendis repellendus ullam animi dignissimos
-              ipsam excepturi, accusantium alias beatae quam rem iure in,
-              cupiditate maxime unde? Accusamus ut ducimus doloremque nemo
-              consequuntur veniam minus autem cum nostrum nam rerum ipsa
-              molestias illo dolorem, eum quos nisi atque beatae praesentium
-              maiores vero natus. Culpa vero, eligendi sapiente eveniet. Lorem
-              ipsum dolor sit amet consectetur adipisicing elit. Neque provident
-              totam, perferendis repellendus ullam animi dignissimos ipsam
-              excepturi, accusantium alias beatae quam rem iure in, cupiditate
-              maxime unde? Accusamus ut ducimus doloremque nemo consequuntur
-              veniam minus autem cum nostrum nam rerum ipsa molestias illo
-              dolorem, eum quos nisi atque beatae praesentium maiores vero
-              natus. Culpa vero, eligendi sapiente eveniet.
-            </p>
-            <div className="py-3 rounded-2xl flex flex-row gap-4 mt-2">
-              <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
-                {tags.map((tag, index) => (
-                  <div
-                    key={index}
-                    className="bg-primary px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
-                  >
-                    <span>{tag}</span>
-                    {/* <button
-                      onClick={() => removeTag(index)}
-                      className="ml-2 focus:outline-none"
-                    >
-                      &#10005;
-                    </button> */}
+                <hr className="my-2 rounded-full" />
+                <p className="line-clamp-2 overflow-y-auto min-h-[2rem]">
+                  {project.description}
+                </p>
+                <div className="py-3 rounded-2xl flex flex-col gap-1 mt-2">
+                  {/* <p className="font-bold">Skill</p> */}
+                  <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
+                    {project.ProjectRoles.map((role, index) => (
+                      <div
+                        key={index}
+                        className="bg-primary px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
+                      >
+                        <span>{role.Role.name}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-                {/* <input
-                  type="text"
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  onKeyDown={handleInputKeyDown}
-                  className="p-2 border-none outline-none"
-                /> */}
-              </div>
-            </div>
-            <div className="rounded-2xl flex flex-row gap-4 ">
-              <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
-                {prodi.map((tag, index) => (
-                  <div
-                    key={index}
-                    className="bg-blue-400 px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
-                  >
-                    <span>{tag}</span>
-                    {/* <button
-                      onClick={() => removeTag(index)}
-                      className="ml-2 focus:outline-none"
-                    >
-                      &#10005;
-                    </button> */}
+                </div>
+                <div className="rounded-2xl flex flex-col gap-1 ">
+                  {/* <p className="font-bold">Role</p> */}
+                  <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
+                    {project.ProjectRoles.map((role, index) => (
+                      <div
+                        key={index}
+                        className="bg-blue-400 px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
+                      >
+                        <span>{role.Role.name}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-                {/* <input
-                  type="text"
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  onKeyDown={handleInputKeyDown}
-                  className="p-2 border-none outline-none"
-                /> */}
-              </div>
-            </div>
-            <div className="flex justify-end mt-2">
-              <button
-                className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
-                type="submit"
-              >
-                Detail Project
-              </button>
-            </div>
-          </SwiperSlide>
+                </div>
+                <div className="flex justify-end mt-2">
+                  <button
+                    className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
+                    type="submit"
+                  >
+                    Detail Project
+                  </button>
+                </div>
+              </SwiperSlide>
+            ))
+          ) : (
+            <SwiperSlide className="w-full z-10 h-full  bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-center  cursor-pointer transition ">
+              Data Kosong
+            </SwiperSlide>
+          )}
         </Swiper>
       </div>
 
@@ -345,10 +151,11 @@ function HomeStudent() {
           </div>
 
           <Swiper
-            modules={[]}
+            modules={[Pagination]}
             className="w-full z-0"
             spaceBetween={22}
             slidesPerView={1}
+            pagination
           >
             <SwiperSlide className="w-full z-10  bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-between  cursor-pointer transition ">
               <div className="flex flex-col">

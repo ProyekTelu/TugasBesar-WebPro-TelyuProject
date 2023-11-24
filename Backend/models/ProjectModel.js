@@ -23,7 +23,7 @@ const Project = db.define(
       allowNull: false,
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     startProject: {
@@ -48,9 +48,9 @@ const Project = db.define(
   }
 );
 
-User.hasMany(Project, {
+Project.belongsTo(User, {
   foreignKey: "projectOwnerID",
-  sourceKey: "userID",
+  targetKey: "userID",
 });
 
 export default Project;

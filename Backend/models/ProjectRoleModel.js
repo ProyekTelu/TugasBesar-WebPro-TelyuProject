@@ -35,9 +35,9 @@ Project.hasMany(ProjectRole, {
   sourceKey: "projectID",
 });
 
-Role.hasMany(ProjectRole, {
+ProjectRole.belongsTo(Role, {
   foreignKey: "roleID",
-  sourceKey: "roleID",
+  targetKey: "roleID",
 });
 
 export default ProjectRole;

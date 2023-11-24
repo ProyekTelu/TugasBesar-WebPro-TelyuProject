@@ -22,7 +22,7 @@ const Projects = async () => {
       title: "Project kehidupan pangan",
       projectOwnerID: userID,
       description:
-        "Menghijaukan pertanian untuk masyarakat indonesia khusus sukabirus sukapura",
+        "Menghijaukan pertanian untuk masyarakat Indonesia, khususnya di daerah Sukabirus dan Sukapura, merupakan langkah penting untuk meningkatkan kualitas hidup petani, menciptakan lingkungan yang berkelanjutan, dan memberikan kontribusi pada ketahanan pangan nasional.",
       startProject: startProject,
       endProject: endProject,
       openUntil: openUntil,

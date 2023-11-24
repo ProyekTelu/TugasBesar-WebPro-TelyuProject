@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../img/Logo.png";
 
@@ -18,6 +18,21 @@ const Landingpage = () => {
       ? JSON.parse(localStorage.getItem("user"))
       : null
   );
+  const [userImage, setUserImage] = useState("");
+
+  //convert blob ke gambar
+  useEffect(() => {
+    if (user.photoProfile && user.photoProfile.data) {
+      const base64String = btoa(
+        new Uint8Array(user.photoProfile.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ""
+        )
+      );
+      const url = `data:image/png;base64,${base64String}`;
+      setUserImage(url);
+    }
+  }, [user.photoProfile]);
   const faqItems = [
     {
       title: "Pertanyaan Umum (FAQ)",
@@ -107,7 +122,11 @@ const Landingpage = () => {
             >
               <div className={"flex flex-col items-center justify-center"}>
                 <div className="flex items-center gap-4 ">
-                  <div className="h-10 aspect-square rounded-full bg-black"></div>
+                  <img
+                    src={userImage}
+                    alt="profileImage"
+                    className="h-10 aspect-square rounded-full bg-white"
+                  />
                   <div className={"block"}>
                     <p className="text-primary text-md font-bold">
                       {user.firstName} {user.lastName}
