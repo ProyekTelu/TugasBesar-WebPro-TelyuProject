@@ -136,7 +136,7 @@ const Signup = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/fakultas")
+      .get("http://localhost:5000/faculty")
       .then((response) => {
         setFakultas(response.data);
       })
@@ -148,7 +148,7 @@ const Signup = () => {
   useEffect(() => {
     if (selectedFakultas) {
       axios
-        .get(`http://localhost:5000/prodi/${selectedFakultas}`)
+        .get(`http://localhost:5000/major/${selectedFakultas}`)
         .then((response) => {
           setMajors(response.data);
         })

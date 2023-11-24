@@ -3,12 +3,19 @@ import cors from "cors";
 import dotenv from "dotenv";
 import UserRoute from "./routes/UserRoutes.js";
 import AuthRoute from "./routes/AuthRoutes.js";
-import FakultasRoute from "./routes/FakultasRoutes.js";
-import ProdiRoute from "./routes/ProdiRoutes.js";
+import FacultyRoute from "./routes/FacultyRoutes.js";
+import MajorRoute from "./routes/MajorRoutes.js";
 import fileUpload from "express-fileupload";
 import db from "./config/Database.js";
-import FakulasAndProdi from "./InitialData/FakultasAndProdi.js";
+
+//initial data import
+import FacultyAndMajor from "./InitialData/FacultyAndMajor.js";
+import Projects from "./InitialData/Projects.js";
+import Roles from "./InitialData/Roles.js";
+import Skills from "./InitialData/Skills.js";
 import Users from "./InitialData/Users.js";
+import ProjectRoles from "./InitialData/ProjectRoles.js";
+import ProjectMembers from "./InitialData/ProjectMembers.js";
 
 dotenv.config();
 
@@ -26,22 +33,31 @@ app.use(express.json());
 
 app.use(UserRoute);
 app.use(AuthRoute);
-app.use(FakultasRoute);
-app.use(ProdiRoute);
+app.use(FacultyRoute);
+app.use(MajorRoute);
 
-//nyalakan untuk inisialisasi data awal (berurut 1 dulu baru 2)
+//kumpulan inisial data
+const initializeData = async () => {
+  await db.sync();
+  await FacultyAndMajor();
+  await Users();
+  await Skills();
+  await Roles();
+  await Projects();
+  await ProjectRoles();
+  await ProjectMembers();
+};
 
-//1.
-// (async () => {
-//   await db.sync();
-//   FakulasAndProdi();
-// })();
+//fungsi menjalankan inisial data
+const runInisialData = async () => {
+  await db.drop();
+  await initializeData().then(() => {
+    console.log("Inisialisasi Berhasil");
+  });
+};
 
-//2.
-// (async () => {
-//   await db.sync();
-//   Users();
-// })();
+//menjalankan fungsi untuk inisial data
+runInisialData();
 
 app.listen(process.env.APP_PORT, () =>
   console.log("server listening on port " + process.env.APP_PORT)

@@ -13,11 +13,12 @@ const Users = async () => {
       email: "mzakyf@admin.ac.id",
       password: hashedPassword,
       gender: "Male",
-      kodeDosen: "",
-      kodeFakultas: "FIF",
-      kodeProdi: "SE",
-      phoneNumber: "0897228290299",
+      lectureCode: "",
+      facultyCode: "FIF",
+      majorCode: "SE",
       kelas: "SE-45-02",
+      phoneNumber: "0897228290299",
+      photoProfile: null,
       role: "admin",
     });
     await User.create({
@@ -26,11 +27,12 @@ const Users = async () => {
       email: "mzakyf@student.telkomuniversity.ac.id",
       password: hashedPassword,
       gender: "Male",
-      kodeDosen: "",
-      kodeFakultas: "FIF",
-      kodeProdi: "SE",
+      lectureCode: "",
+      facultyCode: "FIF",
+      majorCode: "SE",
       phoneNumber: "0897228290232",
       kelas: "SE-45-02",
+      photoProfile: null,
       role: "student",
     });
 
@@ -40,12 +42,58 @@ const Users = async () => {
       email: "mzakyf@telkomuniversity.ac.id",
       password: hashedPassword,
       gender: "Male",
-      kodeDosen: "MZF",
-      kodeFakultas: "FTE",
-      kodeProdi: "",
+      lectureCode: "MZF",
+      facultyCode: "FTE",
+      majorCode: null,
       phoneNumber: "0897228290232",
       kelas: "",
+      photoProfile: null,
       role: "lecturer",
+    });
+
+    await User.create({
+      firstName: "Budi",
+      lastName: "Santoso",
+      email: "budisantoso@student.telkomuniversity.ac.id",
+      password: hashedPassword,
+      gender: "Male",
+      lectureCode: "",
+      facultyCode: "FIF",
+      majorCode: "SE",
+      kelas: "SE-45-02",
+      phoneNumber: "081234567890",
+      photoProfile: null,
+      role: "student",
+    });
+
+    await User.create({
+      firstName: "Ani",
+      lastName: "Wahyuni",
+      email: "aniwahyuni@student.telkomuniversity.ac.id",
+      password: hashedPassword,
+      gender: "Female",
+      lectureCode: "",
+      facultyCode: "FIF",
+      majorCode: "SE",
+      kelas: "SE-45-01",
+      phoneNumber: "087654321098",
+      photoProfile: null,
+      role: "student",
+    });
+
+    await User.create({
+      firstName: "Citra",
+      lastName: "Dewi",
+      email: "citradewi@student.telkomuniversity.ac.id",
+      password: hashedPassword,
+      gender: "Female",
+      lectureCode: "",
+      facultyCode: "FTE",
+      majorCode: "TT",
+      kelas: "EE-45-03",
+      phoneNumber: "085432109876",
+      photoProfile: null,
+      role: "student",
     });
   } catch (e) {
     console.error("Failed to add initial User data:", e);

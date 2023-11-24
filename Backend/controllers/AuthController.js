@@ -2,6 +2,8 @@ import User from "../models/UserModel.js";
 import argon2d from "argon2";
 import dotenv from "dotenv";
 import argon2 from "argon2";
+import Faculty from "../models/FacultyModel.js";
+import Major from "../models/majorModel.js";
 dotenv.config();
 
 import jwt from "jsonwebtoken";
@@ -23,17 +25,35 @@ export const login = async (req, res) => {
 
     if (!passwordSesuai) return res.status(400).json({ msg: "Wrong password" });
 
+    const faculty = await Faculty.findOne({
+      where: {
+        code: user.facultyCode,
+      },
+    });
+
+    if (!faculty) return res.status(400).json({ msg: "Faculty Not Found" });
+
+    const major = await Major.findOne({
+      where: {
+        code: user.majorCode,
+      },
+    });
+
+    if (!major) return res.status(400).json({ msg: "Major Not Found" });
+
     const userData = {
-      nomorInduk: user.nomorInduk,
+      userID: user.userID,
       firstName: user.firstName,
       lastName: user.lastName,
       phoneNumber: user.phoneNumber,
       photoProfile: user.photoProfile,
       email: user.email,
       gender: user.gender,
-      kodeDosen: user.kodeDosen,
-      fakultas: user.fakultas,
-      prodi: user.prodi,
+      lectureCode: user.lectureCode,
+      facultyCode: user.facultyCode,
+      facultyName: faculty.name,
+      majorCode: user.majorCode,
+      majorName: major.name,
       kelas: user.kelas,
       role: user.role,
     };
@@ -59,9 +79,9 @@ export const signup = async (req, res) => {
     email,
     password,
     gender,
-    kodeDosen,
-    kodeFakultas,
-    kodeProdi,
+    lectureCode,
+    facultyCode,
+    majorCode,
     kelas,
     role,
   } = req.body;
@@ -74,9 +94,9 @@ export const signup = async (req, res) => {
       email: email,
       password: hashPassword,
       gender: gender,
-      kodeDosen: kodeDosen,
-      kodeFakultas: kodeFakultas,
-      kodeProdi: kodeProdi,
+      lectureCode: lectureCode,
+      facultyCode: facultyCode,
+      majorCode: majorCode,
       kelas: kelas,
       role: role,
     });

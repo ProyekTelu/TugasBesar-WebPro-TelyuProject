@@ -1,14 +1,14 @@
 import { HasMany, Sequelize } from "sequelize";
 import db from "../config/Database.js";
-import Fakultas from "./FakultasModel.js";
-import Prodi from "./ProdiModel.js";
+import Faculty from "./FacultyModel.js";
+import Major from "./majorModel.js";
 
 const { DataTypes } = Sequelize;
 
 const User = db.define(
   "users",
   {
-    nomorInduk: {
+    userID: {
       type: DataTypes.STRING,
       allowNull: true,
       unique: true,
@@ -52,33 +52,32 @@ const User = db.define(
         notEmpty: true,
       },
     },
-    kodeDosen: {
+    lectureCode: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    kodeFakultas: {
+    facultyCode: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    kodeProdi: {
+    majorCode: {
       type: DataTypes.STRING,
       allowNull: true,
     },
     kelas: {
       type: DataTypes.STRING,
+      allowNull: true,
     },
     phoneNumber: {
       type: DataTypes.STRING,
     },
     photoProfile: {
       type: DataTypes.BLOB("long"),
+      allowNull: true,
     },
     role: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
     },
   },
   {
@@ -89,15 +88,15 @@ const User = db.define(
 User.addHook("beforeCreate", async (user) => {
   const prefix = "130";
   let isUnique = false;
-  let generatedNomorInduk;
+  let generatedUserID;
 
   while (!isUnique) {
     const randomDigits = Math.floor(Math.random() * 10000000);
-    generatedNomorInduk = prefix + randomDigits.toString().padStart(3, "0");
+    generatedUserID = prefix + randomDigits.toString().padStart(3, "0");
 
     const existingUser = await User.findOne({
       where: {
-        nomorInduk: generatedNomorInduk,
+        userID: generatedUserID,
       },
     });
 
@@ -106,12 +105,17 @@ User.addHook("beforeCreate", async (user) => {
     }
   }
 
-  user.nomorInduk = generatedNomorInduk;
+  user.userID = generatedUserID;
 });
 
-Fakultas.hasMany(User, {
-  foreignKey: "kodeFakultas",
-  sourceKey: "kode",
+Faculty.hasMany(User, {
+  foreignKey: "facultyCode",
+  sourceKey: "code",
+});
+
+User.belongsTo(Major, {
+  foreignKey: "majorCode",
+  targetKey: "code",
 });
 
 export default User;
