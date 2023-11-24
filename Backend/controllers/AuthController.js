@@ -33,13 +33,19 @@ export const login = async (req, res) => {
 
     if (!faculty) return res.status(400).json({ msg: "Faculty Not Found" });
 
-    const major = await Major.findOne({
-      where: {
-        code: user.majorCode,
-      },
-    });
+    const majorName = null;
 
-    if (!major) return res.status(400).json({ msg: "Major Not Found" });
+    if (user.role === "Student") {
+      const major = await Major.findOne({
+        where: {
+          code: user.majorCode,
+        },
+      });
+
+      if (!major) return res.status(400).json({ msg: "Major Not Found" });
+
+      majorName = major.name;
+    }
 
     const userData = {
       userID: user.userID,
@@ -53,7 +59,7 @@ export const login = async (req, res) => {
       facultyCode: user.facultyCode,
       facultyName: faculty.name,
       majorCode: user.majorCode,
-      majorName: major.name,
+      majorName: majorName,
       kelas: user.kelas,
       role: user.role,
     };

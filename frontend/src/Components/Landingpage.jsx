@@ -112,7 +112,7 @@ const Landingpage = () => {
                     <p className="text-primary text-md font-bold">
                       {user.firstName} {user.lastName}
                     </p>
-                    <p className="font-thin text-sm">{user.nomorInduk}</p>
+                    <p className="font-thin text-sm">{user.userID}</p>
                   </div>
                 </div>
               </div>
