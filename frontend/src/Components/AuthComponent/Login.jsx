@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser, reset } from "../../features/authSlice";
 
+import { Link } from "react-router-dom";
+
 import TelkomLogo from "../../img/Telkom_University_Logo.png";
-import TelyuProjectLogo from "../../img/telyuProject.png";
+import TelyuProjectLogo from "../../img/Logo.png";
 import { toast } from "react-toastify";
 import CarouselAuth from "./CarouselAuth";
 
@@ -57,19 +59,25 @@ const Login = () => {
   };
 
   return (
-    <div className="w-screen h-screen justify-center">
-      <div className="flex justify-center h-full w-full">
+    <div className="w-screen min-h-screen justify-center">
+      <div className="flex justify-center min-h-screen w-full">
         <div
           className="flex flex-wrap w-full h-auto justify-center "
           style={{ userSelect: "none" }}
         >
           <div className="w-full h-full relative lg:w-1/2 my-2 sm:my-0 bg-white justify-center flex lg:rounded-r-none">
             <div className="md:p-10 w-full flex flex-col h-full align-middle sm:gap-4">
-              <img
-                className="mt-2 ml-5 h-6 w-12 sm:h-12 sm:w-24"
-                src={TelyuProjectLogo}
-                alt=""
-              />
+              <Link to={"/"} className="mb-4 md:mb-4 flex items-center">
+                <img
+                  src={TelyuProjectLogo}
+                  alt="Tel-u Project"
+                  className="w-10"
+                />
+                <p className="ml-2 text-2xl font-bold text-gray-800">
+                  Tel-U Project
+                </p>
+              </Link>
+
               <div className="flex p-10 lg:p-0 flex-col mx-10 w-full sm:w-2/3 self-center justify-center h-full gap-1">
                 <img
                   className="w-[20%] xs:w-[10%] sm:w-[15%] self-center"

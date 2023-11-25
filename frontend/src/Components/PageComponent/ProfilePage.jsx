@@ -5,18 +5,33 @@ import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [userImage, setUserImage] = useState(user);
   const User = JSON.parse(localStorage.getItem("user"));
   const [firstName, setfirstName] = useState(User.firstName);
   const [lastName, setlastName] = useState(User.lastName);
-  const [nomorInduk, setnim] = useState(User.nomorInduk);
+  const [nomorInduk, setnim] = useState(User.userID);
+  const [photoProfile, setphotoProfile] = useState(User.photoProfile);
+const [userImage, setUserImage] = useState(user);
   const [phoneNumber, setphoneNumber] = useState(User.phoneNumber);
   const [gender, setgender] = useState(User.gender);
   const [kelas, setkelas] = useState(User.kelas);
-  const [kodeFakultas, setkodeFakultas] = useState("FIF");
-  const [kodeProdi, setkodeProdi] = useState("S1 Rekayasa Perangkat Lunak");
+  const [kodeFakultas, setkodeFakultas] = useState(User.facultyName);
+  const [kodeProdi, setkodeProdi] = useState(User.majorName);
   const [role, setrole] = useState(User.role);
-  const [kodeDosen, setkodeDosen] = useState(User.kodeDosen);
+  const [kodeDosen, setkodeDosen] = useState(User.lectureCode);
+
+  //convert blob ke gambar
+  useEffect(() => {
+    if (photoProfile && photoProfile.data) {
+      const base64String = btoa(
+        new Uint8Array(photoProfile.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ""
+        )
+      );
+      const url = `data:image/png;base64,${base64String}`;
+      setUserImage(url);
+    }
+  }, [photoProfile]);
 
   const handleFirstNameChange = (e) => {
     setfirstName(e.target.value);
@@ -118,12 +133,14 @@ const Profile = () => {
       {/* Label Biodata */}
       <form
         className="flex flex-col sm:flex-row gap-4 xs:gap-6 md:gap-8 xl:gap-10"
-        action="">
+        action=""
+      >
         <div className="w-full xs:w-1/2">
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor="">
+              htmlFor=""
+            >
               First Name
             </label>
             <input
@@ -141,7 +158,8 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor="">
+              htmlFor=""
+            >
               NIM
             </label>
             <input
@@ -160,7 +178,8 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor="">
+                htmlFor=""
+              >
                 Role
               </label>
               <input
@@ -179,7 +198,8 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor="">
+              htmlFor=""
+            >
               Gender
             </label>
             <input
@@ -198,7 +218,8 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor="">
+                htmlFor=""
+              >
                 Class
               </label>
               <input
@@ -219,7 +240,8 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor="">
+              htmlFor=""
+            >
               Last Name
             </label>
             <input
@@ -237,7 +259,8 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor="">
+              htmlFor=""
+            >
               Phone Number
             </label>
             <input
@@ -256,7 +279,8 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor="">
+                htmlFor=""
+              >
                 Lecturer Code
               </label>
               <input
@@ -275,7 +299,8 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor="">
+              htmlFor=""
+            >
               Faculty
             </label>
             <input
@@ -294,7 +319,8 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor="">
+                htmlFor=""
+              >
                 Major
               </label>
               <input
@@ -312,21 +338,23 @@ const Profile = () => {
           )}
         </div>
       </form>
-      <div className="gap-3 mt-6 xs:mt-8 md:mt-10 xl:mt-12 flex ">
+      <div className="gap-3 mt-6 pb-2 xs:mt-8 md:mt-10 xl:mt-12 flex ">
         {isEditing ? (
           <>
             <button
               className="rounded-md border border-transparent bg-secondary px-8 py-2 
               text-base font-medium text-white duration-100 ease-out hover:bg-secondaryAlternative
               hover:scale-105 active:scale-95"
-              onClick={handleDoneEditing}>
+              onClick={handleDoneEditing}
+            >
               Save
             </button>
             <button
               className="rounded-md border border-transparent bg-primary px-8 py-2 
               text-base font-medium text-white duration-100 ease-out hover:bg-primaryAlternative
               hover:scale-105 active:scale-95"
-              onClick={handleDoneEditing}>
+              onClick={handleDoneEditing}
+            >
               Cancel
             </button>
           </>
@@ -338,7 +366,8 @@ const Profile = () => {
             onClick={() => {
               localStorage.clear();
               navigate("/login");
-            }}>
+            }}
+          >
             Log Out
           </button>
         )}
