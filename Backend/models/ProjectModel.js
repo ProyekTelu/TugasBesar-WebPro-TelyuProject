@@ -42,6 +42,10 @@ const Project = db.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    projectStatus: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     freezeTableName: true,

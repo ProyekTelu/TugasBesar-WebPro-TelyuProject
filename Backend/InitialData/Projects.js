@@ -27,6 +27,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      projectStatus: "OpenRequest",
     });
 
     await Project.create({
@@ -38,6 +39,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      projectStatus: "OpenRequest",
     });
 
     await Project.create({
@@ -49,6 +51,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      projectStatus: "OpenRequest",
     });
 
     await Project.create({
@@ -60,6 +63,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      projectStatus: "OpenRequest",
     });
 
     await Project.create({
@@ -71,6 +75,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      projectStatus: "OpenRequest",
     });
 
     await Project.create({
@@ -82,6 +87,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      projectStatus: "OpenRequest",
     });
 
     await Project.create({
@@ -93,6 +99,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      projectStatus: "OpenRequest",
     });
 
     await Project.create({
@@ -104,6 +111,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      projectStatus: "OpenRequest",
     });
 
     await Project.create({
@@ -115,6 +123,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      projectStatus: "OpenRequest",
     });
 
     await Project.create({
@@ -126,6 +135,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      projectStatus: "OpenRequest",
     });
   } catch (err) {
     console.log(err);

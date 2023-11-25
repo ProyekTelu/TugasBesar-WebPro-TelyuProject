@@ -13,7 +13,9 @@ function ListProjectStudent() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/projects");
+        const response = await axios.get(
+          "http://localhost:5000/openRequestProjects"
+        );
         setDataProject(response.data);
       } catch (error) {
         console.error("Failed to fetch projects:", error);

@@ -11,13 +11,17 @@ import "swiper/css/scrollbar";
 
 function HomeStudent() {
   const navigate = useNavigate();
+  const storedUser = localStorage.getItem("user");
+  const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
+
   useEffect(() => {
-    if (!localStorage.getItem("user")) {
+    if (!storedUser) {
       navigate("/");
     }
-  });
+  }, [navigate, storedUser]);
 
   const [slidesPerView, setSlidesPerView] = useState(1);
+  const [myProject, setMyProject] = useState([]);
 
   const [activeStatus, setActiveStatus] = useState("Active");
   const listStatus = ["Active", "Finished"];
@@ -76,7 +80,20 @@ function HomeStudent() {
     fetchNewestProjects();
   }, []);
 
-  const [inputValue, setInputValue] = useState("");
+  useEffect(() => {
+    const fetchMyProjects = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/projects/${user.userID}`
+        );
+        setMyProject(response.data);
+      } catch (error) {
+        console.log("Failed to fetch my projects:", error);
+      }
+    };
+
+    fetchMyProjects();
+  }, [user.userID]);
 
   return (
     <div className="w-full h-full flex flex-col">
@@ -156,7 +173,7 @@ function HomeStudent() {
                     <p>{formatDate(project.openUntil)}</p>
                   </div>
                   <button
-                    className="py-3 px-4 rounded-md font-semibold text-base text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md  hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
+                    className="py-3 px-4 rounded-md font-semibold text-xs md:text-base text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md  hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
                     type="submit"
                   >
                     Detail Project
@@ -202,110 +219,61 @@ function HomeStudent() {
             slidesPerView={1}
             pagination
           >
-            <SwiperSlide className="w-full z-10  bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-between  cursor-pointer transition ">
-              <div className="flex flex-col">
-                <div className="flex w-full justify-between">
-                  <div className="flex flex-col md:flex-row gap-2">
-                    <h1 className="text-left text-primary text-3xl font-bold line-clamp-1">
-                      Zamrud pohon cemara amigos
-                    </h1>
-                    <h1 className="text-left text-blackAlternative text-3xl font-bold line-clamp-1">
-                      (Front-End Developer)
-                    </h1>
-                  </div>
+            {myProject.length > 0
+              ? myProject.map((project, index) => (
+                  <SwiperSlide className="w-full z-10  bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-between  cursor-pointer transition ">
+                    <div className="flex flex-col">
+                      <div className="flex w-full justify-between">
+                        <div className="flex flex-col md:flex-row gap-2">
+                          <h1 className="text-left text-primary text-3xl font-bold line-clamp-1">
+                            {project.title}
+                          </h1>
+                          <h1 className="text-left text-blackAlternative text-3xl font-bold line-clamp-1">
+                            ({project.ProjectMembers[0].Role.name})
+                          </h1>
+                        </div>
 
-                  <h1 className="px-4 py-2 rounded-md bg-green-500 text-white my-auto">
-                    Active
-                  </h1>
-                </div>
-                <h1 className="text-left text-lg mt-2 font-medium text-black">
-                  By Muhammad Zaky Fathurahim
-                </h1>
-                <hr className="my-2 rounded-full" />
-                <p className="line-clamp-2 overflow-y-auto min-h-[2rem]">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium dolore deserunt dignissimos, facilis inventore
-                  distinctio quae natus blanditiis iusto repudiandae! Ut facere
-                  iure nisi enim mollitia accusantium sapiente, quo, unde
-                  reiciendis incidunt, velit aspernatur et adipisci debitis
-                  minima quia ipsum porro rerum vel! Ratione, qui dolorum vero
-                  omnis ipsa vitae!
-                </p>
-              </div>
-              <div className="flex justify-between flex-col lg:flex-row mt-4">
-                <div className="flex flex-col">
-                  <p className="font-bold">Deadline</p>
-                  <p>02-September-2023</p>
-                </div>
+                        <h1 className="px-4 py-2 rounded-md bg-green-500 text-white my-auto">
+                          {project.statusProject === "Completed"
+                            ? "Completed"
+                            : "Active"}
+                        </h1>
+                      </div>
+                      <h1 className="text-left text-lg mt-2 font-medium text-black">
+                        By{" "}
+                        {project.projectOwner.firstName +
+                          " " +
+                          project.projectOwner.lastName}
+                      </h1>
+                      <hr className="my-2 rounded-full" />
+                      <p className="line-clamp-2 overflow-y-auto min-h-[2rem]">
+                        {project.description}
+                      </p>
+                    </div>
+                    <div className="flex justify-between flex-col lg:flex-row mt-4">
+                      <div className="flex flex-col my-auto">
+                        <p className="font-bold">Deadline</p>
+                        <p>{formatDate(project.endProject)}</p>
+                      </div>
 
-                <div className="flex flex-row gap-3 self-end">
-                  <button
-                    className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
-                    type="submit"
-                  >
-                    Go to Group Chat
-                  </button>
-                  <button
-                    className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
-                    type="submit"
-                  >
-                    Open Project
-                  </button>
-                </div>
-              </div>
-            </SwiperSlide>
-            <SwiperSlide className="w-full z-10  bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-between  cursor-pointer transition ">
-              <div className="flex flex-col">
-                <div className="flex w-full justify-between">
-                  <div className="flex flex-col md:flex-row gap-2">
-                    <h1 className="text-left text-primary text-3xl font-bold line-clamp-1">
-                      Samsudin Samluy Kantin Telyu{" "}
-                    </h1>
-                    <h1 className="text-left text-blackAlternative text-3xl font-bold line-clamp-1">
-                      (Backend Developer)
-                    </h1>
-                  </div>
-
-                  <h1 className="px-4 py-2 rounded-md bg-green-500 text-white my-auto">
-                    Active
-                  </h1>
-                </div>
-                <h1 className="text-left text-lg mt-2 font-medium text-black">
-                  By Deddy Corbuzier
-                </h1>
-                <hr className="my-2 rounded-full" />
-                <p className="line-clamp-2 overflow-y-auto min-h-[2rem]">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusantium dolore deserunt dignissimos, facilis inventore
-                  distinctio quae natus blanditiis iusto repudiandae! Ut facere
-                  iure nisi enim mollitia accusantium sapiente, quo, unde
-                  reiciendis incidunt, velit aspernatur et adipisci debitis
-                  minima quia ipsum porro rerum vel! Ratione, qui dolorum vero
-                  omnis ipsa vitae!
-                </p>
-              </div>
-              <div className="flex justify-between flex-col lg:flex-row mt-4">
-                <div className="flex flex-col">
-                  <p className="font-bold">Deadline</p>
-                  <p>02-September-2023</p>
-                </div>
-
-                <div className="flex flex-row gap-3 self-end">
-                  <button
-                    className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
-                    type="submit"
-                  >
-                    Go to Group Chat
-                  </button>
-                  <button
-                    className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
-                    type="submit"
-                  >
-                    Open Project
-                  </button>
-                </div>
-              </div>
-            </SwiperSlide>
+                      <div className="flex flex-row gap-3 self-end mt-2 md:mt-0">
+                        <button
+                          className="py-3 px-4 rounded-md font-semibold text-xs md:text-base text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
+                          type="submit"
+                        >
+                          Go to Group Chat
+                        </button>
+                        <button
+                          className="py-3 px-4 rounded-md font-semibold text-xs md:text-base text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
+                          type="submit"
+                        >
+                          Open Project
+                        </button>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))
+              : "no project"}
           </Swiper>
         </div>
         <div

@@ -12,6 +12,9 @@ export const getNewestProjects = async (req, res) => {
     const newestProjects = await Project.findAll({
       limit: 3,
       order: [["projectID", "ASC"]],
+      where: {
+        projectStatus: "OpenRequest",
+      },
       include: [
         {
           model: User,
@@ -73,7 +76,7 @@ export const getNewestProjects = async (req, res) => {
   }
 };
 
-export const getAllProjects = async (req, res) => {
+export const getAllOpenRequestProjects = async (req, res) => {
   try {
     const projects = await Project.findAll({
       order: [["projectID", "DESC"]],
@@ -84,6 +87,32 @@ export const getAllProjects = async (req, res) => {
       },
     });
 
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch projects", error });
+  }
+};
+
+export const getMyProjects = async (req, res) => {
+  try {
+    const userId = req.params.userID;
+    const projects = await Project.findAll({
+      include: [
+        {
+          model: ProjectMember,
+          where: { userID: userId },
+          include: {
+            model: Role,
+            attributes: ["name"],
+          },
+        },
+        {
+          model: User,
+          as: "projectOwner",
+          attributes: ["firstName", "lastName"],
+        },
+      ],
+    });
     res.status(200).json(projects);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch projects", error });

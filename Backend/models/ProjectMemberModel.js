@@ -3,6 +3,7 @@ import db from "../config/Database.js";
 import User from "./UserModel.js";
 import ProjectRole from "./ProjectRoleModel.js";
 import Project from "./ProjectModel.js";
+import Role from "./RoleModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -32,6 +33,11 @@ const ProjectMember = db.define(
 ProjectMember.belongsTo(User, {
   foreignKey: "userID",
   targetKey: "userID",
+});
+
+ProjectMember.belongsTo(Role, {
+  foreignKey: "roleID",
+  targetKey: "roleID",
 });
 
 Project.hasMany(ProjectMember, {
