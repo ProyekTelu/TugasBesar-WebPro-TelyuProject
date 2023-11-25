@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BsFillPlayFill } from "react-icons/bs";
 import { Pagination, Scrollbar } from "swiper/modules";
-import { Dropdown } from "primereact/dropdown";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useNavigate } from "react-router-dom";
 import { GoPersonFill } from "react-icons/go";
@@ -108,8 +107,8 @@ function HomeStudent() {
                     </h1>
                   </div>
                   <div className="flex gap-2 mt-2 md:my-auto">
-                    <GoPersonFill className="text-3xl" />
-                    <p className="text-2xl font-bold">
+                    <GoPersonFill className="text-xl my-auto" />
+                    <p className="text-xl font-bold">
                       {project.projectMemberCount}/{project.totalMember}
                     </p>
                   </div>
@@ -133,7 +132,7 @@ function HomeStudent() {
                         key={index}
                         className="bg-primary px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
                       >
-                        <span>{skill.Skill.name}</span>
+                        <span className="text-sm">{skill.Skill.name}</span>
                       </div>
                     ))}
                   </div>
@@ -146,18 +145,18 @@ function HomeStudent() {
                         key={index}
                         className="bg-blue-400 px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
                       >
-                        <span>{role.Role.name}</span>
+                        <span className="text-sm">{role.Role.name}</span>
                       </div>
                     ))}
                   </div>
                 </div>
                 <div className="flex justify-between mt-4">
-                  <div className="flex flex-col">
+                  <div className="flex flex-col my-auto">
                     <p className="font-bold">Open Until</p>
                     <p>{formatDate(project.openUntil)}</p>
                   </div>
                   <button
-                    className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md  hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
+                    className="py-3 px-4 rounded-md font-semibold text-base text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md  hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
                     type="submit"
                   >
                     Detail Project
@@ -208,7 +207,7 @@ function HomeStudent() {
                 <div className="flex w-full justify-between">
                   <div className="flex flex-col md:flex-row gap-2">
                     <h1 className="text-left text-primary text-3xl font-bold line-clamp-1">
-                      Zamrud pohon cemara amigos{" "}
+                      Zamrud pohon cemara amigos
                     </h1>
                     <h1 className="text-left text-blackAlternative text-3xl font-bold line-clamp-1">
                       (Front-End Developer)
