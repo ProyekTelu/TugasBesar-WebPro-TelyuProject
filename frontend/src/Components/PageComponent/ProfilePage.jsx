@@ -10,7 +10,7 @@ const Profile = () => {
   const [lastName, setlastName] = useState(User.lastName);
   const [nomorInduk, setnim] = useState(User.userID);
   const [photoProfile, setphotoProfile] = useState(User.photoProfile);
-  const [userImage, setUserImage] = useState(user);
+const [userImage, setUserImage] = useState(user);
   const [phoneNumber, setphoneNumber] = useState(User.phoneNumber);
   const [gender, setgender] = useState(User.gender);
   const [kelas, setkelas] = useState(User.kelas);

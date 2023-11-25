@@ -11,7 +11,7 @@ const ProjectMembers = async () => {
 
     await ProjectMember.create({
       userID: user1.userID,
-      roleID: 11,
+      roleID: 12,
       projectID: 1,
     });
 
@@ -23,7 +23,7 @@ const ProjectMembers = async () => {
 
     await ProjectMember.create({
       userID: user2.userID,
-      roleID: 11,
+      roleID: 4,
       projectID: 1,
     });
   } catch (e) {

@@ -11,12 +11,34 @@ import "swiper/css";
 import "swiper/css/scrollbar";
 
 function HomeStudent() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("user")) {
+      navigate("/");
+    }
+  });
+
   const [slidesPerView, setSlidesPerView] = useState(1);
 
-  const navigate = useNavigate();
-  const [status, setStatus] = useState("Active");
+  const [activeStatus, setActiveStatus] = useState("Active");
   const listStatus = ["Active", "Finished"];
+  const handleStatusChange = (e) => {
+    setActiveStatus(e.target.value);
+  };
+
   const [newestProject, setNewestProject] = useState([]);
+
+  const formatDate = (inputDate) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "2-digit",
+    };
+
+    const date = new Date(inputDate);
+    const formattedDate = date.toLocaleDateString("id-ID", options);
+    return formattedDate;
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -87,12 +109,17 @@ function HomeStudent() {
                   </div>
                   <div className="flex gap-2 mt-2 md:my-auto">
                     <GoPersonFill className="text-3xl" />
-                    <p className="text-2xl font-bold">1/4</p>
+                    <p className="text-2xl font-bold">
+                      {project.projectMemberCount}/{project.totalMember}
+                    </p>
                   </div>
                 </div>
 
                 <h1 className="text-left text-lg mt-2 font-medium text-black">
-                  By {project.user.firstName + " " + project.user.lastName}
+                  By{" "}
+                  {project.projectOwner.firstName +
+                    " " +
+                    project.projectOwner.lastName}
                 </h1>
                 <hr className="my-2 rounded-full" />
                 <p className="line-clamp-2 overflow-y-auto min-h-[2rem]">
@@ -101,12 +128,12 @@ function HomeStudent() {
                 <div className="py-3 rounded-2xl flex flex-col gap-1 mt-2">
                   {/* <p className="font-bold">Skill</p> */}
                   <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
-                    {project.ProjectRoles.map((role, index) => (
+                    {project.ProjectSkills.map((skill, index) => (
                       <div
                         key={index}
                         className="bg-primary px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
                       >
-                        <span>{role.Role.name}</span>
+                        <span>{skill.Skill.name}</span>
                       </div>
                     ))}
                   </div>
@@ -124,9 +151,13 @@ function HomeStudent() {
                     ))}
                   </div>
                 </div>
-                <div className="flex justify-end mt-2">
+                <div className="flex justify-between mt-4">
+                  <div className="flex flex-col">
+                    <p className="font-bold">Open Until</p>
+                    <p>{formatDate(project.openUntil)}</p>
+                  </div>
                   <button
-                    className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
+                    className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md  hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
                     type="submit"
                   >
                     Detail Project
@@ -144,10 +175,25 @@ function HomeStudent() {
 
       <div className="flex flex-col md:flex-row h-full mt-6 gap-6">
         <div className="rounded-3xl w-full md:w-3/4 flex flex-col gap-4 h-full">
-          <div className="flex justify-between">
+          <div className="flex justify-between gap-2">
             <h1 className="text-[26px] md:text-5xl font-bold text-center my-4 px-4">
               Your Projects
             </h1>
+            <select
+              value={activeStatus}
+              onChange={handleStatusChange}
+              className="px-4 font-bold rounded-xl text-lg appearance-none"
+            >
+              {listStatus.map((status, index) => (
+                <option
+                  key={index}
+                  value={status}
+                  className="px-2 py-2 bg-white text-gray-800"
+                >
+                  {status}
+                </option>
+              ))}
+            </select>
           </div>
 
           <Swiper
@@ -247,13 +293,13 @@ function HomeStudent() {
 
                 <div className="flex flex-row gap-3 self-end">
                   <button
-                    className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
+                    className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
                     type="submit"
                   >
                     Go to Group Chat
                   </button>
                   <button
-                    className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
+                    className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
                     type="submit"
                   >
                     Open Project

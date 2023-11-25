@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
 import User from "./UserModel.js";
 import ProjectRole from "./ProjectRoleModel.js";
+import Project from "./ProjectModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -28,19 +29,19 @@ const ProjectMember = db.define(
   }
 );
 
-User.hasMany(ProjectMember, {
+ProjectMember.belongsTo(User, {
   foreignKey: "userID",
-  sourceKey: "userID",
+  targetKey: "userID",
 });
 
-ProjectMember.belongsTo(ProjectRole, {
+Project.hasMany(ProjectMember, {
   foreignKey: "projectID",
-  targetKey: "projectID",
+  sourceKey: "projectID",
 });
 
-ProjectMember.belongsTo(ProjectRole, {
+ProjectRole.hasMany(ProjectMember, {
   foreignKey: "roleID",
-  targetKey: "roleID",
+  sourceKey: "roleID",
 });
 
 export default ProjectMember;

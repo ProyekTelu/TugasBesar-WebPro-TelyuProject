@@ -50,6 +50,7 @@ const Project = db.define(
 
 Project.belongsTo(User, {
   foreignKey: "projectOwnerID",
+  as: "projectOwner",
   targetKey: "userID",
 });
 

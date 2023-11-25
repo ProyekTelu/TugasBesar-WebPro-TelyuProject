@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../img/Logo.png";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -12,17 +13,19 @@ const Footer = () => {
 
 const Landingpage = () => {
   const [expanded, setExpanded] = useState(null);
+  const navigate = useNavigate();
 
   const [user, setUser] = useState(
     localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user"))
       : null
   );
+
   const [userImage, setUserImage] = useState("");
 
   //convert blob ke gambar
   useEffect(() => {
-    if (user.photoProfile && user.photoProfile.data) {
+    if (user !== null && user.photoProfile && user.photoProfile.data) {
       const base64String = btoa(
         new Uint8Array(user.photoProfile.data).reduce(
           (data, byte) => data + String.fromCharCode(byte),
@@ -32,7 +35,7 @@ const Landingpage = () => {
       const url = `data:image/png;base64,${base64String}`;
       setUserImage(url);
     }
-  }, [user.photoProfile]);
+  }, [user]);
   const faqItems = [
     {
       title: "Pertanyaan Umum (FAQ)",

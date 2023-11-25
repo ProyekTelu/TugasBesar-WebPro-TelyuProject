@@ -18,7 +18,7 @@ const Layout = () => {
   const [userImage, setUserImage] = useState("");
 
   if (!localStorage.getItem("user")) {
-    currentNav("/login");
+    currentNav("/");
   }
 
   //convert blob ke gambar

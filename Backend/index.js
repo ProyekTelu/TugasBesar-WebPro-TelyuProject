@@ -19,6 +19,7 @@ import Roles from "./InitialData/Roles.js";
 import Skills from "./InitialData/Skills.js";
 import Users from "./InitialData/Users.js";
 import ProjectRoles from "./InitialData/ProjectRoles.js";
+import ProjectSkills from "./InitialData/ProjectSkills.js";
 import ProjectMembers from "./InitialData/ProjectMembers.js";
 
 dotenv.config();
@@ -50,6 +51,7 @@ const initializeData = async () => {
   await Roles();
   await Projects();
   await ProjectRoles();
+  await ProjectSkills();
   await ProjectMembers();
 };
 

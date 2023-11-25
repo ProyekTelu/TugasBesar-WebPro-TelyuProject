@@ -1,5 +1,7 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
+import Project from "./ProjectModel.js";
+import Skill from "./SkillModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -10,19 +12,29 @@ const ProjectSkill = db.define(
       primaryKey: true,
       unique: true,
       allowNull: false,
-      DataTypes: DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
     },
     projectID: {
-      DataTypes: DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
     },
     skillID: {
-      DataTypes: DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
     },
   },
   {
     freezeTableName: true,
   }
 );
+
+Project.hasMany(ProjectSkill, {
+  foreignKey: "projectID",
+  sourceKey: "projectID",
+});
+
+ProjectSkill.belongsTo(Skill, {
+  foreignKey: "skillID",
+  sourceKey: "skillID",
+});
 
 export default ProjectSkill;
