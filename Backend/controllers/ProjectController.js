@@ -13,7 +13,7 @@ export const getNewestProjects = async (req, res) => {
       limit: 3,
       order: [["projectID", "ASC"]],
       where: {
-        projectStatus: "OpenRequest",
+        projectStatus: "Open Request",
       },
       include: [
         {

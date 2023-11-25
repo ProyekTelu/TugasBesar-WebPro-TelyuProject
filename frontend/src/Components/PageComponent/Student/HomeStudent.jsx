@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BsFillPlayFill } from "react-icons/bs";
-import { Pagination, Scrollbar } from "swiper/modules";
+import { Autoplay, Pagination, Scrollbar } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useNavigate } from "react-router-dom";
 import { GoPersonFill } from "react-icons/go";
@@ -97,29 +97,30 @@ function HomeStudent() {
 
   return (
     <div className="w-full h-full flex flex-col">
-      <div className={` py-4 flex-none w-fit  rounded-2xl `}>
-        <h1 className="text-[26px] md:text-5xl font-bold text-start px-4">
+      <div className="mb-6">
+        <h1 className="text-[26px] md:text-4xl font-bold text-start px-4">
           Newest Projects!
         </h1>
       </div>
-      <div className="max-h-full flex flex-col">
+      <div className="max-h-full flex flex-col ">
         <Swiper
-          modules={[Pagination]}
+          modules={[Pagination, Autoplay]}
           className="w-full h-full z-0 "
           spaceBetween={22}
           pagination
           navigation
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
           slidesPerView={slidesPerView}
         >
           {newestProject.length > 0 ? (
             newestProject.map((project, index) => (
               <SwiperSlide
                 key={index}
-                className="w-full z-10 h-full bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-center  cursor-pointer transition "
+                className="w-full z-10 h-full lg:flex-col border px-6 pt-6 pb-10 rounded-lg justify-center  cursor-pointer transition "
               >
                 <div className="flex flex-col md:flex-row w-full justify-between">
                   <div className="">
-                    <h1 className="text-left text-primary text-3xl font-bold line-clamp-1">
+                    <h1 className="text-left text-primary text-2xl font-bold line-clamp-1">
                       {project.title}
                     </h1>
                   </div>
@@ -143,7 +144,7 @@ function HomeStudent() {
                 </p>
                 <div className="py-3 rounded-2xl flex flex-col gap-1 mt-2">
                   {/* <p className="font-bold">Skill</p> */}
-                  <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
+                  <div className="flex flex-wrap gap-2 max-h-8 md:max-h-10  overflow-y-auto">
                     {project.ProjectSkills.map((skill, index) => (
                       <div
                         key={index}
@@ -156,7 +157,7 @@ function HomeStudent() {
                 </div>
                 <div className="rounded-2xl flex flex-col gap-1 ">
                   {/* <p className="font-bold">Role</p> */}
-                  <div className="flex flex-wrap gap-2 max-h-10  overflow-y-auto">
+                  <div className="flex flex-wrap gap-2 max-h-8 md:max-h-10  overflow-y-auto">
                     {project.ProjectRoles.map((role, index) => (
                       <div
                         key={index}
@@ -189,22 +190,22 @@ function HomeStudent() {
         </Swiper>
       </div>
 
-      <div className="flex flex-col md:flex-row h-full mt-6 gap-6">
-        <div className="rounded-3xl w-full md:w-3/4 flex flex-col gap-4 h-full">
-          <div className="flex justify-between gap-2">
-            <h1 className="text-[26px] md:text-5xl font-bold text-center my-4 px-4">
+      <div className="flex flex-col md:flex-row h-full mt-8 gap-6">
+        <div className="rounded-2xl w-full md:w-3/4 flex flex-col h-full">
+          <div className="flex justify-between gap-2 mb-6">
+            <h1 className="text-[26px] md:text-4xl font-bold text-center  px-4">
               Your Projects
             </h1>
             <select
               value={activeStatus}
               onChange={handleStatusChange}
-              className="px-4 font-bold rounded-xl text-lg appearance-none"
+              className="px-4 font-bold bg-white rounded-xl text-lg appearance-none"
             >
               {listStatus.map((status, index) => (
                 <option
                   key={index}
                   value={status}
-                  className="px-2 py-2 bg-white text-gray-800"
+                  className="px-2 py-2 text-gray-800"
                 >
                   {status}
                 </option>
@@ -221,22 +222,20 @@ function HomeStudent() {
           >
             {myProject.length > 0
               ? myProject.map((project, index) => (
-                  <SwiperSlide className="w-full z-10  bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-between  cursor-pointer transition ">
+                  <SwiperSlide className="w-full z-10 border lg:flex-col px-6 pt-6 pb-10 rounded-lg justify-between  cursor-pointer transition ">
                     <div className="flex flex-col">
                       <div className="flex w-full justify-between">
                         <div className="flex flex-col md:flex-row gap-2">
-                          <h1 className="text-left text-primary text-3xl font-bold line-clamp-1">
+                          <h1 className="text-left text-primary text-2xl font-bold line-clamp-1">
                             {project.title}
                           </h1>
-                          <h1 className="text-left text-blackAlternative text-3xl font-bold line-clamp-1">
+                          <h1 className="text-left text-blackAlternative text-2xl font-bold line-clamp-1">
                             ({project.ProjectMembers[0].Role.name})
                           </h1>
                         </div>
 
                         <h1 className="px-4 py-2 rounded-md bg-green-500 text-white my-auto">
-                          {project.statusProject === "Completed"
-                            ? "Completed"
-                            : "Active"}
+                          {project.projectStatus}
                         </h1>
                       </div>
                       <h1 className="text-left text-lg mt-2 font-medium text-black">
@@ -277,7 +276,7 @@ function HomeStudent() {
           </Swiper>
         </div>
         <div
-          className="flex md:flex-col hover:shadow-lg py-6 px-4 justify-center items-center w-full h-full rounded-3xl bg-whiteAlternative cursor-pointer transition active:scale-95 "
+          className="flex md:flex-col hover:shadow-lg py-6 px-4 justify-center items-center w-full h-full rounded-2xl bg-whiteAlternative cursor-pointer transition active:scale-95 "
           style={{ userSelect: "none" }}
           onClick={() => {
             navigate("/telyuProject/listProject");

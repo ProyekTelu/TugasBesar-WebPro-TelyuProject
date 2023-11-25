@@ -27,7 +27,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
-      projectStatus: "OpenRequest",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -39,7 +39,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
-      projectStatus: "OpenRequest",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -51,7 +51,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
-      projectStatus: "OpenRequest",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -63,7 +63,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
-      projectStatus: "OpenRequest",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -75,7 +75,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
-      projectStatus: "OpenRequest",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -87,7 +87,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
-      projectStatus: "OpenRequest",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -99,7 +99,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
-      projectStatus: "OpenRequest",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -111,7 +111,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
-      projectStatus: "OpenRequest",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -123,7 +123,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
-      projectStatus: "OpenRequest",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -135,7 +135,7 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
-      projectStatus: "OpenRequest",
+      projectStatus: "Open Request",
     });
   } catch (err) {
     console.log(err);
