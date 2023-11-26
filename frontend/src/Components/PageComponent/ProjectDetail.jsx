@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 
 function ProjectDetail({ onClose }) {
   const navigate = useNavigate();

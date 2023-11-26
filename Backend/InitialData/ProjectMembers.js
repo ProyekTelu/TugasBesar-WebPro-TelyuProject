@@ -35,7 +35,7 @@ const ProjectMembers = async () => {
 
     await ProjectMember.create({
       userID: user2.userID,
-      roleID: 4,
+      roleID: 1,
       projectID: 1,
     });
   } catch (e) {

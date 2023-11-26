@@ -100,18 +100,16 @@ function HomeStudent() {
   const [isModalOpenDetail, setModalOpenDetail] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
-  const openModalDetail = (projectID) => {
-    setModalOpenDetail(true);
-    const fetchProject = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/project/${projectID}`);
-        setSelectedProject(response.data);
-      } catch (error) {
-        console.error("Failed to fetch project:", error);
-      }
-    };
-  
-    fetchProject();
+  const openModalDetail = async (projectId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/project/${projectId}`
+      );
+      setSelectedProject(response.data);
+      setModalOpenDetail(true);
+    } catch (error) {
+      console.error("Failed to fetch project:", error);
+    }
   };
 
   const closeModalDetail = () => {
@@ -132,7 +130,7 @@ function HomeStudent() {
           spaceBetween={22}
           pagination
           navigation
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          autoplay={{ delay: 10000, disableOnInteraction: false }}
           slidesPerView={slidesPerView}
         >
           {newestProject.length > 0 ? (
@@ -215,14 +213,18 @@ function HomeStudent() {
       </div>
 
       <Modal
-          className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
-          isOpen={isModalOpenDetail}
-          onRequestClose={closeModalDetail}
-        >
-          {isModalOpenDetail && (
-            <ProjectDetailModal selectedProject={selectedProject} onClose={closeModalDetail} />
-          )}
-        </Modal>
+        className="w-sreen h-screen flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
+        isOpen={isModalOpenDetail}
+        onRequestClose={closeModalDetail}
+      >
+        {isModalOpenDetail && (
+          <ProjectDetailModal
+            className="absolute right-0 left-0 top-0 bottom-0"
+            selectedProject={selectedProject}
+            onClose={closeModalDetail}
+          />
+        )}
+      </Modal>
 
       <div className="flex flex-col md:flex-row h-full mt-8 gap-6">
         <div className="rounded-2xl w-full md:w-3/4 flex flex-col h-full">
@@ -256,7 +258,10 @@ function HomeStudent() {
           >
             {myProject.length > 0
               ? myProject.map((project, index) => (
-                  <SwiperSlide key={index} className="w-full z-10 border lg:flex-col px-6 pt-6 pb-10 rounded-lg justify-between  cursor-pointer transition ">
+                  <SwiperSlide
+                    key={index}
+                    className="w-full z-10 border lg:flex-col px-6 pt-6 pb-10 rounded-lg justify-between  cursor-pointer transition "
+                  >
                     <div className="flex flex-col">
                       <div className="flex w-full justify-between">
                         <div className="flex flex-col md:flex-row gap-2">
