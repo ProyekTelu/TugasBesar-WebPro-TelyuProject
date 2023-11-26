@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import ReactDOM from "react-dom";
 import Modal from "react-modal";
 import ProjectDetailModal from "../ProjectDetailModal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { IoCaretBackCircleOutline } from "react-icons/io5";
-import { AiFillCloseCircle } from "react-icons/ai";
 import CreateProjectModal from "./CreateProjectModal";
 
 function MyProjectLecturer() {

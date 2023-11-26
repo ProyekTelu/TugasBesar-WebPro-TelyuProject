@@ -1,12 +1,17 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
+import Modal from "react-modal";
 
-function ProjectDetailModal({ onClose }) {
+function ProjectDetailModal({ onClose, selectedProject }) {
+  const project = selectedProject;
   const projectTitle = "EcoScape";
   const owner = "Reza Adhie Dharmawan";
   const [groupLink, setGroupLink] = useState("https//www.grouplink.com");
   const descs = "e future.";
+
+  console.log(project);
 
   const [desc, setDesc] = useState(descs);
   const [isEditing, setIsEditing] = useState(false);
@@ -19,6 +24,19 @@ function ProjectDetailModal({ onClose }) {
     setIsEditing(false);
   };
 
+  // useEffect(() => {
+  //   const fetchProject = async () => {
+  //     try {
+  //       const response = await axios.get(`http://localhost:5000/project/${projectID}`);
+  //       setProject(response.data);
+  //     } catch (error) {
+  //       console.error("Failed to fetch project:", error);
+  //     }
+  //   };
+  
+  //   fetchProject();
+  // }, [projectID]);
+
   return (
     <div className="max-w-screen-xl max-h-screen">
       <div className="modal-content relative flex justify-center w-full ">
@@ -29,7 +47,7 @@ function ProjectDetailModal({ onClose }) {
                 <div className="flex gap-5 flex-col md:flex-row">
                   <div className="flex flex-row gap-4">
                     <h1 className="text-left text-primary text-xl sm:text-2xl md:text-4xl font-bold">
-                      {projectTitle}
+                      eco
                     </h1>
                     {!isEditing && (
                       <div className="my-auto focus:outline-none cursor-pointer self-end active:scale-95 duration-100 ease-in hover:scale-105">

@@ -118,3 +118,21 @@ export const getMyProjects = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch projects", error });
   }
 };
+
+export const getProjectByProjectID = async (req, res) => {
+  try{
+    const project = await Project.findOne({
+    where: {
+      projectID: req.params.projectID
+    },
+    include: {
+      model: User,
+      as: "projectOwner",
+      attributes: ["firstName", "lastName"],
+    }
+  });
+    res.status(200).json(project);
+  }catch (error){
+    res.status(500).json({ message: "Failed to fetch projects", error });
+  }
+};

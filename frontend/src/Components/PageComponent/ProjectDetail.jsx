@@ -3,12 +3,21 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
 
 function ProjectDetail({ onClose }) {
+  const navigate = useNavigate();
+  const storedUser = localStorage.getItem("user");
   const projectTitle = "EcoScape";
   const owner = "Reza Adhie Dharmawan";
   const groupLink = "https//www.grouplink.com";
   const desc =
     "EcoScape is an ambitious environmental conservation project aimed at preserving and restoring natural ecosystems in urban areas. We believe that by creating green spaces and planting native trees and flowers, we can improve air quality, provide habitat for wildlife, and enhance the overall quality of life for local communities. Our mission is to transform concrete jungles into thriving urban oases, where both people and nature can coexist harmoniously. Join us in the journey to create a greener, healthier, and more sustainable future.";
   const [isEditing, setIsEditing] = useState(false);
+  const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
+
+  useEffect(() => {
+    if (!storedUser) {
+      navigate("/");
+    }
+  }, [navigate, storedUser]);
 
   const handleEditProfile = () => {
     setIsEditing(!isEditing);
