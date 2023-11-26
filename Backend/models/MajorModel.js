@@ -1,31 +1,31 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
-import Fakultas from "./FakultasModel.js";
+import Faculty from "./FacultyModel.js";
 
 const { DataTypes } = Sequelize;
 
-const Prodi = db.define(
-  "Prodi",
+const Major = db.define(
+  "Major",
   {
-    nama: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: false,
     },
-    kode: {
+    code: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
-    program: {
+    degree: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    kodeFakultas: {
+    facultyCode: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    tahunBerdiri: {
+    yearAppear: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
@@ -35,9 +35,9 @@ const Prodi = db.define(
   }
 );
 
-Fakultas.hasMany(Prodi, {
-  foreignKey: "kodeFakultas",
-  sourceKey: "kode",
+Faculty.hasMany(Major, {
+  foreignKey: "facultyCode",
+  sourceKey: "code",
 });
 
-export default Prodi;
+export default Major;

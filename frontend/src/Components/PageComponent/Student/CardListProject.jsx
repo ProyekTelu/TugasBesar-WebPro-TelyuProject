@@ -15,6 +15,18 @@ function CardListProject({ items, handleRequestForm }) {
     setIsOpen(false);
   }
 
+  const formatDate = (inputDate) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "2-digit",
+    };
+
+    const date = new Date(inputDate);
+    const formattedDate = date.toLocaleDateString("id-ID", options);
+    return formattedDate;
+  };
+
   return (
     <>
       {items.map((data, index) => (
@@ -28,9 +40,11 @@ function CardListProject({ items, handleRequestForm }) {
           <hr className="my-4 rounded-full" />
           <p className="line-clamp-2 md:line-clamp-none">{data.description}</p>
           <p className="mt-6 font-bold">Project Owner</p>
-          <p>{data.project_owner}</p>
+          <p>
+            {data.projectOwner.firstName + " " + data.projectOwner.lastName}
+          </p>
           <p className="mt-6 font-bold">Due Date</p>
-          <p>{data.due_project}</p>
+          <p>{formatDate(data.openUntil)}</p>
           <div className="flex justify-end">
             <button
               className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
@@ -47,7 +61,11 @@ function CardListProject({ items, handleRequestForm }) {
               isOpen={modalIsOpen}
               onRequestClose={closeModal}
             >
-              <JoinForm isOpen={modalIsOpen} closeModal={closeModal} title={data.title} />
+              <JoinForm
+                isOpen={modalIsOpen}
+                closeModal={closeModal}
+                title={data.title}
+              />
             </Modal>
           </div>
         </div>

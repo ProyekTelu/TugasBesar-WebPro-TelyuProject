@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { reset, signupUser } from "../../features/authSlice";
 import axios from "axios";
 import CarouselAuth from "./CarouselAuth";
@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import TelkomLogo from "../../img/Telkom_University_Logo.png";
 import { motion, AnimatePresence } from "framer-motion";
-import TelyuProjectLogo from "../../img/telyuProject.png";
+import TelyuProjectLogo from "../../img/Logo.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -136,7 +136,7 @@ const Signup = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/fakultas")
+      .get("http://localhost:5000/faculty")
       .then((response) => {
         setFakultas(response.data);
       })
@@ -148,7 +148,7 @@ const Signup = () => {
   useEffect(() => {
     if (selectedFakultas) {
       axios
-        .get(`http://localhost:5000/prodi/${selectedFakultas}`)
+        .get(`http://localhost:5000/major/${selectedFakultas}`)
         .then((response) => {
           setMajors(response.data);
         })
@@ -285,11 +285,16 @@ const Signup = () => {
           >
             <AnimatePresence mode="wait" initial={false}>
               <div className="p-5 md:p-10 w-full flex flex-col h-full align-middle sm:gap-4">
-                <img
-                  className="mt-2 ml-5 h-6 w-12 sm:h-12 sm:w-24"
-                  src={TelyuProjectLogo}
-                  alt=""
-                />
+                <Link to={"/"} className="mb-4 md:mb-4 flex items-center">
+                  <img
+                    src={TelyuProjectLogo}
+                    alt="Tel-u Project"
+                    className="w-10"
+                  />
+                  <p className="ml-2 text-2xl font-bold text-gray-800">
+                    Tel-U Project
+                  </p>
+                </Link>
                 {currentStep === 0 && (
                   <motion.div
                     initial={{ x: 300, opacity: 0 }}

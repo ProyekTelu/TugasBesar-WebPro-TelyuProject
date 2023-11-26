@@ -62,7 +62,7 @@ function CreateForm() {
           Create Project
         </h1>
         <div className="w-full relative shadow-lg lg:flex-row p-5 my-4 rounded-lg justify-center h-full overflow-y-auto max-h-[75vh]">
-        <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <div className="flex gap-5 flex-row w-full m-auto justify-center">
               <div className="w-full">
                 <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
@@ -207,20 +207,20 @@ function CreateForm() {
               </div>
             </div>
           </form>
-          
+
           <div className="w-full flex justify-center mt-10 pt-0 xs:pt-2">
-              <button
-                type="submit"
-                className={`"text-secondary text-white w-1/4 py-1 block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg" ${
-                  !isInputComplete
-                    ? "bg-black cursor-not-allowed"
-                    : " bg-primary hover:bg-brightPrimary cursor-pointer"
-                }`}
-                disabled={!isInputComplete}
-              >
-                Create
-              </button>
-            </div>
+            <button
+              type="submit"
+              className={`"text-secondary text-white w-1/4 py-1 block sm:py-3 md:text-lg text-xs px-2 md:px-5 rounded-md md:rounded-lg" ${
+                !isInputComplete
+                  ? "bg-black cursor-not-allowed"
+                  : " bg-primary hover:bg-brightPrimary cursor-pointer"
+              }`}
+              disabled={!isInputComplete}
+            >
+              Create
+            </button>
+          </div>
         </div>
       </div>
     </div>
