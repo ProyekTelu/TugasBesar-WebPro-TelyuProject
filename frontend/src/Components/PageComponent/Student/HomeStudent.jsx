@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BsFillPlayFill } from "react-icons/bs";
 import { Pagination, Scrollbar } from "swiper/modules";
-import { Dropdown } from "primereact/dropdown";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useNavigate } from "react-router-dom";
 import { GoPersonFill } from "react-icons/go";
