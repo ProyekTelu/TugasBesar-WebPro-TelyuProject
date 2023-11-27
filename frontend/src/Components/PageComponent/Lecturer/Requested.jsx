@@ -19,7 +19,7 @@ const Requested = () => {
     document.body.classList.remove("active-modal");
   }
   return (
-    <div className=" flex justify-center w-full ">
+    <div className="p-4 md:p-12 overflow-y-auto flex justify-center w-full ">
       <div className="w-full mx-auto grid md:grid-cols-1 gap-4 xs:grid-cols-1  xs:gap-4 xss:grid-cols-1 ">
         <div className="flex justify-between gap-5 flex-col  md:flex-row">
           <label className=" font-bold text-2xl">REQUESTED</label>

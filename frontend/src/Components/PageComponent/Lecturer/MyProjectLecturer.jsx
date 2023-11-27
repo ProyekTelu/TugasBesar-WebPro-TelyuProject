@@ -30,7 +30,7 @@ function MyProjectLecturer() {
   }
 
   return (
-    <div className="flex justify-center w-full">
+    <div className="flex justify-center w-full p-4 md:p-12 overflow-y-auto">
       <div className="flex justify-center relative w-full">
         <div className="w-full h-full flex flex-col gap-6">
           <div className="w-full h-min relative border-2 lg:flex-col p-5  rounded-lg justify-center overflow-y-auto max-h-[70vh] bg-whiteAlternative">

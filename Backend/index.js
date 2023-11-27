@@ -5,6 +5,10 @@ import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
 import db from "./config/Database.js";
 
+import UserSkill from "./models/UserSkillModel.js";
+import Invitation from "./models/InvitationModel.js";
+import Request from "./models/RequestModel.js";
+
 //route
 import UserRoute from "./routes/UserRoutes.js";
 import AuthRoute from "./routes/AuthRoutes.js";

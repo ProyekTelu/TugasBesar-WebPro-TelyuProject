@@ -49,8 +49,8 @@ function ListProjectStudent() {
       {isShowRequestForm ? (
         <JoinForm title={requestFormSession} />
       ) : (
-        <>
-          <div className="flex gap-5 flex-col-reverse md:flex-row justify-between">
+        <div className="p-4 md:p-12 overflow-y-auto">
+          <div className="flex  gap-5 flex-col-reverse md:flex-row justify-between">
             <ReactPaginate
               breakLabel="..."
               nextLabel="NEXT"
@@ -80,7 +80,7 @@ function ListProjectStudent() {
               }}
             />
           </div>
-        </>
+        </div>
       )}
     </>
   );

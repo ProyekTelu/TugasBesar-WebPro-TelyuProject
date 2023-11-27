@@ -52,7 +52,8 @@ const Notification = () => {
     const handleClickOutside = (event) => {
       if (
         notificationRef.current &&
-        !notificationRef.current.contains(event.target)
+        !notificationRef.current.contains(event.target) &&
+        notifActive
       ) {
         setNotifActive(false);
       }
@@ -62,18 +63,25 @@ const Notification = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [notifActive]);
+
+  const handleLogoClick = (event) => {
+    event.stopPropagation();
+    if (notifActive) {
+      setNotifActive(false);
+    } else {
+      setNotifActive(true);
+    }
+  };
 
   return (
-    <div className="hidden md:block">
+    <div className="hidden md:block" ref={notificationRef}>
       <div
         style={{ userSelect: "none" }}
         className={`w-16 h-16 ${
           notifActive ? "bg-primary" : "bg-black hover:bg-gray-600 "
         }  fixed flex justify-center md:right-10 right-0 z-20 top-10 rounded-full cursor-pointer`}
-        onClick={() => {
-          setNotifActive(!notifActive);
-        }}
+        onClick={handleLogoClick}
       >
         <IoMdNotifications
           className={`h-full w-full p-4 my-auto  text-white transition  active:scale-90`}
@@ -83,7 +91,6 @@ const Notification = () => {
         </div>
       </div>
       <div
-        ref={notificationRef}
         hidden={!notifActive}
         className={
           "fixed w-auto md:w-[450px] rounded-lg py-4 bg-white md:right-28  left-10 right-10 z-10 md:left-auto top-10  border-2 scroll-smooth "

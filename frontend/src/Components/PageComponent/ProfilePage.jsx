@@ -10,7 +10,7 @@ const Profile = () => {
   const [lastName, setlastName] = useState(User.lastName);
   const [nomorInduk, setnim] = useState(User.userID);
   const [photoProfile, setphotoProfile] = useState(User.photoProfile);
-const [userImage, setUserImage] = useState(user);
+  const [userImage, setUserImage] = useState(user);
   const [phoneNumber, setphoneNumber] = useState(User.phoneNumber);
   const [gender, setgender] = useState(User.gender);
   const [kelas, setkelas] = useState(User.kelas);
@@ -95,7 +95,7 @@ const [userImage, setUserImage] = useState(user);
   };
 
   return (
-    <>
+    <div className="p-4 md:p-12 overflow-y-auto">
       <div className="relative h-60 rounded-b-3xl flex justify-center sm:h-55">
         <div className="absolute -bottom-2 sm:-bottom-0 md:-bottom-10 xl:-bottom-14">
           <img
@@ -372,7 +372,7 @@ const [userImage, setUserImage] = useState(user);
           </button>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
