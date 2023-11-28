@@ -6,11 +6,22 @@ body {
   background-color: red; 
 }
 
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   appearance: none;
   margin: 0;
+}
+
+::-webkit-scrollbar {
+  width: 6px; 
+}
+
+
+::-webkit-scrollbar-thumb {
+  background-color: #718096;
+  border-radius: 3px;
 }
 
 

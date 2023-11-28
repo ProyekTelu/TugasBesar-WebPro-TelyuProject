@@ -3,15 +3,17 @@ import db from "../config/Database.js";
 
 const { DataTypes } = Sequelize;
 
-const Fakultas = db.define(
-  "Fakultas",
+const Skill = db.define(
+  "Skill",
   {
-    nama: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    skillID: {
+      type: DataTypes.INTEGER,
       unique: true,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
     },
-    kode: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
@@ -22,4 +24,4 @@ const Fakultas = db.define(
   }
 );
 
-export default Fakultas;
+export default Skill;

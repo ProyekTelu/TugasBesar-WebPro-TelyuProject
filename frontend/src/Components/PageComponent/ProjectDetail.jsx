@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 
 function ProjectDetail({ onClose }) {
+  const navigate = useNavigate();
+  const storedUser = localStorage.getItem("user");
   const projectTitle = "EcoScape";
   const owner = "Reza Adhie Dharmawan";
   const groupLink = "https//www.grouplink.com";
-  const desc = "EcoScape is an ambitious environmental conservation project aimed at preserving and restoring natural ecosystems in urban areas. We believe that by creating green spaces and planting native trees and flowers, we can improve air quality, provide habitat for wildlife, and enhance the overall quality of life for local communities. Our mission is to transform concrete jungles into thriving urban oases, where both people and nature can coexist harmoniously. Join us in the journey to create a greener, healthier, and more sustainable future.";
+  const desc =
+    "EcoScape is an ambitious environmental conservation project aimed at preserving and restoring natural ecosystems in urban areas. We believe that by creating green spaces and planting native trees and flowers, we can improve air quality, provide habitat for wildlife, and enhance the overall quality of life for local communities. Our mission is to transform concrete jungles into thriving urban oases, where both people and nature can coexist harmoniously. Join us in the journey to create a greener, healthier, and more sustainable future.";
   const [isEditing, setIsEditing] = useState(false);
+  const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
+
+  useEffect(() => {
+    if (!storedUser) {
+      navigate("/");
+    }
+  }, [navigate, storedUser]);
 
   const handleEditProfile = () => {
     setIsEditing(!isEditing);
@@ -28,8 +39,9 @@ function ProjectDetail({ onClose }) {
                   {projectTitle}
                 </h1>
                 <div className="my-auto">
-                  <FaEdit className="text-3xl cursor-pointer"
-                  onClick={handleEditProfile} 
+                  <FaEdit
+                    className="text-3xl cursor-pointer"
+                    onClick={handleEditProfile}
                   />
                 </div>
               </div>
@@ -43,15 +55,13 @@ function ProjectDetail({ onClose }) {
 
             <hr className="border-b-2 border-b-slate-950 my-5 mb-8" />
             <h1 className="text-left text-xl mb-4 font-bold">Description</h1>
-            {!isEditing && (
-              <p>{desc}</p>
-            )}
+            {!isEditing && <p>{desc}</p>}
             {isEditing && (
-              <textarea 
-              rows="7"
-              type="text"
-              value={desc}
-              className="p-1 sm:p-2 text-xs md:text-base w-full  focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+              <textarea
+                rows="7"
+                type="text"
+                value={desc}
+                className="p-1 sm:p-2 text-xs md:text-base w-full  focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
               />
             )}
 
