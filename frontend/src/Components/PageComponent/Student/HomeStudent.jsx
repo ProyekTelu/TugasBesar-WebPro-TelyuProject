@@ -233,7 +233,7 @@ function HomeStudent() {
                     <p>{formatDate(project.openUntil)}</p>
                   </div>
                   <button
-                    className="py-3 px-4 rounded-md font-semibold text-xs md:text-sm xl:text-lg  text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md  hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
+                    className="px-2 py-2 md:py-3 md:px-4 text-[8px] rounded-md font-semibold text-xs md:text-sm xl:text-lg  text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md  hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
                     type="submit"
                     onClick={() => openModalDetail(project.projectID)}
                   >
@@ -246,8 +246,8 @@ function HomeStudent() {
         </Swiper>
       </div>
 
-      <div className="flex flex-col xl:flex-row h-full mt-8 gap-6">
-        <div className="rounded-2xl w-full xl:w-3/4 flex flex-col h-full">
+      <div className="flex flex-col lg:flex-row h-full mt-8 gap-6">
+        <div className="rounded-2xl w-full lg:w-3/4 flex flex-col h-full">
           <div className="flex justify-between gap-2 mb-6">
             <h1 className="text-[26px] md:text-4xl font-bold text-center px-4">
               Your Projects
@@ -255,7 +255,7 @@ function HomeStudent() {
             <select
               value={activeStatus}
               onChange={handleStatusChange}
-              className="px-4 font-bold bg-white rounded-xl text-lg appearance-none"
+              className="px-4 font-bold border rounded-full cursor-pointer bg-white text-lg appearance-none"
             >
               {listStatus.map((status, index) => (
                 <option
@@ -304,8 +304,8 @@ function HomeStudent() {
                           {"as " + project.ProjectMembers[0].Role.name}
                         </h1>
                       </div>
-                      <div className=" bg-green-500 px-3 py-2 my-auto rounded-lg">
-                        <h1 className="rounded-md font-semibold text-xs md:text-sm xl:text-base  text-white my-auto ">
+                      <div className=" bg-green-500 px-2 py-2 md:py-3 md:px-4 whitespace-nowrap my-auto rounded-full border-2 border-whiteAlternative">
+                        <h1 className="rounded-md font-bold text-[7px] md:text-xs xl:text-sm  text-white my-auto ">
                           {project.projectStatus}
                         </h1>
                       </div>
@@ -333,13 +333,13 @@ function HomeStudent() {
 
                     <div className="flex flex-row gap-3 self-end mt-2 md:mt-0">
                       <button
-                        className="py-3 px-4 rounded-md font-semibold text-xs md:text-sm xl:text-lg text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
+                        className="px-2 py-2 md:py-3 md:px-4 rounded-md font-semibold text-[8px] md:text-sm xl:text-lg text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
                         type="submit"
                       >
-                        Go to Group Chat
+                        Group Chat
                       </button>
                       <button
-                        className="py-2 px-3 rounded-md font-semibold text-xs md:text-sm xl:text-lg text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
+                        className="px-2 py-2 md:py-3 md:px-4 rounded-md font-semibold text-[8px] md:text-sm xl:text-lg text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
                         type="submit"
                       >
                         Open Project
@@ -352,15 +352,15 @@ function HomeStudent() {
           </Swiper>
         </div>
         <div
-          className="flex flex-row xl:flex-col  border hover:shadow-lg md:gap-2 
+          className="flex flex-row lg:flex-col border hover:shadow-lg md:gap-2 
           py-6 px-4 justify-center items-center w-full rounded-2xl bg-whiteAlternative cursor-pointer transition active:scale-95 "
           style={{ userSelect: "none" }}
           onClick={() => {
             navigate("/telyuProject/listProject");
           }}
         >
-          <BsFillPlayFill className="w-20 h-20 md:w-30 md:h-30 xl:h-36 xl:w-36" />
-          <div className="text-xl xl:text-5xl flex font-bold ">
+          <BsFillPlayFill className="w-20 h-20 md:w-30 md:h-30 lg:h-36 lg:w-36" />
+          <div className="text-xl lg:text-5xl flex font-bold">
             Find <br /> Projects
           </div>
         </div>
