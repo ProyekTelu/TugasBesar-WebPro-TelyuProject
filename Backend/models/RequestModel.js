@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
 import User from "./UserModel.js";
 import Project from "./ProjectModel.js";
+import Role from "./RoleModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -23,6 +24,16 @@ const Request = db.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    roleID: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    message: {
+      type: DataTypes.TEXT,
+    },
+    cv: {
+      type: DataTypes.BLOB("long"),
+    },
     status: {
       type: DataTypes.ENUM("pending", "accepted", "rejected"),
       allowNull: false,
@@ -42,6 +53,11 @@ Request.belongsTo(User, {
 Request.belongsTo(Project, {
   foreignKey: "projectID",
   targetKey: "projectID",
+});
+
+Request.belongsTo(Role, {
+  foreignKey: "roleID",
+  targetKey: "roleID",
 });
 
 export default Request;

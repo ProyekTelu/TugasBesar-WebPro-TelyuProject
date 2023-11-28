@@ -24,7 +24,7 @@ function ProjectDetailModal({ onClose, selectedProject }) {
   };
 
   return (
-    <div className="modal-content relative w-screen md:w-[85vw] max-h-screen md:max-h-[85vh] border-2  shadow-lg lg:flex-row p-5 rounded-lg justify-center  overflow-y-auto  bg-whiteAlternative">
+    <div className="modal-content  relative w-screen md:w-[85vw] max-h-screen md:max-h-[85vh] border-2  shadow-lg lg:flex-row p-5 rounded-lg justify-center  overflow-y-auto  bg-whiteAlternative">
       <div className="flex flex-row justify-between">
         <div className="flex gap-5 flex-col md:flex-row">
           <div className="flex flex-col xs:flex-row gap-4">

@@ -89,7 +89,7 @@ export const getAllOpenRequestProjects = async (req, res) => {
   }
 };
 
-export const getMyProjects = async (req, res) => {
+export const getMyProjectsStudent = async (req, res) => {
   try {
     const userId = req.params.userID;
     const projects = await Project.findAll({
@@ -105,6 +105,32 @@ export const getMyProjects = async (req, res) => {
         {
           model: User,
           as: "projectOwner",
+          attributes: ["firstName", "lastName"],
+        },
+      ],
+    });
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch projects", error });
+  }
+};
+
+export const getMyProjectsLecturer = async (req, res) => {
+  try {
+    const userId = req.params.userID;
+    const projects = await Project.findAll({
+      include: [
+        {
+          model: ProjectMember,
+          include: {
+            model: Role,
+            attributes: ["name"],
+          },
+        },
+        {
+          model: User,
+          as: "projectOwner",
+          where: { userID: userId },
           attributes: ["firstName", "lastName"],
         },
       ],

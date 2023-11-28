@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { IoMdNotifications } from "react-icons/io";
 import { FaDotCircle } from "react-icons/fa";
 
+import InfiniteScroll from "react-infinite-scroll-component";
+
 const options = [
   { value: "ALL", label: "ALL" },
   { value: "Waiting for Approve", label: "Waiting" },
@@ -19,7 +21,7 @@ const dummyNotifications = [
   },
   {
     id: 2,
-    title: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. ",
+    title: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
     status: "Waiting for Approve",
     dotColor: "text-yellow-400",
   },
@@ -41,12 +43,58 @@ const dummyNotifications = [
     status: "Declined",
     dotColor: "text-primary",
   },
+  {
+    id: 6,
+    title: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
+    status: "Waiting for Approve",
+    dotColor: "text-yellow-400",
+  },
+  {
+    id: 7,
+    title: "Lorem ipsum dolor sit.",
+    status: "Waiting for Approve",
+    dotColor: "text-yellow-400",
+  },
+  {
+    id: 8,
+    title: "Echo Warrior",
+    status: "Accepted",
+    dotColor: "text-green-500",
+  },
+  {
+    id: 9,
+    title: "Echo Warrior",
+    status: "Accepted",
+    dotColor: "text-green-500",
+  },
+  {
+    id: 10,
+    title: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
+    status: "Waiting for Approve",
+    dotColor: "text-yellow-400",
+  },
+  {
+    id: 11,
+    title: "Lorem ipsum dolor sit.",
+    status: "Waiting for Approve",
+    dotColor: "text-yellow-400",
+  },
+  {
+    id: 12,
+    title: "Echo Warrior",
+    status: "Accepted",
+    dotColor: "text-green-500",
+  },
 ];
 
 const Notification = () => {
   const [notifActive, setNotifActive] = useState(false);
   const [notifState, setNotifState] = useState("ALL");
+  const [notifications, setNotifications] = useState(
+    dummyNotifications.slice(0, 5)
+  );
   const notificationRef = useRef(null);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -72,6 +120,24 @@ const Notification = () => {
     } else {
       setNotifActive(true);
     }
+  };
+
+  const fetchMoreData = () => {
+    if (notifications.length >= dummyNotifications.length) {
+      setHasMore(false);
+      return;
+    }
+
+    setTimeout(() => {
+      setNotifications((prevNotifications) =>
+        prevNotifications.concat(
+          dummyNotifications.slice(
+            prevNotifications.length,
+            prevNotifications.length + 5
+          )
+        )
+      );
+    }, 1500);
   };
 
   return (
@@ -116,7 +182,14 @@ const Notification = () => {
           ))}
         </div>
 
-        <div className="w-auto my-auto p-5 text-base flex flex-col gap-2 max-h-80 overflow-y-auto">
+        <InfiniteScroll
+          dataLength={notifications.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={<h4>Loading...</h4>}
+          endMessage={<p>No more notifications</p>}
+          className="w-auto my-auto p-5 text-base flex flex-col gap-2 max-h-[80vh] overflow-y-auto"
+        >
           {dummyNotifications
             .filter(
               (notification) =>
@@ -143,7 +216,7 @@ const Notification = () => {
                 </div>
               </div>
             ))}
-        </div>
+        </InfiniteScroll>
       </div>
     </div>
   );

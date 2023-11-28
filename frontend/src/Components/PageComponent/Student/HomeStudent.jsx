@@ -104,7 +104,7 @@ function HomeStudent() {
       setIsLoadingMyProject(true);
       try {
         const response = await axios.get(
-          `http://localhost:5000/projects/${user.userID}`
+          `http://localhost:5000/student/projects/${user.userID}`
         );
         setMyProject(response.data);
         if (response.data.length === 0) {
@@ -141,7 +141,7 @@ function HomeStudent() {
 
   return (
     <div className="w-full p-4 md:p-12 overflow-y-auto scroll-smooth min-h-screen md:h-screen flex flex-col">
-      <div className="mb-6">
+      <div className="mb-2 md:mb-6">
         <h1 className="text-[26px] md:text-4xl font-bold text-start px-4">
           Newest Projects!
         </h1>
@@ -149,7 +149,7 @@ function HomeStudent() {
       <div className="max-h-full flex flex-col transition">
         <Swiper
           modules={[Pagination, Autoplay]}
-          className="w-full z-0 transition h-full "
+          className="w-full z-0 transition h-full p-1"
           spaceBetween={22}
           pagination
           navigation
@@ -248,7 +248,7 @@ function HomeStudent() {
 
       <div className="flex flex-col lg:flex-row h-full mt-8 gap-6">
         <div className="rounded-2xl w-full lg:w-3/4 flex flex-col h-full">
-          <div className="flex justify-between gap-2 mb-6">
+          <div className="flex justify-between gap-2 mb-2 md:mb-6">
             <h1 className="text-[26px] md:text-4xl font-bold text-center px-4">
               Your Projects
             </h1>
@@ -271,7 +271,7 @@ function HomeStudent() {
 
           <Swiper
             modules={[Pagination]}
-            className="w-full h-full z-0"
+            className="w-full h-full z-0 p-1"
             spaceBetween={22}
             slidesPerView={1}
             pagination
