@@ -17,19 +17,19 @@ const dummyNotifications = [
     title:
       "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio, nesciunt.",
     status: "Waiting for Approve",
-    dotColor: "text-yellow-400",
+    dotColor: "text-yellow-600",
   },
   {
     id: 2,
     title: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
     status: "Waiting for Approve",
-    dotColor: "text-yellow-400",
+    dotColor: "text-yellow-600",
   },
   {
     id: 3,
     title: "Lorem ipsum dolor sit.",
     status: "Waiting for Approve",
-    dotColor: "text-yellow-400",
+    dotColor: "text-yellow-600",
   },
   {
     id: 4,
@@ -47,13 +47,13 @@ const dummyNotifications = [
     id: 6,
     title: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
     status: "Waiting for Approve",
-    dotColor: "text-yellow-400",
+    dotColor: "text-yellow-600",
   },
   {
     id: 7,
     title: "Lorem ipsum dolor sit.",
     status: "Waiting for Approve",
-    dotColor: "text-yellow-400",
+    dotColor: "text-yellow-600",
   },
   {
     id: 8,
@@ -71,13 +71,13 @@ const dummyNotifications = [
     id: 10,
     title: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
     status: "Waiting for Approve",
-    dotColor: "text-yellow-400",
+    dotColor: "text-yellow-600",
   },
   {
     id: 11,
     title: "Lorem ipsum dolor sit.",
     status: "Waiting for Approve",
-    dotColor: "text-yellow-400",
+    dotColor: "text-yellow-600",
   },
   {
     id: 12,
