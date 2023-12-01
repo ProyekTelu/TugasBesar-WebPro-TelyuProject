@@ -150,8 +150,8 @@ function HomeStudent() {
   };
 
   return (
-    <div className="w-full p-4 md:p-12 overflow-y-auto scroll-smooth h-screen md:min-h-screen flex flex-col">
-      <div>
+    <div className="w-full p-4 md:p-12 overflow-y-auto scroll-smooth h-screen md:min-h-screen  flex flex-col">
+      <div className="flex-1">
         <div className="px-4 mb-2">
           <h1 className="text-xl md:text-2xl text-primary font-bold text-start">
             Newest Projects!
@@ -258,8 +258,8 @@ function HomeStudent() {
         </div>
       </div>
 
-      <div className="flex flex-col xl:flex-row h-full mt-8 gap-10">
-        <div className="rounded-2xl w-full flex flex-col basis-[85%]">
+      <div className="flex flex-col xl:flex-row h-full mt-8 gap-10 flex-1 ">
+        <div className="rounded-2xl w-full flex flex-col basis-[100%] md:basis-[85%]">
           <div className="flex justify-between gap-2 px-4 mb-4 ">
             <h1 className="text-xl md:text-2xl text-primary font-bold text-center my-auto ">
               Your Projects
@@ -288,21 +288,21 @@ function HomeStudent() {
             </div>
           </div>
 
-          <div className="w-full h-full z-0 flex">
+          <div className="w-full h-full z-0 ">
             {isLoadingMyProject ? (
-              <SwiperSlide className="w-full z-10 border px-6 pt-6 pb-10 rounded-lg flex items-center justify-center cursor-pointer transition">
+              <div className="w-full z-10 border px-6 pt-6 pb-10 rounded-lg flex items-center justify-center cursor-pointer transition">
                 <MoonLoader
                   size={50}
                   color="rgba(214, 54, 54, 1)"
                   loading={isLoadingMyProject}
                 />
-              </SwiperSlide>
+              </div>
             ) : showNoProjectMessage ? (
-              <div className="w-full z-10 border px-6 pt-6 pb-10 rounded-lg flex items-center justify-center cursor-pointer transition text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+              <div className="w-full h-full z-10 border px-6 pt-6 pb-10 my-10 md:my-0 rounded-lg flex items-center justify-center cursor-pointer transition text-xl sm:text-2xl md:text-3xl lg:text-4xl">
                 You dont have any Project
               </div>
             ) : myProject.length === 0 && activeStatus !== "ALL" ? (
-              <div className="w-full z-10 border px-6 pt-6 pb-10 rounded-lg flex items-center justify-center cursor-pointer transition text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+              <div className="w-full z-10 h-full border px-6 pt-6 pb-10 my-10 md:my-0  rounded-lg flex items-center justify-center cursor-pointer transition text-xl sm:text-2xl md:text-3xl lg:text-4xl">
                 You dont have {activeStatus} Project
               </div>
             ) : myProject ? (
@@ -313,18 +313,19 @@ function HomeStudent() {
           </div>
         </div>
         <div
-          className="hidden xl:flex flex-col border hover:shadow-lg md:gap-2 basis-[20%] py-1 px-4 justify-center items-center w-full rounded-2xl bg-whiteAlternative cursor-pointer transition active:scale-95"
+          className="flex flex-row xl:flex-col border hover:shadow-lg md:gap-2 basis-[20%]  py-1 px-4 justify-center items-center w-full rounded-2xl bg-whiteAlternative cursor-pointer transition active:scale-95"
           style={{ userSelect: "none" }}
           onClick={() => {
             navigate("/telyuProject/listProject");
           }}
         >
-          <BsFillPlayFill className="w-20 h-20 md:w-30 md:h-30 lg:h-36 lg:w-36" />
-          <div className="text-xl lg:text-5xl flex font-bold">
+          <BsFillPlayFill className="w-10 h-10 md:w-20 md:h-20 lg:h-36 lg:w-36" />
+          <div className="text-base md:text-xl lg:text-5xl flex font-bold">
             Find <br /> Projects
           </div>
         </div>
       </div>
+
       <Modal
         className="w-sreen h-screen flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
         isOpen={isModalOpenDetail}

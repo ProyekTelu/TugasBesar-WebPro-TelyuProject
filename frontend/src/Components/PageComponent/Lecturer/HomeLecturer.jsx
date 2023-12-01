@@ -316,14 +316,14 @@ function HomeLecturer() {
           </div>
         </div>
         <div
-          className="hidden xl:flex flex-col border hover:shadow-lg md:gap-2 basis-[20%] py-1 px-4 justify-center items-center w-full rounded-2xl bg-whiteAlternative cursor-pointer transition active:scale-95"
+          className="flex flex-row xl:flex-col border hover:shadow-lg md:gap-2 basis-[20%]  py-1 px-4 justify-center items-center w-full rounded-2xl bg-whiteAlternative cursor-pointer transition active:scale-95"
           style={{ userSelect: "none" }}
           onClick={() => {
             navigate("/telyuProject/listProject");
           }}
         >
-          <BsFillPlayFill className="w-20 h-20 md:w-30 md:h-30 lg:h-36 lg:w-36" />
-          <div className="text-xl lg:text-5xl flex font-bold">
+          <BsFillPlayFill className="w-10 h-10 md:w-20 md:h-20 lg:h-36 lg:w-36" />
+          <div className="text-base md:text-xl lg:text-5xl flex font-bold">
             Create <br /> Projects
           </div>
         </div>
