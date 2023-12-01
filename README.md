@@ -11,16 +11,36 @@ pada file Database.js di \Backend\config\Database.js
 
 ubah parameter ke 1, 2 dan 3 sesuai dengan database local kalian 
 
-param 1 = nama database contoh ("telyu_project",
-param 2 = username nya (contoh : "root"),
-param 3 = password nya (contoh : "root")
+param 1 = nama database, contoh ("telyu_project",
+param 2 = username nya, (contoh : "user"),
+param 3 = password nya, (contoh : "password")
 
-code yang ini : 
+code yang ini di file Database.js : 
 
+const db = new Sequelize("telyu_project", "user", "password", {
+  host: "localhost",
+  dialect: "mysql",
+});
+
+atau untuk copy config dibawah ini dan ganti di file Database.js (harus sudah membuat database bernama telyu_project pada phpmyadmin.
+
+XAMPP :
+
+```sh
+const db = new Sequelize("telyu_project", "root", "", {
+  host: "localhost",
+  dialect: "mysql",
+});
+```
+
+MAMPP :
+
+```sh
 const db = new Sequelize("telyu_project", "root", "root", {
   host: "localhost",
   dialect: "mysql",
 });
+```
 
 # 2. Install NPM in Backend
 
