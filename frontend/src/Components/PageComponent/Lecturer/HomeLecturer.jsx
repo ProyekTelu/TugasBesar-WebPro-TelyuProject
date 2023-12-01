@@ -34,8 +34,8 @@ function HomeLecturer() {
   const [slidesPerView, setSlidesPerView] = useState(1);
   const [myProject, setMyProject] = useState([]);
 
-  const [activeStatus, setActiveStatus] = useState("All");
-  const listStatus = ["All", "Active", "Finished", "Open Request"];
+  const [activeStatus, setActiveStatus] = useState("ALL");
+  const listStatus = ["ALL", "Active", "Finished", "Open Request"];
 
   const [newestProject, setNewestProject] = useState([]);
 
@@ -109,7 +109,7 @@ function HomeLecturer() {
           setShowNoProjectMessage(true);
         }
         const filteredProjects =
-          activeStatus === "All"
+          activeStatus === "ALL"
             ? response.data
             : response.data.filter(
                 (project) => project.projectStatus === activeStatus
@@ -260,11 +260,11 @@ function HomeLecturer() {
 
       <div className="flex flex-col xl:flex-row h-full mt-8 gap-10">
         <div className="rounded-2xl w-full flex flex-col basis-[85%]">
-          <div className="flex justify-between gap-2 px-4 mb-2 ">
+          <div className="flex justify-between gap-2 px-4 mb-2 flex-col md:flex-row">
             <h1 className="text-xl md:text-2xl text-primary font-bold text-center my-auto ">
               Your Projects
             </h1>
-            <div className="flex gap-2 my-auto">
+            <div className="flex gap-2 my-auto flex-col md:flex-row">
               <input
                 type="text"
                 className="border rounded-md p-2 transition focus:outline-none "
@@ -302,8 +302,13 @@ function HomeLecturer() {
                 You dont have any Project
               </div>
             ) : myProject.length === 0 && activeStatus !== "ALL" ? (
-              <div className="w-full z-10 border px-6 pt-6 pb-10 rounded-lg flex items-center justify-center cursor-pointer transition text-xl sm:text-2xl md:text-3xl lg:text-4xl">
-                You dont have {activeStatus} Project
+              <div className="w-full z-10 text-center h-full border px-6 pt-6 pb-10 my-10 md:my-0  rounded-lg flex items-center justify-center cursor-pointer transition text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+                You dont have {activeStatus} Project{" "}
+                {searchTerm !== "" ? "with " + searchTerm + " title " : ""}
+              </div>
+            ) : searchTerm !== "" && myProject.length === 0 ? (
+              <div className="w-full z-10 h-full border px-6 pt-6 pb-10 my-10 md:my-0  rounded-lg flex items-center justify-center cursor-pointer transition text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+                No Project with {searchTerm} title
               </div>
             ) : myProject ? (
               <MyProjectTableLecturer

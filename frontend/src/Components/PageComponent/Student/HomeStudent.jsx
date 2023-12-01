@@ -34,8 +34,8 @@ function HomeStudent() {
   const [slidesPerView, setSlidesPerView] = useState(1);
   const [myProject, setMyProject] = useState([]);
 
-  const [activeStatus, setActiveStatus] = useState("All");
-  const listStatus = ["All", "Active", "Finished", "Open Request"];
+  const [activeStatus, setActiveStatus] = useState("ALL");
+  const listStatus = ["ALL", "Active", "Finished", "Open Request"];
 
   const [newestProject, setNewestProject] = useState([]);
 
@@ -109,7 +109,7 @@ function HomeStudent() {
           setShowNoProjectMessage(true);
         }
         const filteredProjects =
-          activeStatus === "All"
+          activeStatus === "ALL"
             ? response.data
             : response.data.filter(
                 (project) => project.projectStatus === activeStatus
@@ -302,8 +302,13 @@ function HomeStudent() {
                 You dont have any Project
               </div>
             ) : myProject.length === 0 && activeStatus !== "ALL" ? (
+              <div className="w-full z-10 text-center h-full border px-6 pt-6 pb-10 my-10 md:my-0  rounded-lg flex items-center justify-center cursor-pointer transition text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+                You dont have {activeStatus} Project{" "}
+                {searchTerm !== "" ? "with " + searchTerm + " title " : ""}
+              </div>
+            ) : searchTerm !== "" && myProject.length === 0 ? (
               <div className="w-full z-10 h-full border px-6 pt-6 pb-10 my-10 md:my-0  rounded-lg flex items-center justify-center cursor-pointer transition text-xl sm:text-2xl md:text-3xl lg:text-4xl">
-                You dont have {activeStatus} Project
+                No Project with {searchTerm} title
               </div>
             ) : myProject ? (
               <MyProjectTableStudent myProject={myProject} className="h-full" />
