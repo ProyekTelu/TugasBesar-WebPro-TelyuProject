@@ -28,7 +28,7 @@ function App() {
   }, []);
 
   return (
-  <BrowserRouter>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landingpage />} />
         <Route path="login" element={<Login />} />

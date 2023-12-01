@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { IoMdNotifications } from "react-icons/io";
 import { FaDotCircle } from "react-icons/fa";
 
+import InfiniteScroll from "react-infinite-scroll-component";
+
 const options = [
   { value: "ALL", label: "ALL" },
   { value: "Waiting for Approve", label: "Waiting" },
@@ -15,19 +17,19 @@ const dummyNotifications = [
     title:
       "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio, nesciunt.",
     status: "Waiting for Approve",
-    dotColor: "text-yellow-400",
+    dotColor: "text-yellow-600",
   },
   {
     id: 2,
-    title: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. ",
+    title: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
     status: "Waiting for Approve",
-    dotColor: "text-yellow-400",
+    dotColor: "text-yellow-600",
   },
   {
     id: 3,
     title: "Lorem ipsum dolor sit.",
     status: "Waiting for Approve",
-    dotColor: "text-yellow-400",
+    dotColor: "text-yellow-600",
   },
   {
     id: 4,
@@ -41,18 +43,65 @@ const dummyNotifications = [
     status: "Declined",
     dotColor: "text-primary",
   },
+  {
+    id: 6,
+    title: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
+    status: "Waiting for Approve",
+    dotColor: "text-yellow-600",
+  },
+  {
+    id: 7,
+    title: "Lorem ipsum dolor sit.",
+    status: "Waiting for Approve",
+    dotColor: "text-yellow-600",
+  },
+  {
+    id: 8,
+    title: "Echo Warrior",
+    status: "Accepted",
+    dotColor: "text-green-500",
+  },
+  {
+    id: 9,
+    title: "Echo Warrior",
+    status: "Accepted",
+    dotColor: "text-green-500",
+  },
+  {
+    id: 10,
+    title: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
+    status: "Waiting for Approve",
+    dotColor: "text-yellow-600",
+  },
+  {
+    id: 11,
+    title: "Lorem ipsum dolor sit.",
+    status: "Waiting for Approve",
+    dotColor: "text-yellow-600",
+  },
+  {
+    id: 12,
+    title: "Echo Warrior",
+    status: "Accepted",
+    dotColor: "text-green-500",
+  },
 ];
 
 const Notification = () => {
   const [notifActive, setNotifActive] = useState(false);
   const [notifState, setNotifState] = useState("ALL");
+  const [notifications, setNotifications] = useState(
+    dummyNotifications.slice(0, 5)
+  );
   const notificationRef = useRef(null);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         notificationRef.current &&
-        !notificationRef.current.contains(event.target)
+        !notificationRef.current.contains(event.target) &&
+        notifActive
       ) {
         setNotifActive(false);
       }
@@ -62,18 +111,43 @@ const Notification = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [notifActive]);
+
+  const handleLogoClick = (event) => {
+    event.stopPropagation();
+    if (notifActive) {
+      setNotifActive(false);
+    } else {
+      setNotifActive(true);
+    }
+  };
+
+  const fetchMoreData = () => {
+    if (notifications.length >= dummyNotifications.length) {
+      setHasMore(false);
+      return;
+    }
+
+    setTimeout(() => {
+      setNotifications((prevNotifications) =>
+        prevNotifications.concat(
+          dummyNotifications.slice(
+            prevNotifications.length,
+            prevNotifications.length + 5
+          )
+        )
+      );
+    }, 1500);
+  };
 
   return (
-    <div className="hidden md:block">
+    <div className="hidden md:block" ref={notificationRef}>
       <div
         style={{ userSelect: "none" }}
         className={`w-16 h-16 ${
           notifActive ? "bg-primary" : "bg-black hover:bg-gray-600 "
         }  fixed flex justify-center md:right-10 right-0 z-20 top-10 rounded-full cursor-pointer`}
-        onClick={() => {
-          setNotifActive(!notifActive);
-        }}
+        onClick={handleLogoClick}
       >
         <IoMdNotifications
           className={`h-full w-full p-4 my-auto  text-white transition  active:scale-90`}
@@ -83,7 +157,6 @@ const Notification = () => {
         </div>
       </div>
       <div
-        ref={notificationRef}
         hidden={!notifActive}
         className={
           "fixed w-auto md:w-[450px] rounded-lg py-4 bg-white md:right-28  left-10 right-10 z-10 md:left-auto top-10  border-2 scroll-smooth "
@@ -109,7 +182,14 @@ const Notification = () => {
           ))}
         </div>
 
-        <div className="w-auto my-auto p-5 text-base flex flex-col gap-2 max-h-80 overflow-y-auto">
+        <InfiniteScroll
+          dataLength={notifications.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={<h4>Loading...</h4>}
+          endMessage={<p>No more notifications</p>}
+          className="w-auto my-auto p-5 text-base flex flex-col gap-2 max-h-[80vh] overflow-y-auto"
+        >
           {dummyNotifications
             .filter(
               (notification) =>
@@ -136,7 +216,7 @@ const Notification = () => {
                 </div>
               </div>
             ))}
-        </div>
+        </InfiniteScroll>
       </div>
     </div>
   );
