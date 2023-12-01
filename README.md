@@ -56,5 +56,5 @@ buka terminal pada path frontend (pastikan di folder frontend), lalu tulis npm s
 npm start
 ```
 
-## atau jika ingin cepat, run file bernama <b>start-project-telyu.bat</b> di root folder.
+## atau jika ingin cepat, run file bernama start-project-telyu.bat di root folder (harus sudah melakukan npm install di frontend dan backend dan setting database).
 
