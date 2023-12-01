@@ -147,10 +147,54 @@ export const getProjectByProjectID = async (req, res) => {
       where: {
         projectID: req.params.projectID,
       },
-      include: {
-        model: User,
-        as: "projectOwner",
-        attributes: ["firstName", "lastName"],
+      include: [
+        {
+          model: User,
+          as: "projectOwner",
+          attributes: ["userID", "firstName", "lastName", "email"],
+        },
+        {
+          model: ProjectRole,
+          attributes: ["roleID"],
+          include: {
+            model: Role,
+            attributes: ["name"],
+          },
+        },
+        {
+          model: ProjectSkill,
+          attributes: ["skillID"],
+          include: {
+            model: Skill,
+            attributes: ["name"],
+          },
+        },
+        {
+          model: ProjectMember,
+          attributes: ["userID"],
+          include: [
+            {
+              model: User,
+              attributes: ["firstName", "lastName", "email"],
+            },
+            {
+              model: Role,
+              attributes: ["name"],
+            },
+          ],
+        },
+      ],
+      attributes: {
+        include: [
+          [
+            literal(`(
+              SELECT COUNT(*)
+              FROM projectMember
+              WHERE ProjectMember.projectID = Project.projectID
+            )`),
+            "projectMemberCount",
+          ],
+        ],
       },
     });
     res.status(200).json(project);
