@@ -11,20 +11,19 @@ import "swiper/css";
 import "swiper/css/scrollbar";
 import Modal from "react-modal";
 import ProjectDetailModal from "../ProjectDetailModal";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { Select, Option } from "@material-tailwind/react";
 import MyProjectTableStudent from "./HomeComponents/MyProjectTableStudent";
 
 function HomeStudent() {
   const navigate = useNavigate();
   const storedUser = localStorage.getItem("user");
   const [isLoadingNewestProject, setIsLoadingNewestProject] = useState(false);
-  const [isDropDownStatusActive, setIsDropDownStatusActive] = useState(false);
   const [isLoadingMyProject, setIsLoadingMyProject] = useState(false);
   const [showNoProjectMessage, setShowNoProjectMessage] = useState(false);
   const [showNoNewestProjectMessage, setShowNoNewestProjectMessage] =
     useState(false);
-  const [doubledMyProject, setDoubledMyProject] = useState(null);
   const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     if (!storedUser) {
@@ -37,26 +36,6 @@ function HomeStudent() {
 
   const [activeStatus, setActiveStatus] = useState("All");
   const listStatus = ["All", "Active", "Finished", "Open Request"];
-  const handleStatusChange = (e) => {
-    setActiveStatus(e.target.value);
-  };
-
-  const [itemOffset, setItemOffset] = useState(0);
-  const [currentItems, setCurrentItems] = useState(0);
-  const [pageCount, setPageCount] = useState(0);
-
-  const itemsPerPage = 3;
-  const endOffset = itemOffset + itemsPerPage;
-  console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-
-  // Invoke when user click to request another page.
-  const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % doubledMyProject.length;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
-    setItemOffset(newOffset);
-  };
 
   const [newestProject, setNewestProject] = useState([]);
 
@@ -126,19 +105,21 @@ function HomeStudent() {
         const response = await axios.get(
           `http://localhost:5000/student/projects/${user.userID}`
         );
-        setMyProject(response.data);
         if (response.data.length === 0) {
           setShowNoProjectMessage(true);
         }
-        const Data = [...response.data, ...response.data, ...response.data];
         const filteredProjects =
           activeStatus === "All"
-            ? Data
-            : Data.filter((project) => project.projectStatus === activeStatus);
-        setDoubledMyProject(filteredProjects);
-        console.log(filteredProjects);
-        setCurrentItems(filteredProjects.slice(itemOffset, endOffset));
-        setPageCount(Math.ceil(filteredProjects.length / itemsPerPage));
+            ? response.data
+            : response.data.filter(
+                (project) => project.projectStatus === activeStatus
+              );
+
+        const searchedProjects = filteredProjects.filter((project) =>
+          project.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        setMyProject(searchedProjects);
       } catch (error) {
         console.log("Failed to fetch my projects:", error);
       } finally {
@@ -147,15 +128,7 @@ function HomeStudent() {
     };
 
     fetchMyProjects();
-  }, [
-    user.userID,
-    activeStatus,
-    setDoubledMyProject,
-    itemOffset,
-    endOffset,
-    setCurrentItems,
-    setPageCount,
-  ]);
+  }, [user.userID, activeStatus, searchTerm, setMyProject]);
 
   const [isModalOpenDetail, setModalOpenDetail] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -287,36 +260,31 @@ function HomeStudent() {
 
       <div className="flex flex-col xl:flex-row h-full mt-8 gap-10">
         <div className="rounded-2xl w-full flex flex-col basis-[85%]">
-          <div className="flex justify-between gap-2 px-4 mb-2 ">
+          <div className="flex justify-between gap-2 px-4 mb-4 ">
             <h1 className="text-xl md:text-2xl text-primary font-bold text-center my-auto ">
               Your Projects
             </h1>
             <div className="flex gap-2 my-auto">
-              <div className="relative rounded-md border pl-2 pr-6 py-2 my-auto">
-                <select
-                  value={activeStatus}
-                  onChange={handleStatusChange}
-                  onClick={() => {
-                    setIsDropDownStatusActive(!isDropDownStatusActive);
-                  }}
-                  className="font-bold cursor-pointer bg-white text-lg  appearance-none focus:outline-none"
-                >
-                  {listStatus.map((status, index) => (
-                    <option
-                      key={index}
-                      value={status}
-                      className=" text-gray-800"
-                    >
-                      {status}
-                    </option>
-                  ))}
-                </select>
-                {isDropDownStatusActive ? (
-                  <IoIosArrowUp className="absolute right-1 top-1/2 -translate-y-1/2" />
-                ) : (
-                  <IoIosArrowDown className="absolute right-1 top-1/2 -translate-y-1/2" />
-                )}
-              </div>
+              <input
+                type="text"
+                className="border rounded-md p-2 focus:outline-none"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <Select
+                label="Filter"
+                variant="outlined"
+                value={activeStatus}
+                onChange={(value) => setActiveStatus(value)}
+                className="font-medium"
+              >
+                {listStatus.map((status, index) => (
+                  <Option key={index} value={status} className="text-gray-800">
+                    {status}
+                  </Option>
+                ))}
+              </Select>
             </div>
           </div>
 
@@ -331,13 +299,14 @@ function HomeStudent() {
               </SwiperSlide>
             ) : showNoProjectMessage ? (
               <div className="w-full z-10 border px-6 pt-6 pb-10 rounded-lg flex items-center justify-center cursor-pointer transition text-xl sm:text-2xl md:text-3xl lg:text-4xl">
-                You dont have any project
+                You dont have any Project
               </div>
-            ) : doubledMyProject ? (
-              <MyProjectTableStudent
-                myProject={doubledMyProject}
-                className="h-full"
-              />
+            ) : myProject.length === 0 && activeStatus !== "ALL" ? (
+              <div className="w-full z-10 border px-6 pt-6 pb-10 rounded-lg flex items-center justify-center cursor-pointer transition text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+                You dont have {activeStatus} Project
+              </div>
+            ) : myProject ? (
+              <MyProjectTableStudent myProject={myProject} className="h-full" />
             ) : (
               ""
             )}

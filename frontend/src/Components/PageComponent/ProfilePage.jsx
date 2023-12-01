@@ -97,12 +97,12 @@ const Profile = () => {
   return (
     <div className="p-4 md:p-12 overflow-y-auto">
       <div className="relative h-60 rounded-b-3xl flex justify-center sm:h-55">
-        <div className="absolute -bottom-2 sm:-bottom-0 md:-bottom-10 xl:-bottom-14">
+        <div className="absolute -bottom-2 sm:-bottom-0 md:-bottom-10  ">
           <img
             src={userImage}
             className={`${
               isEditing ? "bg-gray-200 cursor-pointer" : "pointer-events-none"
-            } object-cover border-4 border-white w-40 h-40 xs:h-52 -bottom-6 sm:w-100 sm:h-40 md:w-100 md:h-52 lg:w-60 lg:h-60 xl:w-72 xl:h-72 rounded-full`}
+            } object-cover border-4 border-white w-40 h-40 sm:w-60 sm:h-60 md:w-72 md:h-72 aspect-square rounded-full`}
             alt="cover"
             onClick={() => document.getElementById("file").click()}
           />

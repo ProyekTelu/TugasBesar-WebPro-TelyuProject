@@ -48,7 +48,7 @@ const MyProjectTableLecturer = ({ myProject }) => {
                       ? "text-yellow-600"
                       : project.projectStatus === "Active"
                       ? "text-green-500"
-                      : project.projectStatus === "Completed"
+                      : project.projectStatus === "Finished"
                       ? "text-red-500"
                       : ""
                   } `}

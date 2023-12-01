@@ -48,10 +48,10 @@ export const signupUser = createAsyncThunk(
         gender: user.selectedGender,
         lectureCode:
           domain === "student.telkomuniversity.ac.id"
-            ? ""
-            : user.kodeDosen.toUpperCase(),
+            ? null
+            : user.codeDosen.toUpperCase(),
         facultyCode: user.selectedFakultas,
-        majorCode: user.selectedMajor,
+        majorCode: user.selectedMajor === "" ? null : user.selectedMajor,
         kelas: user.selectedKelas,
         role:
           domain === "student.telkomuniversity.ac.id" ? "student" : "lecturer",

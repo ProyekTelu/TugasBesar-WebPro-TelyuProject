@@ -4,15 +4,19 @@ import dotenv from "dotenv";
 import argon2 from "argon2";
 import Faculty from "../models/FacultyModel.js";
 import Major from "../models/majorModel.js";
+import jwt from "jsonwebtoken";
+import fs from "fs/promises";
 dotenv.config();
 
-import jwt from "jsonwebtoken";
+const capitalize = (str) => {
+  return str.toLowerCase().replace(/(^|\s)\S/g, (char) => char.toUpperCase());
+};
 
 export const login = async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
-        email: req.body.email,
+        email: req.body.email.toLowerCase(),
       },
     });
 
@@ -78,6 +82,7 @@ export const login = async (req, res) => {
 };
 
 export const signup = async (req, res) => {
+  const initialProfileImageBuffer = await fs.readFile("img/user.png");
   const {
     phoneNumber,
     firstName,
@@ -95,14 +100,15 @@ export const signup = async (req, res) => {
   try {
     await User.create({
       phoneNumber: phoneNumber,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
+      firstName: capitalize(firstName),
+      lastName: capitalize(lastName),
+      email: email.toLowerCase(),
       password: hashPassword,
       gender: gender,
-      lectureCode: lectureCode,
+      lectureCode: lectureCode === null ? null : lectureCode.toUpperCase(),
       facultyCode: facultyCode,
       majorCode: majorCode,
+      photoProfile: initialProfileImageBuffer,
       kelas: kelas,
       role: role,
     });
