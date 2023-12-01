@@ -1,11 +1,11 @@
-# Get Started (Lakukan secara linear)
+## Get Started (Lakukan secara linear)
 
 prequisite : 
 1. NodeJs LTS versi v18.18.1
 2. Nodemon versi 3.0.1
 3. Database MYSQL local sudah berjalan
 
-# Change local database configuration
+# 1. Change local database configuration
 
 pada file Database.js di \Backend\config\Database.js
 
@@ -22,18 +22,39 @@ const db = new Sequelize("telyu_project", "root", "root", {
   dialect: "mysql",
 });
 
-# Install NPM in Backend
+# 2. Install NPM in Backend
 
-pada folder Backend, jalankan perintah "npm install" pada terminal tanpa petik 2.
+pada folder Backend, jalankan perintah "npm install" pada terminal tanpa petik 2 atau copy code dibawah ini
 
-# Install NPM in frontend
+```sh
+npm install
+```
 
-pada folder frontend, jalankan perintah "npm install" pada terminal tanpa petik 2.
+# 3. Install NPM in frontend
 
-# How to Run backend
+pada folder frontend, jalankan perintah "npm install" pada terminal tanpa petik 2 atau copy code dibawah ini
 
-buka terminal pada path backend, lalu tulis nodemon index
+```sh
+npm install
+```
 
-# How to Run front-end
+## Run Application (Backend And Frontend)
 
-buka terminal pada path telyu-project, lalu tulis npm start
+# 1. Run Backend
+
+buka terminal pada path Backend (pastikan di folder Backend), lalu tulis nodemon index atau copy code dibawah ini
+
+```sh
+nodemon index
+```
+
+# 2. Run Front-end
+
+buka terminal pada path frontend (pastikan di folder frontend), lalu tulis npm start atau copy code dibawah ini
+
+```sh
+npm start
+```
+
+## atau jika ingin cepat, run file bernama <b>start-project-telyu.bat</b> di root folder.
+
