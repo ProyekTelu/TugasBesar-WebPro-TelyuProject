@@ -2,9 +2,17 @@ import Faculty from "../models/FacultyModel.js";
 import Request from "../models/RequestModel.js";
 import Project from "../models/ProjectModel.js";
 
-export const getAllFaculty = async (req, res) => {
+export const getMyProjectRequestMember = async (req, res) => {
   try {
-    const response = await Faculty.findAll();
+    const response = await Project.findAll({
+      where: {
+        projectOwnerID: req.params.id,
+      },
+
+      include: {
+        model: Request,
+      },
+    });
 
     res.status(200).json(response);
   } catch (err) {
