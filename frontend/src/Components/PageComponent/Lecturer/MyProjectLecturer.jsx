@@ -6,6 +6,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CreateProjectModal from "./CreateProjectModal";
 import axios from "axios";
+import { Tooltip } from "@material-tailwind/react";
+import { MdOutlineAddchart } from "react-icons/md";
+import { FaDotCircle } from "react-icons/fa";
+import { Select, Option } from "@material-tailwind/react";
 
 function MyProjectLecturer() {
   const storedUser = localStorage.getItem("user");
@@ -63,52 +67,97 @@ function MyProjectLecturer() {
     fetchMyProjects();
   }, [user.userID, activeStatus, searchTerm, setMyProject]);
 
-  const projects = [
-    // Masukkan data proyek Anda di sini
-    {
-      projectID: 1,
-      title: "Nama Proyek 1",
-      description: "Deskripsi proyek 1...",
-      // Data lain yang diperlukan
-    },
-    {
-      projectID: 2,
-      title: "Nama Proyek 2",
-      description: "Deskripsi proyek 2...",
-      // Data lain yang diperlukan
-    },
-    {
-      projectID: 2,
-      title: "Nama Proyek 2",
-      description: "Deskripsi proyek 2...",
-      // Data lain yang diperlukan
-    },
-    {
-      projectID: 2,
-      title: "Nama Proyek 2",
-      description: "Deskripsi proyek 2...",
-      // Data lain yang diperlukan
-    },
-    // ...
-  ];
-
   return (
-    <div className="flex justify-center w-full p-4 md:p-12 overflow-y-auto">
-      <div className="container mx-auto py-8">
-        <h1 className="text-3xl font-bold mb-4">Daftar Proyek</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
-            <div
-              key={project.projectID}
-              className="bg-white rounded-lg shadow-md p-6"
-            >
-              <h2 className="text-xl font-semibold mb-2">{project.title}</h2>
-              <p className="text-gray-600 mb-4">{project.description}</p>
-              <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                Detail Proyek
-              </button>
+    <div className="flex justify-center flex-col w-full p-4 md:p-12 overflow-y-auto">
+      <div className="w-full flex justify-start flex-col">
+        <div className="px-4 mb-2">
+          <h1 className="text-xl md:text-2xl text-primary font-bold text-start">
+            My Project
+          </h1>
+        </div>
+      </div>
+      <div className="w-full mt-4 mx-auto flex justify-center ">
+        <div className="flex flex-col w-full ">
+          <div className="border-grey border rounded-xl py-4 h-[83vh]">
+            <div className="flex justify-between px-6 pb-2">
+              <h1 className="text-xl font-semibold md:text-2xl">Projects</h1>
+              <div className="flex flex-row gap-2">
+                <input
+                  type="text"
+                  className="border rounded-md p-2 focus:outline-none"
+                  placeholder="Search"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <div>
+                  <Select
+                    label="Filter"
+                    variant="outlined"
+                    value={activeStatus}
+                    color="blue-gray"
+                    onChange={(value) => setActiveStatus(value)}
+                    className="font-medium"
+                  >
+                    {listStatus.map((status, index) => (
+                      <Option
+                        key={index}
+                        value={status}
+                        className="text-gray-800"
+                      >
+                        {status}
+                      </Option>
+                    ))}
+                  </Select>
+                </div>
+              </div>
             </div>
-          ))}
+            <div className="flex-col group mt-1 ">
+              <div
+                className="flex flex-row py-4 group-hover:bg-whiteAlternative 
+                cursor-pointer justify-between"
+              >
+                <div className="flex flex-row gap-4 px-4 w-full ">
+                  <div className="rounded-lg bg-transparent pl-2 font-semibold">
+                    <MdOutlineAddchart className="text-4xl" />
+                  </div>
+                  <h1 className="pl-1 my-auto font-semibold">
+                    Create new project
+                  </h1>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col max-h-[65vh] overflow-y-auto">
+              {myProject.map((project, index) => (
+                <div key={index} className="flex-col group relative">
+                  <hr className="w-[97%] absolute mx-auto group-hover:hidden" />
+                  <div
+                    className="flex flex-row py-4 group-hover:bg-whiteAlternative 
+                cursor-pointer justify-between"
+                  >
+                    <div className="flex flex-row gap-4 px-4 w-full ">
+                      <Tooltip content={project.projectStatus}>
+                        <p
+                          className={`py-2 rounded-lg bg-transparent px-4 font-semibold  ${
+                            project.projectStatus === "Open Request"
+                              ? "text-yellow-600"
+                              : project.projectStatus === "Active"
+                              ? "text-green-500"
+                              : project.projectStatus === "Finished"
+                              ? "text-red-500"
+                              : ""
+                          } `}
+                        >
+                          <FaDotCircle className="text-lg mx-auto shadow-md rounded-full" />
+                        </p>
+                      </Tooltip>
+                      <h1 className="my-auto font-semibold">{project.title}</h1>
+                    </div>
+                    <div className="px-4">aaaa</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
