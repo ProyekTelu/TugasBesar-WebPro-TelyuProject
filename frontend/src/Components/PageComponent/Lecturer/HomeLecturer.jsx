@@ -12,6 +12,7 @@ import "swiper/css";
 import "swiper/css/scrollbar";
 import Modal from "react-modal";
 import ProjectDetailModal from "../ProjectDetailModal";
+import CreateProjectModal from "./CreateProjectModal";
 import MyProjectTableLecturer from "./HomeComponents/MyProjectTableLecturer";
 
 function HomeLecturer() {
@@ -131,6 +132,7 @@ function HomeLecturer() {
   }, [user.userID, activeStatus, searchTerm, setMyProject]);
 
   const [isModalOpenDetail, setModalOpenDetail] = useState(false);
+  const [isModalOpenCreate, setModalOpenCreate] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
   const openModalDetail = async (projectId) => {
@@ -148,6 +150,14 @@ function HomeLecturer() {
   const closeModalDetail = () => {
     setModalOpenDetail(false);
   };
+
+  function openModalCreate() {
+    setModalOpenCreate(true);
+  }
+
+  function closeModalCreate() {
+    setModalOpenCreate(false);
+  }
 
   return (
     <div className="w-full p-4 md:p-12 overflow-y-auto scroll-smooth h-screen md:min-h-screen flex flex-col">
@@ -319,7 +329,7 @@ function HomeLecturer() {
           className="flex flex-row xl:flex-col border hover:shadow-lg md:gap-2 basis-[20%]  py-1 px-4 justify-center items-center w-full rounded-2xl bg-whiteAlternative cursor-pointer transition active:scale-95"
           style={{ userSelect: "none" }}
           onClick={() => {
-            navigate("/telyuProject/listProject");
+            openModalCreate(storedUser);
           }}
         >
           <BsFillPlayFill className="w-10 h-10 md:w-20 md:h-20 lg:h-36 lg:w-36" />
@@ -341,6 +351,16 @@ function HomeLecturer() {
           />
         )}
       </Modal>
+      <Modal
+          className="w-sreen h-screen flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
+          isOpen={isModalOpenCreate}
+          onRequestClose={closeModalCreate}
+        >
+          {isModalOpenCreate && (
+            <CreateProjectModal 
+            onClose={closeModalCreate} />
+          )}
+          </Modal>
     </div>
   );
 }

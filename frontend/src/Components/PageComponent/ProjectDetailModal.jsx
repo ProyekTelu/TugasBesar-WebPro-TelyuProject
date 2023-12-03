@@ -15,6 +15,18 @@ function ProjectDetailModal({ onClose, selectedProject }) {
   console.log(project);
   console.log(project.ProjectMember);
 
+  const formatDate = (inputDate) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "2-digit",
+    };
+
+    const date = new Date(inputDate);
+    const formattedDate = date.toLocaleDateString("id-ID", options);
+    return formattedDate;
+  };
+
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -137,8 +149,8 @@ function ProjectDetailModal({ onClose, selectedProject }) {
       </h1>
       {project.startProject && project.endProject && (
         <p>
-          {new Date(project.startProject).toLocaleDateString()} -{" "}
-          {new Date(project.endProject).toLocaleDateString()}
+          {formatDate(project.startProject)} -{" "}
+          {formatDate(project.endProject)}
         </p>
       )}
       <h1 className="text-left text-xl mb-2 mt-4 font-bold">Group Link</h1>

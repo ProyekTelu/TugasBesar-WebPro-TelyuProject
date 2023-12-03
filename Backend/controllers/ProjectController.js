@@ -7,6 +7,47 @@ import Skill from "../models/SkillModel.js";
 import ProjectMember from "../models/ProjectMemberModel.js";
 import { literal, Sequelize } from "sequelize";
 
+export const createProject = async (req, res) => {
+  const { 
+    projectTitle, 
+    groupChatLink,
+    description,
+    maxMembers,
+    startDate,
+    endDate,
+    opreqDate,
+    skillTags,
+    roleTags,
+  } = req.body;
+
+  try {
+    const newProject = await Project.create({
+      title: projectTitle,
+      projectOwnerID: req.user.id, 
+      description: description,
+      startProject: startDate,
+      endProject: endDate,
+      openUntil: opreqDate,
+      totalMember: maxMembers,
+      groupLink: groupChatLink,
+      projectStatus: "Open Request",
+    });
+
+    const projectID = newProject.projectID;
+
+    roleTags.map(async(role, index) => {
+      const project = 
+      await ProjectRole.create({
+        roleID: projectID,
+      })
+    })
+
+    res.status(201).json(newProject);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
 export const getNewestProjects = async (req, res) => {
   try {
     const newestProjects = await Project.findAll({
