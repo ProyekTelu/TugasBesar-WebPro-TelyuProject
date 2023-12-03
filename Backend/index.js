@@ -5,12 +5,17 @@ import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
 import db from "./config/Database.js";
 
+import UserSkill from "./models/UserSkillModel.js";
+import Invitation from "./models/InvitationModel.js";
+import Request from "./models/RequestModel.js";
+
 //route
 import UserRoute from "./routes/UserRoutes.js";
 import AuthRoute from "./routes/AuthRoutes.js";
 import FacultyRoute from "./routes/FacultyRoutes.js";
 import MajorRoute from "./routes/MajorRoutes.js";
 import ProjectRoute from "./routes/ProjectRoutes.js";
+import RequestRoute from "./routes/RequestRoutes.js";
 
 //initial data import
 import FacultyAndMajor from "./InitialData/FacultyAndMajor.js";
@@ -41,6 +46,7 @@ app.use(AuthRoute);
 app.use(FacultyRoute);
 app.use(MajorRoute);
 app.use(ProjectRoute);
+app.use(RequestRoute);
 
 //kumpulan inisial data
 const initializeData = async () => {

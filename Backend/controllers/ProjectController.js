@@ -7,6 +7,46 @@ import Skill from "../models/SkillModel.js";
 import ProjectMember from "../models/ProjectMemberModel.js";
 import { literal, Sequelize } from "sequelize";
 
+export const createProject = async (req, res) => {
+  const {
+    projectTitle,
+    groupChatLink,
+    description,
+    maxMembers,
+    startDate,
+    endDate,
+    opreqDate,
+    skillTags,
+    roleTags,
+  } = req.body;
+
+  try {
+    const newProject = await Project.create({
+      title: projectTitle,
+      projectOwnerID: req.user.id,
+      description: description,
+      startProject: startDate,
+      endProject: endDate,
+      openUntil: opreqDate,
+      totalMember: maxMembers,
+      groupLink: groupChatLink,
+      projectStatus: "Open Request",
+    });
+
+    const projectID = newProject.projectID;
+
+    roleTags.map(async (role, index) => {
+      const project = await ProjectRole.create({
+        roleID: projectID,
+      });
+    });
+
+    res.status(201).json(newProject);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 export const getNewestProjects = async (req, res) => {
   try {
     const newestProjects = await Project.findAll({
@@ -89,7 +129,7 @@ export const getAllOpenRequestProjects = async (req, res) => {
   }
 };
 
-export const getMyProjects = async (req, res) => {
+export const getMyProjectsStudent = async (req, res) => {
   try {
     const userId = req.params.userID;
     const projects = await Project.findAll({
@@ -115,16 +155,86 @@ export const getMyProjects = async (req, res) => {
   }
 };
 
+export const getMyProjectsLecturer = async (req, res) => {
+  try {
+    const userId = req.params.userID;
+    const projects = await Project.findAll({
+      include: [
+        {
+          model: ProjectMember,
+          include: {
+            model: Role,
+            attributes: ["name"],
+          },
+        },
+        {
+          model: User,
+          as: "projectOwner",
+          where: { userID: userId },
+          attributes: ["firstName", "lastName"],
+        },
+      ],
+    });
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch projects", error });
+  }
+};
+
 export const getProjectByProjectID = async (req, res) => {
   try {
     const project = await Project.findOne({
       where: {
         projectID: req.params.projectID,
       },
-      include: {
-        model: User,
-        as: "projectOwner",
-        attributes: ["firstName", "lastName"],
+      include: [
+        {
+          model: User,
+          as: "projectOwner",
+          attributes: ["userID", "firstName", "lastName", "email"],
+        },
+        {
+          model: ProjectRole,
+          attributes: ["roleID"],
+          include: {
+            model: Role,
+            attributes: ["name"],
+          },
+        },
+        {
+          model: ProjectSkill,
+          attributes: ["skillID"],
+          include: {
+            model: Skill,
+            attributes: ["name"],
+          },
+        },
+        {
+          model: ProjectMember,
+          attributes: ["userID"],
+          include: [
+            {
+              model: User,
+              attributes: ["firstName", "lastName", "email", "photoProfile"],
+            },
+            {
+              model: Role,
+              attributes: ["name"],
+            },
+          ],
+        },
+      ],
+      attributes: {
+        include: [
+          [
+            literal(`(
+              SELECT COUNT(*)
+              FROM projectMember
+              WHERE ProjectMember.projectID = Project.projectID
+            )`),
+            "projectMemberCount",
+          ],
+        ],
       },
     });
     res.status(200).json(project);

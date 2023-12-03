@@ -9,16 +9,17 @@ const UserSkill = db.define(
   "UserSkill",
   {
     userSkillID: {
-      primaryKey: true,
+      type: DataTypes.INTEGER,
       unique: true,
       allowNull: false,
-      DataTypes: DataTypes.STRING,
+      primaryKey: true,
+      autoIncrement: true,
     },
     userID: {
-      DataTypes: DataTypes.STRING,
+      type: DataTypes.STRING,
     },
     skillID: {
-      DataTypes: DataTypes.STRING,
+      type: DataTypes.INTEGER,
     },
   },
   {
@@ -31,7 +32,7 @@ User.hasMany(UserSkill, {
   sourceKey: "userID",
 });
 
-Skill.hasMany(UserSkill, {
+UserSkill.belongsTo(Skill, {
   foreignKey: "skillID",
   sourceKey: "skillID",
 });
