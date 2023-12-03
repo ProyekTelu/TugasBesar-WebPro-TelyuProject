@@ -53,7 +53,7 @@ function HomeStudent() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1060) {
+      if (window.innerWidth >= 1700) {
         setSlidesPerView(2);
       } else {
         setSlidesPerView(1);
@@ -150,8 +150,8 @@ function HomeStudent() {
   };
 
   return (
-    <div className="w-full p-4 md:p-12 overflow-y-auto scroll-smooth h-screen md:min-h-screen  flex flex-col">
-      <div className="flex-1">
+    <div className="w-full p-4 md:p-12 overflow-y-auto scroll-smooth h-screen md:min-h-screen flex flex-col">
+      <div className="">
         <div className="px-4 mb-2">
           <h1 className="text-xl md:text-2xl text-primary font-bold text-start">
             Newest Projects!
@@ -182,7 +182,7 @@ function HomeStudent() {
               newestProject.map((project, index) => (
                 <SwiperSlide
                   key={index}
-                  className="w-full z-10 h-full lg:flex-col border px-6 pt-6 pb-10 rounded-lg justify-center  cursor-pointer transition "
+                  className="w-full z-10 h-full lg:flex-col border px-6 pt-6 pb-10 rounded-lg justify-center  cursor-pointer transition hover:border-greyAlternative active:border-gray-500 duration-200"
                 >
                   <div className="flex flex-col sm:flex-row w-full justify-between">
                     <div className="">
@@ -214,7 +214,7 @@ function HomeStudent() {
                       {project.ProjectSkills.map((skill, index) => (
                         <div
                           key={index}
-                          className="bg-primary px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
+                          className="bg-primary px-3 py-1 text-whiteAlternative font-medium rounded-full flex items-center justify-between mr-2"
                         >
                           <span className="text-[10px] md:text-xs ">
                             {skill.Skill.name}
@@ -229,7 +229,7 @@ function HomeStudent() {
                       {project.ProjectRoles.map((role, index) => (
                         <div
                           key={index}
-                          className="bg-blue-400 px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
+                          className="bg-blue-400 px-3 py-1 text-whiteAlternative font-medium rounded-full flex items-center justify-between mr-2"
                         >
                           <span className="text-[10px] md:text-xs">
                             {role.Role.name}
@@ -244,7 +244,7 @@ function HomeStudent() {
                       <p>{formatDate(project.openUntil)}</p>
                     </div>
                     <button
-                      className="px-2 py-2 md:py-3 md:px-4 text-[8px] rounded-md font-semibold text-xs md:text-sm xl:text-base  text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md  hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
+                      className="px-2 py-2 md:py-3 md:px-4 text-[8px] rounded-md font-semibold text-xs md:text-sm xl:text-base  text-white bg-secondary  mt-2 duration-75 ease-out hover:shadow-md  active:scale-95"
                       type="submit"
                       onClick={() => openModalDetail(project.projectID)}
                     >
@@ -276,8 +276,9 @@ function HomeStudent() {
                 label="Filter"
                 variant="outlined"
                 value={activeStatus}
+                color="blue-gray"
                 onChange={(value) => setActiveStatus(value)}
-                className="font-medium"
+                className="font-medium "
               >
                 {listStatus.map((status, index) => (
                   <Option key={index} value={status} className="text-gray-800">
@@ -318,7 +319,7 @@ function HomeStudent() {
           </div>
         </div>
         <div
-          className="flex flex-row xl:flex-col border hover:shadow-lg md:gap-2 basis-[20%]  py-1 px-4 justify-center items-center w-full rounded-2xl bg-whiteAlternative cursor-pointer transition active:scale-95"
+          className="flex flex-row xl:flex-col border  md:gap-2 basis-[20%]  py-1 px-4 justify-center items-center w-full rounded-2xl bg-whiteAlternative cursor-pointer transition active:scale-95 hover:border-greyAlternative active:border-gray-500 duration-200"
           style={{ userSelect: "none" }}
           onClick={() => {
             navigate("/telyuProject/listProject");

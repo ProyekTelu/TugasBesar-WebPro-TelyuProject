@@ -96,7 +96,7 @@ const MyProjectTableStudent = ({ myProject }) => {
 
   return (
     <div className="w-full h-full">
-      <table className="w-full h-[90%]">
+      <table className="w-full h-[90%] ">
         <thead className="sticky top-0 bg-grey bg-opacity-25 border rounded-lg">
           <tr>
             <th className="text-center p-3  font-bold uppercase hidden lg:table-cell">
