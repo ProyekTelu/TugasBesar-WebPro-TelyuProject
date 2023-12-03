@@ -3,7 +3,7 @@
 prequisite : 
 1. NodeJs LTS versi v18.18.1
 2. Nodemon versi 3.0.1
-3. Database MYSQL local sudah berjalan
+3. Database MYSQL local bernama telyu_project sudah berjalan
 
 # 1. Change local database configuration
 
@@ -57,6 +57,10 @@ pada folder frontend, jalankan perintah "npm install" pada terminal tanpa petik 
 ```sh
 npm install
 ```
+
+# 4. Inisialisasi data database
+
+pada folder backend, buka file index.js, lalu nyalakan fungsi <b>runInisialData()</b> dengan cara uncomment pemanggilan fungsi nya di line 73
 
 ## Run Application (Backend And Frontend)
 
