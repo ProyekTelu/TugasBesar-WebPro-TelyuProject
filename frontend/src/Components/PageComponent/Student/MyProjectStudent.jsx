@@ -15,16 +15,26 @@ import {
 import { MdOutlineAddchart } from "react-icons/md";
 import { FaDotCircle } from "react-icons/fa";
 import { Select, Option } from "@material-tailwind/react";
+import ProjectDetailModal from "../ProjectDetailModal";
 
 function MyProjectStudent() {
   const storedUser = localStorage.getItem("user");
   const [isModalOpenDetail, setModalOpenDetail] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
 
   Modal.setAppElement(document.getElementById("root"));
 
-  const openModalDetail = () => {
-    setModalOpenDetail(true);
+  const openModalDetail = async (projectId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/project/${projectId}`
+      );
+      setSelectedProject(response.data);
+      setModalOpenDetail(true);
+    } catch (error) {
+      console.error("Failed to fetch project:", error);
+    }
   };
 
   function openModal() {
@@ -39,6 +49,11 @@ function MyProjectStudent() {
 
   const [activeStatus, setActiveStatus] = useState("ALL");
   const listStatus = ["ALL", "Active", "Finished", "Open Request"];
+
+  const closeModalDetail = () => {
+    setModalOpenDetail(false);
+  };
+
   useEffect(() => {
     const fetchMyProjects = async () => {
       setIsLoadingMyProject(true);
@@ -81,7 +96,7 @@ function MyProjectStudent() {
   }
 
   return (
-    <div className="flex  flex-col w-full p-4 md:p-12  overflow-y-auto">
+    <div className="flex  flex-col w-full p-4 md:p-12 h-screen md:min-h-screen overflow-y-auto">
       <div className="w-full flex justify-start flex-col">
         <div className="px-4 mb-2">
           <h1 className="text-xl md:text-2xl text-primary font-bold text-start">
@@ -153,7 +168,6 @@ function MyProjectStudent() {
                 </div>
               </div>
             )}
-
             {messageToShow && (
               <div className=" hidden md:block absolute top-1/2 right-1/2 translate-x-1/2 rounded-lg items-center justify-center cursor-pointer transition text-xl sm:text-2xl md:text-3xl lg:text-4xl">
                 {messageToShow}
@@ -161,7 +175,11 @@ function MyProjectStudent() {
             )}
             <div className="flex flex-col max-h-[65vh] overflow-y-auto">
               {myProject.map((project, index) => (
-                <div key={index} className="flex-col group relative">
+                <div
+                  key={index}
+                  className="flex-col group relative"
+                  onClick={() => openModalDetail(project.projectID)}
+                >
                   <hr className="w-[97%] absolute right-1/2 translate-x-1/2 group-hover:hidden" />
                   <div
                     className="flex flex-row w-full py-4 group-hover:bg-whiteAlternative 
@@ -185,7 +203,7 @@ function MyProjectStudent() {
                       </Tooltip>
                       <h1 className="my-auto font-semibold">{project.title}</h1>
                     </div>
-                    <div className="px-4 my-auto transition duration-300 rounded-xl z-20">
+                    <div className="px-4 my-auto transition duration-300 rounded-xl">
                       <Menu>
                         <MenuHandler>
                           <Button variant="text">
@@ -193,8 +211,20 @@ function MyProjectStudent() {
                           </Button>
                         </MenuHandler>
                         <MenuList>
-                          <MenuItem>Project Detail</MenuItem>
-                          <MenuItem>Open Project Group</MenuItem>
+                          <MenuItem
+                            onClick={() => openModalDetail(project.projectID)}
+                          >
+                            Project Detail
+                          </MenuItem>
+                          <MenuItem>
+                            <a
+                              href={project.groupLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Open Project Group
+                            </a>
+                          </MenuItem>
                           <MenuItem>Edit Project</MenuItem>
                         </MenuList>
                       </Menu>
@@ -205,6 +235,20 @@ function MyProjectStudent() {
             </div>
           </div>
         </div>
+        <Modal
+          className="w-sreen h-screen flex items-center justify-center z-20 bg-opacity-5 backdrop-blur"
+          isOpen={isModalOpenDetail}
+          closeTimeoutMS={200}
+          onRequestClose={closeModalDetail}
+        >
+          {isModalOpenDetail && (
+            <ProjectDetailModal
+              className="absolute right-0 left-0 top-0 bottom-0"
+              selectedProject={selectedProject}
+              onClose={closeModalDetail}
+            />
+          )}
+        </Modal>
       </div>
     </div>
   );
