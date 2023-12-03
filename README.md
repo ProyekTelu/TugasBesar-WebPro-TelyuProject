@@ -22,7 +22,7 @@ const db = new Sequelize("telyu_project", "user", "password", {
   dialect: "mysql",
 });
 
-atau untuk copy config dibawah ini dan ganti di file Database.js (harus sudah membuat database bernama telyu_project pada phpmyadmin.
+atau copy config dibawah ini dan ganti di file Database.js (harus sudah membuat database bernama telyu_project pada phpmyadmin.
 
 XAMPP :
 
