@@ -248,7 +248,7 @@ function HomeStudent() {
                       type="submit"
                       onClick={() => openModalDetail(project.projectID)}
                     >
-                      Detail Project
+                      Project Detail
                     </button>
                   </div>
                 </SwiperSlide>
