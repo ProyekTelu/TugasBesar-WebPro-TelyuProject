@@ -79,4 +79,4 @@ npm start
 ## atau jika ingin cepat, run file bernama start-project-telyu.bat di root folder (harus sudah melakukan npm install di frontend dan backend dan setting database).
 
 
-<img src="TugasBesar-WebPro-TelyuProject/Backend/img/hasnan.png" alt="Tumbal Proyek" title="Entitas">
+<img src="Backend/img/hasnan.png" alt="Tumbal Proyek" title="Entitas">
