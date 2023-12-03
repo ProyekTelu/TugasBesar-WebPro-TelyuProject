@@ -7,7 +7,7 @@ function MyProject() {
 
   return (
     <>
-      {user.role === "student" ? <MyProjectLecturer /> : <MyProjectLecturer />}
+      {user.role === "student" ? <MyProjectStudent /> : <MyProjectLecturer />}
     </>
   );
 }

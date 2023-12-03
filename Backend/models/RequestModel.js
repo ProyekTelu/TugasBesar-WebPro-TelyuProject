@@ -50,11 +50,6 @@ Request.belongsTo(User, {
   targetKey: "userID",
 });
 
-Request.belongsTo(Project, {
-  foreignKey: "projectID",
-  targetKey: "projectID",
-});
-
 Request.belongsTo(Role, {
   foreignKey: "roleID",
   targetKey: "roleID",

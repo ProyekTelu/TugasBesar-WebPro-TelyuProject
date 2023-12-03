@@ -8,8 +8,8 @@ import ProjectMember from "../models/ProjectMemberModel.js";
 import { literal, Sequelize } from "sequelize";
 
 export const createProject = async (req, res) => {
-  const { 
-    projectTitle, 
+  const {
+    projectTitle,
     groupChatLink,
     description,
     maxMembers,
@@ -23,7 +23,7 @@ export const createProject = async (req, res) => {
   try {
     const newProject = await Project.create({
       title: projectTitle,
-      projectOwnerID: req.user.id, 
+      projectOwnerID: req.user.id,
       description: description,
       startProject: startDate,
       endProject: endDate,
@@ -35,18 +35,17 @@ export const createProject = async (req, res) => {
 
     const projectID = newProject.projectID;
 
-    roleTags.map(async(role, index) => {
-      const project = 
-      await ProjectRole.create({
+    roleTags.map(async (role, index) => {
+      const project = await ProjectRole.create({
         roleID: projectID,
-      })
-    })
+      });
+    });
 
     res.status(201).json(newProject);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
 
 export const getNewestProjects = async (req, res) => {
   try {
@@ -216,7 +215,7 @@ export const getProjectByProjectID = async (req, res) => {
           include: [
             {
               model: User,
-              attributes: ["firstName", "lastName", "email"],
+              attributes: ["firstName", "lastName", "email", "photoProfile"],
             },
             {
               model: Role,
