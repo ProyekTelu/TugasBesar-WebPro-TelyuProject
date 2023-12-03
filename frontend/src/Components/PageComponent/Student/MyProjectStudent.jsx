@@ -4,6 +4,8 @@ import Modal from "react-modal";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { BsThreeDots } from "react-icons/bs";
+import { MoonLoader } from "react-spinners";
+import { GoProjectSymlink } from "react-icons/go";
 import {
   Tooltip,
   Menu,
@@ -22,11 +24,13 @@ function MyProjectStudent() {
   const [isModalOpenDetail, setModalOpenDetail] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [isLoadingDetailModal, setIsLoadingDetailModal] = useState(false);
 
   Modal.setAppElement(document.getElementById("root"));
 
   const openModalDetail = async (projectId) => {
     try {
+      setIsLoadingDetailModal(true);
       const response = await axios.get(
         `http://localhost:5000/project/${projectId}`
       );
@@ -34,6 +38,8 @@ function MyProjectStudent() {
       setModalOpenDetail(true);
     } catch (error) {
       console.error("Failed to fetch project:", error);
+    } finally {
+      setIsLoadingDetailModal(false);
     }
   };
 
@@ -96,7 +102,7 @@ function MyProjectStudent() {
   }
 
   return (
-    <div className="flex  flex-col w-full p-4 md:p-12 h-screen md:min-h-screen overflow-y-auto">
+    <div className="flex flex-col w-full p-4 md:p-12 h-screen md:min-h-screen overflow-y-auto relative">
       <div className="w-full flex justify-start flex-col">
         <div className="px-4 mb-2">
           <h1 className="text-xl md:text-2xl text-primary font-bold text-start">
@@ -146,14 +152,15 @@ function MyProjectStudent() {
                 className="flex flex-row py-4 group-hover:bg-whiteAlternative 
                 cursor-pointer justify-between"
               >
-                <div className="flex flex-row gap-4 px-4 w-full ">
+                <Link
+                  to={"/telyuProject/listProject"}
+                  className="flex flex-row gap-4 px-4 w-full "
+                >
                   <div className="rounded-lg bg-transparent pl-2 font-semibold">
-                    <MdOutlineAddchart className="text-4xl" />
+                    <GoProjectSymlink className="text-4xl" />
                   </div>
-                  <h1 className="pl-1 my-auto font-semibold">
-                    Create new project
-                  </h1>
-                </div>
+                  <h1 className="pl-1 my-auto font-semibold">Join a project</h1>
+                </Link>
               </div>
             </div>
             {messageToShow && (
@@ -250,6 +257,11 @@ function MyProjectStudent() {
           )}
         </Modal>
       </div>
+      {isLoadingDetailModal && (
+        <div className="loading-overlay">
+          <MoonLoader color="red" loading={isLoadingDetailModal} size={50} />
+        </div>
+      )}
     </div>
   );
 }

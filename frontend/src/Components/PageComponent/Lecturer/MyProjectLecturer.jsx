@@ -1,26 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
-import ProjectDetailModal from "../ProjectDetailModal";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import CreateProjectModal from "./CreateProjectModal";
 import axios from "axios";
-import { Tooltip } from "@material-tailwind/react";
+import { BsThreeDots } from "react-icons/bs";
+import { MoonLoader } from "react-spinners";
+import {
+  Tooltip,
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+  Button,
+} from "@material-tailwind/react";
 import { MdOutlineAddchart } from "react-icons/md";
 import { FaDotCircle } from "react-icons/fa";
 import { Select, Option } from "@material-tailwind/react";
+import ProjectDetailModal from "../ProjectDetailModal";
 
-function MyProjectLecturer() {
+function MyProjectStudent() {
   const storedUser = localStorage.getItem("user");
   const [isModalOpenDetail, setModalOpenDetail] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
-  const User = JSON.parse(localStorage.getItem("user"));
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [isLoadingDetailModal, setIsLoadingDetailModal] = useState(false);
 
   Modal.setAppElement(document.getElementById("root"));
 
-  const openModalDetail = () => {
-    setModalOpenDetail(true);
+  const openModalDetail = async (projectId) => {
+    try {
+      setIsLoadingDetailModal(true);
+      const response = await axios.get(
+        `http://localhost:5000/project/${projectId}`
+      );
+      setSelectedProject(response.data);
+      setModalOpenDetail(true);
+    } catch (error) {
+      console.error("Failed to fetch project:", error);
+    } finally {
+      setIsLoadingDetailModal(false);
+    }
   };
 
   function openModal() {
@@ -33,8 +52,13 @@ function MyProjectLecturer() {
   const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
   const [myProject, setMyProject] = useState([]);
 
-  const [activeStatus, setActiveStatus] = useState("All");
-  const listStatus = ["All", "Active", "Finished", "Open Request"];
+  const [activeStatus, setActiveStatus] = useState("ALL");
+  const listStatus = ["ALL", "Active", "Finished", "Open Request"];
+
+  const closeModalDetail = () => {
+    setModalOpenDetail(false);
+  };
+
   useEffect(() => {
     const fetchMyProjects = async () => {
       setIsLoadingMyProject(true);
@@ -42,11 +66,9 @@ function MyProjectLecturer() {
         const response = await axios.get(
           `http://localhost:5000/lecturer/projects/${user.userID}`
         );
-        if (response.data.length === 0) {
-          setShowNoProjectMessage(true);
-        }
+
         const filteredProjects =
-          activeStatus === "All"
+          activeStatus === "ALL"
             ? response.data
             : response.data.filter(
                 (project) => project.projectStatus === activeStatus
@@ -67,8 +89,19 @@ function MyProjectLecturer() {
     fetchMyProjects();
   }, [user.userID, activeStatus, searchTerm, setMyProject]);
 
+  let messageToShow = "";
+  if (showNoProjectMessage) {
+    messageToShow = "You don't have any Project";
+  } else if (myProject.length === 0 && activeStatus !== "ALL") {
+    messageToShow = `You don't have ${activeStatus} Project ${
+      searchTerm !== "" ? "with " + searchTerm + " title " : ""
+    }`;
+  } else if (searchTerm !== "" && myProject.length === 0) {
+    messageToShow = `No Project with ${searchTerm} title`;
+  }
+
   return (
-    <div className="flex justify-center flex-col w-full p-4 md:p-12 overflow-y-auto">
+    <div className="flex flex-col w-full p-4 md:p-12 h-screen md:min-h-screen overflow-y-auto relative">
       <div className="w-full flex justify-start flex-col">
         <div className="px-4 mb-2">
           <h1 className="text-xl md:text-2xl text-primary font-bold text-start">
@@ -78,13 +111,15 @@ function MyProjectLecturer() {
       </div>
       <div className="w-full mt-4 mx-auto flex justify-center ">
         <div className="flex flex-col w-full ">
-          <div className="border-grey border rounded-xl py-4 h-[83vh]">
-            <div className="flex justify-between px-6 pb-2">
-              <h1 className="text-xl font-semibold md:text-2xl">Projects</h1>
-              <div className="flex flex-row gap-2">
+          <div className="border-grey border rounded-xl py-4 w-full h-full md:h-[83vh] relative">
+            <div className="flex flex-col md:flex-row justify-between px-6 pb-2">
+              <h1 className="text-xl font-semibold md:text-2xl mb-2 md:mb-0">
+                Projects
+              </h1>
+              <div className="flex flex-col md:flex-row gap-2">
                 <input
                   type="text"
-                  className="border rounded-md p-2 focus:outline-none"
+                  className="border rounded-md p-2 focus:outline-none mb-2 md:mb-0"
                   placeholder="Search"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -126,12 +161,33 @@ function MyProjectLecturer() {
                 </div>
               </div>
             </div>
+            {messageToShow && (
+              <div className=" md:hidden flex-col group mt-1 ">
+                <div
+                  className="flex flex-row py-4 border 
+                cursor-pointer justify-center"
+                >
+                  <h1 className="pl-1 my-auto font-semibold">
+                    {messageToShow}
+                  </h1>
+                </div>
+              </div>
+            )}
+            {messageToShow && (
+              <div className=" hidden md:block absolute top-1/2 right-1/2 translate-x-1/2 rounded-lg items-center justify-center cursor-pointer transition text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+                {messageToShow}
+              </div>
+            )}
             <div className="flex flex-col max-h-[65vh] overflow-y-auto">
               {myProject.map((project, index) => (
-                <div key={index} className="flex-col group relative">
-                  <hr className="w-[97%] absolute mx-auto group-hover:hidden" />
+                <div
+                  key={index}
+                  className="flex-col group relative"
+                  onClick={() => openModalDetail(project.projectID)}
+                >
+                  <hr className="w-[97%] absolute right-1/2 translate-x-1/2 group-hover:hidden" />
                   <div
-                    className="flex flex-row py-4 group-hover:bg-whiteAlternative 
+                    className="flex flex-row w-full py-4 group-hover:bg-whiteAlternative 
                 cursor-pointer justify-between"
                   >
                     <div className="flex flex-row gap-4 px-4 w-full ">
@@ -152,16 +208,60 @@ function MyProjectLecturer() {
                       </Tooltip>
                       <h1 className="my-auto font-semibold">{project.title}</h1>
                     </div>
-                    <div className="px-4">aaaa</div>
+                    <div className="px-4 my-auto transition duration-300 rounded-xl">
+                      <Menu>
+                        <MenuHandler>
+                          <Button variant="text">
+                            <BsThreeDots />
+                          </Button>
+                        </MenuHandler>
+                        <MenuList>
+                          <MenuItem
+                            onClick={() => openModalDetail(project.projectID)}
+                          >
+                            Project Detail
+                          </MenuItem>
+                          <MenuItem>
+                            <a
+                              href={project.groupLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Open Project Group
+                            </a>
+                          </MenuItem>
+                          <MenuItem>Edit Project</MenuItem>
+                        </MenuList>
+                      </Menu>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
+        <Modal
+          className="w-sreen h-screen flex items-center justify-center z-20 bg-opacity-5 backdrop-blur"
+          isOpen={isModalOpenDetail}
+          closeTimeoutMS={200}
+          onRequestClose={closeModalDetail}
+        >
+          {isModalOpenDetail && (
+            <ProjectDetailModal
+              className="absolute right-0 left-0 top-0 bottom-0"
+              selectedProject={selectedProject}
+              onClose={closeModalDetail}
+            />
+          )}
+        </Modal>
       </div>
+      {isLoadingDetailModal && (
+        <div className="loading-overlay">
+          <MoonLoader color="red" loading={isLoadingDetailModal} size={50} />
+        </div>
+      )}
     </div>
   );
 }
 
-export default MyProjectLecturer;
+export default MyProjectStudent;

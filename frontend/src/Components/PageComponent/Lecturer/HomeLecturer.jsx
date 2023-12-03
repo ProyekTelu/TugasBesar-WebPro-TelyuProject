@@ -24,6 +24,7 @@ function HomeLecturer() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showNoNewestProjectMessage, setShowNoNewestProjectMessage] =
     useState(false);
+  const [isLoadingModalDetail, setIsLoadingModalDetail] = useState(false);
   const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
 
   useEffect(() => {
@@ -137,6 +138,7 @@ function HomeLecturer() {
 
   const openModalDetail = async (projectId) => {
     try {
+      setIsLoadingModalDetail(true);
       const response = await axios.get(
         `http://localhost:5000/project/${projectId}`
       );
@@ -144,6 +146,8 @@ function HomeLecturer() {
       setModalOpenDetail(true);
     } catch (error) {
       console.error("Failed to fetch project:", error);
+    } finally {
+      setIsLoadingModalDetail(false);
     }
   };
 
@@ -324,6 +328,7 @@ function HomeLecturer() {
             ) : myProject ? (
               <MyProjectTableLecturer
                 myProject={myProject}
+                openModalDetail={openModalDetail}
                 className="h-full"
               />
             ) : (
@@ -358,15 +363,18 @@ function HomeLecturer() {
         )}
       </Modal>
       <Modal
-          className="w-sreen h-screen flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
-          isOpen={isModalOpenCreate}
-          onRequestClose={closeModalCreate}
-        >
-          {isModalOpenCreate && (
-            <CreateProjectModal 
-            onClose={closeModalCreate} />
-          )}
-          </Modal>
+        className="w-sreen h-screen flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
+        isOpen={isModalOpenCreate}
+        onRequestClose={closeModalCreate}
+      >
+        {isModalOpenCreate && <CreateProjectModal onClose={closeModalCreate} />}
+      </Modal>
+
+      {isLoadingModalDetail && (
+        <div className="loading-overlay">
+          <MoonLoader color="red" loading={isLoadingModalDetail} size={50} />
+        </div>
+      )}
     </div>
   );
 }
