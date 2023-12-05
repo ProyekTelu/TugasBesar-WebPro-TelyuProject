@@ -239,7 +239,7 @@ function MyProjectDetail({ setMyProjectPage, selectedProject }) {
         isOpen={isModalInviteMemberOpen}
         onRequestClose={() => setIsModalInviteMemberOpen(false)}
       >
-        <div className="sm:max-w-[50vw] md:max-w-[40vw] lg:max-w-[32vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
+        <div className="w-screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
           <div className="flex justify-between  gap-4">
             <h1 className="my-auto text-lg md:text-xl font-medium">
               Add Student to {selectedProject.title}
