@@ -40,6 +40,8 @@ function ProjectDetailModal({ onClose, selectedProject }) {
 
   const [isEditing, setIsEditing] = useState(false);
 
+  const [onInviteMode, setOnInviteMode] = useState(false);
+
   useEffect(() => {
     if (!storedUser) {
       navigate("/");
@@ -55,21 +57,21 @@ function ProjectDetailModal({ onClose, selectedProject }) {
   };
 
   return (
-    <div className="modal-content relative w-screen md:w-[85vw] max-h-screen md:max-h-[85vh] border-2 shadow-lg lg:flex-row p-10 rounded-lg justify-center   bg-whiteAlternative">
+    <div className="modal-content relative w-screen md:w-[70vw] max-h-screen md:h-[85vh] border-2 shadow-lg lg:flex-row p-10 rounded-lg justify-center  bg-whiteAlternative">
       <div className="flex flex-row justify-between">
         <div className="flex gap-5 flex-col md:flex-row">
           <div className="flex flex-col xs:flex-row gap-4">
-            <h1 className="text-left text-primary text-xl sm:text-2xl md:text-4xl font-bold">
+            <h1 className="text-left text-primary text-lg sm:text-2xl md:text-3xl font-bold">
               {project.title}
             </h1>
-            {!isEditing && (
+            {/* {!isEditing && (
               <div className="my-auto focus:outline-none cursor-pointer self-end active:scale-95 duration-100 ease-in hover:scale-105">
                 <FaEdit
                   className="text-3xl cursor-pointer "
                   onClick={handleEditProfile}
                 />
               </div>
-            )}
+            )} */}
           </div>
 
           {isEditing && (
@@ -100,15 +102,19 @@ function ProjectDetailModal({ onClose, selectedProject }) {
           />
         </div>
       </div>
-      <h1 className="text-left text-xl mt-2 mb-4 font-bold">
+      <h1 className="text-left text-sm sm:text-base md:text-lg mt-2 mb-4 ">
         By{" "}
         {project.projectOwner.firstName + " " + project.projectOwner.lastName}
       </h1>
       <hr className="border-b-2 border-b-slate-950 my-5" />
-      <div className="overflow-y-auto max-h-[55vh]">
-        <h1 className="text-left text-xl mb-2 font-bold">Description</h1>
+      <div className="overflow-y-auto max-h-[50vh] lg:max-h-none">
+        <h1 className="text-left text-sm sm:text-base md:text-lg mb-2 font-bold">
+          Description
+        </h1>
         {!isEditing && (
-          <p className="overflow-y-auto md:h-auto">{project.description}</p>
+          <p className="overflow-y-auto text-xs sm:text-sm md:text-base md:h-auto">
+            {project.description}
+          </p>
         )}
         {isEditing && (
           <textarea
@@ -121,7 +127,9 @@ function ProjectDetailModal({ onClose, selectedProject }) {
         )}
 
         <div className="py-3 rounded-2xl flex flex-col gap-1">
-          <h1 className="text-left text-xl mb-2 font-bold">Skills</h1>
+          <h1 className="text-left text-sm sm:text-base md:text-lg mb-2 font-bold">
+            Skills
+          </h1>
           <div className="flex flex-wrap gap-2 overflow-y-auto">
             {project.ProjectSkills.map((skill, index) => (
               <div
@@ -136,7 +144,9 @@ function ProjectDetailModal({ onClose, selectedProject }) {
           </div>
         </div>
         <div className="rounded-2xl flex flex-col gap-1 ">
-          <h1 className="text-left text-xl mb-2 font-bold">Roles</h1>
+          <h1 className="text-left text-sm sm:text-base md:text-lg mb-2 font-bold">
+            Roles
+          </h1>
           <div className="flex flex-wrap gap-2 overflow-y-auto">
             {project.ProjectRoles.map((role, index) => (
               <div
@@ -155,8 +165,8 @@ function ProjectDetailModal({ onClose, selectedProject }) {
         {project.projectOwner.firstName + " " + project.projectOwner.lastName}
       </p> */}
 
-        <h1 className="text-left text-xl mb-2 mt-4 font-bold">
-          Project Start-End Date
+        <h1 className="text-left text-sm sm:text-base md:text-lg mb-2 mt-4 font-bold">
+          Project Start - End Date
         </h1>
         {project.startProject && project.endProject && (
           <p>
@@ -164,7 +174,9 @@ function ProjectDetailModal({ onClose, selectedProject }) {
             {formatDate(project.endProject)}
           </p>
         )}
-        <h1 className="text-left text-xl mb-2 mt-4 font-bold">Group Link</h1>
+        <h1 className="text-left text-sm sm:text-base md:text-lg mb-2 mt-4 font-bold">
+          Group Link
+        </h1>
         {!isEditing && (
           <a
             href={project.groupLink}
@@ -183,52 +195,71 @@ function ProjectDetailModal({ onClose, selectedProject }) {
             className="p-1 sm:p-2 text-xs md:text-base w-full border-gray-500 focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
           />
         )}
+        {/* {!onInviteMode && (
+          <div className="flex flex-row justify-between w-full">
+            <h1 className="text-left text-xl mb-2 mt-4 font-bold">
+              {"Member (" + project.projectMemberCount}/
+              {project.totalMember + ")"}
+            </h1>
+            <button
+              className="p-2 bg-green-400"
+              onClick={() => {
+                setOnInviteMode(true);
+              }}
+            >
+              Invite
+            </button>
+          </div>
+        )}
 
-        <h1 className="text-left text-xl mb-2 mt-4 font-bold">
-          {"Member (" + project.projectMemberCount}/{project.totalMember + ")"}
-        </h1>
-        <div className="w-full flex flex-col gap-4 overflow-y-auto max-h-80 cursor-pointer group">
-          {project.ProjectMembers && project.ProjectMembers.length > 0 ? (
-            project.ProjectMembers.map((member, index) => (
-              <div
-                key={index}
-                className="flex flex-row gap-2 w-full justify-between bg-white p-4 rounded-lg"
-              >
-                <div className="flex flex-row gap-4 items-center">
-                  <img
-                    alt="profile"
-                    src={URL.createObjectURL(
-                      new Blob([new Uint8Array(member.user.photoProfile.data)])
-                    )}
-                    className="h-10 aspect-square rounded-full bg-black"
-                  ></img>
-                  <div className="flex flex-col">
-                    <label className="font-semibold text-lg" htmlFor="">
-                      {member.user.firstName + " " + member.user.lastName}
-                    </label>
-                    <label htmlFor="">Frontend</label>
+        {!onInviteMode ? (
+          <div className="w-full flex flex-col gap-4 overflow-y-auto max-h-80 cursor-pointer group">
+            {project.ProjectMembers && project.ProjectMembers.length > 0 ? (
+              project.ProjectMembers.map((member, index) => (
+                <div
+                  key={index}
+                  className="flex flex-row gap-2 w-full justify-between bg-white p-4 rounded-lg"
+                >
+                  <div className="flex flex-row gap-4 items-center">
+                    <img
+                      alt="profile"
+                      src={URL.createObjectURL(
+                        new Blob([
+                          new Uint8Array(member.user.photoProfile.data),
+                        ])
+                      )}
+                      className="h-10 aspect-square rounded-full bg-black"
+                    ></img>
+                    <div className="flex flex-col">
+                      <label className="font-semibold text-lg" htmlFor="">
+                        {member.user.firstName + " " + member.user.lastName}
+                      </label>
+                      <label htmlFor="">{member.Role.name}</label>
+                    </div>
+                  </div>
+                  <div className="flex flex-row gap-4 items-center">
+                    <Menu>
+                      <MenuHandler>
+                        <Button variant="text">
+                          <BsThreeDots />
+                        </Button>
+                      </MenuHandler>
+                      <MenuList>
+                        <MenuItem>Project Detail</MenuItem>
+                        <MenuItem>Open Project Group</MenuItem>
+                        <MenuItem>Edit Project</MenuItem>
+                      </MenuList>
+                    </Menu>
                   </div>
                 </div>
-                <div className="flex flex-row gap-4 items-center">
-                  <Menu>
-                    <MenuHandler>
-                      <Button variant="text">
-                        <BsThreeDots />
-                      </Button>
-                    </MenuHandler>
-                    <MenuList>
-                      <MenuItem>Project Detail</MenuItem>
-                      <MenuItem>Open Project Group</MenuItem>
-                      <MenuItem>Edit Project</MenuItem>
-                    </MenuList>
-                  </Menu>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p>No members available</p>
-          )}
-        </div>
+              ))
+            ) : (
+              <p>No members available</p>
+            )}
+          </div>
+        ) : (
+          <div></div>
+        )} */}
       </div>
     </div>
   );
