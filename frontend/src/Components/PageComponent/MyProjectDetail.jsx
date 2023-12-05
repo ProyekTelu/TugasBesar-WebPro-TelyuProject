@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
 import "react-datepicker/dist/react-datepicker.css";
@@ -57,6 +57,33 @@ function MyProjectDetail({ setMyProjectPage, selectedProject }) {
   const handleInviteRoleClick = () => {
     setIsDropdownOpen(false);
   };
+
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const searchStudents = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/students/search/${searchQuery}`
+      );
+      setSearchResults(response.data);
+    } catch (error) {
+      console.error("Error searching students:", error);
+    }
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setSearchResults([]);
+      return;
+    }
+
+    const searchTimer = setTimeout(() => {
+      searchStudents();
+    }, 500);
+
+    return () => clearTimeout(searchTimer);
+  }, [searchQuery, searchStudents]);
 
   return (
     <div>
@@ -316,7 +343,7 @@ function MyProjectDetail({ setMyProjectPage, selectedProject }) {
             <Button onClick={() => setIsModalInviteMemberOpen(false)}>
               Cancel
             </Button>
-            <Button disabled="true">Send</Button>
+            <Button>Send</Button>
           </div>
         </div>
       </Modal>

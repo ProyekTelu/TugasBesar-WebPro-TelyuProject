@@ -1,10 +1,11 @@
 import User from "../models/UserModel.js";
 import argon2 from "argon2";
+import { Op } from "sequelize";
 
 export const getAllUsers = async (req, res) => {
   try {
     const response = await User.findAll({
-      attributes: { exclude: ['photoProfile'] }
+      attributes: { exclude: ["photoProfile"] },
     });
     res.status(200).json(response);
   } catch (error) {
@@ -16,15 +17,15 @@ export const getAllStudent = async (req, res) => {
   try {
     const response = await User.findAll({
       where: {
-        role: "student"
+        role: "student",
       },
-      attributes: { exclude: ['photoProfile'] }
+      attributes: { exclude: ["photoProfile"] },
     });
     res.status(200).json(response);
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const getUsersByNomorInduk = async (req, res) => {
   try {
@@ -87,8 +88,8 @@ export const deleteUserByNomorInduk = async (req, res) => {
   try {
     await User.destroy({
       where: {
-        userID : req.params.userID
-      }
+        userID: req.params.userID,
+      },
     });
     res.status(201).json({ msg: "User Created" });
   } catch (error) {
@@ -96,13 +97,35 @@ export const deleteUserByNomorInduk = async (req, res) => {
   }
 };
 
-export const deleteAllUsers = async(req, res) => {
+export const deleteAllUsers = async (req, res) => {
   try {
     await User.destroy({
-      where : {}
+      where: {},
     });
     res.status(200).json("All Users Have Been Deleted");
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+export const searchStudent = async (req, res) => {
+  try {
+    const searchText = req.params.searchQuery;
+
+    const users = await User.findAll({
+      attributes: { exclude: ["photoProfile"] },
+      where: {
+        role: "Student",
+        [Op.or]: [
+          { firstName: { [Op.like]: `%${searchText}%` } },
+          { lastName: { [Op.like]: `%${searchText}%` } },
+          { email: { [Op.like]: `%${searchText}%` } },
+        ],
+      },
+    });
+
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

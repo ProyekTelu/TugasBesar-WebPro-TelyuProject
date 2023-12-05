@@ -8,16 +8,18 @@ import {
   getAllUsers,
   getUsersByNomorInduk,
   updateUserByNomorInduk,
+  searchStudent,
 } from "../controllers/UserController.js";
 
 const router = express.Router();
 
 router.get("/users", getAllUsers);
-router.get("/student", getAllStudent);
+router.get("/students", getAllStudent);
 router.get("/users/:userID", getUsersByNomorInduk);
 router.post("/users", createUser);
 router.patch("/users/:userID", updateUserByNomorInduk);
 router.delete("/users/:userID", adminOnly, deleteUserByNomorInduk);
-router.delete("/users",deleteAllUsers);
+router.delete("/users", deleteAllUsers);
+router.get("/students/search/:searchQuery", searchStudent);
 
 export default router;
