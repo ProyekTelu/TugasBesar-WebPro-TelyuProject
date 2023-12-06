@@ -1,6 +1,7 @@
 import User from "../models/UserModel.js";
 import argon2 from "argon2";
-import { Op } from "sequelize";
+import { Op, Sequelize, where } from "sequelize";
+import Invitation from "../models/InvitationModel.js";
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -111,9 +112,9 @@ export const deleteAllUsers = async (req, res) => {
 export const searchStudent = async (req, res) => {
   try {
     const searchText = req.params.searchQuery;
+    const projectID = req.params.projectID;
 
     const users = await User.findAll({
-      attributes: { exclude: ["photoProfile"] },
       where: {
         role: "Student",
         [Op.or]: [

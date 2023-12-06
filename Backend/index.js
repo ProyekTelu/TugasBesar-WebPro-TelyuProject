@@ -16,6 +16,7 @@ import FacultyRoute from "./routes/FacultyRoutes.js";
 import MajorRoute from "./routes/MajorRoutes.js";
 import ProjectRoute from "./routes/ProjectRoutes.js";
 import RequestRoute from "./routes/RequestRoutes.js";
+import InvitationRoute from "./routes/InvitationRoutes.js";
 
 //initial data import
 import FacultyAndMajor from "./InitialData/FacultyAndMajor.js";
@@ -47,6 +48,7 @@ app.use(FacultyRoute);
 app.use(MajorRoute);
 app.use(ProjectRoute);
 app.use(RequestRoute);
+app.use(InvitationRoute);
 
 //kumpulan inisial data
 const initializeData = async () => {

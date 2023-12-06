@@ -19,6 +19,10 @@ const Invitation = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    roleID: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     receiverID: {
       type: DataTypes.STRING,
       allowNull: false,
