@@ -24,6 +24,7 @@ function HomeStudent() {
     useState(false);
   const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isLoadingModalDetail, setIsLoadingModalDetail] = useState(false);
 
   useEffect(() => {
     if (!storedUser) {
@@ -135,6 +136,7 @@ function HomeStudent() {
 
   const openModalDetail = async (projectId) => {
     try {
+      setIsLoadingModalDetail(true);
       const response = await axios.get(
         `http://localhost:5000/project/${projectId}`
       );
@@ -142,6 +144,8 @@ function HomeStudent() {
       setModalOpenDetail(true);
     } catch (error) {
       console.error("Failed to fetch project:", error);
+    } finally {
+      setIsLoadingModalDetail(false);
     }
   };
 
@@ -312,7 +316,11 @@ function HomeStudent() {
                 No Project with {searchTerm} title
               </div>
             ) : myProject ? (
-              <MyProjectTableStudent myProject={myProject} className="h-full" />
+              <MyProjectTableStudent
+                myProject={myProject}
+                openModalDetail={openModalDetail}
+                className="h-full"
+              />
             ) : (
               ""
             )}
@@ -345,6 +353,12 @@ function HomeStudent() {
           />
         )}
       </Modal>
+
+      {isLoadingModalDetail && (
+        <div className="loading-overlay">
+          <MoonLoader color="red" loading={isLoadingModalDetail} size={50} />
+        </div>
+      )}
     </div>
   );
 }

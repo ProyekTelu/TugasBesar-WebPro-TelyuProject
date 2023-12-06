@@ -195,7 +195,7 @@ export const getProjectByProjectID = async (req, res) => {
         },
         {
           model: ProjectRole,
-          attributes: ["roleID"],
+          attributes: ["roleID", "quantity"],
           include: {
             model: Role,
             attributes: ["name"],

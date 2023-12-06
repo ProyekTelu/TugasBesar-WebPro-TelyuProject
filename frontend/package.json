@@ -12,7 +12,6 @@
     "framer-motion": "^10.16.4",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^3.1.2",
-    "primereact": "^10.1.1",
     "react": "^18.2.0",
     "react-calendar": "^4.6.1",
     "react-datepicker": "^4.21.0",
