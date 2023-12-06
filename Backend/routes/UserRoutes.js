@@ -20,6 +20,6 @@ router.post("/users", createUser);
 router.patch("/users/:userID", updateUserByNomorInduk);
 router.delete("/users/:userID", adminOnly, deleteUserByNomorInduk);
 router.delete("/users", deleteAllUsers);
-router.get("/students/search/:searchQuery", searchStudent);
+router.get("/students/search/:searchQuery/:projectID", searchStudent);
 
 export default router;

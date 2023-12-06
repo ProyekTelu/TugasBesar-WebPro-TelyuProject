@@ -23,13 +23,20 @@ import { IoIosArrowDown } from "react-icons/io";
 
 function MyProjectDetail({ setMyProjectPage, selectedProject }) {
   const storedUser = localStorage.getItem("user");
+  const user = JSON.parse(storedUser);
+
   const [isModalInviteMemberOpen, setIsModalInviteMemberOpen] = useState(false);
   const [selectRoleActive, setSelectRoleActive] = useState(false);
   const [inviteSelectedRole, setInviteSelectedRole] = useState("Select Role");
   const dropdownRef = useRef(null);
   const inviteRoleLabelRef = useRef(null);
+  const [isSearchLoading, setIsSearchLoading] = useState(false);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -58,21 +65,29 @@ function MyProjectDetail({ setMyProjectPage, selectedProject }) {
     setIsDropdownOpen(false);
   };
 
-  const [searchResults, setSearchResults] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const handleInputChange = (event) => {
+    const { value } = event.target;
+    setSelectedUser(null);
+    setSearchQuery(value);
+  };
 
   const searchStudents = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/students/search/${searchQuery}`
+        `http://localhost:5000/students/search/${searchQuery}/${selectedProject.projectID}`
       );
       setSearchResults(response.data);
     } catch (error) {
       console.error("Error searching students:", error);
+    } finally {
+      setIsSearchLoading(false);
     }
-  }, [searchQuery]);
+  }, [searchQuery, selectedProject]);
 
   useEffect(() => {
+    setIsSearchLoading(true);
     if (searchQuery.trim() === "") {
       setSearchResults([]);
       return;
@@ -84,6 +99,8 @@ function MyProjectDetail({ setMyProjectPage, selectedProject }) {
 
     return () => clearTimeout(searchTimer);
   }, [searchQuery, searchStudents]);
+
+  // const sendInvitation = async () => {};
 
   return (
     <div>
@@ -173,22 +190,23 @@ function MyProjectDetail({ setMyProjectPage, selectedProject }) {
                       {selectedProject.totalMember + ")"}
                     </h1>
                   </div>
-                  {selectedProject.ProjectMembers.length !== 0 && (
-                    <Tooltip content="Add member">
-                      <div
-                        onClick={() => setIsModalInviteMemberOpen(true)}
-                        className="cursor-pointer py-3 duration-300 hover:bg-grey active:bg-greyAlternative px-3 hover:rounded-xl flex flex-row gap-3"
-                      >
-                        <IoMdPersonAdd className="my-auto text-xl cursor-pointer" />
-                        <label
-                          className="hidden xs:block cursor-pointer font-bold"
-                          htmlFor=""
+                  {selectedProject.ProjectMembers.length !== 0 &&
+                    user.role === "lecturer" && (
+                      <Tooltip content="Add member">
+                        <div
+                          onClick={() => setIsModalInviteMemberOpen(true)}
+                          className="cursor-pointer py-3 duration-300 hover:bg-grey active:bg-greyAlternative px-3 hover:rounded-xl flex flex-row gap-3"
                         >
-                          Invite a Student
-                        </label>
-                      </div>
-                    </Tooltip>
-                  )}
+                          <IoMdPersonAdd className="my-auto text-xl cursor-pointer" />
+                          <label
+                            className="hidden xs:block cursor-pointer font-bold"
+                            htmlFor=""
+                          >
+                            Invite a Student
+                          </label>
+                        </div>
+                      </Tooltip>
+                    )}
                 </div>
 
                 <div className="w-full mt-4 flex flex-col cursor-pointer group">
@@ -273,21 +291,57 @@ function MyProjectDetail({ setMyProjectPage, selectedProject }) {
             </h1>
             <Button
               variant="text"
-              onClick={() => setIsModalInviteMemberOpen(false)}
+              onClick={() => {
+                setIsModalInviteMemberOpen(false);
+                setSelectedUser(null);
+                setSearchQuery("");
+                setMessage("");
+              }}
             >
               <IoMdClose className="text-lg" />
             </Button>
           </div>
           <hr className="mt-2" />
           <div className="md:max-h-[50vh] overflow-y-scroll overflow-x-hidden px-4 mt-2">
-            <div className="py-6 font-medium flex flex-col gap-4 w-full ">
+            <div className="py-4 font-medium flex flex-col gap-4 w-full ">
               <label htmlFor="">Invite Student</label>
-              <div className="relative w-full border rounded-2xl p-2 border-blackAlternative ">
+              <div className="relative w-full border rounded-2xl px-2 py-1 border-blackAlternative ">
                 <input
                   type="text"
-                  className="p-1 w-full md:w-3/5  border-none outline-none overflow-x-scroll"
+                  value={searchQuery}
+                  onChange={handleInputChange}
+                  className="p-1 w-full md:w-3/5 border-none outline-none overflow-x-scroll"
                   placeholder="Add students by name or email..."
                 />
+                {searchQuery && !selectedUser && (
+                  <div className="absolute top-24 md:top-11 p-2 bg-black text-white rounded-xl w-3/4">
+                    {isSearchLoading ? (
+                      <div className="flex justify-center">
+                        <MoonLoader
+                          color="white"
+                          loading={isSearchLoading}
+                          size={25}
+                        />
+                      </div>
+                    ) : searchResults.length > 0 ? (
+                      searchResults.map((user, index) => (
+                        <div
+                          className="p-2 cursor-pointer"
+                          onClick={() => {
+                            setSearchQuery(user.email);
+                            setSelectedUser(user.userID);
+                          }}
+                          key={index}
+                        >
+                          <p>{user.email}</p>
+                        </div>
+                      ))
+                    ) : (
+                      <p>No user found</p>
+                    )}
+                  </div>
+                )}
+
                 <div className="md:absolute mt-6 md:mt-0 right-5 top-1/2 -translate-y-1/2 ">
                   <div
                     className="hover:bg-grey px-2 py-1 rounded-lg transition duration-300 group flex gap-2 active:bg-greyAlternative"
@@ -306,7 +360,7 @@ function MyProjectDetail({ setMyProjectPage, selectedProject }) {
                 </div>
                 {isDropdownOpen && (
                   <div
-                    className="absolute right-[-10px] top-14"
+                    className="absolute right-[-10px] top-11"
                     ref={dropdownRef}
                   >
                     <div className="h-auto bg-white px-4 py-2 rounded-xl border-2">
@@ -335,15 +389,31 @@ function MyProjectDetail({ setMyProjectPage, selectedProject }) {
                 className="p-2 rounded-2xl border border-blackAlternative"
                 id=""
                 rows="5"
+                value={message}
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                }}
                 placeholder="Add a message"
               ></textarea>
             </div>
           </div>
           <div className="flex justify-end gap-4 mt-2">
-            <Button onClick={() => setIsModalInviteMemberOpen(false)}>
+            <Button
+              onClick={() => {
+                setIsModalInviteMemberOpen(false);
+                setSelectedUser(null);
+                setSearchQuery("");
+                setMessage("");
+              }}
+            >
               Cancel
             </Button>
-            <Button>Send</Button>
+            <Button
+              disabled={selectedUser === null || message === ""}
+              // onClick={sendInvitation}
+            >
+              Send
+            </Button>
           </div>
         </div>
       </Modal>
