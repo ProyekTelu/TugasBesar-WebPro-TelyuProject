@@ -49,29 +49,29 @@ const Profile = () => {
     setkodeDosen(e.target.value);
   };
 
-  const handlenomorIndukChange = (e) => {
-    setnim(e.target.value);
-  };
+  // const handlenomorIndukChange = (e) => {
+  //   setnim(e.target.value);
+  // };
 
-  const handlegenderChange = (e) => {
-    setgender(e.target.value);
-  };
+  // const handlegenderChange = (e) => {
+  //   setgender(e.target.value);
+  // };
 
   const handlephoneNumberChange = (e) => {
     setphoneNumber(e.target.value);
   };
 
-  const handlekodeFakultas = (e) => {
-    setkodeFakultas(e.target.value);
-  };
+  // const handlekodeFakultas = (e) => {
+  //   setkodeFakultas(e.target.value);
+  // };
 
-  const handlekodeProdi = (e) => {
-    setkodeProdi(e.target.value);
-  };
+  // const handlekodeProdi = (e) => {
+  //   setkodeProdi(e.target.value);
+  // };
 
-  const handlekelasChange = (e) => {
-    setkelas(e.target.value);
-  };
+  // const handlekelasChange = (e) => {
+  //   setkelas(e.target.value);
+  // };
 
   const navigate = useNavigate();
 
@@ -97,14 +97,16 @@ const Profile = () => {
   return (
     <div className="p-4 md:p-12 overflow-y-auto">
       <div className="relative h-60 rounded-b-3xl flex justify-center sm:h-55">
-        <div className="absolute -bottom-2 sm:-bottom-0 md:-bottom-10  ">
+        <div className="absolute -bottom-2 sm:-bottom-0 md:-bottom-10">
           <img
             src={userImage}
             className={`${
-              isEditing ? "bg-gray-200 cursor-pointer" : "pointer-events-none"
+              isEditing
+                ? "inset-0 bg-gray-600 opacity-80 rounded-full cursor-pointer transition-transform transform-gpu hover:scale-105 focus:outline-none ring-2 ring-red-300"
+                : "hover:opacity-80 transition-opacity pointer-events-none"
             } object-cover border-4 border-white w-40 h-40 sm:w-60 sm:h-60 md:w-72 md:h-72 aspect-square rounded-full`}
             alt="cover"
-            onClick={() => document.getElementById("file").click()}
+            onClick={() => isEditing && document.getElementById("file").click()}
           />
           <input
             className="hidden"
@@ -117,14 +119,17 @@ const Profile = () => {
       </div>
       <div className="text-center pt-10 xs:pt-12 sm:pt-0 md:pt-16 xl:pt-20 text-3xl xs:text-4xl xl:text-5xl font-bold text-black">
         <div className="flex items-center justify-between">
-          Profile
-          <div className="cursor-pointer">
+          <div className="w-auto">Profile</div>
+          <div className="flex items-center justify-content-start">
             <img
               src={EditProfile}
-              className="w-5 h-auto cursor-pointer"
+              className="w-6 h-auto mr-2 cursor-pointer"
               alt="edit"
               onClick={handleEditProfile}
             />
+            <span style={{ fontSize: "25px" }} className="text-black">
+              Edit
+            </span>
           </div>
         </div>
       </div>
@@ -133,20 +138,18 @@ const Profile = () => {
       {/* Label Biodata */}
       <form
         className="flex flex-col sm:flex-row gap-4 xs:gap-6 md:gap-8 xl:gap-10"
-        action=""
-      >
+        action="">
         <div className="w-full xs:w-1/2">
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               First Name
             </label>
             <input
               placeholder=""
               className={`p-2 ${
-                isEditing ? "bg-gray-200" : ""
+                isEditing ? "" : "bg-gray-200"
               } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="nama"
@@ -158,19 +161,14 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               NIM
             </label>
             <input
               placeholder=""
-              className={`p-2 ${
-                isEditing ? "bg-gray-200" : ""
-              } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+              className={`p-2 bg-gray-200 text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="nim"
-              onChange={handlenomorIndukChange}
-              readOnly={!isEditing}
               value={nomorInduk}
             />
           </div>
@@ -178,14 +176,13 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor=""
-              >
+                htmlFor="">
                 Role
               </label>
               <input
                 placeholder=""
                 className={`p-2 ${
-                  isEditing ? "bg-gray-200" : ""
+                  isEditing ? "" : "bg-gray-200"
                 } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                 type="text"
                 id="role"
@@ -198,19 +195,14 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               Gender
             </label>
             <input
               placeholder=""
-              className={`p-2 ${
-                isEditing ? "bg-gray-200" : ""
-              } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+              className={`p-2 bg-gray-200 text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="gender"
-              onChange={handlegenderChange}
-              readOnly={!isEditing}
               value={gender}
             />
           </div>
@@ -218,19 +210,14 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor=""
-              >
+                htmlFor="">
                 Class
               </label>
               <input
                 placeholder=""
-                className={`p-2 ${
-                  isEditing ? "bg-gray-200" : ""
-                } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                className={`p-2 bg-gray-200 text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                 type="text"
                 id="kelas"
-                onChange={handlekelasChange}
-                readOnly={!isEditing}
                 value={kelas}
               />
             </div>
@@ -240,14 +227,13 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               Last Name
             </label>
             <input
               placeholder=""
               className={`p-2 ${
-                isEditing ? "bg-gray-200" : ""
+                isEditing ? "" : "bg-gray-200"
               } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="namaAkhir"
@@ -259,14 +245,13 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               Phone Number
             </label>
             <input
               placeholder=""
               className={`p-2 ${
-                isEditing ? "bg-gray-200" : ""
+                isEditing ? "" : "bg-gray-200"
               } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="nomorHp"
@@ -279,14 +264,13 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor=""
-              >
+                htmlFor="">
                 Lecturer Code
               </label>
               <input
                 placeholder=""
                 className={`p-2 ${
-                  isEditing ? "bg-gray-200" : ""
+                  isEditing ? "" : "bg-gray-200"
                 } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                 type="text"
                 id="kodeDosen"
@@ -299,19 +283,14 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               Faculty
             </label>
             <input
               placeholder=""
-              className={`p-2 ${
-                isEditing ? "bg-gray-200" : ""
-              } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+              className={`p-2 bg-gray-200 text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
               type="text"
               id="fakultas"
-              onChange={handlekodeFakultas}
-              readOnly={!isEditing}
               value={kodeFakultas}
             />
           </div>
@@ -319,19 +298,14 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor=""
-              >
+                htmlFor="">
                 Major
               </label>
               <input
                 placeholder=""
-                className={`p-2 ${
-                  isEditing ? "bg-gray-200" : ""
-                } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                className={`p-2 bg-gray-200 text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                 type="text"
                 id="jurusan"
-                onChange={handlekodeProdi}
-                readOnly={!isEditing}
                 value={kodeProdi}
               />
             </div>
@@ -343,31 +317,28 @@ const Profile = () => {
           <>
             <button
               className="rounded-md border border-transparent bg-secondary px-8 py-2 
-              text-base font-medium text-white duration-100 ease-out hover:bg-secondaryAlternative
-              hover:scale-105 active:scale-95"
-              onClick={handleDoneEditing}
-            >
+                text-base font-medium text-white duration-100 ease-out hover:bg-secondaryAlternative
+                hover:scale-105 active:scale-95"
+              onClick={handleDoneEditing}>
               Save
             </button>
             <button
               className="rounded-md border border-transparent bg-primary px-8 py-2 
-              text-base font-medium text-white duration-100 ease-out hover:bg-primaryAlternative
-              hover:scale-105 active:scale-95"
-              onClick={handleDoneEditing}
-            >
+                text-base font-medium text-white duration-100 ease-out hover:bg-primaryAlternative
+                hover:scale-105 active:scale-95"
+              onClick={handleDoneEditing}>
               Cancel
             </button>
           </>
         ) : (
           <button
             className="rounded-md border border-transparent bg-primary px-8 py-2 
-            text-base font-medium text-white duration-100 ease-out hover:bg-primaryAlternative
-            hover:scale-105 active:scale-95"
+              text-base font-medium text-white duration-100 ease-out hover:bg-primaryAlternative
+              hover:scale-105 active:scale-95"
             onClick={() => {
               localStorage.clear();
               navigate("/login");
-            }}
-          >
+            }}>
             Log Out
           </button>
         )}
