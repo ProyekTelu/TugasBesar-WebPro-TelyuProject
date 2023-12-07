@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 import { AiFillCloseCircle } from "react-icons/ai";
 
@@ -112,7 +113,7 @@ export function Requested() {
                   </span>
                   <span className=" text-sm md:text-sm">
                     {" "}
-                     Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                     Possimus nisi eum voluptas ea error velit quia aperiam
                     asperiores reiciendis ut quaerat sunt harum, delectus,
                     accusantium molestias eligendi eos obcaecati. Repellendus!
@@ -144,79 +145,11 @@ export function Requested() {
           </div>
 
         </div>
-        <div className=" w-full flex flex-col ">
-          <div className="w-full shadow-xl flex flex-col  rounded-lg  duration-300 bg-whiteAlternative p-4">
-            <div className="flex flex-col md:flex-row justify-center w-full px-4">
-              <div>
-                <img
-                  className="rounded-full h-36 w-36 my-auto bg-black mx-auto mb-4 md:mb-0"
-                  src={""}
-                  alt="/"
-                />
-              </div>
-
-              <div className="flex flex-auto flex-col my-auto w-full gap-1 sm:text-left mb-4">
-                <label className=" text-primary font-bold mx-auto md:mx-8 text-lg md:text-2xl mb-2">
-                  Naufal Zaki Kemana
-                </label>
-                <label className="mx-auto md:mx-8 text-md md:text-lg">
-                  <span className="font-semibold text-md md:text-lg ">
-                    Project :{" "}
-                  </span>
-                  <span className=" text-blue-800 text-md md:text-lg">
-                    TPLM
-                  </span>
-                </label>
-                <label className=" md:mx-8 text-md md:text-lg">
-                  <span className="font-semibold text-md md:text-lg">
-                    Team :
-                  </span>{" "}
-                  <span className="text-sm">
-                    Webpro
-                  </span>
-                </label>
-                <label className="mx-auto md:mx-8 text-md md:text-lg line-clamp-2">
-                  <span className="font-semibold text-md md:text-lg">
-                    Message
-                  </span>
-                  <span className=" text-sm md:text-sm">
-                    {" "}
-                    : Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Possimus nisi eum voluptas ea error velit quia aperiam
-                    asperiores reiciendis ut quaerat sunt harum, delectus,
-                    accusantium molestias eligendi eos obcaecati. Repellendus!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Voluptatibus architecto consequuntur, sunt aspernatur vel
-                    maxime accusamus eos magni recusandae adipisci, sed, quidem
-                    voluptatum aliquam officiis veniam esse placeat reiciendis
-                    quos.
-                  </span>
-                </label>
-              </div>
-              <div className=" flex flex-row md:flex-col justify-center gap-4 my-2">
-                <button onClick={handleOpen} className="  hover:bg-secondaryAlternative  transition-transform transform hover:scale-105 active:scale-95 p-4 bg-secondary  w-24 md:w-32 h-14   rounded-md text-white">
-                  Approve
-                </button>
-                <button onClick={handleOpen} className="  hover:bg-primaryAlternative transition-transform transform hover:scale-105 active:scale-95  p-4 bg-primary w-24  h-14  md:w-32  rounded-md text-white">
-                  Decline
-                </button>
-              </div>
-            </div>
-            <div className="flex justify-center ">
-              <label
-                onClick={toggleModal}
-                className="transition-transform transform hover:scale-105 mt-4 text-cyan-400 cursor-pointer active:scale-95"
-              >
-                View {"Naufal"} Requested
-              </label>
-            </div>
-          </div>
-
-        </div>
+        
       </div>
     
       <div>
-        <Dialog open={open} handler={handleOpen} className="">
+        <Dialog open={open} handler={handleOpen} className="screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
           <DialogHeader></DialogHeader>
           <DialogBody className=" font-bold">
             Apakah anda yakin dengan pilihan ini ?
@@ -249,7 +182,7 @@ export function Requested() {
           className=" fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
         >
           <div className="modal-container transition-transform transform hover:scale-110">
-            <div className=" bg-white rounded-lg shadow-xl p-8">
+            <div className=" -screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
               <div className="  mb-1 flex justify-between ">
                 <h2 className=" text-primary text-3xl font-semibold my-auto">
                   {"Project ke hidupan pangan"}
