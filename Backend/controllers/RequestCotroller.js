@@ -1,6 +1,7 @@
 import Faculty from "../models/FacultyModel.js";
 import Request from "../models/RequestModel.js";
 import Project from "../models/ProjectModel.js";
+import User from "../models/UserModel.js";
 
 export const getMyProjectRequestMember = async (req, res) => {
   try {
