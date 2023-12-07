@@ -5,7 +5,7 @@ import { BsFillBarChartLineFill } from "react-icons/bs";
 import { Tooltip, Button } from "@material-tailwind/react";
 import { FaDotCircle } from "react-icons/fa";
 
-const MyProjectTableStudent = ({ myProject }) => {
+const MyProjectTableStudent = ({ myProject, openModalDetail }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 4;
   const pageCount = Math.ceil(myProject.length / itemsPerPage);
@@ -82,7 +82,10 @@ const MyProjectTableStudent = ({ myProject }) => {
                   </a>
                 </Tooltip>
                 <Tooltip content="Detail Project">
-                  <Button className="py-2 px-2 bg-secondary rounded-lg text-whiteAlternative active:scale-95 transition hover:shadow-md">
+                  <Button
+                    onClick={() => openModalDetail(project.projectID)}
+                    className="py-2 px-2 bg-secondary rounded-lg text-whiteAlternative active:scale-95 transition hover:shadow-md"
+                  >
                     <BsFillBarChartLineFill />
                   </Button>
                 </Tooltip>
@@ -96,7 +99,7 @@ const MyProjectTableStudent = ({ myProject }) => {
 
   return (
     <div className="w-full h-full">
-      <table className="w-full h-[90%]">
+      <table className="w-full h-[90%] ">
         <thead className="sticky top-0 bg-grey bg-opacity-25 border rounded-lg">
           <tr>
             <th className="text-center p-3  font-bold uppercase hidden lg:table-cell">

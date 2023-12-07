@@ -12,6 +12,7 @@ import "swiper/css";
 import "swiper/css/scrollbar";
 import Modal from "react-modal";
 import ProjectDetailModal from "../ProjectDetailModal";
+import CreateProjectModal from "./CreateProjectModal";
 import MyProjectTableLecturer from "./HomeComponents/MyProjectTableLecturer";
 
 function HomeLecturer() {
@@ -23,6 +24,7 @@ function HomeLecturer() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showNoNewestProjectMessage, setShowNoNewestProjectMessage] =
     useState(false);
+  const [isLoadingModalDetail, setIsLoadingModalDetail] = useState(false);
   const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
 
   useEffect(() => {
@@ -53,7 +55,7 @@ function HomeLecturer() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1060) {
+      if (window.innerWidth >= 1700) {
         setSlidesPerView(2);
       } else {
         setSlidesPerView(1);
@@ -131,10 +133,12 @@ function HomeLecturer() {
   }, [user.userID, activeStatus, searchTerm, setMyProject]);
 
   const [isModalOpenDetail, setModalOpenDetail] = useState(false);
+  const [isModalOpenCreate, setModalOpenCreate] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
   const openModalDetail = async (projectId) => {
     try {
+      setIsLoadingModalDetail(true);
       const response = await axios.get(
         `http://localhost:5000/project/${projectId}`
       );
@@ -142,12 +146,22 @@ function HomeLecturer() {
       setModalOpenDetail(true);
     } catch (error) {
       console.error("Failed to fetch project:", error);
+    } finally {
+      setIsLoadingModalDetail(false);
     }
   };
 
   const closeModalDetail = () => {
     setModalOpenDetail(false);
   };
+
+  function openModalCreate() {
+    setModalOpenCreate(true);
+  }
+
+  function closeModalCreate() {
+    setModalOpenCreate(false);
+  }
 
   return (
     <div className="w-full p-4 md:p-12 overflow-y-auto scroll-smooth h-screen md:min-h-screen flex flex-col">
@@ -214,7 +228,7 @@ function HomeLecturer() {
                       {project.ProjectSkills.map((skill, index) => (
                         <div
                           key={index}
-                          className="bg-primary px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
+                          className="bg-primary px-3 py-1 text-whiteAlternative font-medium rounded-full flex items-center justify-between mr-2"
                         >
                           <span className="text-[10px] md:text-xs ">
                             {skill.Skill.name}
@@ -229,7 +243,7 @@ function HomeLecturer() {
                       {project.ProjectRoles.map((role, index) => (
                         <div
                           key={index}
-                          className="bg-blue-400 px-2 py-1 text-whiteAlternative font-medium rounded-lg flex items-center justify-between mr-2"
+                          className="bg-blue-400 px-3 py-1 text-whiteAlternative font-medium rounded-full flex items-center justify-between mr-2"
                         >
                           <span className="text-[10px] md:text-xs">
                             {role.Role.name}
@@ -244,7 +258,7 @@ function HomeLecturer() {
                       <p>{formatDate(project.openUntil)}</p>
                     </div>
                     <button
-                      className="px-2 py-2 md:py-3 md:px-4 text-[8px] rounded-md font-semibold text-xs md:text-sm xl:text-base  text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md  hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
+                      className="px-2 py-2 md:py-3 md:px-4 text-[8px] rounded-md font-semibold text-xs md:text-sm xl:text-base  text-white bg-secondary  mt-2 duration-75 ease-out hover:shadow-md  active:scale-95"
                       type="submit"
                       onClick={() => openModalDetail(project.projectID)}
                     >
@@ -276,8 +290,9 @@ function HomeLecturer() {
                 label="Filter"
                 variant="outlined"
                 value={activeStatus}
+                color="blue-gray"
                 onChange={(value) => setActiveStatus(value)}
-                className="font-medium"
+                className="font-medium "
               >
                 {listStatus.map((status, index) => (
                   <Option key={index} value={status} className="text-gray-800">
@@ -313,6 +328,7 @@ function HomeLecturer() {
             ) : myProject ? (
               <MyProjectTableLecturer
                 myProject={myProject}
+                openModalDetail={openModalDetail}
                 className="h-full"
               />
             ) : (
@@ -321,10 +337,10 @@ function HomeLecturer() {
           </div>
         </div>
         <div
-          className="flex flex-row xl:flex-col border hover:shadow-lg md:gap-2 basis-[20%]  py-1 px-4 justify-center items-center w-full rounded-2xl bg-whiteAlternative cursor-pointer transition active:scale-95"
+          className="flex flex-row xl:flex-col border  md:gap-2 basis-[20%]  py-1 px-4 justify-center items-center w-full rounded-2xl bg-whiteAlternative cursor-pointer transition active:scale-95 hover:border-greyAlternative active:border-gray-500 duration-200"
           style={{ userSelect: "none" }}
           onClick={() => {
-            navigate("/telyuProject/listProject");
+            openModalCreate(storedUser);
           }}
         >
           <BsFillPlayFill className="w-10 h-10 md:w-20 md:h-20 lg:h-36 lg:w-36" />
@@ -346,6 +362,19 @@ function HomeLecturer() {
           />
         )}
       </Modal>
+      <Modal
+        className="w-sreen h-screen flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
+        isOpen={isModalOpenCreate}
+        onRequestClose={closeModalCreate}
+      >
+        {isModalOpenCreate && <CreateProjectModal onClose={closeModalCreate} />}
+      </Modal>
+
+      {isLoadingModalDetail && (
+        <div className="loading-overlay">
+          <MoonLoader color="red" loading={isLoadingModalDetail} size={50} />
+        </div>
+      )}
     </div>
   );
 }
