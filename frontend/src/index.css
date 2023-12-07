@@ -50,6 +50,7 @@ input[type="number"]::-webkit-outer-spin-button {
   z-index: 9999;
 }
 
+iframe#webpack-dev-server-client-overlay{display:none!important}
 
 
 @tailwind base;

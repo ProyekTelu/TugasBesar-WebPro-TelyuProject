@@ -15,7 +15,6 @@ import Requested from "./Components/PageComponent/Lecturer/Requested";
 import JoinForm from "./Components/PageComponent/Student/JoinForm";
 import ListProject from "./Components/PageComponent/ListProject";
 import CreateForm from "./Components/PageComponent/CreateForm";
-import ProjectDetail from "./Components/PageComponent/ProjectDetail";
 import MyProject from "./Components/PageComponent/MyProject";
 
 function App() {
@@ -44,7 +43,6 @@ function App() {
           <Route path="profilePage" element={<ProfilePage />} />
           <Route path="requested" element={<Requested />} />
           <Route path="createForm" element={<CreateForm />} />
-          <Route path="projectDetail" element={<ProjectDetail />} />
         </Route>
         <Route path="createproject" element={<CreateProject />} />
         <Route path="joinproject" element={<JoinProject />} />
