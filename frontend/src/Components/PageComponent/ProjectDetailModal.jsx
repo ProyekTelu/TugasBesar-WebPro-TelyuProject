@@ -25,6 +25,7 @@ function ProjectDetailModal({ onClose, selectedProject }) {
   const [currentStep, setCurrentStep] = useState(0);
 
   const User = JSON.parse(localStorage.getItem("user"));
+  const [userRole, setUserRole] = useState(User.role);
   const [firstName, setfirstName] = useState(User.firstName);
   const [lastName, setlastName] = useState(User.lastName);
   const [reason, setReason] = useState("");
@@ -36,9 +37,6 @@ function ProjectDetailModal({ onClose, selectedProject }) {
   const dropdownRef = useRef(null);
   const roleLabelRef = useRef(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  console.log(project);
-  console.log(project.ProjectMember);
 
   const formatDate = (inputDate) => {
     const options = {
@@ -150,13 +148,15 @@ function ProjectDetailModal({ onClose, selectedProject }) {
                   <h1 className="text-left text-primary text-lg sm:text-2xl md:text-3xl font-bold">
                     {project.title}
                   </h1>
-                  <button
-                    onClick={handleCurrentStep}
-                    className=" px-2 py-2 md:py-3 md:px-4 text-[8px] rounded-md font-semibold text-xs md:text-sm xl:text-base  text-white bg-secondary  mt-2 duration-75 ease-out hover:shadow-md  active:scale-95"
-                    type="submit"
-                  >
-                    Send Join Request
-                  </button>
+                  {userRole === "student" && (
+                    <button
+                      onClick={handleCurrentStep}
+                      className=" px-2 py-2 md:py-3 md:px-4 text-[8px] rounded-md font-semibold text-xs md:text-sm xl:text-base  text-white bg-secondary  mt-2 duration-75 ease-out hover:shadow-md  active:scale-95"
+                      type="submit"
+                    >
+                      Send Join Request
+                    </button>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -347,7 +347,7 @@ function ProjectDetailModal({ onClose, selectedProject }) {
                         Tell us about yourself and why you want to join to this
                         project{" "}
                         {reason.length < 12 && reason != "" && (
-                          <span className="text-brightPrimary font-normal">
+                          <span className="text-primary font-normal">
                             At least 12 characters.
                           </span>
                         )}
@@ -384,7 +384,7 @@ function ProjectDetailModal({ onClose, selectedProject }) {
                           </svg>
                           <span className="font-medium text-xs md:text-base text-gray-600 text-center">
                             Drop your CV, Portofolio, Certificate, any other
-                            file that support your worthiness or
+                            file that support your worthiness
                           </span>
                           <span
                             className="text-blue-600 underline  text-xs md:text-base"
