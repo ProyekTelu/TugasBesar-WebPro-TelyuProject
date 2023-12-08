@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Modal from "react-modal"
 
 import { AiFillCloseCircle } from "react-icons/ai";
 
@@ -15,13 +16,25 @@ import {
 
 //modal command
 export function Requested() {
+
   const [modal, setModal] = useState(false);
   const [succes, setModal2] = useState(false);
+  const [request, setReq] = useState([]);
 
+  useEffect(() => {
+    setReq();
+  })
+
+  const reqProject = async () => {
+    const response = await axios.get("http://localhost:5000/requestMember/:id");
+    setReq(response.data);
+
+  }
   const toggleModal = () => {
     setModal(!modal);
     setModal2(!succes);
   };
+
 
   //DIalog command
   const [open, setOpen] = useState(false);
@@ -109,7 +122,7 @@ export function Requested() {
                 </label>
                 <label className="mx-auto md:mx-8 text-md md:text-lg line-clamp-2 space-x-3">
                   <span className="font-semibold text-md md:text-lg">
-                    Message<span className="ml-1">:</span> 
+                    Message<span className="ml-1">:</span>
                   </span>
                   <span className=" text-sm md:text-sm">
                     {" "}
@@ -145,9 +158,9 @@ export function Requested() {
           </div>
 
         </div>
-        
+
       </div>
-    
+
       <div>
         <Dialog open={open} handler={handleOpen} className="screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
           <DialogHeader></DialogHeader>
@@ -193,16 +206,16 @@ export function Requested() {
                 >
                   <AiFillCloseCircle className="text-4xl" />
                 </button>
-                
+
               </div>
-              <hr className="my-4 rounded-full bg-tertiaryAlternative"/>
+              <hr className="my-4 rounded-full bg-tertiaryAlternative" />
               <div className=" mb-1 flex justify-between">
                 <h2 className=" text-2xl font-semibold my-auto">
                   Requested  By {"Naufal Zaki Kemana"}
                 </h2>
 
-              </div>    
-               <div className=" mb-4 flex justify-between">
+              </div>
+              <div className=" mb-4 flex justify-between">
                 <h2 className=" text-1xl font-semibold my-auto">
                   From team {"WPL"}
                 </h2>

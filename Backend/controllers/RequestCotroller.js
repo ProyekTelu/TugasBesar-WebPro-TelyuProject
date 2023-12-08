@@ -2,6 +2,9 @@ import Faculty from "../models/FacultyModel.js";
 import Request from "../models/RequestModel.js";
 import Project from "../models/ProjectModel.js";
 import User from "../models/UserModel.js";
+import skill from "../models/SkillModel.js"
+import ProjectSkillModel from "../models/ProjectModel.js";
+import Role from "../models/RoleModel.js";
 
 export const getMyProjectRequestMember = async (req, res) => {
   try {
@@ -10,9 +13,21 @@ export const getMyProjectRequestMember = async (req, res) => {
         projectOwnerID: req.params.id,
       },
 
-      include: {
-        model: Request,
-      },
+      include:[
+        {
+          model:Request,
+          attributes: ["status", "cv","message","requestID"],
+              include:{
+                model:skill,
+                attributes: ["skillID","name"],
+              },
+        },
+      ]
+
+      // include: {
+      //   model: Request,
+      // },,
+
     });
 
     res.status(200).json(response);
