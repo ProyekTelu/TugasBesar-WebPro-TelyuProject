@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from "react";
 import JoinForm from "./JoinForm";
 import Modal from "react-modal";
+import axios from "axios";
+import ProjectDetailModal from "../ProjectDetailModal";
 
 function CardListProject({ items, handleRequestForm }) {
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const [isModalOpenDetail, setModalOpenDetail] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [isLoadingModalDetail, setIsLoadingModalDetail] = useState(false);
 
   Modal.setAppElement(document.getElementById("root"));
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
 
   const formatDate = (inputDate) => {
     const options = {
@@ -25,6 +21,25 @@ function CardListProject({ items, handleRequestForm }) {
     const date = new Date(inputDate);
     const formattedDate = date.toLocaleDateString("id-ID", options);
     return formattedDate;
+  };
+
+  const openModalDetail = async (projectId) => {
+    try {
+      setIsLoadingModalDetail(true);
+      const response = await axios.get(
+        `http://localhost:5000/project/${projectId}`
+      );
+      setSelectedProject(response.data);
+      setModalOpenDetail(true);
+    } catch (error) {
+      console.error("Failed to fetch project:", error);
+    } finally {
+      setIsLoadingModalDetail(false);
+    }
+  };
+
+  const closeModalDetail = () => {
+    setModalOpenDetail(false);
   };
 
   return (
@@ -49,23 +64,22 @@ function CardListProject({ items, handleRequestForm }) {
             <button
               className="py-3 px-4 rounded-md font-semibold text-xs text-white bg-secondary rouned-md mt-2 duration-75 ease-out hover:shadow-md hover:shadow-secondaryAlternative hover:bg-secondaryAlternative hover:scale-105 active:scale-100"
               type="submit"
-              onClick={openModal}
-              // onClick={() => {
-              //   handleRequestForm(data.title);
-              // }}
+              onClick={() => openModalDetail(data.projectID)}
             >
-              Send Join Request
+              Project Detail
             </button>
             <Modal
-              className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
-              isOpen={modalIsOpen}
-              onRequestClose={closeModal}
+              className="w-sreen h-screen flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
+              isOpen={isModalOpenDetail}
+              onRequestClose={closeModalDetail}
             >
-              <JoinForm
-                isOpen={modalIsOpen}
-                closeModal={closeModal}
-                title={data.title}
-              />
+              {isModalOpenDetail && (
+                <ProjectDetailModal
+                  className="absolute right-0 left-0 top-0 bottom-0"
+                  selectedProject={selectedProject}
+                  onClose={closeModalDetail}
+                />
+              )}
             </Modal>
           </div>
         </div>
