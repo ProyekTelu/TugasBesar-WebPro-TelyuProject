@@ -130,3 +130,39 @@ export const searchStudent = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const updateUser = async (req, res) => {
+  try {
+    if (req.body.role === "lecturer") {
+      await User.update(
+        {
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          phoneNumber: req.body.phoneNumber,
+          lecturerCode: req.body.lecturerCode,
+        },
+        {
+          where: {
+            userID: req.params.userID,
+          },
+        }
+      );
+    } else {
+      await User.update(
+        {
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          phoneNumber: req.body.phoneNumber,
+        },
+        {
+          where: {
+            userID: req.params.userID,
+          },
+        }
+      );
+    }
+    res.status(200).json({ message: "update succeed" });
+  } catch (error) {
+    res.status(500).json({ message: "user failed to be updated", error });
+  }
+};
