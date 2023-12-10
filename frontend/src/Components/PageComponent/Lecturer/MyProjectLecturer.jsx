@@ -40,7 +40,7 @@ function MyProjectLecturer() {
       console.error("Failed to fetch project:", error);
     } finally {
       setIsLoadingDetailProject(false);
-    }
+    } 
   };
 
   function openModal() {
