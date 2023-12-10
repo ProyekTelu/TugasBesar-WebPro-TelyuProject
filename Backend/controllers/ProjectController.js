@@ -6,16 +6,18 @@ import ProjectSkill from "../models/ProjectSkillModel.js";
 import Skill from "../models/SkillModel.js";
 import ProjectMember from "../models/ProjectMemberModel.js";
 import { literal, Sequelize } from "sequelize";
+import { Op } from "sequelize";
 
 export const createProject = async (req, res) => {
   const {
     projectTitle,
-    groupChatLink,
+    currentUserId,
     description,
-    maxMembers,
     startDate,
     endDate,
     opreqDate,
+    maxMembers,
+    groupChatLink,
     skillTags,
     roleTags,
   } = req.body;
@@ -23,7 +25,7 @@ export const createProject = async (req, res) => {
   try {
     const newProject = await Project.create({
       title: projectTitle,
-      projectOwnerID: req.user.id,
+      projectOwnerID: currentUserId,
       description: description,
       startProject: startDate,
       endProject: endDate,
@@ -35,15 +37,40 @@ export const createProject = async (req, res) => {
 
     const projectID = newProject.projectID;
 
-    roleTags.map(async (role, index) => {
-      const project = await ProjectRole.create({
-        roleID: projectID,
-      });
-    });
+     // Process roles and skills
+     await Promise.all(
+      roleTags.map(async (roleName) => {
+        const [role, created] = await Role.findOrCreate({
+          where: { name: roleName },
+        });
+
+        // Role is created, associate with the project
+        await ProjectRole.create({
+          roleID: role.roleID,
+          projectID: projectID,
+        });
+
+        return role.roleID;
+      }),
+      skillTags.map(async (skillName) => {
+        const [skill, created] = await Skill.findOrCreate({
+          where: { name: skillName },
+        });
+
+        // Skill is created, associate with the project
+        await ProjectSkill.create({
+          skillID: skill.skillID,
+          projectID: projectID,
+        });
+
+        return skill.skillID;
+      })
+    );
 
     res.status(201).json(newProject);
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error("Error during project creation:", error);
+    res.status(500).json({ error: "Internal Server Error", details: error.message });
   }
 };
 
