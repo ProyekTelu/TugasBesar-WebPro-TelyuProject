@@ -2,10 +2,14 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { AiFillCloseCircle } from "react-icons/ai";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function CreateProjectModal({ isOpen, onClose }) {
   const storedUser = localStorage.getItem("user");
   const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
+  const User = JSON.parse(localStorage.getItem("user"));
+  const currentUserId = User.userID;
   const [projectTitle, setProjectTitle] = useState("");
   const [groupChatLink, setGroupChatLink] = useState("");
   const [description, setDescription] = useState("");
@@ -29,18 +33,18 @@ function CreateProjectModal({ isOpen, onClose }) {
     try {
       const projectData = {
         projectTitle,
-        groupChatLink,
+        currentUserId,
         description,
-        maxMembers,
         startDate,
         endDate,
         opreqDate,
+        maxMembers,
+        groupChatLink,
         skillTags,
         roleTags,
       };
 
-      // Make API request to create the project
-      const response = await fetch("/api/projects", {
+      const response = await fetch("http://localhost:5000/projects", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,19 +55,29 @@ function CreateProjectModal({ isOpen, onClose }) {
       if (response.ok) {
         const createdProject = await response.json();
         console.log("Project created:", createdProject);
+
+        toast.success("Project Created Successfully!");
+
+        onClose();
       } else {
         console.error("Failed to create project");
+        toast.error("Failed to create project");
       }
     } catch (error) {
       console.error("Error during project creation:", error);
+      toast.error("Failed to create project");
     }
     console.log({
       projectTitle,
-      groupChatLink,
+      currentUserId,
       description,
-      maxMembers,
       startDate,
       endDate,
+      opreqDate,
+      maxMembers,
+      groupChatLink,
+      skillTags,
+      roleTags,
     });
   };
 
@@ -140,6 +154,7 @@ function CreateProjectModal({ isOpen, onClose }) {
 
   return (
     <div className="w-full ">
+      <ToastContainer />
       <div className="justify-center modal-container w-4/5 md:w-3/5 mx-auto transition-transform transform ">
         <div className="relative shadow-lg p-4 md:p-12 my-4 rounded-3xl justify-center h-full overflow-y-auto bg-whiteAlternative flex flex-col">
           <button
@@ -327,10 +342,10 @@ function CreateProjectModal({ isOpen, onClose }) {
               </div>
             </div>
 
-            <div className="flex flex-col justify-center mt-2 pt-0 xs:pt-2">
+            <div className="w-[200px] mx-auto flex flex-col mt-2 pt-0 xs:pt-2">
               <button
                 type="submit"
-                className={`"w-[20px] text-white py-2 sm:py-3 text-xs md:text-lg px-8 md:px-5 rounded-md md:rounded-lg block" ${
+                className={`" text-white py-2 sm:py-3 text-xs md:text-lg px-8 md:px-5 rounded-md md:rounded-lg block" ${
                   !isInputComplete
                     ? "bg-black cursor-not-allowed"
                     : " bg-secondary hover:bg-brightPrimary cursor-pointer"
