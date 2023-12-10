@@ -25,6 +25,7 @@ function ProjectDetailModal({ onClose, selectedProject }) {
   const [currentStep, setCurrentStep] = useState(0);
 
   const User = JSON.parse(localStorage.getItem("user"));
+  const currentUserId = User.userID;
   const [userRole, setUserRole] = useState(User.role);
   const [firstName, setfirstName] = useState(User.firstName);
   const [lastName, setlastName] = useState(User.lastName);
@@ -34,9 +35,14 @@ function ProjectDetailModal({ onClose, selectedProject }) {
   const [isInputComplete, setIsInputComplete] = useState(false);
 
   const [joinSelectedRole, setJoinSelectedRole] = useState("Select Role");
+  const [joinSelectedRoleID, setJoinSelectedRoleID] = useState(null);
   const dropdownRef = useRef(null);
   const roleLabelRef = useRef(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const isCurrentUserMember = selectedProject.ProjectMembers.some(
+    (member) => member.userID === currentUserId
+  );
 
   const formatDate = (inputDate) => {
     const options = {
@@ -64,14 +70,37 @@ function ProjectDetailModal({ onClose, selectedProject }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Logic for submitting form data
-    console.log({
-      userName,
-      reason,
-      uploadedCV,
-    });
+
+    try {
+      const formData = new FormData();
+      formData.append("userID", currentUserId);
+      formData.append("projectID", project.projectID);
+      formData.append("roleID", joinSelectedRoleID);
+      formData.append("message", reason);
+      formData.append("cv", uploadedCV);
+
+      console.log("Selected Role:", joinSelectedRole);
+      console.log("Selected Role ID:", joinSelectedRoleID);
+
+      // Make an HTTP POST request to create a new request
+      const response = await axios.post(
+        "http://localhost:5000/createRequest",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Request submitted successfully:", response.data);
+
+      onClose();
+    } catch (error) {
+      console.error("Error submitting request:", error);
+    }
   };
 
   useEffect(() => {
@@ -120,11 +149,27 @@ function ProjectDetailModal({ onClose, selectedProject }) {
 
   const handleSelectRoleClick = (event) => {
     event.stopPropagation();
-    setIsDropdownOpen(!isDropdownOpen);
+    if (!isDropdownOpen) {
+      const rect = roleLabelRef.current.getBoundingClientRect();
+      const dropdown = dropdownRef.current;
+      dropdown.style.top = `${rect.bottom}px`;
+      dropdown.style.left = `${rect.left}px`;
+    }
+    handleRoleClick();
   };
 
   const handleRoleClick = () => {
-    setIsDropdownOpen(false);
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleRoleSelect = (e) => {
+    const selectedRoleId = e.target.value;
+    const selectedRole = project.ProjectRoles.find(
+      (role) => role.roleID === selectedRoleId
+    );
+  
+    setJoinSelectedRoleID(selectedRoleId);
+    setJoinSelectedRole(selectedRole?.Role.name || "");
   };
 
   return (
@@ -148,7 +193,7 @@ function ProjectDetailModal({ onClose, selectedProject }) {
                   <h1 className="text-left text-primary text-lg sm:text-2xl md:text-3xl font-bold">
                     {project.title}
                   </h1>
-                  {userRole === "student" && (
+                  {userRole === "student" && !isCurrentUserMember && (
                     <button
                       onClick={handleCurrentStep}
                       className=" px-2 py-2 md:py-3 md:px-4 text-[8px] rounded-md font-semibold text-xs md:text-sm xl:text-base  text-white bg-secondary  mt-2 duration-75 ease-out hover:shadow-md  active:scale-95"
@@ -241,17 +286,21 @@ function ProjectDetailModal({ onClose, selectedProject }) {
                   {formatDate(project.endProject)}
                 </p>
               )}
-              <h1 className="text-left text-sm sm:text-base md:text-lg mb-2 mt-4 font-bold">
-                Group Link
-              </h1>
-              <a
-                href={project.groupLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:underline"
-              >
-                {project.groupLink}
-              </a>
+              {isCurrentUserMember && (
+                <h1 className="text-left text-sm sm:text-base md:text-lg mb-2 mt-4 font-bold">
+                  Group Link
+                </h1>
+              )}
+              {isCurrentUserMember && (
+                <a
+                  href={project.groupLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline"
+                >
+                  {project.groupLink}
+                </a>
+              )}
             </div>
           </motion.div>
         )}
@@ -303,7 +352,7 @@ function ProjectDetailModal({ onClose, selectedProject }) {
                         disabled
                         className="p-1 sm:p-2 text-xs md:text-base w-full focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                       />
-                      <div className="md:absolute mt-6 md:mt-0 right-5 top-1/2 -translate-y-1/2 ">
+                      {/* <div className="md:absolute mt-6 md:mt-0 right-5 top-1/2 -translate-y-1/2 ">
                         <div
                           className="hover:bg-grey px-2 py-1 rounded-lg transition duration-300 group flex gap-2 active:bg-greyAlternative"
                           onClick={handleSelectRoleClick}
@@ -332,6 +381,7 @@ function ProjectDetailModal({ onClose, selectedProject }) {
                                 onClick={() => {
                                   handleRoleClick(false);
                                   setJoinSelectedRole(role.Role.name);
+                                  setJoinSelectedRoleID(role.Role.roleID);
                                 }}
                               >
                                 {role.Role.name}
@@ -339,7 +389,27 @@ function ProjectDetailModal({ onClose, selectedProject }) {
                             ))}
                           </div>
                         </div>
-                      )}
+                      )} */}
+                    </div>
+                    <label className="font-medium text-xs md:text-base block text-textGray">
+                      Select Your Role
+                    </label>
+                    <div className="relative w-full border rounded-2xl px-2">
+                      <select
+                        id="projectRoles"
+                        className="font-medium text-xs md:text-base cursor-pointer hover:bg-grey rounded-lg transition duration-300 block w-full p-2.5 "
+                        value={joinSelectedRoleID || project.ProjectRoles[0].Role.roleID}
+                        onChange={handleRoleSelect}
+                      >
+                        <option key={-1} value="" disabled>
+                          Choose a role
+                        </option>
+                        {project.ProjectRoles.map((role, index) => (
+                          <option key={index} value={role.roleID}>
+                            {role.Role.name}
+                          </option>
+                        ))}
+                      </select>
                     </div>
 
                     <div className="w-full">
