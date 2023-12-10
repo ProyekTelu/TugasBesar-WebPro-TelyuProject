@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { IoCaretBackCircleOutline } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
 import Modal from "react-modal";
@@ -36,9 +38,6 @@ function ProjectDetailModal({ onClose, selectedProject }) {
 
   const [joinSelectedRole, setJoinSelectedRole] = useState("Select Role");
   const [joinSelectedRoleID, setJoinSelectedRoleID] = useState(null);
-  const dropdownRef = useRef(null);
-  const roleLabelRef = useRef(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const isCurrentUserMember = selectedProject.ProjectMembers.some(
     (member) => member.userID === currentUserId
@@ -96,10 +95,12 @@ function ProjectDetailModal({ onClose, selectedProject }) {
       );
 
       console.log("Request submitted successfully:", response.data);
+      toast.success("Join request submitted successfully!");
 
       onClose();
     } catch (error) {
       console.error("Error submitting request:", error);
+      toast.error("Error submitting join request. Please try again.");
     }
   };
 
@@ -129,51 +130,19 @@ function ProjectDetailModal({ onClose, selectedProject }) {
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target) &&
-        event.target !== roleLabelRef.current
-      ) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const handleSelectRoleClick = (event) => {
-    event.stopPropagation();
-    if (!isDropdownOpen) {
-      const rect = roleLabelRef.current.getBoundingClientRect();
-      const dropdown = dropdownRef.current;
-      dropdown.style.top = `${rect.bottom}px`;
-      dropdown.style.left = `${rect.left}px`;
-    }
-    handleRoleClick();
-  };
-
-  const handleRoleClick = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
   const handleRoleSelect = (e) => {
     const selectedRoleId = e.target.value;
     const selectedRole = project.ProjectRoles.find(
       (role) => role.roleID === selectedRoleId
     );
-  
+
     setJoinSelectedRoleID(selectedRoleId);
     setJoinSelectedRole(selectedRole?.Role.name || "");
   };
 
   return (
     <div className="modal-content relative w-screen md:w-[70vw] max-h-screen md:h-[85vh] border-2 shadow-lg lg:flex-row p-10 rounded-lg justify-center  bg-whiteAlternative">
+      <ToastContainer />
       <AnimatePresence mode="wait" initial={false}>
         <div className="flex flex-row justify-between">
           {currentStep === 0 && (
@@ -352,44 +321,6 @@ function ProjectDetailModal({ onClose, selectedProject }) {
                         disabled
                         className="p-1 sm:p-2 text-xs md:text-base w-full focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                       />
-                      {/* <div className="md:absolute mt-6 md:mt-0 right-5 top-1/2 -translate-y-1/2 ">
-                        <div
-                          className="hover:bg-grey px-2 py-1 rounded-lg transition duration-300 group flex gap-2 active:bg-greyAlternative"
-                          onClick={handleSelectRoleClick}
-                        >
-                          <label
-                            htmlFor=""
-                            className=" text-black group-hover:text-blackAlternative cursor-pointer"
-                            ref={roleLabelRef}
-                            onClick={handleRoleClick}
-                          >
-                            {joinSelectedRole}
-                          </label>
-                          <IoIosArrowDown className="my-auto cursor-pointer" />
-                        </div>
-                      </div>
-                      {isDropdownOpen && (
-                        <div
-                          className="absolute right-[-10px] top-11"
-                          ref={dropdownRef}
-                        >
-                          <div className="h-auto bg-white px-4 py-2 rounded-xl border-2">
-                            {project.ProjectRoles.map((role, index) => (
-                              <div
-                                className="py-2 cursor-pointer hover:bg-grey rounded-lg transition duration-300 px-2 active:bg-greyAlternative"
-                                key={index}
-                                onClick={() => {
-                                  handleRoleClick(false);
-                                  setJoinSelectedRole(role.Role.name);
-                                  setJoinSelectedRoleID(role.Role.roleID);
-                                }}
-                              >
-                                {role.Role.name}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )} */}
                     </div>
                     <label className="font-medium text-xs md:text-base block text-textGray">
                       Select Your Role
@@ -398,7 +329,10 @@ function ProjectDetailModal({ onClose, selectedProject }) {
                       <select
                         id="projectRoles"
                         className="font-medium text-xs md:text-base cursor-pointer hover:bg-grey rounded-lg transition duration-300 block w-full p-2.5 "
-                        value={joinSelectedRoleID || project.ProjectRoles[0].Role.roleID}
+                        value={
+                          joinSelectedRoleID ||
+                          project.ProjectRoles[0].roleID
+                        }
                         onChange={handleRoleSelect}
                       >
                         <option key={-1} value="" disabled>
