@@ -18,6 +18,7 @@ import { FaDotCircle } from "react-icons/fa";
 import { Select, Option } from "@material-tailwind/react";
 import ProjectDetailModal from "../ProjectDetailModal";
 import MyProjectDetail from "../MyProjectDetail";
+import CreateProjectModal from "./CreateProjectModal";
 
 function MyProjectLecturer() {
   const storedUser = localStorage.getItem("user");
@@ -104,6 +105,16 @@ function MyProjectLecturer() {
 
   const [myProjectPage, setMyProjectPage] = useState(1);
 
+  const [isModalOpenCreate, setModalOpenCreate] = useState(false);
+
+  function openModalCreate() {
+    setModalOpenCreate(true);
+  }
+
+  function closeModalCreate() {
+    setModalOpenCreate(false);
+  }
+
   return (
     <div className="flex flex-col w-full p-4 md:p-12 h-screen md:min-h-screen overflow-y-auto relative">
       {myProjectPage === 1 ? (
@@ -156,6 +167,9 @@ function MyProjectLecturer() {
                   <div
                     className="flex flex-row py-4 group-hover:bg-whiteAlternative 
                 cursor-pointer justify-between"
+                    onClick={() => {
+                      openModalCreate(storedUser);
+                    }}
                   >
                     <div className="flex flex-row gap-4 px-4 w-full ">
                       <div className="rounded-lg bg-transparent pl-2 font-semibold">
@@ -266,6 +280,15 @@ function MyProjectLecturer() {
                   selectedProject={selectedProject}
                   onClose={closeModalDetail}
                 />
+              )}
+            </Modal>
+            <Modal
+              className="w-sreen h-screen flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
+              isOpen={isModalOpenCreate}
+              onRequestClose={closeModalCreate}
+            >
+              {isModalOpenCreate && (
+                <CreateProjectModal onClose={closeModalCreate} />
               )}
             </Modal>
           </div>
