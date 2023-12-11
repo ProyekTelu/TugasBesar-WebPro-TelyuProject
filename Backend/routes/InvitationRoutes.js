@@ -1,6 +1,12 @@
 import express from "express";
-import { inviteStudent } from "../controllers/InvitationController.js";
+import { InvitationUpdated, createInvitation, getAllInvitations, getInvitationsByUserID } from "../controllers/InvitationController.js";
+import { createProjectMember } from "../controllers/ProjectController.js";
+
 const router = express.Router();
-router.post("/invite", inviteStudent);
+
+router.post("/invitation", createInvitation); 
+router.get("/invitation", getAllInvitations);
+router.get("/invitation/:userID", getInvitationsByUserID);
+router.post("/invitationResponse",InvitationUpdated, createProjectMember)
 
 export default router;

@@ -105,14 +105,12 @@ export function Requested() {
                       className="rounded-full h-36 w-36 my-auto bg-black mx-auto mb-4 md:mb-0"
                       src={""}
                       alt="/"
-                    />
+                    />  
                   </div>
 
                   <div className="flex flex-auto flex-col my-auto w-full gap-1 sm:text-left mb-4">
                     <label className=" text-primary font-bold mx-auto md:mx-8 text-lg md:text-2xl mb-2">
-                      {req.userID +
-                        " " +
-                        req.user.firstName +
+                      {req.user.firstName +
                         " " +
                         req.user.lastName}
                     </label>
@@ -127,8 +125,8 @@ export function Requested() {
                     <label className="mx-auto md:mx-8 text-md md:text-lg space-x-3">
                       <span className="font-semibold text-md md:text-lg">
                         Team <span className=" ml-8">:</span>
-                      </span>{" "}
-                      <span className="text-sm">Webpro</span>
+                      </span>
+                      <span className="text-sm">{req.Role.name}</span>
                     </label>
                     <label className="mx-auto md:mx-8 text-md md:text-lg line-clamp-2 space-x-3">
                       <span className="font-semibold text-md md:text-lg">
@@ -158,7 +156,7 @@ export function Requested() {
                     onClick={toggleModal}
                     className="transition-transform transform hover:scale-105 mt-4 text-cyan-400 cursor-pointer active:scale-95"
                   >
-                    View {"Naufal"} Requested
+                    View  {req.user.firstName}  Requested
                   </label>
                 </div>
               </div>
