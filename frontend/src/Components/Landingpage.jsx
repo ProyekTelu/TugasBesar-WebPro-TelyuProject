@@ -1,6 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../img/Logo.png";
+import inf from "../img/fit.png";
+import feb from "../img/feb.png";
+import elk from "../img/elektro.png";
+import fri from "../img/fri.png";
+import kom from "../img/komunikasi.png";
+import fik from "../img/fik.png";
+import fit from "../img/fit.png";
 
 const Footer = () => {
   return (
@@ -10,47 +18,76 @@ const Footer = () => {
   );
 };
 
+const CarouselItem = ({ faculty, expanded, toggleItem, index }) => {
+  const images = [inf, feb, elk, fri, kom, fik, fit,];
+  return (
+    <div
+      key={index}
+      className="flex-none w-72 mr-4"
+      onClick={() => toggleItem(index)}
+    >
+      <div className="p-6 bg-white rounded-lg shadow-lg cursor-pointer transition transform hover:scale-105 duration-300">
+        <h3 className="text-xl lg:text-2xl font-bold text-gray-800 mb-2">
+          {faculty.name}
+        </h3>
+        <img
+          src={images[index]}
+          alt={faculty.name}
+          className="w-full h-auto mb-4 rounded-lg object-cover"
+        />
+        {expanded === index && (
+          <div className="text-gray-600">
+            <p className="mb-4">{faculty.description}</p>
+            <div className="flex justify-end">
+              <button className="text-blue-500 hover:underline" onClick={() => toggleItem(index)}>
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const Landingpage = () => {
   const [expanded, setExpanded] = useState(null);
+  const navigate = useNavigate();
 
-  const faqItems = [
-    {
-      title: "Pertanyaan Umum (FAQ)",
-      items: [
-        {
-          question: "Apa itu TelyuProject?",
-          answer:
-            "TelyuProject adalah platform yang memungkinkan dosen dan mahasiswa untuk menemukan, berkolaborasi, dan mengelola proyek akademik.",
-        },
-        {
-          question: "Bagaimana cara bergabung sebagai dosen?",
-          answer:
-            "Untuk bergabung sebagai dosen, Anda dapat klik tombol 'JOIN AS LECTURE' dan mengikuti langkah-langkah pendaftaran.",
-        },
-        {
-          question: "Bagaimana cara bergabung sebagai mahasiswa?",
-          answer:
-            "Untuk bergabung sebagai mahasiswa, Anda dapat klik tombol 'JOIN AS STUDENT' dan mengikuti langkah-langkah pendaftaran.",
-        },
-      ],
-    },
-  ];
+  const [user, setUser] = useState(
+    localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user"))
+      : null
+  );
+
+  const [userImage, setUserImage] = useState("");
+  useEffect(() => {
+    if (user !== null && user.photoProfile && user.photoProfile.data) {
+      const base64String = btoa(
+        new Uint8Array(user.photoProfile.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ""
+        )
+      );
+      const url = `data:image/png;base64,${base64String}`;
+      setUserImage(url);
+    }
+  }, [user]);
 
   const faculties = [
     {
       name: "Fakultas Informatika",
       description:
-        "Program studi sarjana informatika universitas telkom sebagai bagian yang tidak terpisahkan dari universitas telkom yang memiliki visi menjadi World Class University, program studi sarjana informatika juga memiliki visi untuk menjadi program studi kelas dunia yang berperan aktif dalam pengembangan ilmu pengetahuan. di bidang informatika. Program studi sarjana informatika merupakan program studi unggulan di telkom universitas yang berfokus pada pengembangan teknologi informasi berbasis ilmu pengetahuan, ilmu pengetahuan, seni dan terakreditasi Unggul oleh BAN PT.",
+        "Program studi sarjana informatika universitas telkom sebagai bagian yang tidak terpisahkan dari universitas telkom yang memiliki visi menjadi World Class University, program studi sarjana informatika juga memiliki visi untuk menjadi program studi kelas dunia yang berperan aktif dalam pengembangan ilmu pengetahuan. di bidang informatika.",
     },
     {
       name: "Fakultas Ekonomi Bisnis",
       description:
-        "Fakultas Ekonomi dan Bisnis (FEB) merupakan satu dari tujuh fakultas yang ada di dalam Universitas Telkom. Fakultas Ekonomi dan Bisnis Telkom University hadir untuk menjawab segenap tantangan yang muncul dari perkembangan teknologi digital dengan merumuskan konsep education 4.0 yang akan menjawab tuntutan dari industry 4.0, mengeksploitasi teknologi digital dan mendukung terciptanya collaborative learning serta lifelong learning dengan tagline “Preparing The Digital Business Leader”.",
+        "Fakultas Ekonomi dan Bisnis (FEB) merupakan satu dari tujuh fakultas yang ada di dalam Universitas Telkom. Fakultas Ekonomi dan Bisnis Telkom University hadir untuk menjawab segenap tantangan yang muncul dari perkembangan teknologi digital dengan merumuskan konsep education 4.0 yang akan menjawab tuntutan dari industry 4.0.",
     },
     {
-      name: "Fakultas Elektro",
+      name: "Fakultas Teknik Elektro",
       description:
-        "Fakultas Teknik Elektro (FTE) merupakan fakultas terbesar dan tertua di Telkom University yang memiliki komitmen untuk terus mengembangkan penelitian, pendidikan, dan enterpreneurship dalam bidang teknik elektro dan teknik fisika, dengan berbasiskan teknologi informasi sehingga dapat menjadi fakultas yang berstandar internasional. Fakultas Teknik Elektro memiliki enam prodi, beberapa diantaranya telah terakreditasi internasional dari IABEE (Indonesia Accreditation Board for Engineering Education) dan juga telah terakreditasi unggul dari BAN-PT.",
+        "Fakultas Teknik Elektro (FTE) merupakan fakultas terbesar dan tertua di Telkom University yang memiliki komitmen untuk terus mengembangkan penelitian, pendidikan, dan enterpreneurship dalam bidang teknik elektro dan teknik fisika, dengan berbasiskan teknologi informasi sehingga dapat menjadi fakultas yang berstandar internasional.",
     },
     {
       name: "Fakultas Rekayasa Industri",
@@ -74,7 +111,20 @@ const Landingpage = () => {
     },
   ];
 
-  const toggleItem = (index) => {
+  const faqItems = [
+    {
+      title: "Pertanyaan Umum (FAQ)",
+      items: [
+        {
+          question: "Apa itu TelyuProject?",
+          answer:
+            "TelyuProject adalah platform yang memungkinkan dosen dan mahasiswa untuk menemukan, berkolaborasi, dan mengelola proyek akademik.",
+        },
+      ],
+    },
+  ];
+
+  const toggleFacultyItem = (index) => {
     if (expanded === index) {
       setExpanded(null);
     } else {
@@ -82,56 +132,116 @@ const Landingpage = () => {
     }
   };
 
-  return (
-    <div className="w-screen h-screen flex flex-col overflow-x-hidden">
+  const toggleFAQItem = (sectionIndex, itemIndex) => {
+    const faqIndex = faqItems[sectionIndex].items[itemIndex].id; // Assuming you have an "id" property in your FAQ items
+    if (expanded === faqIndex) {
+      setExpanded(null);
+    } else {
+      setExpanded(faqIndex);
+    }
+  };
+
+  return (    <div className="w-screen min-h-screen flex flex-col overflow-x-hidden bg-white">
       <div className="flex justify-center w-full">
         <div
           className="flex flex-col md:flex-row items-center justify-between w-11/12 md:w-3/4 py-4 md:py-10"
           id="navbar"
         >
           <div className="mb-4 md:mb-4 flex items-center">
-            <img src={logo} alt="Tel-u Project" className="w-20" />
-            <p className="ml-2 text-3xl font-bold text-gray-800">
+            <img src={logo} alt="Tel-u Project" className="w-14" />
+            <p className="ml-2 text-2xl font-bold text-gray-800">
               Tel-u Project
             </p>
           </div>
+          {user !== null ? (
+            <Link
+              to="/telyuProject/profilePage"
+              className="p-4 bg-whiteAlternative rounded-3xl border-2 cursor-pointer transition hover:border-greyAlternative active:border-gray-500 duration-200 active:scale-95"
+            >
+              <div className={"flex flex-col items-center justify-center"}>
+                <div className="flex items-center gap-4 ">
+                  <img
+                    src={userImage}
+                    alt="profileImage"
+                    className="h-10 aspect-square rounded-full bg-white"
+                  />
+                  <div className={"block"}>
+                    <p className="text-primary text-md font-bold">
+                      {user.firstName} {user.lastName}
+                    </p>
+                    <p className="font-thin text-sm">{user.userID}</p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className="px-10 py-3 bg-whiteAlternative rounded-3xl border-2 cursor-pointer transition hover:border-greyAlternative active:border-gray-500 duration-200 active:scale-95"
+            >
+              <div className={"flex flex-col items-center justify-center"}>
+                <div className="flex items-center">
+                  <p className="text-xl font-bold">Login</p>
+                </div>
+              </div>
+            </Link>
+          )}
         </div>
       </div>
-      <br />
-      <br />
-      <div className="flex w-full h-full justify-center mt-6 md:mt-20">
-        <div className="flex flex-col md:flex-row justify-between w-3/4 lg:w-3/4">
-          <div className="w-full md:w-3/4 flex flex-col gap-4">
-            <p className="text-xl md:text-xl lg:text-9xl leading-relaxed font-bold">
+      <div className="flex w-full h-full justify-center ">
+        <div className="flex flex-col md:flex-row justify-between w-3/4 lg:w-3/4 gap-6">
+          <div className="w-full md:w-1/2 flex flex-col gap-4 mb-2 md:mb-0">
+            <p className="text-4xl md:text-8xl xl:text-9xl leading-none font-bold text-center md:text-left">
               Discover your dream project or help create one.
             </p>
           </div>
-          <div className="w-full md:w-2/3 lg:w-2/5 flex flex-col gap-12 mt-10">
-            <div className="text-lg md:text-xl lg:text-2xl leading-relaxed p-4 bg-white rounded-lg shadow-lg">
+          {user === null && (
+            <div className="w-full md:w-1/2 lg:w-2/5 flex flex-col gap-12 my-auto">
               <Link
-                to="/login"
-                className="text-black hover:underline text-center md:text-left"
+                to="/signup"
+                className="text-lg leading-relaxed p-8 bg-whiteAlternative rounded-3xl border-2 transition hover:border-greyAlternative active:border-gray-500 duration-200 active:scale-95"
               >
-                JOIN AS LECTURE
+                <div className="text-black font-bold mb-2 text-3xl text-center md:text-left flex flex-col md:gap-">
+                  <p>Join</p>
+                  <p>as Lecturer</p>
+                </div>
+                <p className="text-gray-500 lg:text-lg text-center md:text-left">
+                  Explore exciting project opportunities, collaborate with
+                  peers, and enhance their academic journey
+                </p>
               </Link>
-              <p className="text-gray-500 lg:text-xl">
-                Explore exciting project opportunities, collaborate with peers,
-                and enhance your academic journey.
-              </p>
-            </div>
-            <div className="text-lg md:text-xl lg:text-2xl leading-relaxed p-4 bg-white rounded-lg shadow-lg">
               <Link
-                to="/login"
-                className="text-black hover:underline text-center md:text-left"
+                to="/signup"
+                className="text-lg leading-relaxed p-8 bg-whiteAlternative rounded-3xl border-2 transition hover:border-greyAlternative active:border-gray-500 duration-200 active:scale-95"
               >
-                JOIN AS STUDENT
+                <div className="text-black font-bold mb-2 text-3xl text-center md:text-left flex flex-col md:gap-1">
+                  <p>Join</p>
+                  <p>as Student</p>
+                </div>
+                <p className="text-gray-500 lg:text-lg text-center md:text-left">
+                  seeking to post and manage your research or class projects and
+                  find talented students to work with
+                </p>
               </Link>
-              <p className="text-gray-500 lg:text-xl">
-                Seeking to post and manage your research or class projects and
-                find talented students to work with.
-              </p>
             </div>
-          </div>
+          )}
+          {user !== null && (
+            <div className="w-full md:w-1/2 lg:w-2/5 flex flex-col gap-12 my-auto">
+              <Link
+                to="telyuProject/home"
+                className="text-lg leading-relaxed p-8 bg-whiteAlternative rounded-3xl transition border-2 hover:border-greyAlternative active:border-gray-500 duration-200 active:scale-95"
+              >
+                <div className="text-black font-bold mb-2 text-4xl text-center md:text-left flex flex-col md:gap-2">
+                  <p>Open</p>
+                  <p>Telyu Project</p>
+                </div>
+                <p className="text-gray-500 lg:text-xl text-center md:text-left">
+                  Explore exciting project opportunities, collaborate with
+                  peers, and enhance their academic journey
+                </p>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
       <div className="w-3/4 md:w-3/4 mx-auto my-20">
@@ -140,18 +250,17 @@ const Landingpage = () => {
             FAKULTAS TELKOM UNIVERSITY
           </h2>
         </div>
-        {faculties.map((faculty, index) => (
-          <div
-            key={index}
-            className="mb-6 p-6 bg-white rounded-lg shadow-lg cursor-pointer transition transform hover:scale-105 duration-300"
-            onClick={() => toggleItem(index)}
-          >
-            <h3 className="text-lg lg:text-xl font-bold">{faculty.name}</h3>
-            {expanded === index && (
-              <p className="text-gray-600">{faculty.description}</p>
-            )}
-          </div>
-        ))}
+        <div className="flex overflow-x-auto">
+          {faculties.map((faculty, index) => (
+            <CarouselItem
+              key={index}
+              faculty={faculty}
+              expanded={expanded}
+              toggleItem={() => toggleFacultyItem(index)}  // Change this line
+              index={index}
+            />
+          ))}
+        </div>
       </div>
       <div className="w-3/4 md:w-3/4 mx-auto my-8">
         <div className="mb-8">
@@ -161,16 +270,16 @@ const Landingpage = () => {
         </div>
         {faqItems.map((section, sectionIndex) => (
           <div key={sectionIndex}>
-            {section.items.map((item, index) => (
+            {section.items.map((item, itemIndex) => (
               <div
-                key={index}
+                key={item.id}  // Assuming you have an "id" property in your FAQ items
                 className="mb-6 p-6 bg-white rounded-lg shadow-lg cursor-pointer transition transform hover:scale-105 duration-300"
-                onClick={() => toggleItem(index)}
+                onClick={() => toggleFAQItem(sectionIndex, itemIndex)}  // Change this line
               >
                 <h3 className="text-lg lg:text-xl font-bold">
                   {item.question}
                 </h3>
-                {expanded === index && (
+                {expanded === item.id && (
                   <p className="text-gray-600">{item.answer}</p>
                 )}
               </div>
