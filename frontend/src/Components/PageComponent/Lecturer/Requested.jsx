@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Modal from "react-modal"
-
+import Modal from "react-modal";
+import { useNavigate } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
 
 import {
@@ -10,53 +10,53 @@ import {
   DialogHeader,
   DialogBody,
   DialogFooter,
-
-
 } from "@material-tailwind/react";
-
-
 
 //modal command
 export function Requested() {
-
+  const navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const [succes, setModal2] = useState(false);
   const [request, setReq] = useState([]);
-  const [seeRequest,setRequestProject] = useState([]);
+  const [seeRequest, setRequestProject] = useState([]);
   const [projectID, setProjectID] = useState([]);
+  const storedUser = localStorage.getItem("user");
+  const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
+  useEffect(() => {
+    if (!storedUser) {
+      navigate("/");
+    }
+  }, [navigate, storedUser]);
 
   useEffect(() => {
     setReq();
-  })
+  });
 
-useEffect(() =>{
-  const fetchRequestProject = async (projectID)=>{
-    try{
-      const requestRespone = await axios.get(`http://localhost:5000/requstmember/requst/${projectID}`);
-      setRequestProject(requestRespone.data);
-  
-    }catch(error){
-      console.error("Failed to Get Requested");
-    }
-  }
-  fetchRequestProject();
-},[])
-
+  useEffect(() => {
+    const fetchRequestProject = async () => {
+      try {
+        const requestRespone = await axios.get(
+          `http://localhost:5000/requestMember/${user.userID}`
+        );
+        setRequestProject(requestRespone.data);
+      } catch (error) {
+        console.error("Failed to Get Requested");
+      }
+    };
+    fetchRequestProject();
+  }, [user]);
 
   const toggleModal = () => {
     setModal(!modal);
     setModal2(!succes);
   };
 
-
   //DIalog command
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
   const handleClose = () => setOpen(toggleModal);
-  const handClick = (buttonID) => {
-
-  }
+  const handClick = (buttonID) => {};
 
   // const [open, setOpen] = React.useState(false);
   // const handleOpen = () => {
@@ -67,9 +67,6 @@ useEffect(() =>{
   //   setOpen(false);
   // }
 
-
-
-
   if (modal) {
     document.body.classList.add("active-modal");
   } else if (succes) {
@@ -79,13 +76,7 @@ useEffect(() =>{
   }
   //======================//
 
-
-
-
-
-
   return (
-    
     <div className="p-4 md:p-12 overflow-y-auto flex justify-center w-full  ">
       <div className="w-full p-4  md:p-12 overflow-y-auto scroll-smooth h-screen md:min-h-screen flex flex-col">
         <div className="flex justify-between gap-5 flex-col md:flex-row mb-8">
@@ -101,76 +92,87 @@ useEffect(() =>{
             name="search"
           />
         </div>
-        {seeRequest.map((request, index)=>(  
-        <div className=" w-full flex flex-col ">
-          <div className="w-full shadow-md flex flex-col  rounded-lg  duration-300  bg-whiteAlternative p-4 mb-3">
-            <div className="flex flex-col md:flex-row justify-center w-full px-4">
-              <div>
-                <img
-                  className="rounded-full h-36 w-36 my-auto bg-black mx-auto mb-4 md:mb-0"
-                  src={""}
-                  alt="/"
-                />
-              </div>
-            
-              <div className="flex flex-auto flex-col my-auto w-full gap-1 sm:text-left mb-4">
-                <label className=" text-primary font-bold mx-auto md:mx-8 text-lg md:text-2xl mb-2">
-                  {request.userID}
-                  Naufal Zaki Kemana
-                </label>
-                <label className="mx-auto md:mx-8 text-md md:text-lg space-x-3">
-                  <span className="font-semibold text-md md:text-lg ">
-                    Project <span className="ml-4">:</span>{request.nama}
-                  </span>
-                  <span className=" text-blue-800 text-md md:text-lg">
-                    TPLM
-                  </span>
-                </label>
-                <label className="mx-auto md:mx-8 text-md md:text-lg space-x-3">
-                  <span className="font-semibold text-md md:text-lg">
-                    Team   <span className=" ml-8">:</span>
-                  </span>{" "}
-                  <span className="text-sm">
-                    Webpro
-                  </span>
-                </label>
-                <label className="mx-auto md:mx-8 text-md md:text-lg line-clamp-2 space-x-3">
-                  <span className="font-semibold text-md md:text-lg">
-                    Message<span className="ml-1">:</span>
-                  </span>
-                  <span className=" text-sm md:text-sm">
-                    {request.message}
-
-                  </span>
-                </label>
-              </div>
-              
-              <div className=" flex flex-row md:flex-col justify-center gap-4 my-2">
-                <button onClick={handleOpen} className="  hover:bg-secondaryAlternative  transition-transform transform hover:scale-105 active:scale-95 p-4 bg-secondary  w-24 md:w-32 h-14   rounded-md text-white">
-                  Approve
-                </button>
-                <button onClick={handleOpen} className="  hover:bg-primaryAlternative transition-transform transform hover:scale-105 active:scale-95  p-4 bg-primary w-24  h-14  md:w-32  rounded-md text-white">
-                  Decline
-                </button>
-              </div>
-            </div>
-            <div className="flex justify-center ">
-              <label
-                onClick={toggleModal}
-                className="transition-transform transform hover:scale-105 mt-4 text-cyan-400 cursor-pointer active:scale-95"
+        {seeRequest.map((request, index) => (
+          <div key={index} className=" w-full flex flex-col ">
+            {request.Requests.map((req, reqIndex) => (
+              <div
+                key={reqIndex}
+                className="w-full shadow-md flex flex-col  rounded-lg  duration-300  bg-whiteAlternative p-4 mb-3"
               >
-                View {"Naufal"} Requested
-              </label>
-            </div>
+                <div className="flex flex-col md:flex-row justify-center w-full px-4">
+                  <div>
+                    <img
+                      className="rounded-full h-36 w-36 my-auto bg-black mx-auto mb-4 md:mb-0"
+                      src={""}
+                      alt="/"
+                    />
+                  </div>
+
+                  <div className="flex flex-auto flex-col my-auto w-full gap-1 sm:text-left mb-4">
+                    <label className=" text-primary font-bold mx-auto md:mx-8 text-lg md:text-2xl mb-2">
+                      {req.userID +
+                        " " +
+                        req.user.firstName +
+                        " " +
+                        req.user.lastName}
+                    </label>
+                    <label className="mx-auto md:mx-8 text-md md:text-lg space-x-3">
+                      <span className="font-semibold text-md md:text-lg ">
+                        Project <span className="ml-4">:</span>
+                      </span>
+                      <span className=" text-blue-800 text-md md:text-lg">
+                        {request.title}
+                      </span>
+                    </label>
+                    <label className="mx-auto md:mx-8 text-md md:text-lg space-x-3">
+                      <span className="font-semibold text-md md:text-lg">
+                        Team <span className=" ml-8">:</span>
+                      </span>{" "}
+                      <span className="text-sm">Webpro</span>
+                    </label>
+                    <label className="mx-auto md:mx-8 text-md md:text-lg line-clamp-2 space-x-3">
+                      <span className="font-semibold text-md md:text-lg">
+                        Message<span className="ml-1">:</span>
+                      </span>
+                      <span className=" text-sm md:text-sm">{req.message}</span>
+                    </label>
+                  </div>
+
+                  <div className=" flex flex-row md:flex-col justify-center gap-4 my-2">
+                    <button
+                      onClick={handleOpen}
+                      className="  hover:bg-secondaryAlternative  transition-transform transform hover:scale-105 active:scale-95 p-4 bg-secondary  w-24 md:w-32 h-14   rounded-md text-white"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={handleOpen}
+                      className="  hover:bg-primaryAlternative transition-transform transform hover:scale-105 active:scale-95  p-4 bg-primary w-24  h-14  md:w-32  rounded-md text-white"
+                    >
+                      Decline
+                    </button>
+                  </div>
+                </div>
+                <div className="flex justify-center ">
+                  <label
+                    onClick={toggleModal}
+                    className="transition-transform transform hover:scale-105 mt-4 text-cyan-400 cursor-pointer active:scale-95"
+                  >
+                    View {"Naufal"} Requested
+                  </label>
+                </div>
+              </div>
+            ))}
           </div>
-
-        </div>
         ))}
-
       </div>
 
       <div>
-        <Dialog open={open} handler={handleOpen} className="screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
+        <Dialog
+          open={open}
+          handler={handleOpen}
+          className="screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2"
+        >
           <DialogHeader></DialogHeader>
           <DialogBody className=" font-bold">
             Apakah anda yakin dengan pilihan ini ?
@@ -186,16 +188,16 @@ useEffect(() =>{
               >
                 <span>Cancel</span>
               </Button>
-              <Button className="hover:bg-secondaryAlternative  transition-transform transform hover:scale-105 active:scale-95 p-4 bg-secondary  w-15 md:w-32 h-11  rounded-md text-white" onClick={handleOpen}>
+              <Button
+                className="hover:bg-secondaryAlternative  transition-transform transform hover:scale-105 active:scale-95 p-4 bg-secondary  w-15 md:w-32 h-11  rounded-md text-white"
+                onClick={handleOpen}
+              >
                 <span>Confirm</span>
               </Button>
             </div>
-
           </DialogFooter>
         </Dialog>
       </div>
-
-
 
       {modal && (
         <div
@@ -214,33 +216,26 @@ useEffect(() =>{
                 >
                   <AiFillCloseCircle className="text-4xl" />
                 </button>
-
               </div>
               <hr className="my-4 rounded-full bg-tertiaryAlternative" />
               <div className=" mb-1 flex justify-between">
                 <h2 className=" text-2xl font-semibold my-auto">
-                  Requested  By {"Naufal Zaki Kemana"}
+                  Requested By {"Naufal Zaki Kemana"}
                 </h2>
-
               </div>
               <div className=" mb-4 flex justify-between">
                 <h2 className=" text-1xl font-semibold my-auto">
                   From team {"WPL"}
                 </h2>
-
               </div>
 
-
               <div className="mb-4">
-                <label className="text-gray-600 font-semibold">
-                  Message :
-                </label>
+                <label className="text-gray-600 font-semibold">Message :</label>
                 <p>
                   Lorem ipsum dolor sit amet consectetur, adipisicing elit.
                   Recusandae delectus sapiente cumque <br />
-                  corporis deleniti vero culpa perspiciatis animi
-                  reprehenderit repellat voluptas voluptate voluptates,{" "}
-                  <br />
+                  corporis deleniti vero culpa perspiciatis animi reprehenderit
+                  repellat voluptas voluptate voluptates, <br />
                   quis nobis nulla, consectetur repudiandae assumenda
                   laudantium."{" "}
                 </p>
@@ -253,23 +248,25 @@ useEffect(() =>{
               </div>
 
               <div className=" flex flex-row gap-4 w-full align-bottom  justify-center">
-                <button onClick={handleOpen} className="  hover:bg-secondaryAlternative transition-transform transform hover:scale-105 active:scale-95 p-4  bg-secondary  w-32  rounded-md  text-white">
+                <button
+                  onClick={handleOpen}
+                  className="  hover:bg-secondaryAlternative transition-transform transform hover:scale-105 active:scale-95 p-4  bg-secondary  w-32  rounded-md  text-white"
+                >
                   Approve
                 </button>
-                <button onClick={handleOpen} className="hover:bg-primaryAlternative transition-transform transform hover:scale-105 active:scale-95 p-4 bg-primary w-32  rounded-md text-white">
+                <button
+                  onClick={handleOpen}
+                  className="hover:bg-primaryAlternative transition-transform transform hover:scale-105 active:scale-95 p-4 bg-primary w-32  rounded-md text-white"
+                >
                   Decline
                 </button>
               </div>
             </div>
           </div>
-
         </div>
       )}
-
-
     </div>
- 
   );
-};
+}
 
 export default Requested;
