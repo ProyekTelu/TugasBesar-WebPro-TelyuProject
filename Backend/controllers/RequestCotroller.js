@@ -16,7 +16,9 @@ export const createRequest = async (req, res) => {
     });
 
     if (existingRequest) {
-      return res.status(400).json({ msg: "Request already exists for this project and role." });
+      return res
+        .status(400)
+        .json({ msg: "Request already exists for this project and role." });
     }
 
     const newRequest = await Request.create({
@@ -29,8 +31,8 @@ export const createRequest = async (req, res) => {
 
     res.status(201).json(newRequest);
   } catch (error) {
-    console.error('Error creating request:', error);
-    res.status(500).json({ msg: 'Internal Server Error' });
+    console.error("Error creating request:", error);
+    res.status(500).json({ msg: "Internal Server Error" });
   }
 };
 
@@ -51,5 +53,3 @@ export const getMyProjectRequestMember = async (req, res) => {
     res.status(500).json({ msg: err.message });
   }
 };
-
-
