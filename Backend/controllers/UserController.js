@@ -130,3 +130,33 @@ export const searchStudent = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const updateUser = async (req, res) => {
+  try {
+    const { firstName, lastName, phoneNumber } = req.body;
+
+    await User.update(
+      {
+        firstName,
+        lastName,
+        phoneNumber,
+      },
+      {
+        where: {
+          userID: req.params.userID,
+        },
+      }
+    );
+
+    const updatedUser = await User.findOne({
+      where: {
+        userID: req.params.userID,
+      },
+      attributes: ["firstName", "lastName", "phoneNumber"],
+    });
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: "User failed to be updated", error });
+  }
+};
