@@ -40,7 +40,7 @@ function MyProjectLecturer() {
       console.error("Failed to fetch project:", error);
     } finally {
       setIsLoadingDetailProject(false);
-    }
+    } 
   };
 
   function openModal() {
@@ -56,7 +56,7 @@ function MyProjectLecturer() {
   const [activeStatus, setActiveStatus] = useState("ALL");
   const listStatus = ["ALL", "Active", "Finished", "Open Request"];
 
-  const closeModalDetail = () => {
+  const closeModalDetail = () => {  
     setModalOpenDetail(false);
   };
 
@@ -79,7 +79,7 @@ function MyProjectLecturer() {
           project.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
 
-        setMyProject(searchedProjects);
+          (searchedProjects);
       } catch (error) {
         console.log("Failed to fetch my projects:", error);
       } finally {
