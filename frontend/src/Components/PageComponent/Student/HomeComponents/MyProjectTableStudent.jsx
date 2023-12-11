@@ -4,11 +4,13 @@ import { HiUserGroup } from "react-icons/hi";
 import { BsFillBarChartLineFill } from "react-icons/bs";
 import { Tooltip, Button } from "@material-tailwind/react";
 import { FaDotCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-const MyProjectTableStudent = ({ myProject, openModalDetail }) => {
+const MyProjectTableStudent = ({ myProject }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 4;
   const pageCount = Math.ceil(myProject.length / itemsPerPage);
+  const navigate = useNavigate();
 
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected);
@@ -83,7 +85,9 @@ const MyProjectTableStudent = ({ myProject, openModalDetail }) => {
                 </Tooltip>
                 <Tooltip content="Detail Project">
                   <Button
-                    onClick={() => openModalDetail(project.projectID)}
+                    onClick={() =>
+                      navigate(`/telyuProject/myProject/${project.projectID}`)
+                    }
                     className="py-2 px-2 bg-secondary rounded-lg text-whiteAlternative active:scale-95 transition hover:shadow-md"
                   >
                     <BsFillBarChartLineFill />
