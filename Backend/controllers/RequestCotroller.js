@@ -5,6 +5,7 @@ import User from "../models/UserModel.js";
 import skill from "../models/SkillModel.js"
 import ProjectSkillModel from "../models/ProjectModel.js";
 import Role from "../models/RoleModel.js";
+import Requested from "../../frontend/src/Components/PageComponent/Lecturer/Requested.jsx";
 
 export const createRequest = async (req, res) => {
   try {
@@ -75,16 +76,12 @@ export const getPendingRequest = async (req,res)=>{
 
  
     // const userID =  req.params.userID;
-    const reqPendingRequst = await Project.findAll({
+    const reqPendingRequst = await Request.findAll({
       // where:{
       //     status:"pending"
       // },  
 
-        include:{
-          model:Request,
-            
-            
-    }
+    x
     });
      
      res.status(200).json(reqPendingRequst);
