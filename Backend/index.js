@@ -5,9 +5,6 @@ import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
 import db from "./config/Database.js";
 
-import UserSkill from "./models/UserSkillModel.js";
-import Invitation from "./models/InvitationModel.js";
-import Request from "./models/RequestModel.js";
 
 //route
 import UserRoute from "./routes/UserRoutes.js";
@@ -27,6 +24,7 @@ import Users from "./InitialData/Users.js";
 import ProjectRoles from "./InitialData/ProjectRoles.js";
 import ProjectSkills from "./InitialData/ProjectSkills.js";
 import ProjectMembers from "./InitialData/ProjectMembers.js";
+import Invitations from "./InitialData/Invitations.js";
 
 dotenv.config();
 
@@ -61,6 +59,7 @@ const initializeData = async () => {
   await ProjectRoles();
   await ProjectSkills();
   await ProjectMembers();
+  await Invitations();
 };
 
 //fungsi menjalankan inisial data
@@ -69,10 +68,10 @@ const runInisialData = async () => {
   await initializeData().then(() => {
     console.log("Inisialisasi Berhasil");
   });
-};
+}; 
 
 // menjalankan fungsi untuk inisial data
-// runInisialData();
+//runInisialData(); 
 
 app.listen(process.env.APP_PORT, () =>
   console.log("server listening on port " + process.env.APP_PORT)

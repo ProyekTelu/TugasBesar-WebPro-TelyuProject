@@ -215,7 +215,7 @@ export const getProjectByProjectID = async (req, res) => {
           include: [
             {
               model: User,
-              attributes: ["firstName", "lastName", "email", "photoProfile"],
+              attributes: ["firstName", "lastName", "email"],
             },
             {
               model: Role,
@@ -236,9 +236,43 @@ export const getProjectByProjectID = async (req, res) => {
           ],
         ],
       },
+      exclude : ["data"]
     });
     res.status(200).json(project);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch projects", error });
   }
 };
+
+export const createProjectMember = async (req, res) =>{
+  try {
+    const [createProjectMember, created] =  await ProjectMember.findOrCreate({
+      where : {
+        userID: req.body.userID,
+        roleID: req.body.roleID,
+        projectID: req.body.projectID,
+      }
+    });
+    if(created) {
+      res.status(201).json(createProjectMember);   
+    } else {
+      res.status(409).json({ message: 'Record already exists' });      
+    }
+  } catch (error) {
+    res.status(500).json({ message: "failed to add new member", error });
+  }
+}
+
+export const testGetProjectAPI = async (req, res) => {
+  try {
+    const testGetProjectAPI = await ProjectMember.findAll({
+      where : {
+        projectID : req.params.projectID
+      }
+    });
+    res.status(200).json(testGetProjectAPI)
+  } catch (error) {
+    res.status(500).json({ message: "error dummy", error });
+  }
+}
+
