@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
@@ -21,6 +21,7 @@ import MyProjectDetail from "../MyProjectDetail";
 
 function MyProjectLecturer() {
   const storedUser = localStorage.getItem("user");
+  const navigate = useNavigate();
   const [isModalOpenDetail, setModalOpenDetail] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -188,7 +189,9 @@ function MyProjectLecturer() {
                     <div
                       key={index}
                       className="flex-col group relative"
-                      onClick={() => openMyProjectDetail(project.projectID)}
+                      onClick={() =>
+                        navigate(`/telyuProject/myProject/${project.projectID}`)
+                      }
                     >
                       <hr className="w-[97%] absolute right-1/2 translate-x-1/2 group-hover:hidden" />
                       <div
@@ -225,7 +228,9 @@ function MyProjectLecturer() {
                             <MenuList>
                               <MenuItem
                                 onClick={() =>
-                                  openMyProjectDetail(project.projectID)
+                                  navigate(
+                                    `/telyuProject/myProject/${project.projectID}`
+                                  )
                                 }
                               >
                                 Project Detail

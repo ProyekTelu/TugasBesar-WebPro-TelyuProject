@@ -16,6 +16,7 @@ import JoinForm from "./Components/PageComponent/Student/JoinForm";
 import ListProject from "./Components/PageComponent/ListProject";
 import CreateForm from "./Components/PageComponent/CreateForm";
 import MyProject from "./Components/PageComponent/MyProject";
+import MyProjectDetail from "./Components/PageComponent/MyProjectDetail";
 
 function App() {
   useEffect(() => {
@@ -37,6 +38,9 @@ function App() {
           <Route path="home" element={<Home />} />
           <Route path="listProject" element={<ListProject />} />
           <Route path="myProject" element={<MyProject />} />
+          <Route path="myProject">
+            <Route path=":projectId" element={<MyProjectDetail />} />
+          </Route>
           {/* GLOBAL */}
           <Route path="joinForm" element={<JoinForm />} />
           <Route path="status" element={<Status />} />
