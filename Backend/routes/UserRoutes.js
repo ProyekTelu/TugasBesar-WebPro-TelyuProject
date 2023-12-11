@@ -9,6 +9,7 @@ import {
   getUsersByNomorInduk,
   updateUserByNomorInduk,
   searchStudent,
+  updateUser
 } from "../controllers/UserController.js";
 
 const router = express.Router();
@@ -21,5 +22,6 @@ router.patch("/users/:userID", updateUserByNomorInduk);
 router.delete("/users/:userID", adminOnly, deleteUserByNomorInduk);
 router.delete("/users", deleteAllUsers);
 router.get("/students/search/:searchQuery/:projectID", searchStudent);
+router.patch("/user/:userID", updateUser);
 
 export default router;

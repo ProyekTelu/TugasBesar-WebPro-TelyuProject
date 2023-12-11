@@ -154,7 +154,6 @@ function HomeStudent() {
   };
 
   return (
-    
     <div className="w-full p-4 md:p-12 overflow-y-auto scroll-smooth h-screen md:min-h-screen flex flex-col">
       <div className="">
         <div className="px-4 mb-2">
@@ -183,7 +182,6 @@ function HomeStudent() {
               <SwiperSlide className="w-full z-10 h-full bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-center  cursor-pointer transition ">
                 There is no newest Project
               </SwiperSlide>
-              
             ) : (
               newestProject.map((project, index) => (
                 <SwiperSlide
@@ -266,14 +264,14 @@ function HomeStudent() {
 
       <div className="flex flex-col xl:flex-row h-full mt-8 gap-10 flex-1 ">
         <div className="rounded-2xl w-full flex flex-col basis-[100%] md:basis-[85%]">
-          <div className="flex justify-between gap-2 px-4 mb-4 ">
+          <div className="flex justify-between gap-2 px-4 mb-2 flex-col md:flex-row">
             <h1 className="text-xl md:text-2xl text-primary font-bold text-center my-auto ">
               Your Projects
             </h1>
-            <div className="flex gap-2 my-auto">
+            <div className="flex gap-2 my-auto flex-col md:flex-row">
               <input
                 type="text"
-                className="border rounded-md p-2 focus:outline-none"
+                className="border rounded-md p-2 transition focus:outline-none "
                 placeholder="Search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}

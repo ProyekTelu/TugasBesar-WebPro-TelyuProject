@@ -26,6 +26,7 @@ const ProjectMember = db.define(
     },
   },
   {
+    timestamps : true,
     freezeTableName: true,
   }
 );

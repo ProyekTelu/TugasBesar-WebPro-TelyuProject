@@ -55,7 +55,7 @@ const Project = db.define(
   {
     freezeTableName: true,
   }
-);
+); 
 
 Project.belongsTo(User, {
   foreignKey: "projectOwnerID",
@@ -67,5 +67,7 @@ Project.hasMany(Request, {
   foreignKey: "projectID",
   sourceKey: "projectID",
 });
+
+
 
 export default Project;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
@@ -18,9 +18,11 @@ import { FaDotCircle } from "react-icons/fa";
 import { Select, Option } from "@material-tailwind/react";
 import ProjectDetailModal from "../ProjectDetailModal";
 import MyProjectDetail from "../MyProjectDetail";
+import CreateProjectModal from "./CreateProjectModal";
 
 function MyProjectLecturer() {
   const storedUser = localStorage.getItem("user");
+  const navigate = useNavigate();
   const [isModalOpenDetail, setModalOpenDetail] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -40,7 +42,7 @@ function MyProjectLecturer() {
       console.error("Failed to fetch project:", error);
     } finally {
       setIsLoadingDetailProject(false);
-    } 
+    }
   };
 
   function openModal() {
@@ -56,7 +58,7 @@ function MyProjectLecturer() {
   const [activeStatus, setActiveStatus] = useState("ALL");
   const listStatus = ["ALL", "Active", "Finished", "Open Request"];
 
-  const closeModalDetail = () => {  
+  const closeModalDetail = () => {
     setModalOpenDetail(false);
   };
 
@@ -79,7 +81,7 @@ function MyProjectLecturer() {
           project.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
 
-          (searchedProjects);
+        setMyProject(searchedProjects);
       } catch (error) {
         console.log("Failed to fetch my projects:", error);
       } finally {
@@ -102,6 +104,16 @@ function MyProjectLecturer() {
   }
 
   const [myProjectPage, setMyProjectPage] = useState(1);
+
+  const [isModalOpenCreate, setModalOpenCreate] = useState(false);
+
+  function openModalCreate() {
+    setModalOpenCreate(true);
+  }
+
+  function closeModalCreate() {
+    setModalOpenCreate(false);
+  }
 
   return (
     <div className="flex flex-col w-full p-4 md:p-12 h-screen md:min-h-screen overflow-y-auto relative">
@@ -155,6 +167,9 @@ function MyProjectLecturer() {
                   <div
                     className="flex flex-row py-4 group-hover:bg-whiteAlternative 
                 cursor-pointer justify-between"
+                    onClick={() => {
+                      openModalCreate(storedUser);
+                    }}
                   >
                     <div className="flex flex-row gap-4 px-4 w-full ">
                       <div className="rounded-lg bg-transparent pl-2 font-semibold">
@@ -188,7 +203,9 @@ function MyProjectLecturer() {
                     <div
                       key={index}
                       className="flex-col group relative"
-                      onClick={() => openMyProjectDetail(project.projectID)}
+                      onClick={() =>
+                        navigate(`/telyuProject/myProject/${project.projectID}`)
+                      }
                     >
                       <hr className="w-[97%] absolute right-1/2 translate-x-1/2 group-hover:hidden" />
                       <div
@@ -225,7 +242,9 @@ function MyProjectLecturer() {
                             <MenuList>
                               <MenuItem
                                 onClick={() =>
-                                  openMyProjectDetail(project.projectID)
+                                  navigate(
+                                    `/telyuProject/myProject/${project.projectID}`
+                                  )
                                 }
                               >
                                 Project Detail
@@ -261,6 +280,15 @@ function MyProjectLecturer() {
                   selectedProject={selectedProject}
                   onClose={closeModalDetail}
                 />
+              )}
+            </Modal>
+            <Modal
+              className="w-sreen h-screen flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
+              isOpen={isModalOpenCreate}
+              onRequestClose={closeModalCreate}
+            >
+              {isModalOpenCreate && (
+                <CreateProjectModal onClose={closeModalCreate} />
               )}
             </Modal>
           </div>
