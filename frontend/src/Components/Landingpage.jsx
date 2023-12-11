@@ -233,7 +233,7 @@ const Landingpage = () => {
               >
                 <div className="text-black font-bold mb-2 text-4xl text-center md:text-left flex flex-col md:gap-2">
                   <p>Open</p>
-                  <p>Telyu Project</p>
+                  <p>TelYu Project</p>
                 </div>
                 <p className="text-gray-500 lg:text-xl text-center md:text-left">
                   Explore exciting project opportunities, collaborate with
