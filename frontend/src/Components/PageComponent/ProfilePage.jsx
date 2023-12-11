@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import user from "../../img/user.png";
 import EditProfile from "../../img/editing.png";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -19,6 +20,8 @@ const Profile = () => {
   const [role, setrole] = useState(User.role);
   const [kodeDosen, setkodeDosen] = useState(User.lectureCode);
 
+  const [isEditButtonVisible, setIsEditButtonVisible] = useState(true);
+  const [isEditButtonTextVisible, setIsEditButtonTextVisible] = useState(true);
   //convert blob ke gambar
   useEffect(() => {
     if (photoProfile && photoProfile.data) {
@@ -33,6 +36,30 @@ const Profile = () => {
     }
   }, [photoProfile]);
 
+  const updateUser = async () => {
+    try {
+      const updatedData = {
+        firstName,
+        lastName,
+        phoneNumber,
+      };
+      const respond = await axios.patch(
+        `http://localhost:5000/user/${User.userID}`,
+        updatedData
+      );
+
+      User.firstName = respond.data.firstName;
+      User.lastName = respond.data.lastName;
+      User.phoneNumber = respond.data.phoneNumber;
+
+      localStorage.setItem("user", JSON.stringify(User));
+
+      console.log("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
   const handleFirstNameChange = (e) => {
     setfirstName(e.target.value);
   };
@@ -41,46 +68,19 @@ const Profile = () => {
     setlastName(e.target.value);
   };
 
-  const handleroleChange = (e) => {
-    setrole(e.target.value);
-  };
-
   const handlekodeDosenChange = (e) => {
     setkodeDosen(e.target.value);
   };
-
-  // const handlenomorIndukChange = (e) => {
-  //   setnim(e.target.value);
-  // };
-
-  // const handlegenderChange = (e) => {
-  //   setgender(e.target.value);
-  // };
 
   const handlephoneNumberChange = (e) => {
     setphoneNumber(e.target.value);
   };
 
-  // const handlekodeFakultas = (e) => {
-  //   setkodeFakultas(e.target.value);
-  // };
-
-  // const handlekodeProdi = (e) => {
-  //   setkodeProdi(e.target.value);
-  // };
-
-  // const handlekelasChange = (e) => {
-  //   setkelas(e.target.value);
-  // };
-
   const navigate = useNavigate();
 
   const handleEditProfile = () => {
     setIsEditing(!isEditing);
-  };
-
-  const handleDoneEditing = () => {
-    setIsEditing(false);
+    setIsEditButtonVisible(!isEditButtonVisible);
   };
 
   const handleImageChange = (event) => {
@@ -91,6 +91,17 @@ const Profile = () => {
         setUserImage(e.target.result);
       };
       reader.readAsDataURL(file);
+    }
+  };
+  const handleDoneEditing = async () => {
+    try {
+      await updateUser();
+      setIsEditing(false);
+      setIsEditButtonVisible(true);
+      setIsEditButtonTextVisible(true);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile. Please try again.");
     }
   };
 
@@ -123,11 +134,20 @@ const Profile = () => {
           <div className="flex items-center justify-content-start">
             <img
               src={EditProfile}
-              className="w-6 h-auto mr-2 cursor-pointer"
+              className={`w-6 h-auto mr-2 cursor-pointer ${
+                isEditButtonVisible ? "" : "invisible"
+              }`}
               alt="edit"
-              onClick={handleEditProfile}
+              onClick={() => {
+                handleEditProfile();
+                setIsEditButtonTextVisible(false);
+              }}
             />
-            <span style={{ fontSize: "25px" }} className="text-black">
+            <span
+              style={{ fontSize: "25px" }}
+              className={`text-black ${
+                isEditButtonTextVisible ? "" : "invisible"
+              }`}>
               Edit
             </span>
           </div>
@@ -142,7 +162,7 @@ const Profile = () => {
         <div className="w-full xs:w-1/2">
           <div className="flex flex-col mt-4">
             <label
-              className="font-medium text-xs md:text-base text-textGray "
+              className="font-medium text-xs md:text-base text-textGray"
               htmlFor="">
               First Name
             </label>
@@ -158,72 +178,6 @@ const Profile = () => {
               value={firstName}
             />
           </div>
-          <div className="flex flex-col mt-4">
-            <label
-              className="font-medium text-xs md:text-base text-textGray "
-              htmlFor="">
-              NIM
-            </label>
-            <input
-              placeholder=""
-              className={`p-2 bg-gray-200 text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
-              type="text"
-              id="nim"
-              value={nomorInduk}
-            />
-          </div>
-          {User.role === "lecturer" && (
-            <div className="flex flex-col mt-4">
-              <label
-                className="font-medium text-xs md:text-base text-textGray "
-                htmlFor="">
-                Role
-              </label>
-              <input
-                placeholder=""
-                className={`p-2 ${
-                  isEditing ? "" : "bg-gray-200"
-                } text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
-                type="text"
-                id="role"
-                onChange={handleroleChange}
-                readOnly={!isEditing}
-                value={role}
-              />
-            </div>
-          )}
-          <div className="flex flex-col mt-4">
-            <label
-              className="font-medium text-xs md:text-base text-textGray "
-              htmlFor="">
-              Gender
-            </label>
-            <input
-              placeholder=""
-              className={`p-2 bg-gray-200 text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
-              type="text"
-              id="gender"
-              value={gender}
-            />
-          </div>
-          {User.role === "student" && (
-            <div className="flex flex-col mt-4">
-              <label
-                className="font-medium text-xs md:text-base text-textGray "
-                htmlFor="">
-                Class
-              </label>
-              <input
-                placeholder=""
-                className={`p-2 bg-gray-200 text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
-                type="text"
-                id="kelas"
-                value={kelas}
-              />
-            </div>
-          )}
-        </div>
-        <div className="w-full xs:w-1/2">
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
@@ -280,6 +234,24 @@ const Profile = () => {
               />
             </div>
           )}
+          {User.role === "student" && (
+            <div className="flex flex-col mt-4">
+              <label
+                className="font-medium text-xs md:text-base text-textGray "
+                htmlFor="">
+                Class
+              </label>
+              <input
+                placeholder=""
+                className={`p-2 bg-gray-200 text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                type="text"
+                id="kelas"
+                value={kelas}
+              />
+            </div>
+          )}
+        </div>
+        <div className="w-full xs:w-1/2">
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
@@ -292,6 +264,50 @@ const Profile = () => {
               type="text"
               id="fakultas"
               value={kodeFakultas}
+            />
+          </div>
+          <div className="flex flex-col mt-4">
+            <label
+              className="font-medium text-xs md:text-base text-textGray "
+              htmlFor="">
+              NIM
+            </label>
+            <input
+              placeholder=""
+              className={`p-2 bg-gray-200 text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+              type="text"
+              id="nim"
+              value={nomorInduk}
+            />
+          </div>
+          {User.role === "lecturer" && (
+            <div className="flex flex-col mt-4">
+              <label
+                className="font-medium text-xs md:text-base text-textGray "
+                htmlFor="">
+                Role
+              </label>
+              <input
+                placeholder=""
+                className={`p-2 bg-gray-200 text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+                type="text"
+                id="role"
+                value={role}
+              />
+            </div>
+          )}
+          <div className="flex flex-col mt-4">
+            <label
+              className="font-medium text-xs md:text-base text-textGray "
+              htmlFor="">
+              Gender
+            </label>
+            <input
+              placeholder=""
+              className={`p-2 bg-gray-200 text-xs md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
+              type="text"
+              id="gender"
+              value={gender}
             />
           </div>
           {User.role === "student" && (

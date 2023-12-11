@@ -133,36 +133,30 @@ export const searchStudent = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    if (req.body.role === "lecturer") {
-      await User.update(
-        {
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          phoneNumber: req.body.phoneNumber,
-          lecturerCode: req.body.lecturerCode,
+    const { firstName, lastName, phoneNumber } = req.body;
+
+    await User.update(
+      {
+        firstName,
+        lastName,
+        phoneNumber,
+      },
+      {
+        where: {
+          userID: req.params.userID,
         },
-        {
-          where: {
-            userID: req.params.userID,
-          },
-        }
-      );
-    } else {
-      await User.update(
-        {
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          phoneNumber: req.body.phoneNumber,
-        },
-        {
-          where: {
-            userID: req.params.userID,
-          },
-        }
-      );
-    }
-    res.status(200).json({ message: "update succeed" });
+      }
+    );
+
+    const updatedUser = await User.findOne({
+      where: {
+        userID: req.params.userID,
+      },
+      attributes: ["firstName", "lastName", "phoneNumber"],
+    });
+
+    res.status(200).json(updatedUser);
   } catch (error) {
-    res.status(500).json({ message: "user failed to be updated", error });
+    res.status(500).json({ message: "User failed to be updated", error });
   }
 };
