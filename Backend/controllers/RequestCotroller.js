@@ -66,6 +66,70 @@ export const getMyProjectRequestMember = async (req, res) => {
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
+
 };
 
+
+export const getPendingRequest = async (req,res)=>{
+  try{
+
+ 
+    // const userID =  req.params.userID;
+    const reqPendingRequst = await Project.findAll({
+      // where:{
+      //     status:"pending"
+      // },  
+
+        include:{
+          model:Request,
+            
+            
+    }
+    });
+     
+     res.status(200).json(reqPendingRequst);
+    
+  }
+    catch (error) {
+      res.status(500).json({ message: "Failed to fetch projects", error });
+  }
+
+
+};
+
+   // const projectOwnerID = req.params.projectOwnerID ;
+    // const { requestID ,userID,roleID, message, cv,projectID, status} = req.body;
+
+//where :{
+  //       status: "pending",
+  //     },
+  //     include:{
+  //       Project
+
+  //     }
+  //     where: {
+  //       requestID,
+  //       projectOwnerID: projectOwnerID,
+  //       userID,
+  //       projectID,
+  //       roleID,
+  //       message,
+  //       cv,
+  //       status: "pending"
+
+  //     },include:Project
+  //     include:[{
+  //       model:Project,
+  //       where:{projectOwnerID: projectOwnerID},
+
+  //     },
+  //   ],
+
+  //   include: [
+  //     {
+  //     model:Project,
+  //     where:{projectID: projectID},
+  //     attributes:["title"],
+  //   },
+  // ],
 

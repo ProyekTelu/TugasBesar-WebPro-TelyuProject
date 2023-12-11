@@ -14,22 +14,35 @@ import {
 
 } from "@material-tailwind/react";
 
+
+
 //modal command
 export function Requested() {
 
   const [modal, setModal] = useState(false);
   const [succes, setModal2] = useState(false);
   const [request, setReq] = useState([]);
+  const [seeRequest,setRequestProject] = useState([]);
+  const [projectID, setProjectID] = useState([]);
 
   useEffect(() => {
     setReq();
   })
 
-  const reqProject = async () => {
-    const response = await axios.get("http://localhost:5000/requestMember/:id");
-    setReq(response.data);
-
+useEffect(() =>{
+  const fetchRequestProject = async (projectID)=>{
+    try{
+      const requestRespone = await axios.get(`http://localhost:5000/requstmember/requst/${projectID}`);
+      setRequestProject(requestRespone.data);
+  
+    }catch(error){
+      console.error("Failed to Get Requested");
+    }
   }
+  fetchRequestProject();
+},[])
+
+
   const toggleModal = () => {
     setModal(!modal);
     setModal2(!succes);
@@ -72,14 +85,13 @@ export function Requested() {
 
 
   return (
-
+    
     <div className="p-4 md:p-12 overflow-y-auto flex justify-center w-full  ">
       <div className="w-full p-4  md:p-12 overflow-y-auto scroll-smooth h-screen md:min-h-screen flex flex-col">
         <div className="flex justify-between gap-5 flex-col md:flex-row mb-8">
           <label className="px-4  text-xl md:text-2xl text-primary font-bold text-start">
             Requested
           </label>
-
           <input
             className=" transition-transform transform hover:scale-105  flex space-x-4 placeholder:italic align-middle w-auto
                      placeholder:text-slate-400  bg-white  border border-slate-300 rounded-md py-2 pl-9 pr-10 shadow-sm focus:outline-none focus:border-sky-500
@@ -89,6 +101,7 @@ export function Requested() {
             name="search"
           />
         </div>
+        {seeRequest.map((request, index)=>(  
         <div className=" w-full flex flex-col ">
           <div className="w-full shadow-md flex flex-col  rounded-lg  duration-300  bg-whiteAlternative p-4 mb-3">
             <div className="flex flex-col md:flex-row justify-center w-full px-4">
@@ -99,14 +112,15 @@ export function Requested() {
                   alt="/"
                 />
               </div>
-
+            
               <div className="flex flex-auto flex-col my-auto w-full gap-1 sm:text-left mb-4">
                 <label className=" text-primary font-bold mx-auto md:mx-8 text-lg md:text-2xl mb-2">
+                  {request.userID}
                   Naufal Zaki Kemana
                 </label>
                 <label className="mx-auto md:mx-8 text-md md:text-lg space-x-3">
                   <span className="font-semibold text-md md:text-lg ">
-                    Project <span className="ml-4">:</span>{" "}
+                    Project <span className="ml-4">:</span>{request.nama}
                   </span>
                   <span className=" text-blue-800 text-md md:text-lg">
                     TPLM
@@ -125,19 +139,12 @@ export function Requested() {
                     Message<span className="ml-1">:</span>
                   </span>
                   <span className=" text-sm md:text-sm">
-                    {" "}
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Possimus nisi eum voluptas ea error velit quia aperiam
-                    asperiores reiciendis ut quaerat sunt harum, delectus,
-                    accusantium molestias eligendi eos obcaecati. Repellendus!
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Voluptatibus architecto consequuntur, sunt aspernatur vel
-                    maxime accusamus eos magni recusandae adipisci, sed, quidem
-                    voluptatum aliquam officiis veniam esse placeat reiciendis
-                    quos.
+                    {request.message}
+
                   </span>
                 </label>
               </div>
+              
               <div className=" flex flex-row md:flex-col justify-center gap-4 my-2">
                 <button onClick={handleOpen} className="  hover:bg-secondaryAlternative  transition-transform transform hover:scale-105 active:scale-95 p-4 bg-secondary  w-24 md:w-32 h-14   rounded-md text-white">
                   Approve
@@ -158,6 +165,7 @@ export function Requested() {
           </div>
 
         </div>
+        ))}
 
       </div>
 
@@ -260,6 +268,7 @@ export function Requested() {
 
 
     </div>
+ 
   );
 };
 

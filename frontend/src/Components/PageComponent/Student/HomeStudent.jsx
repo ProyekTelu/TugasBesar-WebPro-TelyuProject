@@ -154,6 +154,7 @@ function HomeStudent() {
   };
 
   return (
+    
     <div className="w-full p-4 md:p-12 overflow-y-auto scroll-smooth h-screen md:min-h-screen flex flex-col">
       <div className="">
         <div className="px-4 mb-2">
@@ -182,6 +183,7 @@ function HomeStudent() {
               <SwiperSlide className="w-full z-10 h-full bg-whiteAlternative lg:flex-col p-6 rounded-lg justify-center  cursor-pointer transition ">
                 There is no newest Project
               </SwiperSlide>
+              
             ) : (
               newestProject.map((project, index) => (
                 <SwiperSlide
