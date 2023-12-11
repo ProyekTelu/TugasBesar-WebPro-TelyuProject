@@ -44,16 +44,23 @@ export const getMyProjectRequestMember = async (req, res) => {
   try {
     const response = await Project.findAll({
       where: {
-        projectOwnerID: req.params.id,
+        projectOwnerID: req.params.as,
       },
 
       include: [
         {
           model: Request,
-          include: {
+          include:[ {
+
+
             model: User,
             attributes: ["firstName", "lastName"],
           },
+          {
+            model:Role,
+            attributes: ["name"],
+          }
+        ],
         },
       ],
 
