@@ -22,23 +22,8 @@ const Profile = () => {
 
   const [isEditButtonVisible, setIsEditButtonVisible] = useState(true);
   const [isEditButtonTextVisible, setIsEditButtonTextVisible] = useState(true);
-  //convert blob ke gambar
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   
+  //convert blob ke gambar
   useEffect(() => {
     if (photoProfile && photoProfile.data) {
       const base64String = btoa(
