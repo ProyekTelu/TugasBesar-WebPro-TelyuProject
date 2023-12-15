@@ -15,6 +15,18 @@ const ProjectMembers = async () => {
       projectID: 1,
     });
 
+    await ProjectMember.create({
+      userID: user1.userID,
+      roleID: 4,
+      projectID: 2,
+    });
+
+    await ProjectMember.create({
+      userID: user1.userID,
+      roleID: 2,
+      projectID: 3,
+    });
+
     const user2 = await User.findOne({
       where: {
         email: "budisantoso@student.telkomuniversity.ac.id",
@@ -23,7 +35,7 @@ const ProjectMembers = async () => {
 
     await ProjectMember.create({
       userID: user2.userID,
-      roleID: 4,
+      roleID: 1,
       projectID: 1,
     });
   } catch (e) {

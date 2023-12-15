@@ -27,6 +27,8 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      groupLink: "https://www.youtube.com/watch?v=bcHIwuUd9cs",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -38,6 +40,8 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      groupLink: "https://www.youtube.com/watch?v=bcHIwuUd9cs",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -49,6 +53,8 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      groupLink: "https://www.youtube.com/watch?v=bcHIwuUd9cs",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -60,6 +66,8 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      groupLink: "https://www.youtube.com/watch?v=bcHIwuUd9cs",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -71,6 +79,8 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      groupLink: "https://www.youtube.com/watch?v=bcHIwuUd9cs",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -82,6 +92,8 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      groupLink: "https://www.youtube.com/watch?v=bcHIwuUd9cs",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -93,6 +105,8 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      groupLink: "https://www.youtube.com/watch?v=bcHIwuUd9cs",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -104,6 +118,8 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      groupLink: "https://www.youtube.com/watch?v=bcHIwuUd9cs",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -115,6 +131,8 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      groupLink: "https://www.youtube.com/watch?v=bcHIwuUd9cs",
+      projectStatus: "Open Request",
     });
 
     await Project.create({
@@ -126,6 +144,34 @@ const Projects = async () => {
       endProject: endProject,
       openUntil: openUntil,
       totalMember: totalMember,
+      groupLink: "https://www.youtube.com/watch?v=bcHIwuUd9cs",
+      projectStatus: "Open Request",
+    });
+
+    await Project.create({
+      title: "Pengembangan Platform E-KTP",
+      projectOwnerID: userID,
+      description:
+        "Proyek ini bertujuan untuk mengembangkan platform e-KTP yang dapat menyediakan pengalaman Ktp Lorem ipsum dolor sit amet.",
+      startProject: "2021-10-25 02:30:00",
+      endProject: "2022-08-12 08:30:00",
+      openUntil: "2021-10-20 07:30:00",
+      totalMember: 7,
+      groupLink: "https://www.youtube.com/watch?v=bcHIwuUd9cs",
+      projectStatus: "Finished",
+    });
+
+    await Project.create({
+      title: "Pengembangan Platform Samsudin dolor sit amet lorem ipsum",
+      projectOwnerID: userID,
+      description:
+        "Proyek ini bertujuan untuk mengembangkan samsudin dolor sit amet lorem ipsum.",
+      startProject: "2020-10-25 02:30:00",
+      endProject: "2021-08-12 08:30:00",
+      openUntil: "2020-10-20 07:30:00",
+      totalMember: 3,
+      groupLink: "https://www.youtube.com/watch?v=bcHIwuUd9cs",
+      projectStatus: "Finished",
     });
   } catch (err) {
     console.log(err);

@@ -1,28 +1,43 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
 import User from "./UserModel.js";
-import ProjectRole from "./ProjectRoleModel.js";
 import Project from "./ProjectModel.js";
 import Role from "./RoleModel.js";
 
 const { DataTypes } = Sequelize;
 
-const ProjectMember = db.define(
-  "ProjectMember",
+const Request = db.define(
+  "Request",
   {
-    projectMemberID: {
+    requestID: {
+      primaryKey: true,
+      unique: true,
+      allowNull: false,
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
     },
     userID: {
       type: DataTypes.STRING,
-    },
-    roleID: {
-      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     projectID: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    roleID: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    message: {
+      type: DataTypes.TEXT,
+    },
+    cv: {
+      type: DataTypes.BLOB("long"),
+    },
+    status: {
+      type: DataTypes.ENUM("pending", "accepted", "rejected"),
+      allowNull: false,
+      defaultValue: "pending",
     },
   },
   {
@@ -30,24 +45,14 @@ const ProjectMember = db.define(
   }
 );
 
-ProjectMember.belongsTo(User, {
+Request.belongsTo(User, {
   foreignKey: "userID",
   targetKey: "userID",
 });
 
-ProjectMember.belongsTo(Role, {
+Request.belongsTo(Role, {
   foreignKey: "roleID",
   targetKey: "roleID",
 });
 
-Project.hasMany(ProjectMember, {
-  foreignKey: "projectID",
-  sourceKey: "projectID",
-});
-
-ProjectRole.hasMany(ProjectMember, {
-  foreignKey: "roleID",
-  sourceKey: "roleID",
-});
-
-export default ProjectMember;
+export default Request;

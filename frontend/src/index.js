@@ -4,14 +4,19 @@ import { Provider } from "react-redux";
 import { store } from "./app/store";
 import App from "./App";
 import "./index.css";
+import Modal from "react-modal";
+import { ThemeProvider } from "@material-tailwind/react";
 
 const container = document.getElementById("root");
+Modal.setAppElement(container);
 const root = createRoot(container);
 
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <ThemeProvider>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>
+  </ThemeProvider>
+  // </React.StrictMode>
 );

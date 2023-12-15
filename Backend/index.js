@@ -5,12 +5,18 @@ import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
 import db from "./config/Database.js";
 
+import UserSkill from "./models/UserSkillModel.js";
+import Invitation from "./models/InvitationModel.js";
+import Request from "./models/RequestModel.js";
+
 //route
 import UserRoute from "./routes/UserRoutes.js";
 import AuthRoute from "./routes/AuthRoutes.js";
 import FacultyRoute from "./routes/FacultyRoutes.js";
 import MajorRoute from "./routes/MajorRoutes.js";
 import ProjectRoute from "./routes/ProjectRoutes.js";
+import RequestRoute from "./routes/RequestRoutes.js";
+import InvitationRoute from "./routes/InvitationRoutes.js";
 
 //initial data import
 import FacultyAndMajor from "./InitialData/FacultyAndMajor.js";
@@ -41,6 +47,8 @@ app.use(AuthRoute);
 app.use(FacultyRoute);
 app.use(MajorRoute);
 app.use(ProjectRoute);
+app.use(RequestRoute);
+app.use(InvitationRoute);
 
 //kumpulan inisial data
 const initializeData = async () => {
@@ -63,8 +71,8 @@ const runInisialData = async () => {
   });
 };
 
-//menjalankan fungsi untuk inisial data
-// runInisialData();
+// menjalankan fungsi untuk inisial data
+//  runInisialData();
 
 app.listen(process.env.APP_PORT, () =>
   console.log("server listening on port " + process.env.APP_PORT)

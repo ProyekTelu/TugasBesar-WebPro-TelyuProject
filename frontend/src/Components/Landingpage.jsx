@@ -113,15 +113,15 @@ const Landingpage = () => {
           id="navbar"
         >
           <div className="mb-4 md:mb-4 flex items-center">
-            <img src={logo} alt="Tel-u Project" className="w-20" />
-            <p className="ml-2 text-3xl font-bold text-gray-800">
+            <img src={logo} alt="Tel-u Project" className="w-14" />
+            <p className="ml-2 text-2xl font-bold text-gray-800">
               Tel-u Project
             </p>
           </div>
           {user !== null ? (
             <Link
               to="/telyuProject/profilePage"
-              className="p-4 bg-whiteAlternative rounded-3xl border-4 cursor-pointer transition hover:shadow-lg active:scale-95"
+              className="p-4 bg-whiteAlternative rounded-3xl border-2 cursor-pointer transition hover:border-greyAlternative active:border-gray-500 duration-200 active:scale-95"
             >
               <div className={"flex flex-col items-center justify-center"}>
                 <div className="flex items-center gap-4 ">
@@ -142,11 +142,11 @@ const Landingpage = () => {
           ) : (
             <Link
               to="/login"
-              className="px-6 py-3 bg-whiteAlternative rounded-3xl border-4 cursor-pointer transition hover:shadow-lg active:scale-95"
+              className="px-10 py-3 bg-whiteAlternative rounded-3xl border-2 cursor-pointer transition hover:border-greyAlternative active:border-gray-500 duration-200 active:scale-95"
             >
               <div className={"flex flex-col items-center justify-center"}>
-                <div className="flex items-center  ">
-                  <p className="text-lg font-bold">Login</p>
+                <div className="flex items-center">
+                  <p className="text-xl font-bold">Login</p>
                 </div>
               </div>
             </Link>
@@ -156,7 +156,7 @@ const Landingpage = () => {
       <div className="flex w-full h-full justify-center ">
         <div className="flex flex-col md:flex-row justify-between w-3/4 lg:w-3/4 gap-6">
           <div className="w-full md:w-1/2 flex flex-col gap-4 mb-2 md:mb-0">
-            <p className="text-4xl md:text-8xl leading-none xl:text-9xl font-bold text-center md:text-left">
+            <p className="text-4xl md:text-8xl xl:text-9xl leading-none font-bold text-center md:text-left">
               Discover your dream project or help create one.
             </p>
           </div>
@@ -164,26 +164,26 @@ const Landingpage = () => {
             <div className="w-full md:w-1/2 lg:w-2/5 flex flex-col gap-12 my-auto">
               <Link
                 to="/signup"
-                className="text-lg leading-relaxed p-8 bg-whiteAlternative rounded-3xl transition border-4 hover:shadow-lg active:scale-95"
+                className="text-lg leading-relaxed p-8 bg-whiteAlternative rounded-3xl border-2 transition hover:border-greyAlternative active:border-gray-500 duration-200 active:scale-95"
               >
-                <div className="text-black font-bold mb-2 text-4xl text-center md:text-left flex flex-col md:gap-2">
+                <div className="text-black font-bold mb-2 text-3xl text-center md:text-left flex flex-col md:gap-">
                   <p>Join</p>
                   <p>as Lecturer</p>
                 </div>
-                <p className="text-gray-500 lg:text-xl text-center md:text-left">
+                <p className="text-gray-500 lg:text-lg text-center md:text-left">
                   Explore exciting project opportunities, collaborate with
                   peers, and enhance their academic journey
                 </p>
               </Link>
               <Link
                 to="/signup"
-                className="text-lg leading-relaxed p-8 bg-whiteAlternative rounded-3xl transition border-4 hover:shadow-lg active:scale-95"
+                className="text-lg leading-relaxed p-8 bg-whiteAlternative rounded-3xl border-2 transition hover:border-greyAlternative active:border-gray-500 duration-200 active:scale-95"
               >
-                <div className="text-black font-bold mb-2 text-4xl text-center md:text-left flex flex-col md:gap-2">
+                <div className="text-black font-bold mb-2 text-3xl text-center md:text-left flex flex-col md:gap-1">
                   <p>Join</p>
                   <p>as Student</p>
                 </div>
-                <p className="text-gray-500 lg:text-xl text-center md:text-left">
+                <p className="text-gray-500 lg:text-lg text-center md:text-left">
                   seeking to post and manage your research or class projects and
                   find talented students to work with
                 </p>
@@ -194,7 +194,7 @@ const Landingpage = () => {
             <div className="w-full md:w-1/2 lg:w-2/5 flex flex-col gap-12 my-auto">
               <Link
                 to="telyuProject/home"
-                className="text-lg leading-relaxed p-8 bg-whiteAlternative rounded-3xl transition border-4 hover:shadow-lg active:scale-95"
+                className="text-lg leading-relaxed p-8 bg-whiteAlternative rounded-3xl transition border-2 hover:border-greyAlternative active:border-gray-500 duration-200 active:scale-95"
               >
                 <div className="text-black font-bold mb-2 text-4xl text-center md:text-left flex flex-col md:gap-2">
                   <p>Open</p>

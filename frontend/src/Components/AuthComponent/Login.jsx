@@ -67,24 +67,24 @@ const Login = () => {
         >
           <div className="w-full h-full relative lg:w-1/2 my-2 sm:my-0 bg-white justify-center flex lg:rounded-r-none">
             <div className="md:p-10 w-full flex flex-col h-full align-middle sm:gap-4">
-              <Link to={"/"} className="mb-4 md:mb-4 flex items-center">
+              <Link to={"/"} className="pt-4 pl-4 md:mb-4 flex items-center">
                 <img
                   src={TelyuProjectLogo}
                   alt="Tel-u Project"
-                  className="w-10"
+                  className="w-5 md:w-10"
                 />
-                <p className="ml-2 text-2xl font-bold text-gray-800">
+                <p className="ml-2 text-lg md:text-2xl font-bold text-gray-800">
                   Tel-U Project
                 </p>
               </Link>
 
               <div className="flex p-10 lg:p-0 flex-col mx-10 w-full sm:w-2/3 self-center justify-center h-full gap-1">
                 <img
-                  className="w-[20%] xs:w-[10%] sm:w-[15%] self-center"
+                  className="w-10 sm:w-14 md:w-20 self-center"
                   src={TelkomLogo}
                   alt=""
                 />
-                <h1 className="text-center mt-4 text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
+                <h1 className="text-center mt-4 text-xl sm:text-2xl md:text-3xl md:my-4 font-bold">
                   Log in
                 </h1>
                 <form

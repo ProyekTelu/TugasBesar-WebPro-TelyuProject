@@ -15,8 +15,8 @@ import Requested from "./Components/PageComponent/Lecturer/Requested";
 import JoinForm from "./Components/PageComponent/Student/JoinForm";
 import ListProject from "./Components/PageComponent/ListProject";
 import CreateForm from "./Components/PageComponent/CreateForm";
-import ProjectDetail from "./Components/PageComponent/ProjectDetail";
 import MyProject from "./Components/PageComponent/MyProject";
+import MyProjectDetail from "./Components/PageComponent/MyProjectDetail";
 
 function App() {
   useEffect(() => {
@@ -28,7 +28,7 @@ function App() {
   }, []);
 
   return (
-  <BrowserRouter>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landingpage />} />
         <Route path="login" element={<Login />} />
@@ -38,13 +38,15 @@ function App() {
           <Route path="home" element={<Home />} />
           <Route path="listProject" element={<ListProject />} />
           <Route path="myProject" element={<MyProject />} />
+          <Route path="myProject">
+            <Route path=":projectId" element={<MyProjectDetail />} />
+          </Route>
           {/* GLOBAL */}
           <Route path="joinForm" element={<JoinForm />} />
           <Route path="status" element={<Status />} />
           <Route path="profilePage" element={<ProfilePage />} />
           <Route path="requested" element={<Requested />} />
           <Route path="createForm" element={<CreateForm />} />
-          <Route path="projectDetail" element={<ProjectDetail />} />
         </Route>
         <Route path="createproject" element={<CreateProject />} />
         <Route path="joinproject" element={<JoinProject />} />

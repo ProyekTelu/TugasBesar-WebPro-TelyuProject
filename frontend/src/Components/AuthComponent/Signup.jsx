@@ -34,7 +34,7 @@ const Signup = () => {
   const [isInputComplete, setIsInputComplete] = useState(false);
   const [canInputClass, setCanInputClass] = useState(false);
   const [emailAlreadyExist, setEmailAlreadyExist] = useState(false);
-  const [kodeDosen, setKodeDosen] = useState("");
+  const [codeDosen, setcodeDosen] = useState("");
   const [isLecture, setIsLecture] = useState(false);
 
   const years = [
@@ -89,8 +89,8 @@ const Signup = () => {
           lastName !== "" &&
           lastName.length >= 3 &&
           phoneNumber !== "" &&
-          kodeDosen !== "" &&
-          kodeDosen.length === 3 &&
+          codeDosen !== "" &&
+          codeDosen.length === 3 &&
           selectedFakultas !== "" &&
           selectedGender !== "" &&
           password !== "" &&
@@ -104,7 +104,7 @@ const Signup = () => {
     firstName,
     lastName,
     phoneNumber,
-    kodeDosen,
+    codeDosen,
     selectedFakultas,
     selectedGender,
     selectedMajor,
@@ -189,7 +189,7 @@ const Signup = () => {
             setSelectedMajor("");
             setSelectedYear("");
             setSelectedKelas("");
-            setKodeDosen("");
+            setcodeDosen("");
           }
           setPassword("");
           setConfirmPassword("");
@@ -207,7 +207,7 @@ const Signup = () => {
         email,
         firstName,
         lastName,
-        kodeDosen,
+        codeDosen,
         selectedGender,
         selectedFakultas,
         selectedMajor,
@@ -249,9 +249,9 @@ const Signup = () => {
     }
   };
 
-  const handleKodeDosenChange = (e) => {
+  const handlecodeDosenChange = (e) => {
     if (e.target.value.length <= 3) {
-      setKodeDosen(e.target.value.toUpperCase());
+      setcodeDosen(e.target.value.toUpperCase());
     }
   };
 
@@ -285,13 +285,13 @@ const Signup = () => {
           >
             <AnimatePresence mode="wait" initial={false}>
               <div className="p-5 md:p-10 w-full flex flex-col h-full align-middle sm:gap-4">
-                <Link to={"/"} className="mb-4 md:mb-4 flex items-center">
+                <Link to={"/"} className="pt-4 pl-4 md:mb-4 flex items-center">
                   <img
                     src={TelyuProjectLogo}
                     alt="Tel-u Project"
-                    className="w-10"
+                    className="w-5 md:w-10"
                   />
-                  <p className="ml-2 text-2xl font-bold text-gray-800">
+                  <p className="ml-2 text-lg md:text-2xl font-bold text-gray-800">
                     Tel-U Project
                   </p>
                 </Link>
@@ -308,11 +308,11 @@ const Signup = () => {
                     className="flex p-10 lg:p-0 flex-col mx-10 w-full sm:w-2/3 self-center justify-center h-full gap-1 relative"
                   >
                     <img
-                      className="w-[30%] xs:w-[10%] sm:w-[15%] self-center"
+                      className="w-10 sm:w-14 md:w-20 self-center"
                       src={TelkomLogo}
                       alt=""
                     />
-                    <h1 className="text-center mt-4  text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
+                    <h1 className="text-center mt-4 text-xl sm:text-2xl md:text-3xl md:my-4 font-bold">
                       Sign Up
                     </h1>
                     <form
@@ -512,8 +512,8 @@ const Signup = () => {
                           >
                             <option value="">Select a Faculty</option>
                             {fakultas.map((faculty) => (
-                              <option key={faculty.kode} value={faculty.kode}>
-                                {faculty.kode} - {faculty.nama}
+                              <option key={faculty.code} value={faculty.code}>
+                                {faculty.code} - {faculty.name}
                               </option>
                             ))}
                           </select>
@@ -544,8 +544,8 @@ const Signup = () => {
                           >
                             <option value="">Select a Major</option>
                             {majors.map((major) => (
-                              <option key={major.kode} value={major.kode}>
-                                {major.program} - {major.nama}
+                              <option key={major.code} value={major.code}>
+                                {major.degree} - {major.name}
                               </option>
                             ))}
                           </select>
@@ -793,8 +793,8 @@ const Signup = () => {
                           >
                             <option value="">Select a Faculty</option>
                             {fakultas.map((faculty) => (
-                              <option key={faculty.kode} value={faculty.kode}>
-                                {faculty.kode} - {faculty.nama}
+                              <option key={faculty.code} value={faculty.code}>
+                                {faculty.code} - {faculty.name}
                               </option>
                             ))}
                           </select>
@@ -805,7 +805,7 @@ const Signup = () => {
                             htmlFor=""
                           >
                             Lecture Code {""}
-                            {kodeDosen.length < 3 && kodeDosen !== "" && (
+                            {codeDosen.length < 3 && codeDosen !== "" && (
                               <span className="text-red-500 font-normal">
                                 Must be 3 characters.
                               </span>
@@ -815,8 +815,8 @@ const Signup = () => {
                             placeholder=""
                             className={`p-2 text-xs h-full w-full md:text-sm focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg`}
                             type="text"
-                            value={kodeDosen}
-                            onChange={handleKodeDosenChange}
+                            value={codeDosen}
+                            onChange={handlecodeDosenChange}
                           />
                         </div>
                       </div>
@@ -878,7 +878,6 @@ const Signup = () => {
                 )}
                 <div className="absolute mt-2 lg:mt-0 md:static bottom-5 left-0 right-0 flex justify-center text-[8px] sm:text-xs md:text-xs lg:text-base">
                   <label htmlFor="" className="text-center">
-                    {" "}
                     © 2023 Kelompok 7, Inc. All rights reserved. Terms - Privacy
                   </label>
                 </div>

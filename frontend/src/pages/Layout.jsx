@@ -132,12 +132,12 @@ const Layout = () => {
 
   return (
     <>
-      <div className="flex flex-col-reverse md:flex-row-reverse min-h-screen w-screen text-black">
+      <div className="flex flex-col-reverse md:flex-row-reverse w-screen text-black">
         {/* CONTENT */}
         <div
-          className={`min-h-screen  basis-full overflow-y-auto relative bg-white pointer-events-auto`}
+          className={`h-screen basis-full overflow-y-auto scroll-smooth relative bg-white pointer-events-auto`}
         >
-          <div className="p-4 md:p-12 h-full">
+          <div className="h-full">
             <Outlet />
 
             {/* NOTIF BALOON */}

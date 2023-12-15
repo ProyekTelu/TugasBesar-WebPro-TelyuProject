@@ -1,21 +1,12 @@
 import User from "../models/UserModel.js";
 import argon2 from "argon2";
+import { Op, Sequelize, where } from "sequelize";
+import Invitation from "../models/InvitationModel.js";
 
 export const getAllUsers = async (req, res) => {
   try {
     const response = await User.findAll({
-      attributes: [
-        "nomorInduk",
-        "firstName",
-        "lastName",
-        "email",
-        "gender",
-        "kodeDosen",
-        "kodeFakultas",
-        "kodeProdi",
-        "kelas",
-        "role",
-      ],
+      attributes: { exclude: ["photoProfile"] },
     });
     res.status(200).json(response);
   } catch (error) {
@@ -23,11 +14,25 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
+export const getAllStudent = async (req, res) => {
+  try {
+    const response = await User.findAll({
+      where: {
+        role: "student",
+      },
+      attributes: { exclude: ["photoProfile"] },
+    });
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getUsersByNomorInduk = async (req, res) => {
   try {
     const response = await User.findOne({
       where: {
-        nomorInduk: req.params.nomorInduk,
+        userID: req.params.userID,
       },
     });
     res.status(200).json(response);
@@ -82,9 +87,46 @@ export const updateUserByNomorInduk = async (req, res) => {
 
 export const deleteUserByNomorInduk = async (req, res) => {
   try {
-    await User.destroy(req.body);
+    await User.destroy({
+      where: {
+        userID: req.params.userID,
+      },
+    });
     res.status(201).json({ msg: "User Created" });
   } catch (error) {
     console.log(error.message);
+  }
+};
+
+export const deleteAllUsers = async (req, res) => {
+  try {
+    await User.destroy({
+      where: {},
+    });
+    res.status(200).json("All Users Have Been Deleted");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const searchStudent = async (req, res) => {
+  try {
+    const searchText = req.params.searchQuery;
+    const projectID = req.params.projectID;
+
+    const users = await User.findAll({
+      where: {
+        role: "Student",
+        [Op.or]: [
+          { firstName: { [Op.like]: `%${searchText}%` } },
+          { lastName: { [Op.like]: `%${searchText}%` } },
+          { email: { [Op.like]: `%${searchText}%` } },
+        ],
+      },
+    });
+
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
