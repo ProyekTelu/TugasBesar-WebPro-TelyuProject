@@ -5,11 +5,86 @@ import { FaDotCircle } from "react-icons/fa";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const options = [
-
+  { value: "ALL", label: "ALL" },
+  { value: "Waiting for Approve", label: "Waiting" },
+  { value: "Declined", label: "Declined" },
+  { value: "Accepted", label: "Accepted" },
 ];
 
 const notificationElements = [
-  
+  {
+    id: 1,
+    title:
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio, nesciunt.",
+    status: "Waiting for Approve",
+    dotColor: "text-yellow-600",
+  },
+  {
+    id: 2,
+    title: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
+    status: "Waiting for Approve",
+    dotColor: "text-yellow-600",
+  },
+  {
+    id: 3,
+    title: "Lorem ipsum dolor sit.",
+    status: "Waiting for Approve",
+    dotColor: "text-yellow-600",
+  },
+  {
+    id: 4,
+    title: "Echo Warrior",
+    status: "Accepted",
+    dotColor: "text-green-500",
+  },
+  {
+    id: 5,
+    title: "Echoschopus Endropus",
+    status: "Declined",
+    dotColor: "text-primary",
+  },
+  {
+    id: 6,
+    title: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
+    status: "Waiting for Approve",
+    dotColor: "text-yellow-600",
+  },
+  {
+    id: 7,
+    title: "Lorem ipsum dolor sit.",
+    status: "Waiting for Approve",
+    dotColor: "text-yellow-600",
+  },
+  {
+    id: 8,
+    title: "Echo Warrior",
+    status: "Accepted",
+    dotColor: "text-green-500",
+  },
+  {
+    id: 9,
+    title: "Echo Warrior",
+    status: "Accepted",
+    dotColor: "text-green-500",
+  },
+  {
+    id: 10,
+    title: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
+    status: "Waiting for Approve",
+    dotColor: "text-yellow-600",
+  },
+  {
+    id: 11,
+    title: "Lorem ipsum dolor sit.",
+    status: "Waiting for Approve",
+    dotColor: "text-yellow-600",
+  },
+  {
+    id: 12,
+    title: "Echo Warrior",
+    status: "Accepted",
+    dotColor: "text-green-500",
+  },
 ];
 
 const Notification = () => {
