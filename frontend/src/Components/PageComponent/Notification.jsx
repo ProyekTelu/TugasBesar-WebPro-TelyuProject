@@ -11,7 +11,7 @@ const options = [
   { value: "Accepted", label: "Accepted" },
 ];
 
-const dummyNotifications = [
+const notificationElements = [
   {
     id: 1,
     title:
@@ -91,7 +91,7 @@ const Notification = () => {
   const [notifActive, setNotifActive] = useState(false);
   const [notifState, setNotifState] = useState("ALL");
   const [notifications, setNotifications] = useState(
-    dummyNotifications.slice(0, 5)
+    notificationElements.slice(0, 5)
   );
   const notificationRef = useRef(null);
   const [hasMore, setHasMore] = useState(true);
@@ -123,7 +123,7 @@ const Notification = () => {
   };
 
   const fetchMoreData = () => {
-    if (notifications.length >= dummyNotifications.length) {
+    if (notifications.length >= notificationElements.length) {
       setHasMore(false);
       return;
     }
@@ -131,7 +131,7 @@ const Notification = () => {
     setTimeout(() => {
       setNotifications((prevNotifications) =>
         prevNotifications.concat(
-          dummyNotifications.slice(
+          notificationElements.slice(
             prevNotifications.length,
             prevNotifications.length + 5
           )
@@ -153,7 +153,7 @@ const Notification = () => {
           className={`h-full w-full p-4 my-auto  text-white transition  active:scale-90`}
         />
         <div className="absolute right-3 top-2 bg-primary rounded-full h-5 w-5 flex justify-center">
-          <div className="my-auto text-xs text-white font-medium">10</div>
+          <div className="my-auto text-xs text-white font-medium">{notificationElements.length}</div>
         </div>
       </div>
       <div
@@ -190,12 +190,7 @@ const Notification = () => {
           endMessage={<p>No more notifications</p>}
           className="w-auto my-auto p-5 text-base flex flex-col gap-2 max-h-[80vh] overflow-y-auto"
         >
-          {dummyNotifications
-            .filter(
-              (notification) =>
-                notifState === "ALL" || notification.status === notifState
-            )
-            .map((notification) => (
+          {notificationElements.map((notification) => (
               <div
                 key={notification.id}
                 className="bg-white group h-auto hover:bg-primaryAlternative border-2 rounded-lg active:scale-95 transition w-full md:w-96 p-2 flex flex-row gap-2 cursor-pointer"

@@ -12,7 +12,8 @@ export const createInvitation = async (req, res) => {
           roleID: req.body.roleID,
           receiverID: req.body.receiverID,
           projectID: req.body.projectID,
-          status : req.body.status
+          status : "waiting",
+          message : req.body.message 
         } 
       }
     )
@@ -57,18 +58,18 @@ export const getInvitationsByUserID = async (req, res) => {
 
 export const InvitationUpdated = async (req, res, next) => {
   try {
-    const invitation = Invitation.update(
-      { 
+      const invitation = Invitation.update(
+      {  
         status: req.body.status 
       }, {
       where: {
         invitationID : req.body.invitationID
       }
     });
-    res.status(200).json(invitation); 
-    if (req.body.status === "rejected") return; 
+    if (req.body.status === "rejected") return res.status(200).json({message : "Invitation has been rejected"}); 
+    req.body.userID = req.body.receiverID
     next();
   } catch (error) {
-    res.status(500).json({message : "failed to update the status"}, error) 
+    res.status(500).json({message : "failed to update the status"}, error)   
   }
 }
