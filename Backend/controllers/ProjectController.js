@@ -282,12 +282,12 @@ export const createProjectMember = async (req, res) => {
       },
     });
     if (created) {
-      res.status(201).json(createProjectMember);
+      res.status(201).json({message : "User has been succesfully added to the project", createProjectMember});
     } else {
       res.status(409).json({ message: "Record already exists" });
     }
   } catch (error) {
-    res.status(500).json({ message: "failed to add new member", error });
+    res.status(500).json({ message: "failed to add new member", error: error, body: req.body});
   }
 };
 
