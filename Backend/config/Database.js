@@ -6,3 +6,4 @@ const db = new Sequelize("telyu_project", "root", "", {
 });
 
 export default db;
+
