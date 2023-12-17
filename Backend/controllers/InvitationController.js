@@ -58,7 +58,7 @@ export const getInvitationsByUserID = async (req, res) => {
 export const InvitationUpdated = async (req, res, next) => {
   try {
       const invitation = Invitation.update(
-      { 
+      {  
         status: req.body.status 
       }, {
       where: {
