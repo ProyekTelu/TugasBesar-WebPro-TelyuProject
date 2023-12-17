@@ -112,7 +112,7 @@ export const getNewestProjects = async (req, res) => {
           include: [
             {
               model: User,
-              attributes: ["firstName", "lastName", "email"],
+              attributes: ["firstName", "lastName", "email", "photoProfile"],
             },
             {
               model: Role,
@@ -244,7 +244,7 @@ export const getProjectByProjectID = async (req, res) => {
           include: [
             {
               model: User,
-              attributes: ["firstName", "lastName", "email"],
+              attributes: ["firstName", "lastName", "email", "photoProfile"],
             },
             {
               model: Role,

@@ -34,6 +34,10 @@ const Invitation = db.define(
     status: {
       type : DataTypes.STRING,
       allowNull: false,
+    },
+    message: {
+      type : DataTypes.TEXT,
+      allowNull: true,
     }
   },
   {

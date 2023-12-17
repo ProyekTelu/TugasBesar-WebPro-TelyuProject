@@ -7,6 +7,8 @@ import { BsThreeDots } from "react-icons/bs";
 import { MoonLoader } from "react-spinners";
 import { IoMdPersonAdd } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
+import { toast } from "react-toastify";
+import { FaPlusCircle } from "react-icons/fa";
 import {
   Tooltip,
   Menu,
@@ -73,6 +75,35 @@ function MyProjectDetail() {
     setSelectedUser(null);
     setSearchQuery(value);
   };
+
+  const sendInvitation = async () => {
+    try {
+      var formData = new FormData();
+      formData.append("senderID", selectedProject.projectOwnerID)
+      formData.append("roleID", selectedProject.ProjectRoles.find(role => role.Role.name === inviteSelectedRole).roleID)
+      formData.append("receiverID", selectedUser)
+      formData.append("projectID", selectedProject.projectID)
+      formData.append("message", message)
+
+      axios({
+        method: "post",
+        url: "http://localhost:5000/invitation",
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+        .then(function (response) {
+          toast.success("Invitation is Send") 
+          console.log(response);
+        })
+        .catch(function (response) {
+          toast.error("Post Error")
+          console.log(response);
+        });
+    } catch (error) {
+      toast.error("Send Invitation Error")
+    }
+    setIsModalInviteMemberOpen(false)
+  }
 
   const searchStudents = useCallback(async () => {
     try {
@@ -289,7 +320,7 @@ function MyProjectDetail() {
                           </div>
                         ))
                       ) : (
-                        <div className="flex flex-row gap-5  justify-center py-4 cursor-pointer duration-300 hover:bg-grey active:bg-greyAlternative px-3 w-full hover:rounded-xl">
+                        <div className="flex flex-row gap-5  justify-center py-4  duration-300 px-3 w-full ">
                           <div className="text-4xl">
                             <IoMdPersonAdd />
                           </div>
@@ -307,7 +338,7 @@ function MyProjectDetail() {
             </div>
           </div>
           <Modal
-            className="w-sreen h-screen flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
+            className="w-screen h-screen flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
             isOpen={isModalInviteMemberOpen}
             onRequestClose={() => setIsModalInviteMemberOpen(false)}
           >
@@ -440,7 +471,7 @@ function MyProjectDetail() {
                 </Button>
                 <Button
                   disabled={selectedUser === null || message === ""}
-                  // onClick={sendInvitation}
+                  onClick={sendInvitation}
                 >
                   Send
                 </Button>

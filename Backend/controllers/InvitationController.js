@@ -12,7 +12,8 @@ export const createInvitation = async (req, res) => {
           roleID: req.body.roleID,
           receiverID: req.body.receiverID,
           projectID: req.body.projectID,
-          status : req.body.status
+          status : "waiting",
+          message : req.body.message 
         } 
       }
     )
