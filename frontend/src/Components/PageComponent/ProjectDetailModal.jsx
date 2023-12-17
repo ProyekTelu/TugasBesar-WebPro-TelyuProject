@@ -38,6 +38,9 @@ function ProjectDetailModal({ onClose, selectedProject }) {
 
   const [joinSelectedRole, setJoinSelectedRole] = useState("Select Role");
   const [joinSelectedRoleID, setJoinSelectedRoleID] = useState(null);
+  const [initialJoinSelectedRoleID, setInitialJoinSelectedRoleID] = useState(
+    project.ProjectRoles[0].roleID
+  );
 
   const isCurrentUserMember = selectedProject.ProjectMembers.some(
     (member) => member.userID === currentUserId
@@ -103,6 +106,10 @@ function ProjectDetailModal({ onClose, selectedProject }) {
       toast.error("Error submitting join request. Please try again.");
     }
   };
+  
+  useEffect(() => {
+    setJoinSelectedRoleID(initialJoinSelectedRoleID);
+  }, [initialJoinSelectedRoleID]);
 
   useEffect(() => {
     setIsInputComplete(
@@ -329,10 +336,7 @@ function ProjectDetailModal({ onClose, selectedProject }) {
                       <select
                         id="projectRoles"
                         className="font-medium text-xs md:text-base cursor-pointer hover:bg-grey rounded-lg transition duration-300 block w-full p-2.5 "
-                        value={
-                          joinSelectedRoleID ||
-                          project.ProjectRoles[0].roleID
-                        }
+                        value={joinSelectedRoleID}
                         onChange={handleRoleSelect}
                       >
                         <option key={-1} value="" disabled>
