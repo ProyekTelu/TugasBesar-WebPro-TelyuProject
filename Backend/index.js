@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
 import db from "./config/Database.js";
 
-
 //route
 import UserRoute from "./routes/UserRoutes.js";
 import AuthRoute from "./routes/AuthRoutes.js";
@@ -68,10 +67,10 @@ const runInisialData = async () => {
   await initializeData().then(() => {
     console.log("Inisialisasi Berhasil");
   });
-}; 
+};
 
 // menjalankan fungsi untuk inisial data
-// runInisialData(); 
+// runInisialData();
 
 app.listen(process.env.APP_PORT, () =>
   console.log("server listening on port " + process.env.APP_PORT)

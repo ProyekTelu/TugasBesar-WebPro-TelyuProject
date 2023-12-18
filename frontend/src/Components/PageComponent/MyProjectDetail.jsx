@@ -9,6 +9,7 @@ import { IoMdPersonAdd } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
 import { FaPlusCircle } from "react-icons/fa";
+import { FaRegCalendarAlt } from "react-icons/fa";
 import {
   Tooltip,
   Menu,
@@ -37,9 +38,24 @@ function MyProjectDetail() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [isModalEditProjectOpen, setIsModalEditProjectOpen] = useState(false);
 
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+
+  //edit project var
+
+  const [editName, setEditName] = useState("");
+  const [editStartDate, setEditStartDate] = useState("");
+  const [editEndDate, setEditEndDate] = useState("");
+  const [editDesc, setEditDesc] = useState("");
+
+  const handleEditProject = () => {
+    setEditName(selectedProject.title);
+    setEditStartDate(selectedProject.startDate);
+    setEditEndDate(selectedProject.endDate);
+    setEditDesc(selectedProject.description);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -79,11 +95,16 @@ function MyProjectDetail() {
   const sendInvitation = async () => {
     try {
       var formData = new FormData();
-      formData.append("senderID", selectedProject.projectOwnerID)
-      formData.append("roleID", selectedProject.ProjectRoles.find(role => role.Role.name === inviteSelectedRole).roleID)
-      formData.append("receiverID", selectedUser)
-      formData.append("projectID", selectedProject.projectID)
-      formData.append("message", message)
+      formData.append("senderID", selectedProject.projectOwnerID);
+      formData.append(
+        "roleID",
+        selectedProject.ProjectRoles.find(
+          (role) => role.Role.name === inviteSelectedRole
+        ).roleID
+      );
+      formData.append("receiverID", selectedUser);
+      formData.append("projectID", selectedProject.projectID);
+      formData.append("message", message);
 
       axios({
         method: "post",
@@ -92,18 +113,18 @@ function MyProjectDetail() {
         headers: { "Content-Type": "multipart/form-data" },
       })
         .then(function (response) {
-          toast.success("Invitation is Send") 
+          toast.success("Invitation is Send");
           console.log(response);
         })
         .catch(function (response) {
-          toast.error("Post Error")
+          toast.error("Post Error");
           console.log(response);
         });
     } catch (error) {
-      toast.error("Send Invitation Error")
+      toast.error("Send Invitation Error");
     }
-    setIsModalInviteMemberOpen(false)
-  }
+    setIsModalInviteMemberOpen(false);
+  };
 
   const searchStudents = useCallback(async () => {
     try {
@@ -152,6 +173,36 @@ function MyProjectDetail() {
 
   // const sendInvitation = async () => {};
 
+  const formatDate = (inputDate) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "2-digit",
+    };
+
+    const date = new Date(inputDate);
+    const formattedDate = date.toLocaleDateString("id-ID", options);
+    return formattedDate;
+  };
+
+  const formatDateShort = (inputDate) => {
+    const options = {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+    };
+
+    const date = new Date(inputDate);
+    const formattedDate = date.toLocaleDateString("id-ID", options);
+
+    // Ubah format bulan menjadi tiga huruf pertama
+    const splitDate = formattedDate.split(" ");
+    const month = splitDate[1];
+    const dayYear = splitDate[0] + " " + splitDate[2];
+
+    return `${month} ${dayYear}`;
+  };
+
   return (
     <div className="w-full p-4 md:p-12 overflow-y-auto scroll-smooth h-screen md:min-h-screen flex flex-col">
       {isLoading ? (
@@ -186,7 +237,15 @@ function MyProjectDetail() {
                     </MenuHandler>
                     <MenuList>
                       <MenuItem>
-                        <div className="">Edit Project Details</div>
+                        <div
+                          onClick={() => {
+                            setIsModalEditProjectOpen(true);
+                            handleEditProject();
+                          }}
+                          className=""
+                        >
+                          Edit Project Details
+                        </div>
                       </MenuItem>
                       <MenuItem>
                         <div className="text-primary">
@@ -234,6 +293,21 @@ function MyProjectDetail() {
                     <p className="mt-4 w-full text-sm md:text-base h-auto">
                       {selectedProject.description}
                     </p>
+                  </div>
+                  <div>
+                    <div className="flex flex-row gap-4 justify-between">
+                      <div className="flex flex-row gap-4">
+                        <h1 className="text-lg md:text-xl font-bold my-auto">
+                          Project Duration
+                        </h1>
+                      </div>
+                    </div>
+
+                    <div className="w-full mt-4 flex flex-col cursor-pointer group">
+                      {formatDate(selectedProject.startProject) +
+                        " - " +
+                        formatDate(selectedProject.endProject)}
+                    </div>
                   </div>
                   <div>
                     <div className="flex flex-row gap-4 justify-between">
@@ -475,6 +549,89 @@ function MyProjectDetail() {
                 >
                   Send
                 </Button>
+              </div>
+            </div>
+          </Modal>
+
+          <Modal
+            className="w-screen h-screen flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
+            isOpen={isModalEditProjectOpen}
+            onRequestClose={() => setIsModalEditProjectOpen(false)}
+          >
+            <div className="w-screen xs:max-w-[80vw] md:w-[60vw] xl:w-[30vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
+              <div className="flex justify-between  gap-4">
+                <h1 className="my-auto text-lg md:text-xl font-medium">
+                  Project details
+                </h1>
+                <Button
+                  variant="text"
+                  onClick={() => {
+                    setIsModalEditProjectOpen(false);
+                    setSelectedUser(null);
+                    setSearchQuery("");
+                    setMessage("");
+                  }}
+                >
+                  <IoMdClose className="text-lg" />
+                </Button>
+              </div>
+              <hr className="mt-2" />
+              <div className="md:max-h-[50vh] overflow-y-scroll overflow-x-hidden px-4 mt-2">
+                <div className="py-4 font-medium flex flex-col gap-4 w-full ">
+                  <label htmlFor="">Name</label>
+                  <div className="relative w-full border rounded-2xl px-2 py-1 border-blackAlternative transition hover:outline outline-1 focus:outline focus:outline-2  outline-blackAlternative ">
+                    <input
+                      type="text"
+                      value={editName}
+                      onChange={(e) => {
+                        setEditName(e.target.value);
+                      }}
+                      className="p-1 w-full md:w-3/5 border-none outline-none overflow-x-scroll"
+                    />
+                  </div>
+                  <div className="flex flex-col md:flex-row justify-between gap-4 ">
+                    <div className="">
+                      <label htmlFor="">Owner</label>
+                      <div className="flex gap-2 hover:bg-grey cursor-pointer py-2 px-2 mt-1 rounded-md  ">
+                        <div>photo</div>
+                        <div className="line-clamp-1">
+                          {selectedProject.projectOwner.firstName +
+                            " " +
+                            selectedProject.projectOwner.lastName}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="">
+                      <label htmlFor="">Due Date</label>
+                      <div className="flex gap-2 hover:bg-grey cursor-pointer py-2 px-2 mt-1 rounded-md transition">
+                        <FaRegCalendarAlt className="my-auto" />
+                        <div className="whitespace-nowrap">
+                          {formatDateShort(selectedProject.startProject) +
+                            " - " +
+                            formatDateShort(selectedProject.endProject)}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                  <label
+                    htmlFor=""
+                    className="mt-1 text-base text-black font-bold"
+                  >
+                    Project Description
+                  </label>
+                  <textarea
+                    name=""
+                    className="p-2 rounded-2xl hover:outline outline-1 focus:outline-2 outline-blackAlternative  transition"
+                    id=""
+                    rows="5"
+                    value={editDesc}
+                    onChange={(e) => {
+                      setEditDesc(e.target.value);
+                    }}
+                    placeholder="Add a message"
+                  ></textarea>
+                </div>
               </div>
             </div>
           </Modal>
