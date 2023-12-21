@@ -28,7 +28,6 @@ import Invitations from "./InitialData/Invitations.js";
 dotenv.config();
 
 const app = express();
-app.use(fileUpload());
 
 app.use(
   cors({
@@ -36,8 +35,9 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
-
 app.use(express.json());
+app.use(fileUpload());
+app.use(express.static("public"));
 
 app.use(UserRoute);
 app.use(AuthRoute);

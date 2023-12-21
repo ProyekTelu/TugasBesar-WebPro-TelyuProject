@@ -45,13 +45,13 @@ function MyProjectDetail() {
 
   //edit project var
 
-  const [editName, setEditName] = useState("");
+  const [editTitle, setEditTitle] = useState("");
   const [editStartDate, setEditStartDate] = useState("");
   const [editEndDate, setEditEndDate] = useState("");
   const [editDesc, setEditDesc] = useState("");
 
   const handleEditProject = () => {
-    setEditName(selectedProject.title);
+    setEditTitle(selectedProject.title);
     setEditStartDate(selectedProject.startDate);
     setEditEndDate(selectedProject.endDate);
     setEditDesc(selectedProject.description);
@@ -138,6 +138,96 @@ function MyProjectDetail() {
       setIsSearchLoading(false);
     }
   }, [searchQuery, projectId]);
+
+  const [errorTitleMessageDisplayed, setErrorTitleMessageDisplayed] =
+    useState(null);
+
+  const handleEditTitle = async (e) => {
+    const newTitle = e.target.value;
+
+    if (newTitle.length >= 3) {
+      try {
+        const response = await axios.put(
+          `http://localhost:5000/projects/${selectedProject.projectID}/title`,
+          {
+            newTitle: newTitle,
+          }
+        );
+
+        if (response.status === 200) {
+          setEditTitle(newTitle);
+          if (errorTitleMessageDisplayed) {
+            toast.dismiss(errorTitleMessageDisplayed);
+            setErrorTitleMessageDisplayed(null);
+          }
+        }
+      } catch (error) {
+        console.error("API error:", error);
+      }
+    } else if (newTitle.length < 3 && !errorTitleMessageDisplayed) {
+      const toastId = toast.error(
+        "Title should be at least 3 characters long.",
+        {
+          position: "top-right",
+          hideProgressBar: true,
+          autoClose: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      );
+      setErrorTitleMessageDisplayed(toastId);
+    }
+
+    setEditTitle(newTitle);
+  };
+
+  const [errorDescMessageDisplayed, setErrorDescMessageDisplayed] =
+    useState(null);
+
+  const handleEditDesc = async (e) => {
+    const newDescription = e.target.value;
+
+    if (newDescription.length >= 12) {
+      try {
+        const response = await axios.put(
+          `http://localhost:5000/projects/${selectedProject.projectID}/description`,
+          {
+            newDescription: newDescription,
+          }
+        );
+
+        if (response.status === 200) {
+          setEditDesc(newDescription);
+          if (errorDescMessageDisplayed) {
+            toast.dismiss(errorDescMessageDisplayed);
+            setErrorDescMessageDisplayed(null);
+          }
+        }
+      } catch (error) {
+        console.error("API error:", error);
+      }
+    } else if (newDescription.length < 12 && !errorDescMessageDisplayed) {
+      const toastId = toast.error(
+        "Description should be at least 12 characters long.",
+        {
+          position: "top-right",
+          hideProgressBar: true,
+          autoClose: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      );
+      setErrorDescMessageDisplayed(toastId);
+    }
+
+    setEditDesc(newDescription);
+  };
 
   useEffect(() => {
     setIsSearchLoading(true);
@@ -351,13 +441,7 @@ function MyProjectDetail() {
                             <div className="flex flex-row gap-4 items-center">
                               <img
                                 alt="profile"
-                                src={URL.createObjectURL(
-                                  new Blob([
-                                    new Uint8Array(
-                                      member.user.photoProfile.data
-                                    ),
-                                  ])
-                                )}
+                                src={member.user.photoProfileUrl}
                                 className="h-10 aspect-square rounded-full bg-black"
                               ></img>
                               <div className="flex flex-col">
@@ -558,7 +642,7 @@ function MyProjectDetail() {
             isOpen={isModalEditProjectOpen}
             onRequestClose={() => setIsModalEditProjectOpen(false)}
           >
-            <div className="w-screen xs:max-w-[80vw] md:w-[60vw] xl:w-[30vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
+            <div className="w-screen xs:max-w-[80vw] md:w-[45vw] xl:w-[30vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
               <div className="flex justify-between  gap-4">
                 <h1 className="my-auto text-lg md:text-xl font-medium">
                   Project details
@@ -567,9 +651,21 @@ function MyProjectDetail() {
                   variant="text"
                   onClick={() => {
                     setIsModalEditProjectOpen(false);
-                    setSelectedUser(null);
-                    setSearchQuery("");
-                    setMessage("");
+                    if (errorTitleMessageDisplayed) {
+                      setEditTitle(selectedProject.title);
+                      setErrorTitleMessageDisplayed(null);
+                      toast.dismiss();
+                    } else {
+                      selectedProject.title = editTitle;
+                    }
+
+                    if (errorDescMessageDisplayed) {
+                      setEditDesc(selectedProject.description);
+                      setErrorDescMessageDisplayed(null);
+                      toast.dismiss();
+                    } else {
+                      selectedProject.description = editDesc;
+                    }
                   }}
                 >
                   <IoMdClose className="text-lg" />
@@ -582,11 +678,9 @@ function MyProjectDetail() {
                   <div className="relative w-full border rounded-2xl px-2 py-1 border-blackAlternative transition hover:outline outline-1 focus:outline focus:outline-2  outline-blackAlternative ">
                     <input
                       type="text"
-                      value={editName}
-                      onChange={(e) => {
-                        setEditName(e.target.value);
-                      }}
-                      className="p-1 w-full md:w-3/5 border-none outline-none overflow-x-scroll"
+                      value={editTitle}
+                      onChange={handleEditTitle}
+                      className="p-1 w-full border-none outline-none overflow-x-scroll"
                     />
                   </div>
                   <div className="flex flex-col md:flex-row justify-between gap-4 ">
@@ -626,9 +720,7 @@ function MyProjectDetail() {
                     id=""
                     rows="5"
                     value={editDesc}
-                    onChange={(e) => {
-                      setEditDesc(e.target.value);
-                    }}
+                    onChange={handleEditDesc}
                     placeholder="Add a message"
                   ></textarea>
                 </div>

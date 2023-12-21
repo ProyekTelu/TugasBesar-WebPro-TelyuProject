@@ -71,8 +71,16 @@ const User = db.define(
     phoneNumber: {
       type: DataTypes.STRING,
     },
-    photoProfile: {
-      type: DataTypes.BLOB("long"),
+    photoProfileName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    photoProfileImage: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    photoProfileUrl: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
     role: {

@@ -61,21 +61,21 @@ const Landingpage = () => {
       : null
   );
 
-  const [userImage, setUserImage] = useState("");
+  const [userImage, setUserImage] = useState(user.photoProfileUrl);
 
   //convert blob ke gambar
-  useEffect(() => {
-    if (user !== null && user.photoProfile && user.photoProfile.data) {
-      const base64String = btoa(
-        new Uint8Array(user.photoProfile.data).reduce(
-          (data, byte) => data + String.fromCharCode(byte),
-          ""
-        )
-      );
-      const url = `data:image/png;base64,${base64String}`;
-      setUserImage(url);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user !== null && user.photoProfile && user.photoProfile.data) {
+  //     const base64String = btoa(
+  //       new Uint8Array(user.photoProfile.data).reduce(
+  //         (data, byte) => data + String.fromCharCode(byte),
+  //         ""
+  //       )
+  //     );
+  //     const url = `data:image/png;base64,${base64String}`;
+  //     setUserImage(url);
+  //   }
+  // }, [user]);
 
   const faculties = [
     {
