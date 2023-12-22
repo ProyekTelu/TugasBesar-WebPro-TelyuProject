@@ -26,7 +26,6 @@ export function Requested() {
   const [imageSrc, setImageSrc] = useState('');
   const [LoadingMyRequest, setIsLoadingMyRequest] = useState(false);
   const [NoMyRequest, setIsNoRequest] = useState(false);
-  const [selectedProject, setSelectedProject] = useState("");
 
   useEffect(() => {
     if (!storedUser) {
@@ -71,27 +70,15 @@ export function Requested() {
 
 
   const [modal, setModal] = useState(false);
+  const[SelectedRequest, setSelectedRequest] = useState([]);
 
-  const[selectedRequest, setSelectedRequest] = useState([]);
-
-  const toggleModal = async (projectID,requestID) => {
+  const toggleModal = async (requestDetail) => {
     try{
-      setSelectedProject(seeRequest.find(project => project.projectID === projectID));
-      
-      if (selectedProject) {
-        // Temukan permintaan dengan requestID yang sesuai di dalam proyek yang telah ditemukan
-        const selectedRequest = selectedProject.Requests.find(request => request.requestID === requestID);
-  
-        if (selectedRequest) {
-          // Lakukan apa pun yang diperlukan dengan data permintaan yang telah ditemukan
-          setSelectedRequest(selectedRequest);
-          setModal(true);
-        } else {
-          console.error("Request not found for requestID:", requestID);
-        }
-      } else {
-        console.error("Project not found for projectID:", projectID);
-      }
+      const respone = await axios.get(
+        `http://localhost:5000/requestProjectDetail/${requestDetail}`
+      );
+      setSelectedRequest(respone.data);
+      setModal(true);
     }catch(error){
       console.error("Failed to fetch project:", error);
     }
@@ -101,9 +88,6 @@ export function Requested() {
 
   //DIalog command
   const [open, setOpen] = useState(false);
-  const closeModalDetail = () => {
-    setModal(false);
-  };
 
   const handleOpen = () => setOpen(!open);
   const handleClose = () => setOpen(toggleModal);
@@ -118,11 +102,11 @@ export function Requested() {
   //   setOpen(false);
   // }
 
-  // if (modal) {
-  //   document.body.classList.add("active-modal");
-  // }  else {
-  //   document.body.classList.remove("active-modal");
-  // }
+  if (modal) {
+    document.body.classList.add("active-modal");
+  }  else {
+    document.body.classList.remove("active-modal");
+  }
   //======================//
 
   return (
@@ -207,7 +191,7 @@ export function Requested() {
                 </div>
                 <div className="flex justify-center ">
                   <label
-                    onClick={() => toggleModal(request.projectID,req.requestID)}
+                    onClick={() => toggleModal(request.projectID)}
                     className="transition-transform transform hover:scale-105 mt-4 text-cyan-400 cursor-pointer active:scale-95"
                   >
                     View  {req.user.firstName}  Requested
@@ -255,20 +239,22 @@ export function Requested() {
       </div>
   
       {modal && (
+        SelectedRequest.map((requestDetail, index)=>(
           
         <div
-          onClick={closeModalDetail}
+          onClick={toggleModal}
           className=" fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
         >
           
-          <div className="modal-container transition-transform transform hover:scale-110">
-            <div className=" -screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
+          <div key={index}className="modal-container transition-transform transform hover:scale-110">
+          {requestDetail.Requests((reqReq, recsIndex)=>(
+            <div key={recsIndex}className=" -screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
               <div className="  mb-1 flex justify-between ">
                 <h2 className=" text-primary text-3xl font-semibold my-auto">
-                  {selectedProject.title}
+                  {requestDetail.title}
                 </h2>
                 <button
-                  onClick={closeModalDetail}
+                  onClick={toggleModal}
                   className=" my-auto focus:outline-none transition-transform transform hover:scale-110"
                 >
                   <AiFillCloseCircle className="text-4xl" />
@@ -277,7 +263,7 @@ export function Requested() {
               <hr className="my-4 rounded-full bg-tertiaryAlternative" />
               <div className=" mb-1 flex justify-between">
                 <h2 className=" text-2xl font-semibold my-auto">
-                  Requested By {selectedRequest.user.firstName}
+                  Requested By {""}
                 </h2>
               </div>
               <div className=" mb-4 flex justify-between">
@@ -289,7 +275,7 @@ export function Requested() {
               <div className="mb-4">
                 <label className="text-gray-600 font-semibold">Message :</label>
                 <p>
-                  {selectedRequest.message}
+                  {reqReq.message}
                 </p>
               </div>
               <div className="mb-9">
@@ -314,10 +300,10 @@ export function Requested() {
                 </button>
               </div>
             </div>
-            
+            ))};
           </div>
         </div>
-     )};
+     )) )};
     </div>
   );
 }

@@ -72,3 +72,11 @@ export const InvitationUpdated = async (req, res, next) => {
     res.status(500).json({message : "failed to update the status"}, error) 
   }
 }
+
+
+
+
+
+
+
+
