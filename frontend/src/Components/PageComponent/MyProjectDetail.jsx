@@ -92,7 +92,7 @@ function MyProjectDetail() {
         headers: { "Content-Type": "multipart/form-data" },
       })
         .then(function (response) {
-          toast.success("Invitation is Send") 
+          toast.success("Invitation is Send")
           console.log(response);
         })
         .catch(function (response) {
@@ -201,15 +201,14 @@ function MyProjectDetail() {
               <Tooltip content="Project Status">
                 <div className="flex gap-2 ml-2 rounded-full border-2 px-3 mt-3 xs:mt-0">
                   <p
-                    className={`py-2 rounded-lg bg-transparent w-full my-auto font-semibold  ${
-                      selectedProject.projectStatus === "Open Request"
+                    className={`py-2 rounded-lg bg-transparent w-full my-auto font-semibold  ${selectedProject.projectStatus === "Open Request"
                         ? "text-yellow-600"
                         : selectedProject.projectStatus === "Active"
-                        ? "text-green-500"
-                        : selectedProject.projectStatus === "Finished"
-                        ? "text-red-500"
-                        : ""
-                    } `}
+                          ? "text-green-500"
+                          : selectedProject.projectStatus === "Finished"
+                            ? "text-red-500"
+                            : ""
+                      } `}
                   >
                     <FaDotCircle className="text-lg mx-auto shadow-md rounded-full" />
                   </p>
@@ -246,7 +245,7 @@ function MyProjectDetail() {
                           {selectedProject.totalMember + ")"}
                         </h1>
                       </div>
-                      {selectedProject.ProjectMembers.length !== 0 &&
+                      {
                         user.role === "lecturer" && (
                           <Tooltip content="Add member">
                             <div
@@ -262,12 +261,13 @@ function MyProjectDetail() {
                               </label>
                             </div>
                           </Tooltip>
-                        )}
+                        )
+                      }
                     </div>
 
                     <div className="w-full mt-4 flex flex-col cursor-pointer group">
                       {selectedProject.ProjectMembers &&
-                      selectedProject.ProjectMembers.length > 0 ? (
+                        selectedProject.ProjectMembers.length > 0 ? (
                         selectedProject.ProjectMembers.map((member, index) => (
                           <div
                             key={index}
