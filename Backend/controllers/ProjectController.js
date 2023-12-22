@@ -262,7 +262,13 @@ export const getProjectByProjectID = async (req, res) => {
         {
           model: User,
           as: "projectOwner",
-          attributes: ["userID", "firstName", "lastName", "email"],
+          attributes: [
+            "userID",
+            "firstName",
+            "lastName",
+            "email",
+            "photoProfileUrl",
+          ],
         },
         {
           model: ProjectRole,

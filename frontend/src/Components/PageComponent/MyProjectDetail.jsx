@@ -500,7 +500,7 @@ function MyProjectDetail() {
             isOpen={isModalInviteMemberOpen}
             onRequestClose={() => setIsModalInviteMemberOpen(false)}
           >
-            <div className="w-screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
+            <div className="w-screen xs:max-w-[80vw] md:w-[50vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
               <div className="flex justify-between  gap-4">
                 <h1 className="my-auto text-lg md:text-xl font-medium">
                   Add Student to {selectedProject.title}
@@ -526,7 +526,7 @@ function MyProjectDetail() {
                       type="text"
                       value={searchQuery}
                       onChange={handleInputChange}
-                      className="p-1 w-full md:w-3/5 border-none outline-none overflow-x-scroll"
+                      className="p-1 w-full md:w-3/6 xl:w-3/4 border-none outline-none overflow-x-scroll"
                       placeholder="Add students by name or email..."
                     />
                     {searchQuery && !selectedUser && (
@@ -687,8 +687,12 @@ function MyProjectDetail() {
                     <div className="">
                       <label htmlFor="">Owner</label>
                       <div className="flex gap-2 hover:bg-grey cursor-pointer py-2 px-2 mt-1 rounded-md  ">
-                        <div>photo</div>
-                        <div className="line-clamp-1">
+                        <img
+                          className="h-10 aspect-square rounded-full"
+                          src={selectedProject.projectOwner.photoProfileUrl}
+                          alt=""
+                        />
+                        <div className="line-clamp-1 my-auto">
                           {selectedProject.projectOwner.firstName +
                             " " +
                             selectedProject.projectOwner.lastName}
@@ -697,9 +701,9 @@ function MyProjectDetail() {
                     </div>
                     <div className="">
                       <label htmlFor="">Due Date</label>
-                      <div className="flex gap-2 hover:bg-grey cursor-pointer py-2 px-2 mt-1 rounded-md transition">
-                        <FaRegCalendarAlt className="my-auto" />
-                        <div className="whitespace-nowrap">
+                      <div className="flex gap-2 hover:bg-grey  cursor-pointer py-2 px-2 mt-1 rounded-md transition">
+                        <FaRegCalendarAlt className="my-auto h-10" />
+                        <div className="whitespace-nowrap my-auto">
                           {formatDateShort(selectedProject.startProject) +
                             " - " +
                             formatDateShort(selectedProject.endProject)}
