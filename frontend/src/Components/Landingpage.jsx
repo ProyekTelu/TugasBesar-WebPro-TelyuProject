@@ -60,8 +60,13 @@ const Landingpage = () => {
       ? JSON.parse(localStorage.getItem("user"))
       : null
   );
+  const [userImage, setUserImage] = useState("");
 
-  const [userImage, setUserImage] = useState(user.photoProfileUrl);
+  useEffect(() => {
+    if (user) {
+      setUserImage(user.photoProfileUrl);
+    }
+  }, [user]);
 
   //convert blob ke gambar
   // useEffect(() => {
