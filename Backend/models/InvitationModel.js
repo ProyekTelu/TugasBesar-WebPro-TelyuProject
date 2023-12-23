@@ -31,6 +31,14 @@ const Invitation = db.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    status: {
+      type : DataTypes.STRING,
+      allowNull: false,
+    },
+    message: {
+      type : DataTypes.TEXT,
+      allowNull: true,
+    }
   },
   {
     freezeTableName: true,

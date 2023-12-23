@@ -40,20 +40,47 @@ export const createRequest = async (req, res) => {
   }
 };
 
+export const RequestByProjectID = async (req, res)=>{
+  try{
+  const response = await Project.findAll({
+    where: {
+      projectID: req.params.as,
+    },
+   include:[{
+    model: Request,
+      include:[{
+        model: User,
+        attributes: ["firstName", "lastName"],
+      }]
+  
+   }]
+})
+res.status(200).json(response);
+  }catch(err){
+    res.status(500).json({ msg: err.message });
+  }
+}
 export const getMyProjectRequestMember = async (req, res) => {
   try {
     const response = await Project.findAll({
       where: {
-        projectOwnerID: req.params.id,
+        projectOwnerID: req.params.as,
       },
 
       include: [
         {
           model: Request,
-          include: {
+          include:[ {
+
+
             model: User,
-            attributes: ["firstName", "lastName"],
+            attributes: ["firstName", "lastName","photoProfile"],
           },
+          {
+            model:Role,
+            attributes: ["name"],
+          }
+        ],
         },
       ],
 
