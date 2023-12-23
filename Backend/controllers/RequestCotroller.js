@@ -74,7 +74,7 @@ export const getMyProjectRequestMember = async (req, res) => {
 
 
             model: User,
-            attributes: ["firstName", "lastName","photoProfile"],
+            attributes: ["firstName", "lastName","photoProfileUrl"],
           },
           {
             model:Role,
