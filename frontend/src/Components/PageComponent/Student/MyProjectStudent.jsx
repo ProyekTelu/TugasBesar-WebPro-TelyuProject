@@ -18,6 +18,7 @@ import { MdOutlineAddchart } from "react-icons/md";
 import { FaDotCircle } from "react-icons/fa";
 import { Select, Option } from "@material-tailwind/react";
 import ProjectDetailModal from "../ProjectDetailModal";
+import { useNavigate } from "react-router-dom";
 
 function MyProjectStudent() {
   const storedUser = localStorage.getItem("user");
@@ -25,6 +26,8 @@ function MyProjectStudent() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [isLoadingDetailModal, setIsLoadingDetailModal] = useState(false);
+
+  const navigate = useNavigate();
 
   Modal.setAppElement(document.getElementById("root"));
 
@@ -185,7 +188,9 @@ function MyProjectStudent() {
                 <div
                   key={index}
                   className="flex-col group relative"
-                  onClick={() => openModalDetail(project.projectID)}
+                  onClick={() =>
+                    navigate(`/telyuProject/myProject/${project.projectID}`)
+                  }
                 >
                   <hr className="w-[97%] absolute right-1/2 translate-x-1/2 group-hover:hidden" />
                   <div
@@ -219,7 +224,11 @@ function MyProjectStudent() {
                         </MenuHandler>
                         <MenuList>
                           <MenuItem
-                            onClick={() => openModalDetail(project.projectID)}
+                            onClick={() =>
+                              navigate(
+                                `/telyuProject/myProject/${project.projectID}`
+                              )
+                            }
                           >
                             Project Detail
                           </MenuItem>

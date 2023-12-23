@@ -15,25 +15,25 @@ const Layout = () => {
   );
   const [isPageButtonShow, setIsPageButtonShow] = useState(false);
   const pageButtonRef = useRef(null);
-  const [userImage, setUserImage] = useState("");
+  const [userImage, setUserImage] = useState(user.photoProfileUrl);
 
   if (!localStorage.getItem("user")) {
     currentNav("/");
   }
 
   //convert blob ke gambar
-  useEffect(() => {
-    if (user.photoProfile && user.photoProfile.data) {
-      const base64String = btoa(
-        new Uint8Array(user.photoProfile.data).reduce(
-          (data, byte) => data + String.fromCharCode(byte),
-          ""
-        )
-      );
-      const url = `data:image/png;base64,${base64String}`;
-      setUserImage(url);
-    }
-  }, [user.photoProfile]);
+  // useEffect(() => {
+  //   if (user.photoProfile && user.photoProfile.data) {
+  //     const base64String = btoa(
+  //       new Uint8Array(user.photoProfile.data).reduce(
+  //         (data, byte) => data + String.fromCharCode(byte),
+  //         ""
+  //       )
+  //     );
+  //     const url = `data:image/png;base64,${base64String}`;
+  //     setUserImage(url);
+  //   }
+  // }, [user.photoProfile]);
 
   useEffect(() => {
     // Add event listener when the component mounts
@@ -141,7 +141,11 @@ const Layout = () => {
             <Outlet />
 
             {/* NOTIF BALOON */}
+            {user.role === "student" ? 
             <Notification />
+            :
+            (<></>)
+            }
           </div>
         </div>
 
