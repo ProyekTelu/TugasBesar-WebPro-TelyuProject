@@ -334,14 +334,17 @@ function MyProjectDetail() {
                           }}
                           className=""
                         >
-                          Edit Project Details
+                          {user.role === "student" ? "" : "Edit"} Project
+                          Details
                         </div>
                       </MenuItem>
-                      <MenuItem>
-                        <div className="text-primary">
-                          <label htmlFor="">Delete Project </label>
-                        </div>
-                      </MenuItem>
+                      {(user.role === "lecturer" || user.role === "admin") && (
+                        <MenuItem>
+                          <div className="text-primary">
+                            <label htmlFor="">Delete Project</label>
+                          </div>
+                        </MenuItem>
+                      )}
                     </MenuList>
                   </Menu>
                 </Tooltip>
@@ -409,24 +412,27 @@ function MyProjectDetail() {
                           {selectedProject.totalMember + ")"}
                         </h1>
                       </div>
-                      {
-                        user.role === "lecturer" && (
-                          <Tooltip content="Add member">
-                            <div
-                              onClick={() => setIsModalInviteMemberOpen(true)}
-                              className="cursor-pointer py-3 duration-300 hover:bg-grey active:bg-greyAlternative px-3 hover:rounded-xl flex flex-row gap-3"
-                            >
-                              <IoMdPersonAdd className="my-auto text-xl cursor-pointer" />
-                              <label
-                                className="hidden xs:block cursor-pointer font-bold"
-                                htmlFor=""
-                              >
-                                Invite a Student
-                              </label>
-                            </div>
-                          </Tooltip>
-                        )
-                      }
+                      {((selectedProject.ProjectMembers.length !== 0 &&
+                        user.role === "lecturer") ||
+                        user.role === "admin") && (
+                        <Tooltip content="Add member">
+                          <div
+                            onClick={() => setIsModalInviteMemberOpen(true)}
+                            className="cursor-pointer py-3 duration-300 hover:bg-grey active:bg-greyAlternative px-3 hover:rounded-xl flex flex-row gap-3"
+                          >
+                            <IoMdPersonAdd className="my-auto text-xl cursor-pointer" />
+                            {user.role === "admin" ||
+                              (user.role === "lecturer" && (
+                                <label
+                                  className="hidden xs:block cursor-pointer font-bold"
+                                  htmlFor=""
+                                >
+                                  Invite a Student
+                                </label>
+                              ))}
+                          </div>
+                        </Tooltip>
+                      )}
                     </div>
 
                     <div className="w-full mt-4 flex flex-col cursor-pointer group">
@@ -467,11 +473,14 @@ function MyProjectDetail() {
                                 </MenuHandler>
                                 <MenuList>
                                   <MenuItem>Member Details</MenuItem>
-                                  <MenuItem>
-                                    <div className="text-primary">
-                                      <label htmlFor="">Kick Member</label>
-                                    </div>
-                                  </MenuItem>
+                                  {(user.role === "lecturer" ||
+                                    user.role === "admin") && (
+                                    <MenuItem>
+                                      <div className="text-primary">
+                                        <label htmlFor="">Kick Member</label>
+                                      </div>
+                                    </MenuItem>
+                                  )}
                                 </MenuList>
                               </Menu>
                             </div>
@@ -675,12 +684,17 @@ function MyProjectDetail() {
               <div className="md:max-h-[50vh] overflow-y-scroll overflow-x-hidden px-4 mt-2">
                 <div className="py-4 font-medium flex flex-col gap-4 w-full ">
                   <label htmlFor="">Name</label>
-                  <div className="relative w-full border rounded-2xl px-2 py-1 border-blackAlternative transition hover:outline outline-1 focus:outline focus:outline-2  outline-blackAlternative ">
+                  <div
+                    className={`relative w-full border rounded-2xl px-2 py-1 border-blackAlternative transition ${
+                      user.role !== "student" ? "hover:outline" : ""
+                    } outline-1 focus:outline focus:outline-2  outline-blackAlternative `}
+                  >
                     <input
                       type="text"
                       value={editTitle}
                       onChange={handleEditTitle}
                       className="p-1 w-full border-none outline-none overflow-x-scroll"
+                      disabled={user.role === "student"}
                     />
                   </div>
                   <div className="flex flex-col md:flex-row justify-between gap-4 ">
@@ -720,12 +734,15 @@ function MyProjectDetail() {
                   </label>
                   <textarea
                     name=""
-                    className="p-2 rounded-2xl hover:outline outline-1 focus:outline-2 outline-blackAlternative  transition"
+                    className={`p-2 rounded-2xl  outline-1 ${
+                      user.role !== "student" ? "hover:outline" : ""
+                    } focus:outline-2 outline-blackAlternative  transition`}
                     id=""
                     rows="5"
                     value={editDesc}
                     onChange={handleEditDesc}
                     placeholder="Add a message"
+                    disabled={user.role === "student"}
                   ></textarea>
                 </div>
               </div>
