@@ -39,7 +39,9 @@ export const createProject = async (req, res) => {
 
     // Process roles and skills
     await Promise.all(
-      roleTags.map(async (roleName) => {
+      roleTags.map(async (roleData) => {
+        const [roleName, roleQuantity] = roleData.split(/\s*\(.*?\)\s*/);
+
         const [role, created] = await Role.findOrCreate({
           where: { name: roleName },
         });
@@ -48,6 +50,7 @@ export const createProject = async (req, res) => {
         await ProjectRole.create({
           roleID: role.roleID,
           projectID: projectID,
+          quantity: roleQuantity || 1, // Set default quantity to 1 if not specified
         });
 
         return role.roleID;
@@ -80,7 +83,7 @@ export const getNewestProjects = async (req, res) => {
   try {
     const newestProjects = await Project.findAll({
       limit: 3,
-      order: [["projectID", "ASC"]],
+      order: [["projectID", "DESC"]],
       where: {
         projectStatus: "Open Request",
       },
