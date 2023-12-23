@@ -157,7 +157,7 @@ export function Requested() {
                   <div>
                     <img
                       className="rounded-full h-36 w-36 my-auto bg-black mx-auto mb-4 md:mb-0"
-                      src={""}
+                      src={req.user.photoProfileUrl}
                       alt="/"
                     />
                   </div>
