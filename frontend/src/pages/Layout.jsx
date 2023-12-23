@@ -141,7 +141,11 @@ const Layout = () => {
             <Outlet />
 
             {/* NOTIF BALOON */}
+            {user.role === "student" ? 
             <Notification />
+            :
+            (<></>)
+            }
           </div>
         </div>
 
