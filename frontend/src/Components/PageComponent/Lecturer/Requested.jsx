@@ -26,7 +26,10 @@ export function Requested() {
   const [imageSrc, setImageSrc] = useState('');
   const [LoadingMyRequest, setIsLoadingMyRequest] = useState(false);
   const [NoMyRequest, setIsNoRequest] = useState(false);
-  const [selectedProject, setSelectedProject] = useState("");
+  
+  const [modal, setModal] = useState(false);
+
+
 
   useEffect(() => {
     if (!storedUser) {
@@ -65,27 +68,41 @@ export function Requested() {
     fetchRequestProject();
   }, [user]);
 
-  const DetailModal = async () =>{
-
-  }
 
 
-  const [modal, setModal] = useState(false);
 
   const[selectedRequest, setSelectedRequest] = useState([]);
-
+  const [selectedProject, setSelectedProject] = useState([]);
+  // const[UYe, setselectedProject] =useState(selectDialogProject.projectID);
+  
+  // Ambil data dari modal dan dialog untuk di passing ke addNew member 
+  const[umo, setselectedRequest] = useState([]);
+  const[umo1, setselectedRequest1] = useState([]); 
+  const[umo2, setselectedProject1] = useState([]);  
+  const [umo3, setselectedRequest2]  = useState(["accepted"]);
+  const[umo4, setselectedRequest3] = useState([]);
+  
   const toggleModal = async (projectID,requestID) => {
     try{
       setSelectedProject(seeRequest.find(project => project.projectID === projectID));
       
-      if (selectedProject) {
+      if (selectedProject)  {
         // Temukan permintaan dengan requestID yang sesuai di dalam proyek yang telah ditemukan
         const selectedRequest = selectedProject.Requests.find(request => request.requestID === requestID);
-  
-        if (selectedRequest) {
+        setselectedProject1(selectedProject.projectID);
+        if (selectedRequest) {  
           // Lakukan apa pun yang diperlukan dengan data permintaan yang telah ditemukan
           setSelectedRequest(selectedRequest);
+          setselectedRequest(selectedRequest.userID);
+          setselectedRequest1(selectedRequest.Role.roleID);
+          setselectedRequest2(selectedRequest.status);
+          setselectedRequest3(selectedRequest.requestID);
+        
           setModal(true);
+          if (modal == true){
+            setModal(false);
+          }
+
         } else {
           console.error("Request not found for requestID:", requestID);
         }
@@ -99,14 +116,83 @@ export function Requested() {
  
   };
 
+
+  const[selectDialogRequest, setselectDialogRequest] = useState([]);
+  const[selectDialogProject, setselectDialogProject] = useState("");
+  const[storevalue, setstotevalue] = useState('')
+  const saveData = async (projectID,requestID) => {
+    try{
+      setselectDialogProject(seeRequest.find(project1 => project1.projectID === projectID));
+      setOpen(true);
+      if (selectDialogProject) {
+        // Temukan permintaan dengan requestID yang sesuai di dalam proyek yang telah ditemukan
+        const selectDialogRequest = selectDialogProject.Requests.find(request2 => request2.requestID === requestID);
+      
+        if (selectDialogRequest) {
+          // Lakukan apa pun yang diperlukan dengan data permintaan yang telah ditemukan
+          setselectDialogRequest(selectDialogRequest);
+         
+
+         
+        } else {
+          console.error("Request not found for requestID:", requestID);
+        }
+      } else {
+        console.error("Project not found for projectID:", projectID);
+      }
+    }catch(error){
+      console.error("Failed to fetch project:", error);
+    }
+   
+ 
+  };
+
+const[SelectedForADD, setSelectedForADD] = useState([]);
+const[SelectedForADD2, setSelectedForADD2] = useState([]);
+// const[SelectedForADD3, setSelectedForADD3] = useState(selectDialogRequest.Role.name);
+  const accMember = async()=>{
+      try{
+        // setSelectedForADD(selectedProject.projectID);
+        // setSelectedForADD2(selectedRequest.requestID);
+      // setSelectedForADD3(selectedRequest.Role.name);
+
+       const newMEM = new FormData();
+       newMEM.append("projectID",umo2);
+       newMEM.append("userID",umo);
+       newMEM.append("roleID",umo1);
+       const response = await axios.post(
+        "http://localhost:5000/addNewMEM",
+        newMEM,
+        {
+        // SelectedForADD,
+          // SelectedForADD2,
+         
+       });
+       console.log("Request submitted successfully",response.data);
+       if(response != null){
+        const updatedData = {
+          status : "accepted"
+        };
+        await axios.patch(`http://localhost:5000/changeStatus/${umo4}`,
+        updatedData
+        );
+        umo3
+       };
+       setOpen(false);
+      }catch(err){
+        console.error("Error submitting request:", err);
+       
+      }
+  }
+
   //DIalog command
   const [open, setOpen] = useState(false);
   const closeModalDetail = () => {
     setModal(false);
   };
 
-  const handleOpen = () => setOpen(!open);
-  const handleClose = () => setOpen(toggleModal);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
 
   // const [open, setOpen] = React.useState(false);
@@ -192,7 +278,7 @@ export function Requested() {
 
                   <div className=" flex flex-row md:flex-col justify-center gap-4 my-2">
                     <button
-                      onClick={handleOpen}
+                      onClick={() => saveData(request.projectID,req.requestID)}
                       className="  hover:bg-secondaryAlternative  transition-transform transform hover:scale-105 active:scale-95 p-4 bg-secondary  w-24 md:w-32 h-14   rounded-md text-white"
                     >
                       Approve
@@ -225,11 +311,14 @@ export function Requested() {
         <Dialog
           open={open}
           handler={handleOpen}
+                       
           className="screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2"
         >
-          <DialogHeader></DialogHeader>
+          <form onSubmit={accMember}>
+          <DialogHeader>{selectedProject.title}</DialogHeader>
           <DialogBody className=" font-bold">
-            Apakah anda yakin dengan pilihan ini ?
+           <h2>Yakin menerima Request dari Mahasiswa dengan nim {selectedRequest.userID} ?</h2>
+            
           </DialogBody>
 
           <DialogFooter>
@@ -244,12 +333,14 @@ export function Requested() {
               </Button>
               <Button
                 className="hover:bg-secondaryAlternative  transition-transform transform hover:scale-105 active:scale-95 p-4 bg-secondary  w-15 md:w-32 h-11  rounded-md text-white"
-                onClick={handleOpen}
+                type='submit'
+              
               >
                 <span>Confirm</span>
               </Button>
             </div>
           </DialogFooter>
+          </form>
         </Dialog>
 
       </div>
@@ -282,7 +373,7 @@ export function Requested() {
               </div>
               <div className=" mb-4 flex justify-between">
                 <h2 className=" text-1xl font-semibold my-auto">
-                  From team {"WPL"}
+                  Untuk masuk kedalam team {selectedRequest.Role.name}
                 </h2>
               </div>
 
@@ -296,12 +387,12 @@ export function Requested() {
                 <label className="text-gray-600 font-semibold">
                   Dokumen File :
                 </label>
-                <p>https://git-scm.com/download/win</p>
+                <p>{selectedRequest.Requested}</p>
               </div>
 
               <div className=" flex flex-row gap-4 w-full align-bottom  justify-center">
                 <button
-                  onClick={handleOpen}
+                  onClick={() => saveData(selectedProject.projectID,selectedRequest.requestID)}
                   className="  hover:bg-secondaryAlternative transition-transform transform hover:scale-105 active:scale-95 p-4  bg-secondary  w-32  rounded-md  text-white"
                 >
                   Approve

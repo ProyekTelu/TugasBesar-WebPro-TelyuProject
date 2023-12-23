@@ -288,7 +288,7 @@ function ProjectDetailModal({ onClose, selectedProject }) {
             <div className="flex gap-5 flex-col md:flex-row">
               <div className="flex flex-col xs:flex-row gap-4">
                 <h1 className="text-left text-primary text-lg sm:text-2xl md:text-3xl font-bold">
-                  Join Project
+                  Join Project 
                 </h1>
               </div>
             </div>
