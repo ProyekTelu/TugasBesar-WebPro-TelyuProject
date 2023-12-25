@@ -296,8 +296,8 @@ function ProjectDetailModal({ onClose, selectedProject }) {
             </div>
 
             <hr className="border-b-2 border-b-slate-950 my-5" />
-            <div className="overflow-y-auto max-h-[50vh] lg:max-h-none">
-              <div className="w-full relative shadow-lg pb-5 lg:flex-row my-4 rounded-lg justify-center h-full overflow-y-auto max-h-[55vh]">
+            <div className=" max-h-[50vh] lg:max-h-none">
+              <div className="w-full relative shadow-lg pb-5 px-5 lg:flex-row my-4 rounded-lg justify-center h-full overflow-y-auto max-h-[50vh] xl:max-h-[61vh]">
                 <form onSubmit={handleSubmit}>
                   <label className="font-medium text-xs md:text-base block text-textGray">
                     Student Name
