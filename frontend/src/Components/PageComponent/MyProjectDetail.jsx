@@ -21,6 +21,8 @@ import {
 import { FaDotCircle } from "react-icons/fa";
 import { IoCaretBackCircleOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function MyProjectDetail() {
   let { projectId } = useParams();
@@ -46,14 +48,27 @@ function MyProjectDetail() {
   //edit project var
 
   const [editTitle, setEditTitle] = useState("");
-  const [editStartDate, setEditStartDate] = useState("");
-  const [editEndDate, setEditEndDate] = useState("");
+  const [editStartDate, setEditStartDate] = useState(new Date());
+  const [editEndDate, setEditEndDate] = useState(new Date());
   const [editDesc, setEditDesc] = useState("");
+  const [rentangDate, setRentangDate] = useState("");
+
+  const [isModalDateOpen, setIsModalDateOpen] = useState(false);
+
+  const [isDateCalenderOpen, setIsDateCalenderOpen] = useState(false);
+
+  const handleClickStartDateCalender = () => {
+    setIsDateCalenderOpen(!isDateCalenderOpen);
+  };
+
+  const handleDateChange = (date) => {
+    setIsDateCalenderOpen(!isDateCalenderOpen);
+  };
 
   const handleEditProject = () => {
     setEditTitle(selectedProject.title);
-    setEditStartDate(selectedProject.startDate);
-    setEditEndDate(selectedProject.endDate);
+    setEditStartDate(selectedProject.startProject);
+    setEditEndDate(selectedProject.endProject);
     setEditDesc(selectedProject.description);
   };
 
@@ -113,7 +128,7 @@ function MyProjectDetail() {
         headers: { "Content-Type": "multipart/form-data" },
       })
         .then(function (response) {
-          toast.success("Invitation is Send")
+          toast.success("Invitation is Send");
           console.log(response);
         })
         .catch(function (response) {
@@ -353,14 +368,15 @@ function MyProjectDetail() {
               <Tooltip content="Project Status">
                 <div className="flex gap-2 ml-2 rounded-full border-2 px-3 mt-3 xs:mt-0">
                   <p
-                    className={`py-2 rounded-lg bg-transparent w-full my-auto font-semibold  ${selectedProject.projectStatus === "Open Request"
+                    className={`py-2 rounded-lg bg-transparent w-full my-auto font-semibold  ${
+                      selectedProject.projectStatus === "Open Request"
                         ? "text-yellow-600"
                         : selectedProject.projectStatus === "Active"
-                          ? "text-green-500"
-                          : selectedProject.projectStatus === "Finished"
-                            ? "text-red-500"
-                            : ""
-                      } `}
+                        ? "text-green-500"
+                        : selectedProject.projectStatus === "Finished"
+                        ? "text-red-500"
+                        : ""
+                    } `}
                   >
                     <FaDotCircle className="text-lg mx-auto shadow-md rounded-full" />
                   </p>
@@ -437,7 +453,7 @@ function MyProjectDetail() {
 
                     <div className="w-full mt-4 flex flex-col cursor-pointer group">
                       {selectedProject.ProjectMembers &&
-                        selectedProject.ProjectMembers.length > 0 ? (
+                      selectedProject.ProjectMembers.length > 0 ? (
                         selectedProject.ProjectMembers.map((member, index) => (
                           <div
                             key={index}
@@ -651,7 +667,7 @@ function MyProjectDetail() {
             isOpen={isModalEditProjectOpen}
             onRequestClose={() => setIsModalEditProjectOpen(false)}
           >
-            <div className="w-screen xs:max-w-[80vw] md:w-[45vw] xl:w-[30vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
+            <div className="w-screen xs:max-w-[80vw] relative md:w-[45vw] xl:w-[30vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
               <div className="flex justify-between  gap-4">
                 <h1 className="my-auto text-lg md:text-xl font-medium">
                   Project details
@@ -697,10 +713,10 @@ function MyProjectDetail() {
                       disabled={user.role === "student"}
                     />
                   </div>
-                  <div className="flex flex-col md:flex-row justify-between gap-4 ">
-                    <div className="">
+                  <div className="flex flex-col md:flex-row basis-3/4 gap-4 justify-between">
+                    <div className="flex flex-col">
                       <label htmlFor="">Owner</label>
-                      <div className="flex gap-2 hover:bg-grey cursor-pointer py-2 px-2 mt-1 rounded-md  ">
+                      <div className="flex gap-2 hover:bg-grey cursor-pointer py-2 px-2 mt-1 rounded-md">
                         <img
                           className="h-10 aspect-square rounded-full"
                           src={selectedProject.projectOwner.photoProfileUrl}
@@ -713,14 +729,30 @@ function MyProjectDetail() {
                         </div>
                       </div>
                     </div>
-                    <div className="">
+                    <div className="flex flex-col w-2/3">
                       <label htmlFor="">Due Date</label>
-                      <div className="flex gap-2 hover:bg-grey  cursor-pointer py-2 px-2 mt-1 rounded-md transition">
-                        <FaRegCalendarAlt className="my-auto h-10" />
-                        <div className="whitespace-nowrap my-auto">
-                          {formatDateShort(selectedProject.startProject) +
-                            " - " +
-                            formatDateShort(selectedProject.endProject)}
+                      <div className="flex gap-10  cursor-pointer py-2 mt-1  transition">
+                        <div className="my-auto cursor-pointer w-full relative flex flex-col">
+                          <div
+                            className="flex gap-2 hover:bg-grey px-2 rounded-md"
+                            onClick={() => {
+                              setIsModalDateOpen(!isModalDateOpen);
+                            }}
+                          >
+                            <FaRegCalendarAlt className="my-auto h-10" />
+                            <div className="my-auto flex gap-2">
+                              <input
+                                className="px-2"
+                                type="date"
+                                value={new Date(editStartDate)}
+                              />
+                              <input
+                                className="px-2"
+                                type="date"
+                                value={new Date(editStartDate)}
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
