@@ -1,5 +1,6 @@
 import User from "../models/UserModel.js";
 import argon2 from "argon2";
+import path from "path";
 import fs from "fs/promises";
 
 const Users = async () => {
@@ -8,18 +9,11 @@ const Users = async () => {
 
     const hashedPassword = await argon2.hash(password);
 
-    var profileImage = null;
+    const imageName1 = "hasnan.png";
+    const url1 = `http://localhost:5000/images/${imageName1}`;
 
-    var profileImage2 = null;
-
-    try {
-      const profileImageBuffer = await fs.readFile("img/hasnan.png");
-      profileImage = profileImageBuffer;
-      const profileImageBuffer2 = await fs.readFile("img/ijadAril.jpg");
-      profileImage2 = profileImageBuffer2;
-    } catch (error) {
-      console.error("Failed to read profile image file:", error);
-    }
+    const imageName2 = "ijadAril.jpg";
+    const url2 = `http://localhost:5000/images/${imageName2}`;
 
     await User.create({
       firstName: "Zaky Admin",
@@ -32,7 +26,9 @@ const Users = async () => {
       majorCode: "SE",
       kelas: "SE-45-02",
       phoneNumber: "0897228290299",
-      photoProfile: profileImage,
+      photoProfileName: imageName1,
+      photoProfileImage: imageName1,
+      photoProfileUrl: url1,
       role: "admin",
     });
     await User.create({
@@ -46,7 +42,9 @@ const Users = async () => {
       majorCode: "SE",
       phoneNumber: "0897228290232",
       kelas: "SE-45-02",
-      photoProfile: profileImage,
+      photoProfileName: imageName1,
+      photoProfileImage: imageName1,
+      photoProfileUrl: url1,
       role: "student",
     });
 
@@ -61,7 +59,9 @@ const Users = async () => {
       majorCode: null,
       phoneNumber: "0897228290232",
       kelas: "",
-      photoProfile: profileImage2,
+      photoProfileName: imageName2,
+      photoProfileImage: imageName2,
+      photoProfileUrl: url2,
       role: "lecturer",
     });
 
@@ -76,7 +76,9 @@ const Users = async () => {
       majorCode: "SE",
       kelas: "SE-45-02",
       phoneNumber: "081234567890",
-      photoProfile: profileImage2,
+      photoProfileName: imageName2,
+      photoProfileImage: imageName2,
+      photoProfileUrl: url2,
       role: "student",
     });
 
@@ -91,7 +93,9 @@ const Users = async () => {
       majorCode: "SE",
       kelas: "SE-45-01",
       phoneNumber: "087654321098",
-      photoProfile: profileImage,
+      photoProfileName: imageName1,
+      photoProfileImage: imageName1,
+      photoProfileUrl: url1,
       role: "student",
     });
 
@@ -106,7 +110,9 @@ const Users = async () => {
       majorCode: "TT",
       kelas: "EE-45-03",
       phoneNumber: "085432109876",
-      photoProfile: profileImage,
+      photoProfileName: imageName1,
+      photoProfileImage: imageName1,
+      photoProfileUrl: url1,
       role: "student",
     });
   } catch (e) {

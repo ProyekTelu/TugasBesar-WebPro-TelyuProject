@@ -9,6 +9,7 @@ import { IoMdPersonAdd } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
 import { FaPlusCircle } from "react-icons/fa";
+import { FaRegCalendarAlt } from "react-icons/fa";
 import {
   Tooltip,
   Menu,
@@ -37,9 +38,24 @@ function MyProjectDetail() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [isModalEditProjectOpen, setIsModalEditProjectOpen] = useState(false);
 
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+
+  //edit project var
+
+  const [editTitle, setEditTitle] = useState("");
+  const [editStartDate, setEditStartDate] = useState("");
+  const [editEndDate, setEditEndDate] = useState("");
+  const [editDesc, setEditDesc] = useState("");
+
+  const handleEditProject = () => {
+    setEditTitle(selectedProject.title);
+    setEditStartDate(selectedProject.startDate);
+    setEditEndDate(selectedProject.endDate);
+    setEditDesc(selectedProject.description);
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -79,11 +95,16 @@ function MyProjectDetail() {
   const sendInvitation = async () => {
     try {
       var formData = new FormData();
-      formData.append("senderID", selectedProject.projectOwnerID)
-      formData.append("roleID", selectedProject.ProjectRoles.find(role => role.Role.name === inviteSelectedRole).roleID)
-      formData.append("receiverID", selectedUser)
-      formData.append("projectID", selectedProject.projectID)
-      formData.append("message", message)
+      formData.append("senderID", selectedProject.projectOwnerID);
+      formData.append(
+        "roleID",
+        selectedProject.ProjectRoles.find(
+          (role) => role.Role.name === inviteSelectedRole
+        ).roleID
+      );
+      formData.append("receiverID", selectedUser);
+      formData.append("projectID", selectedProject.projectID);
+      formData.append("message", message);
 
       axios({
         method: "post",
@@ -92,18 +113,18 @@ function MyProjectDetail() {
         headers: { "Content-Type": "multipart/form-data" },
       })
         .then(function (response) {
-          toast.success("Invitation is Send") 
+          toast.success("Invitation is Send")
           console.log(response);
         })
         .catch(function (response) {
-          toast.error("Post Error")
+          toast.error("Post Error");
           console.log(response);
         });
     } catch (error) {
-      toast.error("Send Invitation Error")
+      toast.error("Send Invitation Error");
     }
-    setIsModalInviteMemberOpen(false)
-  }
+    setIsModalInviteMemberOpen(false);
+  };
 
   const searchStudents = useCallback(async () => {
     try {
@@ -117,6 +138,96 @@ function MyProjectDetail() {
       setIsSearchLoading(false);
     }
   }, [searchQuery, projectId]);
+
+  const [errorTitleMessageDisplayed, setErrorTitleMessageDisplayed] =
+    useState(null);
+
+  const handleEditTitle = async (e) => {
+    const newTitle = e.target.value;
+
+    if (newTitle.length >= 3) {
+      try {
+        const response = await axios.put(
+          `http://localhost:5000/projects/${selectedProject.projectID}/title`,
+          {
+            newTitle: newTitle,
+          }
+        );
+
+        if (response.status === 200) {
+          setEditTitle(newTitle);
+          if (errorTitleMessageDisplayed) {
+            toast.dismiss(errorTitleMessageDisplayed);
+            setErrorTitleMessageDisplayed(null);
+          }
+        }
+      } catch (error) {
+        console.error("API error:", error);
+      }
+    } else if (newTitle.length < 3 && !errorTitleMessageDisplayed) {
+      const toastId = toast.error(
+        "Title should be at least 3 characters long.",
+        {
+          position: "top-right",
+          hideProgressBar: true,
+          autoClose: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      );
+      setErrorTitleMessageDisplayed(toastId);
+    }
+
+    setEditTitle(newTitle);
+  };
+
+  const [errorDescMessageDisplayed, setErrorDescMessageDisplayed] =
+    useState(null);
+
+  const handleEditDesc = async (e) => {
+    const newDescription = e.target.value;
+
+    if (newDescription.length >= 12) {
+      try {
+        const response = await axios.put(
+          `http://localhost:5000/projects/${selectedProject.projectID}/description`,
+          {
+            newDescription: newDescription,
+          }
+        );
+
+        if (response.status === 200) {
+          setEditDesc(newDescription);
+          if (errorDescMessageDisplayed) {
+            toast.dismiss(errorDescMessageDisplayed);
+            setErrorDescMessageDisplayed(null);
+          }
+        }
+      } catch (error) {
+        console.error("API error:", error);
+      }
+    } else if (newDescription.length < 12 && !errorDescMessageDisplayed) {
+      const toastId = toast.error(
+        "Description should be at least 12 characters long.",
+        {
+          position: "top-right",
+          hideProgressBar: true,
+          autoClose: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      );
+      setErrorDescMessageDisplayed(toastId);
+    }
+
+    setEditDesc(newDescription);
+  };
 
   useEffect(() => {
     setIsSearchLoading(true);
@@ -152,6 +263,36 @@ function MyProjectDetail() {
 
   // const sendInvitation = async () => {};
 
+  const formatDate = (inputDate) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "2-digit",
+    };
+
+    const date = new Date(inputDate);
+    const formattedDate = date.toLocaleDateString("id-ID", options);
+    return formattedDate;
+  };
+
+  const formatDateShort = (inputDate) => {
+    const options = {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+    };
+
+    const date = new Date(inputDate);
+    const formattedDate = date.toLocaleDateString("id-ID", options);
+
+    // Ubah format bulan menjadi tiga huruf pertama
+    const splitDate = formattedDate.split(" ");
+    const month = splitDate[1];
+    const dayYear = splitDate[0] + " " + splitDate[2];
+
+    return `${month} ${dayYear}`;
+  };
+
   return (
     <div className="w-full p-4 md:p-12 overflow-y-auto scroll-smooth h-screen md:min-h-screen flex flex-col">
       {isLoading ? (
@@ -186,13 +327,24 @@ function MyProjectDetail() {
                     </MenuHandler>
                     <MenuList>
                       <MenuItem>
-                        <div className="">Edit Project Details</div>
-                      </MenuItem>
-                      <MenuItem>
-                        <div className="text-primary">
-                          <label htmlFor="">Delete Project </label>
+                        <div
+                          onClick={() => {
+                            setIsModalEditProjectOpen(true);
+                            handleEditProject();
+                          }}
+                          className=""
+                        >
+                          {user.role === "student" ? "" : "Edit"} Project
+                          Details
                         </div>
                       </MenuItem>
+                      {(user.role === "lecturer" || user.role === "admin") && (
+                        <MenuItem>
+                          <div className="text-primary">
+                            <label htmlFor="">Delete Project</label>
+                          </div>
+                        </MenuItem>
+                      )}
                     </MenuList>
                   </Menu>
                 </Tooltip>
@@ -201,15 +353,14 @@ function MyProjectDetail() {
               <Tooltip content="Project Status">
                 <div className="flex gap-2 ml-2 rounded-full border-2 px-3 mt-3 xs:mt-0">
                   <p
-                    className={`py-2 rounded-lg bg-transparent w-full my-auto font-semibold  ${
-                      selectedProject.projectStatus === "Open Request"
+                    className={`py-2 rounded-lg bg-transparent w-full my-auto font-semibold  ${selectedProject.projectStatus === "Open Request"
                         ? "text-yellow-600"
                         : selectedProject.projectStatus === "Active"
-                        ? "text-green-500"
-                        : selectedProject.projectStatus === "Finished"
-                        ? "text-red-500"
-                        : ""
-                    } `}
+                          ? "text-green-500"
+                          : selectedProject.projectStatus === "Finished"
+                            ? "text-red-500"
+                            : ""
+                      } `}
                   >
                     <FaDotCircle className="text-lg mx-auto shadow-md rounded-full" />
                   </p>
@@ -239,6 +390,21 @@ function MyProjectDetail() {
                     <div className="flex flex-row gap-4 justify-between">
                       <div className="flex flex-row gap-4">
                         <h1 className="text-lg md:text-xl font-bold my-auto">
+                          Project Duration
+                        </h1>
+                      </div>
+                    </div>
+
+                    <div className="w-full mt-4 flex flex-col cursor-pointer group">
+                      {formatDate(selectedProject.startProject) +
+                        " - " +
+                        formatDate(selectedProject.endProject)}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex flex-row gap-4 justify-between">
+                      <div className="flex flex-row gap-4">
+                        <h1 className="text-lg md:text-xl font-bold my-auto">
                           Project Member
                         </h1>
                         <h1 className="text-lg md:text-xl font-semibold my-auto">
@@ -246,28 +412,32 @@ function MyProjectDetail() {
                           {selectedProject.totalMember + ")"}
                         </h1>
                       </div>
-                      {selectedProject.ProjectMembers.length !== 0 &&
-                        user.role === "lecturer" && (
-                          <Tooltip content="Add member">
-                            <div
-                              onClick={() => setIsModalInviteMemberOpen(true)}
-                              className="cursor-pointer py-3 duration-300 hover:bg-grey active:bg-greyAlternative px-3 hover:rounded-xl flex flex-row gap-3"
-                            >
-                              <IoMdPersonAdd className="my-auto text-xl cursor-pointer" />
-                              <label
-                                className="hidden xs:block cursor-pointer font-bold"
-                                htmlFor=""
-                              >
-                                Invite a Student
-                              </label>
-                            </div>
-                          </Tooltip>
-                        )}
+                      {((selectedProject.ProjectMembers.length !== 0 &&
+                        user.role === "lecturer") ||
+                        user.role === "admin") && (
+                        <Tooltip content="Add member">
+                          <div
+                            onClick={() => setIsModalInviteMemberOpen(true)}
+                            className="cursor-pointer py-3 duration-300 hover:bg-grey active:bg-greyAlternative px-3 hover:rounded-xl flex flex-row gap-3"
+                          >
+                            <IoMdPersonAdd className="my-auto text-xl cursor-pointer" />
+                            {user.role === "admin" ||
+                              (user.role === "lecturer" && (
+                                <label
+                                  className="hidden xs:block cursor-pointer font-bold"
+                                  htmlFor=""
+                                >
+                                  Invite a Student
+                                </label>
+                              ))}
+                          </div>
+                        </Tooltip>
+                      )}
                     </div>
 
                     <div className="w-full mt-4 flex flex-col cursor-pointer group">
                       {selectedProject.ProjectMembers &&
-                      selectedProject.ProjectMembers.length > 0 ? (
+                        selectedProject.ProjectMembers.length > 0 ? (
                         selectedProject.ProjectMembers.map((member, index) => (
                           <div
                             key={index}
@@ -277,13 +447,7 @@ function MyProjectDetail() {
                             <div className="flex flex-row gap-4 items-center">
                               <img
                                 alt="profile"
-                                src={URL.createObjectURL(
-                                  new Blob([
-                                    new Uint8Array(
-                                      member.user.photoProfile.data
-                                    ),
-                                  ])
-                                )}
+                                src={member.user.photoProfileUrl}
                                 className="h-10 aspect-square rounded-full bg-black"
                               ></img>
                               <div className="flex flex-col">
@@ -309,11 +473,14 @@ function MyProjectDetail() {
                                 </MenuHandler>
                                 <MenuList>
                                   <MenuItem>Member Details</MenuItem>
-                                  <MenuItem>
-                                    <div className="text-primary">
-                                      <label htmlFor="">Kick Member</label>
-                                    </div>
-                                  </MenuItem>
+                                  {(user.role === "lecturer" ||
+                                    user.role === "admin") && (
+                                    <MenuItem>
+                                      <div className="text-primary">
+                                        <label htmlFor="">Kick Member</label>
+                                      </div>
+                                    </MenuItem>
+                                  )}
                                 </MenuList>
                               </Menu>
                             </div>
@@ -342,7 +509,7 @@ function MyProjectDetail() {
             isOpen={isModalInviteMemberOpen}
             onRequestClose={() => setIsModalInviteMemberOpen(false)}
           >
-            <div className="w-screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
+            <div className="w-screen xs:max-w-[80vw] md:w-[50vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
               <div className="flex justify-between  gap-4">
                 <h1 className="my-auto text-lg md:text-xl font-medium">
                   Add Student to {selectedProject.title}
@@ -368,7 +535,7 @@ function MyProjectDetail() {
                       type="text"
                       value={searchQuery}
                       onChange={handleInputChange}
-                      className="p-1 w-full md:w-3/5 border-none outline-none overflow-x-scroll"
+                      className="p-1 w-full md:w-3/6 xl:w-3/4 border-none outline-none overflow-x-scroll"
                       placeholder="Add students by name or email..."
                     />
                     {searchQuery && !selectedUser && (
@@ -475,6 +642,109 @@ function MyProjectDetail() {
                 >
                   Send
                 </Button>
+              </div>
+            </div>
+          </Modal>
+
+          <Modal
+            className="w-screen h-screen flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
+            isOpen={isModalEditProjectOpen}
+            onRequestClose={() => setIsModalEditProjectOpen(false)}
+          >
+            <div className="w-screen xs:max-w-[80vw] md:w-[45vw] xl:w-[30vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
+              <div className="flex justify-between  gap-4">
+                <h1 className="my-auto text-lg md:text-xl font-medium">
+                  Project details
+                </h1>
+                <Button
+                  variant="text"
+                  onClick={() => {
+                    setIsModalEditProjectOpen(false);
+                    if (errorTitleMessageDisplayed) {
+                      setEditTitle(selectedProject.title);
+                      setErrorTitleMessageDisplayed(null);
+                      toast.dismiss();
+                    } else {
+                      selectedProject.title = editTitle;
+                    }
+
+                    if (errorDescMessageDisplayed) {
+                      setEditDesc(selectedProject.description);
+                      setErrorDescMessageDisplayed(null);
+                      toast.dismiss();
+                    } else {
+                      selectedProject.description = editDesc;
+                    }
+                  }}
+                >
+                  <IoMdClose className="text-lg" />
+                </Button>
+              </div>
+              <hr className="mt-2" />
+              <div className="md:max-h-[50vh] overflow-y-scroll overflow-x-hidden px-4 mt-2">
+                <div className="py-4 font-medium flex flex-col gap-4 w-full ">
+                  <label htmlFor="">Name</label>
+                  <div
+                    className={`relative w-full border rounded-2xl px-2 py-1 border-blackAlternative transition ${
+                      user.role !== "student" ? "hover:outline" : ""
+                    } outline-1 focus:outline focus:outline-2  outline-blackAlternative `}
+                  >
+                    <input
+                      type="text"
+                      value={editTitle}
+                      onChange={handleEditTitle}
+                      className="p-1 w-full border-none outline-none overflow-x-scroll"
+                      disabled={user.role === "student"}
+                    />
+                  </div>
+                  <div className="flex flex-col md:flex-row justify-between gap-4 ">
+                    <div className="">
+                      <label htmlFor="">Owner</label>
+                      <div className="flex gap-2 hover:bg-grey cursor-pointer py-2 px-2 mt-1 rounded-md  ">
+                        <img
+                          className="h-10 aspect-square rounded-full"
+                          src={selectedProject.projectOwner.photoProfileUrl}
+                          alt=""
+                        />
+                        <div className="line-clamp-1 my-auto">
+                          {selectedProject.projectOwner.firstName +
+                            " " +
+                            selectedProject.projectOwner.lastName}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="">
+                      <label htmlFor="">Due Date</label>
+                      <div className="flex gap-2 hover:bg-grey  cursor-pointer py-2 px-2 mt-1 rounded-md transition">
+                        <FaRegCalendarAlt className="my-auto h-10" />
+                        <div className="whitespace-nowrap my-auto">
+                          {formatDateShort(selectedProject.startProject) +
+                            " - " +
+                            formatDateShort(selectedProject.endProject)}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                  <label
+                    htmlFor=""
+                    className="mt-1 text-base text-black font-bold"
+                  >
+                    Project Description
+                  </label>
+                  <textarea
+                    name=""
+                    className={`p-2 rounded-2xl  outline-1 ${
+                      user.role !== "student" ? "hover:outline" : ""
+                    } focus:outline-2 outline-blackAlternative  transition`}
+                    id=""
+                    rows="5"
+                    value={editDesc}
+                    onChange={handleEditDesc}
+                    placeholder="Add a message"
+                    disabled={user.role === "student"}
+                  ></textarea>
+                </div>
               </div>
             </div>
           </Modal>

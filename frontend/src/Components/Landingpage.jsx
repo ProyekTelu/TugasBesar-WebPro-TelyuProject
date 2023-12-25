@@ -60,22 +60,27 @@ const Landingpage = () => {
       ? JSON.parse(localStorage.getItem("user"))
       : null
   );
-
   const [userImage, setUserImage] = useState("");
 
-  //convert blob ke gambar
   useEffect(() => {
-    if (user !== null && user.photoProfile && user.photoProfile.data) {
-      const base64String = btoa(
-        new Uint8Array(user.photoProfile.data).reduce(
-          (data, byte) => data + String.fromCharCode(byte),
-          ""
-        )
-      );
-      const url = `data:image/png;base64,${base64String}`;
-      setUserImage(url);
+    if (user) {
+      setUserImage(user.photoProfileUrl);
     }
   }, [user]);
+
+  //convert blob ke gambar
+  // useEffect(() => {
+  //   if (user !== null && user.photoProfile && user.photoProfile.data) {
+  //     const base64String = btoa(
+  //       new Uint8Array(user.photoProfile.data).reduce(
+  //         (data, byte) => data + String.fromCharCode(byte),
+  //         ""
+  //       )
+  //     );
+  //     const url = `data:image/png;base64,${base64String}`;
+  //     setUserImage(url);
+  //   }
+  // }, [user]);
 
   const faculties = [
     {

@@ -1,7 +1,8 @@
-import {Op} from "sequelize";
+import {Op, Sequelize} from "sequelize";
 import Invitation from "../models/InvitationModel.js";
 import User from "../models/UserModel.js";
 import { getUsersByNomorInduk } from "./UserController.js";
+import Project from "../models/ProjectModel.js";
 
 export const createInvitation = async (req, res) => {
   try {
@@ -29,7 +30,7 @@ export const createInvitation = async (req, res) => {
 
 export const getAllInvitations = async (req, res) => {
   try {
-    const invitation = await Invitation.findAll()
+    const invitation = await Invitation.findAll({});
     res.status(200).json(invitation)
   } catch (error) {
     res.status(500).json({message : "failed to get all data"}, error)
@@ -38,21 +39,37 @@ export const getAllInvitations = async (req, res) => {
 
 export const getInvitationsByUserID = async (req, res) => {
   try {
-    try {
-      const invitation = await Invitation.findAll({
-        where : {
-          [Op.or]: [
-            { senderID: req.params.userID },
-            { receiverID: req.params.userID }
-          ]
+    const reqUserID = req.params.userID
+    const invitation = await Invitation.findAll({
+      where : {
+        [Op.or]: [
+          { senderID: reqUserID },
+          { receiverID: reqUserID }
+        ]
+      },
+      include : [
+        {
+          model : Project,
+          attributes : ["title"]
+        },
+        {
+          model : User,
+          as : "sender",
+          attributes : ["firstName", "lastName"],
+        },
+        {
+          model : User,
+          as : "receiver",
+          attributes : ["firstName", "lastName"],
         }
-      })
-      res.status(200).json(invitation)
-    } catch (error) {
-      res.status(500).json({message : "failed to get all data"}, error)
-    }
+      ],
+      order: [
+        ['status', 'DESC']
+      ]
+    })
+    res.status(200).json(invitation)
   } catch (error) {
-    
+    res.status(500).json({message : "failed to get all data"}, error)
   }
 }
 
@@ -66,10 +83,18 @@ export const InvitationUpdated = async (req, res, next) => {
         invitationID : req.body.invitationID
       }
     });
-    if (req.body.status === "rejected") return res.status(200).json({message : "Invitation has been rejected"}); 
+    if (req.body.status === "rejected") return res.status(200).json({message : "Invitation has been rejected", invitation}); 
     req.body.userID = req.body.receiverID
     next();
   } catch (error) {
     res.status(500).json({message : "failed to update the status"}, error)   
   }
 }
+
+
+
+
+
+
+
+
