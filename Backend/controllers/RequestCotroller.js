@@ -42,26 +42,29 @@ export const createRequest = async (req, res) => {
   }
 };
 
-export const RequestByProjectID = async (req, res)=>{
-  try{
-  const response = await Project.findAll({
-    where: {
-      projectID: req.params.as,
-    },
-   include:[{
-    model: Request,
-      include:[{
-        model: User,
-        attributes: ["firstName", "lastName"],
-      }]
-  
-   }]
-})
-res.status(200).json(response);
-  }catch(err){
+export const RequestByProjectID = async (req, res) => {
+  try {
+    const response = await Project.findAll({
+      where: {
+        projectID: req.params.as,
+      },
+      include: [
+        {
+          model: Request,
+          include: [
+            {
+              model: User,
+              attributes: ["firstName", "lastName"],
+            },
+          ],
+        },
+      ],
+    });
+    res.status(200).json(response);
+  } catch (err) {
     res.status(500).json({ msg: err.message });
   }
-}
+};
 export const getMyProjectRequestMember = async (req, res) => {
   try {
     const response = await Project.findAll({
@@ -72,17 +75,16 @@ export const getMyProjectRequestMember = async (req, res) => {
       include: [
         {
           model: Request,
-          include:[ {
-
-
-            model: User,
-            attributes: ["firstName", "lastName","photoProfileUrl"],
-          },
-          {
-            model:Role,
-            attributes: ["name"],
-          }
-        ],
+          include: [
+            {
+              model: User,
+              attributes: ["firstName", "lastName", "photoProfileUrl"],
+            },
+            {
+              model: Role,
+              attributes: ["name"],
+            },
+          ],
         },
       ],
 

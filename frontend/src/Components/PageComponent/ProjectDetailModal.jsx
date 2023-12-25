@@ -38,6 +38,12 @@ function ProjectDetailModal({ onClose, selectedProject }) {
     project.ProjectRoles[0].roleID
   );
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setUploadedCV(file);
+    setFileUploaded(true);
+  };
+
   const isCurrentUserMember = selectedProject.ProjectMembers.some(
     (member) => member.userID === currentUserId
   );
@@ -112,29 +118,6 @@ function ProjectDetailModal({ onClose, selectedProject }) {
       reason !== "" && reason.length > 11 && uploadedCV !== null
     );
   }, [reason, uploadedCV]);
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const fileExt = file.name.split(".").pop().toLowerCase();
-      if (["pdf", "doc", "docx"].includes(fileExt)) {
-        const formData = new FormData();
-        formData.append("cv", file, "cvFile"); 
-        setUploadedCV(formData); 
-        setFileUploaded(true);
-
-        const uploadText = document.getElementById("uploadText");
-        if (uploadText) {
-          uploadText.textContent = file.name;
-        }
-      } else {
-        alert(
-          "Invalid file format. Only .pdf, .doc, or .docx files are allowed."
-        );
-        e.target.value = null;
-      }
-    }
-  };
 
   const handleRoleSelect = (e) => {
     const selectedRoleId = e.target.value;
@@ -405,9 +388,9 @@ function ProjectDetailModal({ onClose, selectedProject }) {
                           type="file"
                           encType="multipart/form-data"
                           accept=".pdf,.doc,.docx"
-                          name="file_upload"
-                          onChange={handleFileChange}
+                          name="cv"
                           className="hidden"
+                          onChange={handleFileChange}
                         />
                       </label>
                     </div>
