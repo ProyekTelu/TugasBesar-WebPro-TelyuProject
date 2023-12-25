@@ -52,6 +52,8 @@ const MyProjectTableStudent = ({ myProject }) => {
                       ? "text-green-500"
                       : project.projectStatus === "Finished"
                       ? "text-red-500"
+                      : project.projectStatus === "Waiting to Start"
+                      ? "text-blue-500"
                       : ""
                   } `}
                 >

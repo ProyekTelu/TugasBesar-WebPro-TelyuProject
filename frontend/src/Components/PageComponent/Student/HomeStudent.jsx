@@ -36,7 +36,13 @@ function HomeStudent() {
   const [myProject, setMyProject] = useState([]);
 
   const [activeStatus, setActiveStatus] = useState("ALL");
-  const listStatus = ["ALL", "Active", "Finished", "Open Request"];
+  const listStatus = [
+    "ALL",
+    "Active",
+    "Waiting to Start",
+    "Finished",
+    "Open Request",
+  ];
 
   const [newestProject, setNewestProject] = useState([]);
 
