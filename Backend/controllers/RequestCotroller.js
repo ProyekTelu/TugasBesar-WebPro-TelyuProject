@@ -8,7 +8,7 @@ import Role from "../models/RoleModel.js";
 
 export const createRequest = async (req, res) => {
   try {
-    const { userID, projectID, roleID, message, cv } = req.body;
+    const { userID, projectID, roleID, message } = req.body;
 
     const existingRequest = await Request.findOne({
       where: {
@@ -25,12 +25,14 @@ export const createRequest = async (req, res) => {
         .json({ msg: "Request already exists for this project and role." });
     }
 
+    const cvPath = req.file.path;
+
     const newRequest = await Request.create({
       userID,
       projectID,
       roleID,
       message,
-      cv,
+      cv: cvPath,
     });
 
     res.status(201).json(newRequest);

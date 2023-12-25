@@ -81,6 +81,7 @@ function ProjectDetailModal({ onClose, selectedProject }) {
 
       console.log("Selected Role:", joinSelectedRole);
       console.log("Selected Role ID:", joinSelectedRoleID);
+      console.log(uploadedCV);
 
       const response = await axios.post(
         "http://localhost:5000/createRequest",
@@ -101,7 +102,7 @@ function ProjectDetailModal({ onClose, selectedProject }) {
       toast.error("Error submitting join request. Please try again.");
     }
   };
-  
+
   useEffect(() => {
     setJoinSelectedRoleID(initialJoinSelectedRoleID);
   }, [initialJoinSelectedRoleID]);
@@ -117,8 +118,11 @@ function ProjectDetailModal({ onClose, selectedProject }) {
     if (file) {
       const fileExt = file.name.split(".").pop().toLowerCase();
       if (["pdf", "doc", "docx"].includes(fileExt)) {
-        setUploadedCV(file);
+        const formData = new FormData();
+        formData.append("cv", file, "cvFile"); 
+        setUploadedCV(formData); 
         setFileUploaded(true);
+
         const uploadText = document.getElementById("uploadText");
         if (uploadText) {
           uploadText.textContent = file.name;
@@ -399,6 +403,7 @@ function ProjectDetailModal({ onClose, selectedProject }) {
                         </span>
                         <input
                           type="file"
+                          encType="multipart/form-data"
                           accept=".pdf,.doc,.docx"
                           name="file_upload"
                           onChange={handleFileChange}
