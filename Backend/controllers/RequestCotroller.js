@@ -8,7 +8,7 @@ import Role from "../models/RoleModel.js";
 
 export const createRequest = async (req, res) => {
   try {
-    const { userID, projectID, roleID, message, cv } = req.body;
+    const { userID, projectID, roleID, message } = req.body;
 
     const existingRequest = await Request.findOne({
       where: {
@@ -25,12 +25,14 @@ export const createRequest = async (req, res) => {
         .json({ msg: "Request already exists for this project and role." });
     }
 
+    const cvPath = req.file.path;
+
     const newRequest = await Request.create({
       userID,
       projectID,
       roleID,
       message,
-      cv,
+      cv: cvPath,
     });
 
     res.status(201).json(newRequest);
@@ -40,26 +42,29 @@ export const createRequest = async (req, res) => {
   }
 };
 
-export const RequestByProjectID = async (req, res)=>{
-  try{
-  const response = await Project.findAll({
-    where: {
-      projectID: req.params.as,
-    },
-   include:[{
-    model: Request,
-      include:[{
-        model: User,
-        attributes: ["firstName", "lastName"],
-      }]
-  
-   }]
-})
-res.status(200).json(response);
-  }catch(err){
+export const RequestByProjectID = async (req, res) => {
+  try {
+    const response = await Project.findAll({
+      where: {
+        projectID: req.params.as,
+      },
+      include: [
+        {
+          model: Request,
+          include: [
+            {
+              model: User,
+              attributes: ["firstName", "lastName"],
+            },
+          ],
+        },
+      ],
+    });
+    res.status(200).json(response);
+  } catch (err) {
     res.status(500).json({ msg: err.message });
   }
-}
+};
 export const getMyProjectRequestMember = async (req, res) => {
   try {
     const response = await Project.findAll({
@@ -70,17 +75,16 @@ export const getMyProjectRequestMember = async (req, res) => {
       include: [
         {
           model: Request,
-          include:[ {
-
-
-            model: User,
-            attributes: ["firstName", "lastName","photoProfileUrl"],
-          },
-          {
-            model:Role,
-            attributes: ["name"],
-          }
-        ],
+          include: [
+            {
+              model: User,
+              attributes: ["firstName", "lastName", "photoProfileUrl"],
+            },
+            {
+              model: Role,
+              attributes: ["name"],
+            },
+          ],
         },
       ],
 

@@ -29,6 +29,11 @@ function CreateProjectModal({ isOpen, onClose }) {
       document.getElementById("skill-tag-container").children
     ).map((tag) => tag.textContent);
 
+    const roleTags = roles.map((role) => ({
+      name: role.name,
+      quantity: role.quantity,
+    }));
+
     try {
       const projectData = {
         projectTitle,
@@ -144,6 +149,8 @@ function CreateProjectModal({ isOpen, onClose }) {
       setroles([...roles, newRole]);
       setRoleName("");
       setRoleQuantity(0);
+
+      console.log(roleQuantity);
     }
   };
 
@@ -151,6 +158,12 @@ function CreateProjectModal({ isOpen, onClose }) {
     const updatedRoles = [...roles];
     updatedRoles.splice(index, 1); // Hapus elemen pada index tertentu
     setroles(updatedRoles);
+  };
+
+  const handleRoleQuantityChange = (e) => {
+    const quantity = parseInt(e.target.value, 10);
+    setRoleQuantity(quantity);
+    console.log(quantity);
   };
 
   return (
@@ -354,9 +367,7 @@ function CreateProjectModal({ isOpen, onClose }) {
                         type="number"
                         id="role-quantity-input"
                         value={roleQuantity}
-                        onChange={(e) => {
-                          setRoleQuantity(e.target.value);
-                        }}
+                        onChange={handleRoleQuantityChange}
                         placeholder="1"
                         className="p-1 sm:p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                       />

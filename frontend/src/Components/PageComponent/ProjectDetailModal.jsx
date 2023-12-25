@@ -6,9 +6,6 @@ import { IoCaretBackCircleOutline } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { IoIosArrowDown } from "react-icons/io";
-import { FaEdit } from "react-icons/fa";
-import Modal from "react-modal";
 import {
   Tooltip,
   Menu,
@@ -17,7 +14,6 @@ import {
   MenuItem,
   Button,
 } from "@material-tailwind/react";
-import { BsThreeDots } from "react-icons/bs";
 
 function ProjectDetailModal({ onClose, selectedProject }) {
   const navigate = useNavigate();
@@ -41,6 +37,12 @@ function ProjectDetailModal({ onClose, selectedProject }) {
   const [initialJoinSelectedRoleID, setInitialJoinSelectedRoleID] = useState(
     project.ProjectRoles[0].roleID
   );
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setUploadedCV(file);
+    setFileUploaded(true);
+  };
 
   const isCurrentUserMember = selectedProject.ProjectMembers.some(
     (member) => member.userID === currentUserId
@@ -85,8 +87,8 @@ function ProjectDetailModal({ onClose, selectedProject }) {
 
       console.log("Selected Role:", joinSelectedRole);
       console.log("Selected Role ID:", joinSelectedRoleID);
+      console.log(uploadedCV);
 
-      // Make an HTTP POST request to create a new request
       const response = await axios.post(
         "http://localhost:5000/createRequest",
         formData,
@@ -106,7 +108,7 @@ function ProjectDetailModal({ onClose, selectedProject }) {
       toast.error("Error submitting join request. Please try again.");
     }
   };
-  
+
   useEffect(() => {
     setJoinSelectedRoleID(initialJoinSelectedRoleID);
   }, [initialJoinSelectedRoleID]);
@@ -116,26 +118,6 @@ function ProjectDetailModal({ onClose, selectedProject }) {
       reason !== "" && reason.length > 11 && uploadedCV !== null
     );
   }, [reason, uploadedCV]);
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const fileExt = file.name.split(".").pop().toLowerCase();
-      if (["pdf", "doc", "docx"].includes(fileExt)) {
-        setUploadedCV(file);
-        setFileUploaded(true);
-        const uploadText = document.getElementById("uploadText");
-        if (uploadText) {
-          uploadText.textContent = file.name;
-        }
-      } else {
-        alert(
-          "Invalid file format. Only .pdf, .doc, or .docx files are allowed."
-        );
-        e.target.value = null;
-      }
-    }
-  };
 
   const handleRoleSelect = (e) => {
     const selectedRoleId = e.target.value;
@@ -404,10 +386,11 @@ function ProjectDetailModal({ onClose, selectedProject }) {
                         </span>
                         <input
                           type="file"
+                          encType="multipart/form-data"
                           accept=".pdf,.doc,.docx"
-                          name="file_upload"
-                          onChange={handleFileChange}
+                          name="cv"
                           className="hidden"
+                          onChange={handleFileChange}
                         />
                       </label>
                     </div>
