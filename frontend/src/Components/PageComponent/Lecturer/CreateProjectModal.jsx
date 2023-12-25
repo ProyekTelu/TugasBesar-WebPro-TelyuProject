@@ -29,11 +29,6 @@ function CreateProjectModal({ isOpen, onClose }) {
       document.getElementById("skill-tag-container").children
     ).map((tag) => tag.textContent);
 
-    const roleTags = roles.map((role) => ({
-      name: role.name,
-      quantity: role.quantity,
-    }));
-
     try {
       const projectData = {
         projectTitle,
