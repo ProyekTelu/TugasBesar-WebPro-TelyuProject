@@ -28,7 +28,6 @@ function CreateProjectModal({ isOpen, onClose }) {
     const skillTags = Array.from(
       document.getElementById("skill-tag-container").children
     ).map((tag) => tag.textContent);
-    const roleTags = roles.map((role) => role.name);
 
     try {
       const projectData = {
@@ -41,7 +40,7 @@ function CreateProjectModal({ isOpen, onClose }) {
         maxMembers,
         groupChatLink,
         skillTags,
-        roleTags,
+        roles,
       };
 
       const response = await fetch("http://localhost:5000/projects", {
@@ -77,7 +76,7 @@ function CreateProjectModal({ isOpen, onClose }) {
       maxMembers,
       groupChatLink,
       skillTags,
-      roleTags,
+      roles,
     });
   };
 
@@ -133,7 +132,6 @@ function CreateProjectModal({ isOpen, onClose }) {
         }
       });
     }
-
   }, []);
 
   const handleAddRole = () => {
@@ -373,16 +371,16 @@ function CreateProjectModal({ isOpen, onClose }) {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                        {roles.map((role, index) => (
-                          <div 
-                          key={index} 
-                          className="px-2 py-1 text-xs md:text-base text-whiteAlternative font-medium rounded-lg flex items-center justify-between mt-2 mr-2 bg-blue-400"
-                          onClick={() => handleRoleTagClick(index)}
-                          >
-                            {`${role.name} (${role.quantity})`}
-                          </div>
-                        ))}
-                      </div>
+                  {roles.map((role, index) => (
+                    <div
+                      key={index}
+                      className="px-2 py-1 text-xs md:text-base text-whiteAlternative font-medium rounded-lg flex items-center justify-between mt-2 mr-2 bg-blue-400"
+                      onClick={() => handleRoleTagClick(index)}
+                    >
+                      {`${role.name} (${role.quantity})`}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
