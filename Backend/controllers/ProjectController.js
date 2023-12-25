@@ -42,7 +42,6 @@ export const createProject = async (req, res) => {
         const [role, created] = await Role.findOrCreate({
           where: { name: roleData.name },
         });
-        console.log(roleQuantity);
         await ProjectRole.create({
           roleID: role.roleID,
           projectID: projectID,
@@ -51,7 +50,7 @@ export const createProject = async (req, res) => {
 
         return role.roleID;
       }),
-    skillTags.map(async (skillName) => {
+      skillTags.map(async (skillName) => {
         const [skill, created] = await Skill.findOrCreate({
           where: { name: skillName },
         });
