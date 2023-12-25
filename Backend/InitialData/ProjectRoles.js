@@ -5,15 +5,15 @@ import Role from "../models/RoleModel.js";
 const ProjectRoles = async () => {
   try {
     const project1 = await Project.findOne({
-      where: { title: "Project kehidupan pangan" },
+      where: { title: "Pengembangan Platform E-pinjem" },
     });
 
     const project2 = await Project.findOne({
-      where: { title: "Pengembangan Platform E-learning" },
+      where: { title: "Pengembangan Platform E-commerce" },
     });
 
     const project3 = await Project.findOne({
-      where: { title: "Pengembangan Aplikasi Mobile" },
+      where: { title: "Pengembangan Teknologi Kesehatan" },
     });
 
     const role1 = await Role.findOne({
