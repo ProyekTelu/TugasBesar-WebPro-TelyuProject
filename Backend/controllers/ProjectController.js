@@ -19,7 +19,7 @@ export const createProject = async (req, res) => {
     maxMembers,
     groupChatLink,
     skillTags,
-    roleTags,
+    roles,
   } = req.body;
 
   try {
@@ -39,18 +39,16 @@ export const createProject = async (req, res) => {
 
     // Process roles and skills
     await Promise.all(
-      roleTags.map(async (roleData) => {
-        const [roleName, roleQuantity] = roleData.split(/\s*\(.*?\)\s*/);
-
+      roles.map(async (roleData) => {
         const [role, created] = await Role.findOrCreate({
-          where: { name: roleName },
+          where: { name: roleData.name },
         });
 
         // Role is created, associate with the project
         await ProjectRole.create({
           roleID: role.roleID,
           projectID: projectID,
-          quantity: roleQuantity || 1, // Set default quantity to 1 if not specified
+          quantity: roleData.quantity || 1, // Set default quantity to 1 if not specified
         });
 
         return role.roleID;
