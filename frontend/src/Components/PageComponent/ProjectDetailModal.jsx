@@ -6,9 +6,6 @@ import { IoCaretBackCircleOutline } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { IoIosArrowDown } from "react-icons/io";
-import { FaEdit } from "react-icons/fa";
-import Modal from "react-modal";
 import {
   Tooltip,
   Menu,
@@ -17,7 +14,6 @@ import {
   MenuItem,
   Button,
 } from "@material-tailwind/react";
-import { BsThreeDots } from "react-icons/bs";
 
 function ProjectDetailModal({ onClose, selectedProject }) {
   const navigate = useNavigate();
@@ -86,7 +82,6 @@ function ProjectDetailModal({ onClose, selectedProject }) {
       console.log("Selected Role:", joinSelectedRole);
       console.log("Selected Role ID:", joinSelectedRoleID);
 
-      // Make an HTTP POST request to create a new request
       const response = await axios.post(
         "http://localhost:5000/createRequest",
         formData,
