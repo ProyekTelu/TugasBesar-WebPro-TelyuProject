@@ -28,7 +28,6 @@ function CreateProjectModal({ isOpen, onClose }) {
     const skillTags = Array.from(
       document.getElementById("skill-tag-container").children
     ).map((tag) => tag.textContent);
-    const roleTags = roles.map((role) => role.name);
 
     try {
       const projectData = {
@@ -41,7 +40,7 @@ function CreateProjectModal({ isOpen, onClose }) {
         maxMembers,
         groupChatLink,
         skillTags,
-        roleTags,
+        roles,
       };
 
       const response = await fetch("http://localhost:5000/projects", {
@@ -77,7 +76,7 @@ function CreateProjectModal({ isOpen, onClose }) {
       maxMembers,
       groupChatLink,
       skillTags,
-      roleTags,
+      roles,
     });
   };
 
@@ -133,7 +132,6 @@ function CreateProjectModal({ isOpen, onClose }) {
         }
       });
     }
-
   }, []);
 
   const handleAddRole = () => {
@@ -146,6 +144,8 @@ function CreateProjectModal({ isOpen, onClose }) {
       setroles([...roles, newRole]);
       setRoleName("");
       setRoleQuantity(0);
+
+      console.log(roleQuantity);
     }
   };
 
@@ -153,6 +153,12 @@ function CreateProjectModal({ isOpen, onClose }) {
     const updatedRoles = [...roles];
     updatedRoles.splice(index, 1); // Hapus elemen pada index tertentu
     setroles(updatedRoles);
+  };
+
+  const handleRoleQuantityChange = (e) => {
+    const quantity = parseInt(e.target.value, 10);
+    setRoleQuantity(quantity);
+    console.log(quantity);
   };
 
   return (
@@ -356,9 +362,7 @@ function CreateProjectModal({ isOpen, onClose }) {
                         type="number"
                         id="role-quantity-input"
                         value={roleQuantity}
-                        onChange={(e) => {
-                          setRoleQuantity(e.target.value);
-                        }}
+                        onChange={handleRoleQuantityChange}
                         placeholder="1"
                         className="p-1 sm:p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
                       />
@@ -373,16 +377,16 @@ function CreateProjectModal({ isOpen, onClose }) {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                        {roles.map((role, index) => (
-                          <div 
-                          key={index} 
-                          className="px-2 py-1 text-xs md:text-base text-whiteAlternative font-medium rounded-lg flex items-center justify-between mt-2 mr-2 bg-blue-400"
-                          onClick={() => handleRoleTagClick(index)}
-                          >
-                            {`${role.name} (${role.quantity})`}
-                          </div>
-                        ))}
-                      </div>
+                  {roles.map((role, index) => (
+                    <div
+                      key={index}
+                      className="px-2 py-1 text-xs md:text-base text-whiteAlternative font-medium rounded-lg flex items-center justify-between mt-2 mr-2 bg-blue-400"
+                      onClick={() => handleRoleTagClick(index)}
+                    >
+                      {`${role.name} (${role.quantity})`}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
