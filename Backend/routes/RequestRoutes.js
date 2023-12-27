@@ -3,6 +3,7 @@ import {
   createRequest,
   getMyProjectRequestMember,
   RequestByProjectID,
+  existingRequest,
 } from "../controllers/RequestCotroller.js";
 import path from "path";
 import Request from "../models/RequestModel.js";
@@ -10,6 +11,8 @@ const router = express.Router();
 
 router.get("/requestMember/:as", getMyProjectRequestMember);
 router.get("/requestProjectDetail/:as", RequestByProjectID);
+router.get("/existingRequest/:userID/:projectID", existingRequest);
+
 //router.post("/createRequest", createRequest);
 router.post("/createRequest", (req, res) => {
   if (req.files === null)

@@ -18,9 +18,11 @@ import {
 function ProjectDetailModal({ onClose, selectedProject }) {
   const navigate = useNavigate();
   const project = selectedProject;
+  const projectID = project.projectID;
   const storedUser = localStorage.getItem("user");
   const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
   const [currentStep, setCurrentStep] = useState(0);
+  const [isRequested, setIsRequested] = useState(false);
 
   const User = JSON.parse(localStorage.getItem("user"));
   const currentUserId = User.userID;
@@ -38,10 +40,42 @@ function ProjectDetailModal({ onClose, selectedProject }) {
     project.ProjectRoles[0].roleID
   );
 
+  useEffect(() => {
+    const checkRequest = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/existingRequest/${currentUserId}/${projectID}`
+        );
+        setIsRequested(response.data.isRequested);
+      } catch (error) {
+        console.error("Error checking request:", error);
+      }
+    };
+
+    checkRequest();
+  }, [currentUserId, projectID]);
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setUploadedCV(file);
     setFileUploaded(true);
+    if (file) {
+      const fileExt = file.name.split(".").pop().toLowerCase();
+      if (["pdf", "doc", "docx"].includes(fileExt)) {
+        setUploadedCV(file);
+        setFileUploaded(true);
+
+        const uploadText = document.getElementById("uploadText");
+        if (uploadText) {
+          uploadText.textContent = file.name;
+        }
+      } else {
+        toast.error(
+          "Invalid file format. Only .pdf, .doc, or .docx files are allowed."
+        );
+        e.target.value = null;
+      }
+    }
   };
 
   const isCurrentUserMember = selectedProject.ProjectMembers.some(
@@ -427,10 +461,13 @@ function ProjectDetailModal({ onClose, selectedProject }) {
                   <div className="flex flex-col justify-end">
                     <button
                       onClick={handleCurrentStep}
-                      className=" px-2 py-2 md:py-3 md:px-4 text-[8px] rounded-md font-semibold text-xs md:text-sm xl:text-base  text-white bg-secondary  mt-2 duration-75 ease-out hover:shadow-md  active:scale-95"
+                      className={`px-2 py-2 md:py-3 md:px-4 text-[8px] rounded-md font-semibold text-xs md:text-sm xl:text-base text-white ${
+                        isRequested ? "bg-gray-500" : "bg-secondary"
+                      } mt-2 duration-75 ease-out hover:shadow-md active:scale-95`}
                       type="submit"
+                      disabled={isRequested}
                     >
-                      Send Join Request
+                      {isRequested ? "Request Sent" : "Send Join Request"}
                     </button>
                   </div>
                 </div>
