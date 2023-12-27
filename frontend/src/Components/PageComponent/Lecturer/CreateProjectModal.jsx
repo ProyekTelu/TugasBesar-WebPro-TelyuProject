@@ -18,16 +18,15 @@ function CreateProjectModal({ isOpen, onClose }) {
   const [endDate, setEndDate] = useState(new Date());
   const [opreqDate, setopreqDate] = useState(new Date());
   const [skill, setskill] = useState("");
-  const [role, setrole] = useState("");
+  const [roles, setroles] = useState([]);
+  const [roleQuantity, setRoleQuantity] = useState(0);
+  const [roleName, setRoleName] = useState("");
   const [isInputComplete, setIsInputComplete] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const skillTags = Array.from(
       document.getElementById("skill-tag-container").children
-    ).map((tag) => tag.textContent);
-    const roleTags = Array.from(
-      document.getElementById("role-tag-container").children
     ).map((tag) => tag.textContent);
 
     try {
@@ -41,7 +40,7 @@ function CreateProjectModal({ isOpen, onClose }) {
         maxMembers,
         groupChatLink,
         skillTags,
-        roleTags,
+        roles,
       };
 
       const response = await fetch("http://localhost:5000/projects", {
@@ -77,7 +76,7 @@ function CreateProjectModal({ isOpen, onClose }) {
       maxMembers,
       groupChatLink,
       skillTags,
-      roleTags,
+      roles,
     });
   };
 
@@ -106,8 +105,6 @@ function CreateProjectModal({ isOpen, onClose }) {
   useEffect(() => {
     const skillTagContainer = document.getElementById("skill-tag-container");
     const skillTagInput = document.getElementById("skill-tag-input");
-    const roleTagContainer = document.getElementById("role-tag-container");
-    const roleTagInput = document.getElementById("role-tag-input");
 
     const addTag = (tagText, container, setInput, bgColorClass) => {
       const tagElement = document.createElement("div");
@@ -135,22 +132,34 @@ function CreateProjectModal({ isOpen, onClose }) {
         }
       });
     }
-
-    if (roleTagContainer && roleTagInput) {
-      roleTagInput.addEventListener("keydown", function (event) {
-        if (event.key === "Enter" || event.key === ",") {
-          event.preventDefault();
-
-          const tagText = roleTagInput.value.trim();
-
-          if (tagText) {
-            addTag(tagText, roleTagContainer, setrole, "bg-blue-400");
-            roleTagInput.value = "";
-          }
-        }
-      });
-    }
   }, []);
+
+  const handleAddRole = () => {
+    if (roleName && roleQuantity > 0) {
+      const newRole = {
+        name: roleName,
+        quantity: parseInt(roleQuantity),
+      };
+
+      setroles([...roles, newRole]);
+      setRoleName("");
+      setRoleQuantity(0);
+
+      console.log(roleQuantity);
+    }
+  };
+
+  const handleRoleTagClick = (index) => {
+    const updatedRoles = [...roles];
+    updatedRoles.splice(index, 1); // Hapus elemen pada index tertentu
+    setroles(updatedRoles);
+  };
+
+  const handleRoleQuantityChange = (e) => {
+    const quantity = parseInt(e.target.value, 10);
+    setRoleQuantity(quantity);
+    console.log(quantity);
+  };
 
   return (
     <div className="w-full ">
@@ -166,7 +175,10 @@ function CreateProjectModal({ isOpen, onClose }) {
           <h1 className="text-center text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
             Create Project
           </h1>
-          <form className="flex flex-col justify-center" onSubmit={handleSubmit}>
+          <form
+            className="flex flex-col justify-center"
+            onSubmit={handleSubmit}
+          >
             <div className="flex flex-col sm:flex-row gap-4 xs:gap-6 md:gap-8 xl:gap-10">
               <div className="w-full ">
                 <div className="flex flex-col mt-4">
@@ -322,22 +334,58 @@ function CreateProjectModal({ isOpen, onClose }) {
                   </div>
                 </div>
 
-                <div className="flex flex-col mt-4">
-                  <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
-                    Roles{" "}
-                  </label>
+                <div className="flex flex-row justify-between mt-4 gap-2">
                   <div className="">
-                    <input
-                      type="text"
-                      id="role-tag-input"
-                      placeholder="Manager, Designer, Developer"
-                      className="p-1 sm:p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
-                    />
-                    <div
-                      id="role-tag-container"
-                      className="flex flex-wrap max-h-20 overflow-y-auto"
-                    ></div>
+                    <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
+                      Roles
+                    </label>
+                    <div className="">
+                      <input
+                        type="text"
+                        id="role-tag-input"
+                        value={roleName}
+                        onChange={(e) => {
+                          setRoleName(e.target.value);
+                        }}
+                        placeholder="Manager, Designer, Developer"
+                        className="p-1 sm:p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                      />
+                    </div>
                   </div>
+
+                  <div className="">
+                    <label className="font-medium text-xs text-textGray md:text-base after:content-['*'] after:ml-0.5 after:text-red-500 block">
+                      Quantity
+                    </label>
+                    <div className="flex flex-row gap-2">
+                      <input
+                        type="number"
+                        id="role-quantity-input"
+                        value={roleQuantity}
+                        onChange={handleRoleQuantityChange}
+                        placeholder="1"
+                        className="p-1 sm:p-2 text-xs h-full w-full md:text-base focus:outline-black border-textGray border-[0.5px] md:border-[1px] border-solid rounded-md md:rounded-lg"
+                      />
+                      <button
+                        className="px-2 bg-secondary whitespace-nowrap text-white text-xs md:text-base rounded-md md:rounded-lg"
+                        onClick={handleAddRole}
+                        disabled={roleName.trim() === "" || roleQuantity <= 0}
+                      >
+                        Add Role
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  {roles.map((role, index) => (
+                    <div
+                      key={index}
+                      className="px-2 py-1 text-xs md:text-base text-whiteAlternative font-medium rounded-lg flex items-center justify-between mt-2 mr-2 bg-blue-400"
+                      onClick={() => handleRoleTagClick(index)}
+                    >
+                      {`${role.name} (${role.quantity})`}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

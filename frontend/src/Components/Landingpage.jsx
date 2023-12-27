@@ -282,7 +282,7 @@ const Landingpage = () => {
           <div key={sectionIndex}>
             {section.items.map((item, itemIndex) => (
               <div
-                key={item.id} // Assuming you have an "id" property in your FAQ items
+                key={itemIndex} // Assuming you have an "id" property in your FAQ items
                 className="mb-6 p-6 bg-white rounded-lg shadow-lg cursor-pointer transition transform hover:scale-105 duration-300"
                 onClick={() => toggleFAQItem(sectionIndex, itemIndex)} // Change this line
               >
