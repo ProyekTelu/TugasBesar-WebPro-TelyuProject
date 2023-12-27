@@ -1,15 +1,27 @@
 import ProjectMember from "../models/ProjectMemberModel.js";
 
+export const getAllProjectMember = async(req, res) => {
+    try {
+        const response = await ProjectMember.findAll()
+        res.status(200).json(response)
+    } catch (error) {
+        res.status(500).json({
+            message: "Error to get all project member data",
+            error
+        })
+    }
+}
+
 export const createProjectMember = async (req, res) => {
     try {
-        const [createProjectMember, created] = await ProjectMember.findOrCreate({
+        const [createProjectMember, isNotCreated] = await ProjectMember.findOrCreate({
             where: {
                 userID: req.body.userID,
                 roleID: req.body.roleID,
                 projectID: req.body.projectID,
             },
         });
-        if (created) {
+        if (isNotCreated) {
             res.status(201).json({
                 message: "User has been succesfully added to the project",
                 createProjectMember,

@@ -5,6 +5,7 @@ import User from "../models/UserModel.js";
 import ProjectSkill from "../models/ProjectSkillModel.js";
 import Skill from "../models/SkillModel.js";
 import { literal } from "sequelize";
+import ProjectMember from "../models/ProjectMemberModel.js";
 
 export const createProject = async (req, res) => {
   const {
@@ -177,6 +178,7 @@ export const editProjectStartProject = async (req, res) => {
       .json({ message: "Failed to update project start project", error });
   }
 };
+
 export const editProjectEndProject = async (req, res) => {
   try {
     const project = await Project.findByPk(req.params.projectID);

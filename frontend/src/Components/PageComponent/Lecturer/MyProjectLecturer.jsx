@@ -68,7 +68,7 @@ function MyProjectLecturer() {
 
         setMyProject(searchedProjects);
       } catch (error) {
-        console.log("Failed to fetch my projects:", response);
+        console.log("Failed to fetch my projects:", error);
       } finally {
         setIsLoadingMyProject(false);
       }

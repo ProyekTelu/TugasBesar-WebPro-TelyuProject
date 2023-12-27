@@ -21,12 +21,12 @@ const NotificationLecturer = () => {
     const [notifState, setNotifState] = useState("ALL");
     const [notificationElements, setNotificationsElements] = useState([])
     const notificationRef = useRef(null);
-    //const [hasMore, setHasMore] = useState(true);
+    const [notifAmount , setNotifAmount]= useState(0)
 
     const userID = JSON.parse(localStorage.getItem("user")).userID
 
     const options = [
-        { value: "ALL", data: notificationElements },
+        { value: "ALL", data: notificationElements.reverse() },
         { value: "Waiting", data: notificationElements.filter((data) => data.status === "waiting") },
         { value: "Rejected", data: notificationElements.filter((data) => data.status === "rejected") },
         { value: "Accepted", data: notificationElements.filter((data) => data.status === "accepted") },
@@ -61,39 +61,6 @@ const NotificationLecturer = () => {
             console.log(notificationElements)
         } catch (error) {
             console.log("failed to fetch notifications data", error)
-        }
-    }
-
-    const sendResponseInvitation = async (invitation, status) => {
-        try {
-            var formData = new FormData();
-            formData.append("invitationID", invitation.invitationID)
-            formData.append("roleID", invitation.roleID)
-            formData.append("projectID", invitation.projectID)
-            formData.append("status", status)
-            formData.append("receiverID", invitation.receiverID)
-
-            const updatedArray = notificationElements.map((element) =>
-                element.invitationID === invitation.invitationID ? { ...element, status: status } : element
-            );
-
-            // Set the state with the updated array
-            setNotificationsElements(updatedArray)
-
-            axios({
-                method: "post",
-                url: "http://localhost:5000/invitationResponse",
-                data: formData,
-                headers: { "Content-Type": "multipart/form-data" },
-            })
-                .then(function (response) {
-                    console.log(response);
-                })
-                .catch(function (response) {
-                    console.log(response);
-                });
-        } catch (error) {
-            toast.error("Send Invitation Response in Error")
         }
     }
 
@@ -136,7 +103,7 @@ const NotificationLecturer = () => {
                     className={`h-full w-full p-4 my-auto  text-white transition  active:scale-90`}
                 />
                 <div className="absolute right-3 top-2 bg-primary rounded-full h-5 w-5 flex justify-center">
-                    <div className="my-auto text-xs text-white font-medium">{notificationElements.filter((data) => data.status === "waiting").length}</div>
+                    <div className="my-auto text-xs text-white font-medium">{notifAmount}</div> {/*notificationElements.filter((data) => data.status === "waiting").length*/}
                 </div>
             </div>
             <div
