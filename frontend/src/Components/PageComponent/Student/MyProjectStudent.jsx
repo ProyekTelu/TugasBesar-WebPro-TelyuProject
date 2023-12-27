@@ -31,25 +31,6 @@ function MyProjectStudent() {
 
   Modal.setAppElement(document.getElementById("root"));
 
-  const openModalDetail = async (projectId) => {
-    try {
-      setIsLoadingDetailModal(true);
-      const response = await axios.get(
-        `http://localhost:5000/project/${projectId}`
-      );
-      setSelectedProject(response.data);
-      setModalOpenDetail(true);
-    } catch (error) {
-      console.error("Failed to fetch project:", error);
-    } finally {
-      setIsLoadingDetailModal(false);
-    }
-  };
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
   const [isLoadingMyProject, setIsLoadingMyProject] = useState(false);
   const [showNoProjectMessage, setShowNoProjectMessage] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -57,7 +38,13 @@ function MyProjectStudent() {
   const [myProject, setMyProject] = useState([]);
 
   const [activeStatus, setActiveStatus] = useState("ALL");
-  const listStatus = ["ALL", "Active", "Finished", "Open Request"];
+  const listStatus = [
+    "ALL",
+    "Active",
+    "Finished",
+    "Open Request",
+    "Waiting to Start",
+  ];
 
   const closeModalDetail = () => {
     setModalOpenDetail(false);
@@ -207,6 +194,8 @@ function MyProjectStudent() {
                               ? "text-green-500"
                               : project.projectStatus === "Finished"
                               ? "text-red-500"
+                              : project.projectStatus === "Waiting to Start"
+                              ? "text-blue-500"
                               : ""
                           } `}
                         >

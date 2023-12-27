@@ -159,6 +159,89 @@ export const editProjectDesc = async (req, res) => {
   }
 };
 
+export const editProjectStartProject = async (req, res) => {
+  try {
+    const project = await Project.findByPk(req.params.projectID);
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    project.startProject = req.body.newStartProject;
+    await project.save();
+
+    return res
+      .status(200)
+      .json({ message: "Project start project updated successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Failed to update project start project", error });
+  }
+};
+export const editProjectEndProject = async (req, res) => {
+  try {
+    const project = await Project.findByPk(req.params.projectID);
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    project.endProject = req.body.newEndProject;
+    await project.save();
+
+    return res
+      .status(200)
+      .json({ message: "Project end project updated successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Failed to update project end project", error });
+  }
+};
+
+export const editProjectStatus = async (req, res) => {
+  try {
+    const project = await Project.findByPk(req.params.projectID);
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    project.projectStatus = req.body.newStatus;
+    await project.save();
+
+    return res
+      .status(200)
+      .json({ message: "Project status updated successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Failed to update project status", error });
+  }
+};
+
+export const editProjectOpenUntil = async (req, res) => {
+  try {
+    const project = await Project.findByPk(req.params.projectID);
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    project.openUntil = req.body.newOpenUntil;
+    await project.save();
+
+    return res
+      .status(200)
+      .json({ message: "Project open until updated successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Failed to update project open until", error });
+  }
+};
+
 export const editProjectTitle = async (req, res) => {
   try {
     const project = await Project.findByPk(req.params.projectID);
@@ -184,6 +267,9 @@ export const getAllOpenRequestProjects = async (req, res) => {
   try {
     const projects = await Project.findAll({
       order: [["projectID", "DESC"]],
+      where: {
+        projectStatus: "Open Request",
+      },
       include: {
         model: User,
         as: "projectOwner",
