@@ -23,20 +23,6 @@ const Profile = () => {
   const [isEditButtonVisible, setIsEditButtonVisible] = useState(true);
   const [isEditButtonTextVisible, setIsEditButtonTextVisible] = useState(true);
 
-  //convert blob ke gambar
-  // useEffect(() => {
-  //   if (photoProfile && photoProfile.data) {
-  //     const base64String = btoa(
-  //       new Uint8Array(photoProfile.data).reduce(
-  //         (data, byte) => data + String.fromCharCode(byte),
-  //         ""
-  //       )
-  //     );
-  //     const url = `data:image/png;base64,${base64String}`;
-  //     setUserImage(url);
-  //   }
-  // }, [photoProfile]);
-
   const updateUser = async () => {
     try {
       const updatedData = {
@@ -100,10 +86,10 @@ const Profile = () => {
   //     console.error("No image selected");
   //     return;
   //   }
-  
+
   //   const formData = new FormData();
   //   formData.append("photoProfile", file);
-  
+
   //   // Send to server
   //   axios
   //     .post("http://localhost:5000/updatePhotoProfile", formData, {
@@ -173,8 +159,7 @@ const Profile = () => {
               style={{ fontSize: "25px" }}
               className={`text-black ${
                 isEditButtonTextVisible ? "" : "invisible"
-              }`}
-              >
+              }`}>
               Edit
             </span>
           </div>
@@ -185,14 +170,12 @@ const Profile = () => {
       {/* Label Biodata */}
       <form
         className="flex flex-col sm:flex-row gap-4 xs:gap-6 md:gap-8 xl:gap-10"
-        action=""
-        >
+        action="">
         <div className="w-full xs:w-1/2">
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray"
-              htmlFor=""
-              >
+              htmlFor="">
               First Name
             </label>
             <input
@@ -210,8 +193,7 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-              >
+              htmlFor="">
               Last Name
             </label>
             <input
@@ -229,8 +211,7 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-              >
+              htmlFor="">
               Phone Number
             </label>
             <input
@@ -249,8 +230,7 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor=""
-                >
+                htmlFor="">
                 Lecturer Code
               </label>
               <input
@@ -270,8 +250,7 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor=""
-                >
+                htmlFor="">
                 Class
               </label>
               <input
@@ -288,8 +267,7 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-              >
+              htmlFor="">
               Faculty
             </label>
             <input
@@ -303,8 +281,7 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-              >
+              htmlFor="">
               NIM
             </label>
             <input
@@ -319,8 +296,7 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor=""
-                >
+                htmlFor="">
                 Role
               </label>
               <input
@@ -335,8 +311,7 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-              >
+              htmlFor="">
               Gender
             </label>
             <input
@@ -351,8 +326,7 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor=""
-                >
+                htmlFor="">
                 Major
               </label>
               <input
@@ -373,16 +347,14 @@ const Profile = () => {
               className="rounded-md border border-transparent bg-secondary px-8 py-2 
                 text-base font-medium text-white duration-100 ease-out hover:bg-secondaryAlternative
                 hover:scale-105 active:scale-95"
-              onClick={handleDoneEditing}
-              >
+              onClick={handleDoneEditing}>
               Save
             </button>
             <button
               className="rounded-md border border-transparent bg-primary px-8 py-2 
                 text-base font-medium text-white duration-100 ease-out hover:bg-primaryAlternative
                 hover:scale-105 active:scale-95"
-              onClick={handleDoneEditing}
-              >
+              onClick={handleDoneEditing}>
               Cancel
             </button>
           </>
@@ -394,8 +366,7 @@ const Profile = () => {
             onClick={() => {
               localStorage.clear();
               navigate("/login");
-            }}
-            >
+            }}>
             Log Out
           </button>
         )}
