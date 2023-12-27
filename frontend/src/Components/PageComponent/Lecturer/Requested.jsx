@@ -79,9 +79,10 @@ export function Requested() {
   const[umo, setselectedRequest] = useState([]);
   const[umo1, setselectedRequest1] = useState([]); 
   const[umo2, setselectedProject1] = useState([]);  
-  const [umo3, setselectedRequest2]  = useState(["accepted"]);
+  const[umo3, setselectedRequest2]  = useState(["accepted"]);
   const[umo4, setselectedRequest3] = useState([]);
   
+
   const toggleModal = async (projectID,requestID) => {
     try{
       setSelectedProject(seeRequest.find(project => project.projectID === projectID));
@@ -118,20 +119,26 @@ export function Requested() {
 
 
   const[selectDialogRequest, setselectDialogRequest] = useState([]);
-  const[selectDialogProject, setselectDialogProject] = useState("");
+  const[selectDialogProject, setselectDialogProject] = useState([]);
   const[storevalue, setstotevalue] = useState('')
   const saveData = async (projectID,requestID) => {
     try{
-      setselectDialogProject(seeRequest.find(project1 => project1.projectID === projectID));
-      setOpen(true);
+
+     setselectDialogProject(seeRequest.find(project1 => project1.projectID === projectID));
       if (selectDialogProject) {
         // Temukan permintaan dengan requestID yang sesuai di dalam proyek yang telah ditemukan
         const selectDialogRequest = selectDialogProject.Requests.find(request2 => request2.requestID === requestID);
-      
+        // setselectedProject1(selectDialogProject.projectID);
         if (selectDialogRequest) {
           // Lakukan apa pun yang diperlukan dengan data permintaan yang telah ditemukan
+          
           setselectDialogRequest(selectDialogRequest);
-         
+          // setSelectedRequest(selectedDialogRequest);
+          // setselectedRequest(selectDialogRequest.userID);
+          // setselectedRequest1(selectDialogRequest.Role.roleID);
+          // setselectedRequest2(selectDialogRequest.status);
+          // setselectedRequest3(selectDialogRequest.requestID);
+        
 
          
         } else {
@@ -140,6 +147,7 @@ export function Requested() {
       } else {
         console.error("Project not found for projectID:", projectID);
       }
+      setOpen(true); 
     }catch(error){
       console.error("Failed to fetch project:", error);
     }
@@ -315,9 +323,9 @@ const[SelectedForADD2, setSelectedForADD2] = useState([]);
           className="screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2"
         >
           <form onSubmit={accMember}>
-          <DialogHeader>{selectedProject.title}</DialogHeader>
+          <DialogHeader>{selectDialogProject.title}</DialogHeader>
           <DialogBody className=" font-bold">
-           <h2>Yakin menerima Request dari Mahasiswa dengan nim {selectedRequest.userID} ?</h2>
+           <h2>Yakin menerima Request dari Mahasiswa dengan nim {selectDialogRequest.userID} ?</h2>
             
           </DialogBody>
 

@@ -25,6 +25,7 @@ import ProjectRoles from "./InitialData/ProjectRoles.js";
 import ProjectSkills from "./InitialData/ProjectSkills.js";
 import ProjectMembers from "./InitialData/ProjectMembers.js";
 import Invitations from "./InitialData/Invitations.js";
+import RequestIntial from "./InitialData/requestInitial.js";
 
 dotenv.config();
 
@@ -60,6 +61,7 @@ const initializeData = async () => {
   await ProjectSkills();
   await ProjectMembers();
   await Invitations();
+  await RequestIntial();
 };
 
 //fungsi menjalankan inisial data
