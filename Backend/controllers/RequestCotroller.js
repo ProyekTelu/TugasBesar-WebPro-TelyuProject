@@ -5,6 +5,7 @@ import User from "../models/UserModel.js";
 import skill from "../models/SkillModel.js";
 import ProjectSkillModel from "../models/ProjectModel.js";
 import Role from "../models/RoleModel.js";
+import ProjectMember from "../models/ProjectMemberModel.js";
 
 export const createRequest = async (req, res) => {
   try {

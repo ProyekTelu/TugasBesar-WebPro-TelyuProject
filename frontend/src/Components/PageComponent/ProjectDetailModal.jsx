@@ -119,8 +119,6 @@ function ProjectDetailModal({ onClose, selectedProject }) {
       formData.append("message", reason);
       formData.append("cv", uploadedCV);
 
-      console.log("Selected Role:", joinSelectedRole);
-      console.log("Selected Role ID:", joinSelectedRoleID);
       console.log(uploadedCV);
 
       const response = await axios.post(
