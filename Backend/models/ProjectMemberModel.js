@@ -26,7 +26,7 @@ const ProjectMember = db.define(
     },
   },
   {
-    timestamps : true,
+    timestamps: true,
     freezeTableName: true,
   }
 );
@@ -44,6 +44,7 @@ ProjectMember.belongsTo(Role, {
 Project.hasMany(ProjectMember, {
   foreignKey: "projectID",
   sourceKey: "projectID",
+  onDelete: "CASCADE",
 });
 
 ProjectRole.hasMany(ProjectMember, {
