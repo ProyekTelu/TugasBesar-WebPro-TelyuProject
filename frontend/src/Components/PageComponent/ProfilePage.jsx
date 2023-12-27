@@ -22,7 +22,7 @@ const Profile = () => {
 
   const [isEditButtonVisible, setIsEditButtonVisible] = useState(true);
   const [isEditButtonTextVisible, setIsEditButtonTextVisible] = useState(true);
-  
+
   //convert blob ke gambar
   // useEffect(() => {
   //   if (photoProfile && photoProfile.data) {
@@ -94,6 +94,31 @@ const Profile = () => {
       reader.readAsDataURL(file);
     }
   };
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (!file) {
+  //     console.error("No image selected");
+  //     return;
+  //   }
+  
+  //   const formData = new FormData();
+  //   formData.append("photoProfile", file);
+  
+  //   // Send to server
+  //   axios
+  //     .post("http://localhost:5000/updatePhotoProfile", formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     })
+  //     .then((response) => {
+  //       setphotoProfile(response.data.photoProfileUrl);
+  //       console.log("Photo profile updated successfully!");
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error updating photo profile:", error);
+  //     });
+  // };
   const handleDoneEditing = async () => {
     try {
       await updateUser();
@@ -149,7 +174,7 @@ const Profile = () => {
               className={`text-black ${
                 isEditButtonTextVisible ? "" : "invisible"
               }`}
-            >
+              >
               Edit
             </span>
           </div>
@@ -161,13 +186,13 @@ const Profile = () => {
       <form
         className="flex flex-col sm:flex-row gap-4 xs:gap-6 md:gap-8 xl:gap-10"
         action=""
-      >
+        >
         <div className="w-full xs:w-1/2">
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray"
               htmlFor=""
-            >
+              >
               First Name
             </label>
             <input
@@ -186,7 +211,7 @@ const Profile = () => {
             <label
               className="font-medium text-xs md:text-base text-textGray "
               htmlFor=""
-            >
+              >
               Last Name
             </label>
             <input
@@ -205,7 +230,7 @@ const Profile = () => {
             <label
               className="font-medium text-xs md:text-base text-textGray "
               htmlFor=""
-            >
+              >
               Phone Number
             </label>
             <input
@@ -225,7 +250,7 @@ const Profile = () => {
               <label
                 className="font-medium text-xs md:text-base text-textGray "
                 htmlFor=""
-              >
+                >
                 Lecturer Code
               </label>
               <input
@@ -246,7 +271,7 @@ const Profile = () => {
               <label
                 className="font-medium text-xs md:text-base text-textGray "
                 htmlFor=""
-              >
+                >
                 Class
               </label>
               <input
@@ -264,7 +289,7 @@ const Profile = () => {
             <label
               className="font-medium text-xs md:text-base text-textGray "
               htmlFor=""
-            >
+              >
               Faculty
             </label>
             <input
@@ -279,7 +304,7 @@ const Profile = () => {
             <label
               className="font-medium text-xs md:text-base text-textGray "
               htmlFor=""
-            >
+              >
               NIM
             </label>
             <input
@@ -295,7 +320,7 @@ const Profile = () => {
               <label
                 className="font-medium text-xs md:text-base text-textGray "
                 htmlFor=""
-              >
+                >
                 Role
               </label>
               <input
@@ -311,7 +336,7 @@ const Profile = () => {
             <label
               className="font-medium text-xs md:text-base text-textGray "
               htmlFor=""
-            >
+              >
               Gender
             </label>
             <input
@@ -327,7 +352,7 @@ const Profile = () => {
               <label
                 className="font-medium text-xs md:text-base text-textGray "
                 htmlFor=""
-              >
+                >
                 Major
               </label>
               <input
@@ -349,7 +374,7 @@ const Profile = () => {
                 text-base font-medium text-white duration-100 ease-out hover:bg-secondaryAlternative
                 hover:scale-105 active:scale-95"
               onClick={handleDoneEditing}
-            >
+              >
               Save
             </button>
             <button
@@ -357,7 +382,7 @@ const Profile = () => {
                 text-base font-medium text-white duration-100 ease-out hover:bg-primaryAlternative
                 hover:scale-105 active:scale-95"
               onClick={handleDoneEditing}
-            >
+              >
               Cancel
             </button>
           </>
@@ -370,7 +395,7 @@ const Profile = () => {
               localStorage.clear();
               navigate("/login");
             }}
-          >
+            >
             Log Out
           </button>
         )}
