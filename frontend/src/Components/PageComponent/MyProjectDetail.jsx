@@ -22,6 +22,8 @@ import { IoCaretBackCircleOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 function MyProjectDetail() {
   let { projectId } = useParams();
@@ -53,6 +55,7 @@ function MyProjectDetail() {
   const [editStartDate, setEditStartDate] = useState(new Date());
   const [editEndDate, setEditEndDate] = useState(new Date());
   const [editDesc, setEditDesc] = useState("");
+  const [editLink, setEditLink] = useState("");
   const [editOpenUntilDate, setOpenUntilDate] = useState(new Date());
 
   const [isModalDateOpen, setIsModalDateOpen] = useState(false);
@@ -65,6 +68,7 @@ function MyProjectDetail() {
     setEditEndDate(selectedProject.endProject);
     setEditDesc(selectedProject.description);
     setEditStatus(selectedProject.projectStatus);
+    setEditLink(selectedProject.groupLink);
     setOpenUntilDate(selectedProject.openUntil);
   };
 
@@ -240,6 +244,51 @@ function MyProjectDetail() {
     setEditDesc(newDescription);
   };
 
+  const isValidURL = (url) => {
+    const urlPattern = new RegExp(/^(ftp|http|https):\/\/[^ "]+$/i);
+
+    return urlPattern.test(url);
+  };
+
+  const handleEditLink = async (e) => {
+    const newLink = e.target.value;
+
+    // if (isValidURL(newLink)) {
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/projects/${selectedProject.projectID}/link`,
+        {
+          newLink: newLink,
+        }
+      );
+
+      if (response.status === 200) {
+        setEditLink(newLink);
+        if (errorDescMessageDisplayed) {
+          toast.dismiss(errorDescMessageDisplayed);
+          setErrorDescMessageDisplayed(null);
+        }
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+    // } else if (!isValidURL(newLink) && !errorDescMessageDisplayed) {
+    //   const toastId = toast.error("Link should be format like link.", {
+    //     position: "top-right",
+    //     hideProgressBar: true,
+    //     autoClose: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //   });
+    //   setErrorDescMessageDisplayed(toastId);
+    // }
+
+    setEditLink(newLink);
+  };
+
   const handleEditStartProject = async (e) => {
     const newStartProject = e;
 
@@ -413,8 +462,45 @@ function MyProjectDetail() {
                       </MenuItem>
                       {(user.role === "lecturer" || user.role === "admin") && (
                         <MenuItem>
-                          <div className="text-primary">
-                            <label htmlFor="">Delete Project</label>
+                          <div
+                            className="text-primary cursor-pointer"
+                            onClick={() => {
+                              confirmAlert({
+                                title: "Confirm Deletion",
+                                message:
+                                  "Are you sure you want to delete this project?",
+                                buttons: [
+                                  {
+                                    label: "Yes",
+                                    onClick: async () => {
+                                      try {
+                                        await axios.delete(
+                                          `http://localhost:5000/projects/${selectedProject.projectID}`
+                                        );
+                                        toast.success(
+                                          "Project deleted successfully"
+                                        );
+                                        navigate(-1);
+                                      } catch (error) {
+                                        console.error(
+                                          "Error deleting project:",
+                                          error
+                                        );
+                                        toast.error("Deletion error");
+                                      }
+                                    },
+                                  },
+                                  {
+                                    label: "No",
+                                    onClick: () => {},
+                                  },
+                                ],
+                              });
+                            }}
+                          >
+                            <label className="cursor-pointer" htmlFor="">
+                              Delete Project
+                            </label>
                           </div>
                         </MenuItem>
                       )}
@@ -768,7 +854,7 @@ function MyProjectDetail() {
                 <div className="py-4 font-medium flex flex-col gap-4 w-full ">
                   <label htmlFor="">Name</label>
                   <div
-                    className={`relative w-full border rounded-2xl px-2 py-1 border-blackAlternative transition ${
+                    className={`relative w-full  rounded-2xl px-2 py-1 transition bg-white ${
                       user.role !== "student" ? "hover:outline" : ""
                     } outline-1 focus:outline focus:outline-2  outline-blackAlternative `}
                   >
@@ -776,7 +862,7 @@ function MyProjectDetail() {
                       type="text"
                       value={editTitle}
                       onChange={handleEditTitle}
-                      className="p-1 w-full border-none outline-none overflow-x-scroll"
+                      className="p-1 w-full border-none outline-none overflow-x-scroll bg-white"
                       disabled={user.role === "student"}
                     />
                   </div>
@@ -841,8 +927,10 @@ function MyProjectDetail() {
                         </label>
                         <div
                           className={`my-auto ${
-                            user.role === "student" ? "" : "cursor-pointer"
-                          } w-full relative flex flex-col py-1`}
+                            user.role === "student"
+                              ? ""
+                              : "cursor-pointer hover:bg-gray-100"
+                          } w-full relative flex flex-col py-1 bg-white rounded-md `}
                         >
                           <div
                             className="flex rounded-md"
@@ -861,17 +949,20 @@ function MyProjectDetail() {
                                       user.role === "student" ||
                                       editStatus !== "Open Request"
                                     }
+                                    onKeyDown={(e) => {
+                                      e.preventDefault();
+                                    }}
                                     maxDate={new Date(editStartDate)}
                                     className={`${
                                       user.role === "student"
                                         ? ""
-                                        : "cursor-pointer hover:bg-grey"
+                                        : "cursor-pointer "
                                     } ${
                                       editStatus !== "Open Request" &&
                                       user.role !== "student"
                                         ? "cursor-not-allowed"
                                         : ""
-                                    } p-2  rounded-md bg-transparent`}
+                                    } p-2  bg-transparent outline-none`}
                                   />
                                 </div>
                               </Tooltip>
@@ -885,8 +976,10 @@ function MyProjectDetail() {
                         <label htmlFor="">Start Date</label>
                         <div
                           className={`my-auto ${
-                            user.role === "student" ? "" : "cursor-pointer"
-                          } w-full relative flex flex-col py-1`}
+                            user.role === "student"
+                              ? ""
+                              : "cursor-pointer hover:bg-gray-100"
+                          } w-full relative flex flex-col py-1 bg-white rounded-md `}
                         >
                           <div
                             className="flex  rounded-md"
@@ -906,11 +999,14 @@ function MyProjectDetail() {
                                     endDate={new Date(editEndDate)}
                                     disabled={user.role === "student"}
                                     onChange={handleEditStartProject}
+                                    onKeyDown={(e) => {
+                                      e.preventDefault();
+                                    }}
                                     className={`${
                                       user.role === "student"
                                         ? ""
-                                        : "cursor-pointer hover:bg-grey"
-                                    } p-2  rounded-md bg-transparent`}
+                                        : "cursor-pointer "
+                                    } p-2  rounded-md bg-transparent outline-none`}
                                   />
                                 </div>
                               </Tooltip>
@@ -924,8 +1020,10 @@ function MyProjectDetail() {
                         </label>
                         <div
                           className={`my-auto ${
-                            user.role === "student" ? "" : "cursor-pointer"
-                          } w-full relative flex flex-col py-1`}
+                            user.role === "student"
+                              ? ""
+                              : "cursor-pointer hover:bg-gray-100"
+                          } w-full relative flex flex-col py-1 bg-white rounded-md `}
                         >
                           <div
                             className="flex rounded-md"
@@ -945,11 +1043,14 @@ function MyProjectDetail() {
                                     onChange={handleEditEndProject}
                                     disabled={user.role === "student"}
                                     minDate={new Date(editStartDate)}
+                                    onKeyDown={(e) => {
+                                      e.preventDefault();
+                                    }}
                                     className={`${
                                       user.role === "student"
                                         ? ""
-                                        : "cursor-pointer hover:bg-grey"
-                                    } p-2  rounded-md bg-transparent`}
+                                        : "cursor-pointer "
+                                    } p-2  rounded-md bg-transparent outline-none`}
                                   />
                                 </div>
                               </Tooltip>
@@ -960,6 +1061,7 @@ function MyProjectDetail() {
                     </div>
                   </div>
                   <hr />
+
                   <label
                     htmlFor=""
                     className="mt-1 text-base text-black font-bold"
@@ -970,7 +1072,7 @@ function MyProjectDetail() {
                     name=""
                     className={`p-2 rounded-2xl  outline-1 ${
                       user.role !== "student" ? "hover:outline" : ""
-                    } focus:outline-2 outline-blackAlternative  transition`}
+                    } focus:outline-2 outline-blackAlternative  transition bg-white`}
                     id=""
                     rows="5"
                     value={editDesc}
@@ -978,6 +1080,22 @@ function MyProjectDetail() {
                     placeholder="Add a message"
                     disabled={user.role === "student"}
                   ></textarea>
+
+                  <label
+                    htmlFor=""
+                    className="mt-1 text-base text-black font-bold"
+                  >
+                    Project Link
+                  </label>
+                  <input
+                    type="text"
+                    value={editLink}
+                    onChange={handleEditLink}
+                    className={`p-2 rounded-2xl  outline-1 ${
+                      user.role !== "student" ? "hover:outline" : ""
+                    } focus:outline-2 outline-blackAlternative  transition bg-white`}
+                    disabled={user.role === "student"}
+                  />
                 </div>
               </div>
             </div>

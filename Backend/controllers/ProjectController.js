@@ -263,6 +263,27 @@ export const editProjectTitle = async (req, res) => {
   }
 };
 
+export const editProjectLink = async (req, res) => {
+  try {
+    const project = await Project.findByPk(req.params.projectID);
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    project.groupLink = req.body.newLink;
+    await project.save();
+
+    return res
+      .status(200)
+      .json({ message: "Project group link updated successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Failed to update project group link", error });
+  }
+};
+
 export const getAllOpenRequestProjects = async (req, res) => {
   try {
     const projects = await Project.findAll({
@@ -439,5 +460,19 @@ export const testGetProjectAPI = async (req, res) => {
     res.status(200).json(testGetProjectAPI);
   } catch (error) {
     res.status(500).json({ message: "error dummy", error });
+  }
+};
+
+export const deleteProjectById = async (req, res) => {
+  try {
+    const project = await Project.findByPk(req.params.projectID);
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    await project.destroy();
+    res.status(200).json("Project deleted");
+  } catch (error) {
+    res.status(500).json({ message: "API error", error });
   }
 };
