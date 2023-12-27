@@ -48,14 +48,19 @@ const Project = db.define(
       allowNull: false,
     },
     projectStatus: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM(
+        "Open Request",
+        "Waiting to Start",
+        "Active",
+        "Finished"
+      ),
       allowNull: false,
     },
   },
   {
     freezeTableName: true,
   }
-); 
+);
 
 Project.belongsTo(User, {
   foreignKey: "projectOwnerID",
@@ -67,7 +72,5 @@ Project.hasMany(Request, {
   foreignKey: "projectID",
   sourceKey: "projectID",
 });
-
-
 
 export default Project;

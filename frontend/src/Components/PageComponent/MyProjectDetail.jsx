@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
-import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { BsThreeDots } from "react-icons/bs";
 import { MoonLoader } from "react-spinners";
 import { IoMdPersonAdd } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
-import { FaPlusCircle } from "react-icons/fa";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import styled, { css, createGlobalStyle } from "styled-components";
+import { Select, Option } from "@material-tailwind/react";
 import {
   Tooltip,
   Menu,
@@ -21,6 +20,8 @@ import {
 import { FaDotCircle } from "react-icons/fa";
 import { IoCaretBackCircleOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function MyProjectDetail() {
   let { projectId } = useParams();
@@ -45,16 +46,26 @@ function MyProjectDetail() {
 
   //edit project var
 
+  const listStatus = ["Active", "Waiting to Start", "Finished", "Open Request"];
+
   const [editTitle, setEditTitle] = useState("");
-  const [editStartDate, setEditStartDate] = useState("");
-  const [editEndDate, setEditEndDate] = useState("");
+  const [editStatus, setEditStatus] = useState("");
+  const [editStartDate, setEditStartDate] = useState(new Date());
+  const [editEndDate, setEditEndDate] = useState(new Date());
   const [editDesc, setEditDesc] = useState("");
+  const [editOpenUntilDate, setOpenUntilDate] = useState(new Date());
+
+  const [isModalDateOpen, setIsModalDateOpen] = useState(false);
+
+  const [isDateCalenderOpen, setIsDateCalenderOpen] = useState(false);
 
   const handleEditProject = () => {
     setEditTitle(selectedProject.title);
-    setEditStartDate(selectedProject.startDate);
-    setEditEndDate(selectedProject.endDate);
+    setEditStartDate(selectedProject.startProject);
+    setEditEndDate(selectedProject.endProject);
     setEditDesc(selectedProject.description);
+    setEditStatus(selectedProject.projectStatus);
+    setOpenUntilDate(selectedProject.openUntil);
   };
 
   useEffect(() => {
@@ -113,7 +124,7 @@ function MyProjectDetail() {
         headers: { "Content-Type": "multipart/form-data" },
       })
         .then(function (response) {
-          toast.success("Invitation is Send")
+          toast.success("Invitation is Send");
           console.log(response);
         })
         .catch(function (response) {
@@ -229,6 +240,74 @@ function MyProjectDetail() {
     setEditDesc(newDescription);
   };
 
+  const handleEditStartProject = async (e) => {
+    const newStartProject = e;
+
+    try {
+      await axios.put(
+        `http://localhost:5000/projects/${selectedProject.projectID}/startProject`,
+        {
+          newStartProject: newStartProject,
+        }
+      );
+      setEditStartDate(newStartProject);
+      selectedProject.startProject = newStartProject;
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  const handleEditEndProject = async (e) => {
+    const newEndProject = e;
+
+    try {
+      await axios.put(
+        `http://localhost:5000/projects/${selectedProject.projectID}/endProject`,
+        {
+          newEndProject: newEndProject,
+        }
+      );
+      setEditEndDate(newEndProject);
+      selectedProject.endProject = newEndProject;
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  const handleEditOpenUntil = async (e) => {
+    const newOpenUntil = e;
+
+    try {
+      await axios.put(
+        `http://localhost:5000/projects/${selectedProject.projectID}/openUntil`,
+        {
+          newOpenUntil: newOpenUntil,
+        }
+      );
+      setOpenUntilDate(newOpenUntil);
+      selectedProject.openUntil = newOpenUntil;
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  const handleEditStatus = async (e) => {
+    const newStatus = e;
+
+    try {
+      await axios.put(
+        `http://localhost:5000/projects/${selectedProject.projectID}/status`,
+        {
+          newStatus: newStatus,
+        }
+      );
+      setEditStatus(newStatus);
+      selectedProject.projectStatus = newStatus;
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
   useEffect(() => {
     setIsSearchLoading(true);
     if (searchQuery.trim() === "") {
@@ -261,9 +340,21 @@ function MyProjectDetail() {
     fetchProject();
   }, [projectId]);
 
-  // const sendInvitation = async () => {};
-
   const formatDate = (inputDate) => {
+    const date = new Date(inputDate);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return formattedDate;
+  };
+
+  const formatDateShort = (inputDate) => {
     const options = {
       year: "numeric",
       month: "long",
@@ -273,24 +364,6 @@ function MyProjectDetail() {
     const date = new Date(inputDate);
     const formattedDate = date.toLocaleDateString("id-ID", options);
     return formattedDate;
-  };
-
-  const formatDateShort = (inputDate) => {
-    const options = {
-      month: "short",
-      day: "2-digit",
-      year: "numeric",
-    };
-
-    const date = new Date(inputDate);
-    const formattedDate = date.toLocaleDateString("id-ID", options);
-
-    // Ubah format bulan menjadi tiga huruf pertama
-    const splitDate = formattedDate.split(" ");
-    const month = splitDate[1];
-    const dayYear = splitDate[0] + " " + splitDate[2];
-
-    return `${month} ${dayYear}`;
   };
 
   return (
@@ -353,17 +426,21 @@ function MyProjectDetail() {
               <Tooltip content="Project Status">
                 <div className="flex gap-2 ml-2 rounded-full border-2 px-3 mt-3 xs:mt-0">
                   <p
-                    className={`py-2 rounded-lg bg-transparent w-full my-auto font-semibold  ${selectedProject.projectStatus === "Open Request"
+                    className={`py-2 rounded-lg bg-transparent w-full my-auto font-semibold  ${
+                      selectedProject.projectStatus === "Open Request"
                         ? "text-yellow-600"
                         : selectedProject.projectStatus === "Active"
-                          ? "text-green-500"
-                          : selectedProject.projectStatus === "Finished"
-                            ? "text-red-500"
-                            : ""
-                      } `}
+                        ? "text-green-500"
+                        : selectedProject.projectStatus === "Finished"
+                        ? "text-red-500"
+                        : selectedProject.projectStatus === "Waiting to Start"
+                        ? "text-blue-500"
+                        : ""
+                    } `}
                   >
                     <FaDotCircle className="text-lg mx-auto shadow-md rounded-full" />
                   </p>
+
                   <label
                     htmlFor=""
                     className="whitespace-nowrap text-sm font-medium my-auto xs:block hidden"
@@ -395,10 +472,16 @@ function MyProjectDetail() {
                       </div>
                     </div>
 
-                    <div className="w-full mt-4 flex flex-col cursor-pointer group">
-                      {formatDate(selectedProject.startProject) +
-                        " - " +
-                        formatDate(selectedProject.endProject)}
+                    <div className="w-full mt-4 flex gap-4">
+                      <Tooltip
+                        content={formatDate(selectedProject.startProject)}
+                      >
+                        {formatDateShort(selectedProject.startProject)}
+                      </Tooltip>
+                      <label htmlFor="">-</label>
+                      <Tooltip content={formatDate(selectedProject.endProject)}>
+                        {formatDateShort(selectedProject.endProject)}
+                      </Tooltip>
                     </div>
                   </div>
                   <div>
@@ -437,7 +520,7 @@ function MyProjectDetail() {
 
                     <div className="w-full mt-4 flex flex-col cursor-pointer group">
                       {selectedProject.ProjectMembers &&
-                        selectedProject.ProjectMembers.length > 0 ? (
+                      selectedProject.ProjectMembers.length > 0 ? (
                         selectedProject.ProjectMembers.map((member, index) => (
                           <div
                             key={index}
@@ -651,10 +734,10 @@ function MyProjectDetail() {
             isOpen={isModalEditProjectOpen}
             onRequestClose={() => setIsModalEditProjectOpen(false)}
           >
-            <div className="w-screen xs:max-w-[80vw] md:w-[45vw] xl:w-[30vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
+            <div className="w-screen xs:max-w-[80vw] relative md:w-[45vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
               <div className="flex justify-between  gap-4">
                 <h1 className="my-auto text-lg md:text-xl font-medium">
-                  Project details
+                  Project Details
                 </h1>
                 <Button
                   variant="text"
@@ -681,7 +764,7 @@ function MyProjectDetail() {
                 </Button>
               </div>
               <hr className="mt-2" />
-              <div className="md:max-h-[50vh] overflow-y-scroll overflow-x-hidden px-4 mt-2">
+              <div className="md:max-h-[50vh] overflow-y-scroll overflow-x-hidden px-2 mt-2">
                 <div className="py-4 font-medium flex flex-col gap-4 w-full ">
                   <label htmlFor="">Name</label>
                   <div
@@ -697,30 +780,181 @@ function MyProjectDetail() {
                       disabled={user.role === "student"}
                     />
                   </div>
-                  <div className="flex flex-col md:flex-row justify-between gap-4 ">
-                    <div className="">
-                      <label htmlFor="">Owner</label>
-                      <div className="flex gap-2 hover:bg-grey cursor-pointer py-2 px-2 mt-1 rounded-md  ">
-                        <img
-                          className="h-10 aspect-square rounded-full"
-                          src={selectedProject.projectOwner.photoProfileUrl}
-                          alt=""
-                        />
-                        <div className="line-clamp-1 my-auto">
-                          {selectedProject.projectOwner.firstName +
+                  <div className="flex flex-col gap-4 w-full">
+                    <div className="flex flex-col md:flex-row gap-4 w-full">
+                      <div className="flex flex-col basis-1/2 ">
+                        <label htmlFor="">Owner</label>
+                        <Tooltip
+                          content={
+                            selectedProject.projectOwner.firstName +
                             " " +
-                            selectedProject.projectOwner.lastName}
+                            selectedProject.projectOwner.lastName
+                          }
+                        >
+                          <div className="flex gap-2 py-1 px-2 mt-1 rounded-md">
+                            <img
+                              className="h-10 aspect-square rounded-full"
+                              src={selectedProject.projectOwner.photoProfileUrl}
+                              alt=""
+                            />
+
+                            <div className="line-clamp-1 my-auto ">
+                              {selectedProject.projectOwner.firstName +
+                                " " +
+                                selectedProject.projectOwner.lastName}
+                            </div>
+                          </div>
+                        </Tooltip>
+                      </div>
+                    </div>
+                    <div className="flex flex-col md:flex-row gap-4 w-full ">
+                      <div className="flex flex-col basis-1/2">
+                        <label htmlFor="">Project Status</label>
+                        <div
+                          className={`my-auto ${
+                            user.role === "student" ? "" : "cursor-pointer"
+                          } w-full relative flex flex-col py-1`}
+                        >
+                          <Select
+                            variant="outlined"
+                            value={editStatus}
+                            color="blue-gray"
+                            disabled={user.role === "student"}
+                            onChange={handleEditStatus}
+                            className="font-medium "
+                          >
+                            {listStatus.map((status, index) => (
+                              <Option
+                                key={index}
+                                value={status}
+                                className="text-gray-800"
+                              >
+                                {status}
+                              </Option>
+                            ))}
+                          </Select>
+                        </div>
+                      </div>
+                      <div className="flex flex-col w-full basis-1/2">
+                        <label className="pl-0 md:pl-2" htmlFor="">
+                          Open Request Until
+                        </label>
+                        <div
+                          className={`my-auto ${
+                            user.role === "student" ? "" : "cursor-pointer"
+                          } w-full relative flex flex-col py-1`}
+                        >
+                          <div
+                            className="flex rounded-md"
+                            onClick={() => {
+                              setIsModalDateOpen(!isModalDateOpen);
+                            }}
+                          >
+                            <div className="my-auto flex w-full">
+                              <Tooltip content={formatDate(editEndDate)}>
+                                <div>
+                                  <DatePicker
+                                    showTimeSelect
+                                    selected={new Date(editOpenUntilDate)}
+                                    onChange={handleEditOpenUntil}
+                                    disabled={
+                                      user.role === "student" ||
+                                      editStatus !== "Open Request"
+                                    }
+                                    maxDate={new Date(editStartDate)}
+                                    className={`${
+                                      user.role === "student"
+                                        ? ""
+                                        : "cursor-pointer hover:bg-grey"
+                                    } ${
+                                      editStatus !== "Open Request" &&
+                                      user.role !== "student"
+                                        ? "cursor-not-allowed"
+                                        : ""
+                                    } p-2  rounded-md bg-transparent`}
+                                  />
+                                </div>
+                              </Tooltip>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div className="">
-                      <label htmlFor="">Due Date</label>
-                      <div className="flex gap-2 hover:bg-grey  cursor-pointer py-2 px-2 mt-1 rounded-md transition">
-                        <FaRegCalendarAlt className="my-auto h-10" />
-                        <div className="whitespace-nowrap my-auto">
-                          {formatDateShort(selectedProject.startProject) +
-                            " - " +
-                            formatDateShort(selectedProject.endProject)}
+                    <div className="flex flex-col md:flex-row gap-4 w-full ">
+                      <div className="flex flex-col basis-1/2 w-full">
+                        <label htmlFor="">Start Date</label>
+                        <div
+                          className={`my-auto ${
+                            user.role === "student" ? "" : "cursor-pointer"
+                          } w-full relative flex flex-col py-1`}
+                        >
+                          <div
+                            className="flex  rounded-md"
+                            onClick={() => {
+                              setIsModalDateOpen(!isModalDateOpen);
+                            }}
+                          >
+                            <div className="my-auto flex w-full">
+                              <Tooltip content={formatDate(editStartDate)}>
+                                <div>
+                                  <DatePicker
+                                    wrapperClassName="date_Picker"
+                                    showTimeSelect
+                                    minDate={new Date(editOpenUntilDate)}
+                                    selected={new Date(editStartDate)}
+                                    startDate={new Date(editStartDate)}
+                                    endDate={new Date(editEndDate)}
+                                    disabled={user.role === "student"}
+                                    onChange={handleEditStartProject}
+                                    className={`${
+                                      user.role === "student"
+                                        ? ""
+                                        : "cursor-pointer hover:bg-grey"
+                                    } p-2  rounded-md bg-transparent`}
+                                  />
+                                </div>
+                              </Tooltip>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-col w-full basis-1/2 ">
+                        <label className="pl-0 md:pl-2" htmlFor="">
+                          End Date
+                        </label>
+                        <div
+                          className={`my-auto ${
+                            user.role === "student" ? "" : "cursor-pointer"
+                          } w-full relative flex flex-col py-1`}
+                        >
+                          <div
+                            className="flex rounded-md"
+                            onClick={() => {
+                              setIsModalDateOpen(!isModalDateOpen);
+                            }}
+                          >
+                            <div className="my-auto flex w-full">
+                              <Tooltip content={formatDate(editEndDate)}>
+                                <div>
+                                  <DatePicker
+                                    showTimeSelect
+                                    wrapperClassName="date_Picker"
+                                    selected={new Date(editEndDate)}
+                                    startDate={new Date(editStartDate)}
+                                    endDate={new Date(editEndDate)}
+                                    onChange={handleEditEndProject}
+                                    disabled={user.role === "student"}
+                                    minDate={new Date(editStartDate)}
+                                    className={`${
+                                      user.role === "student"
+                                        ? ""
+                                        : "cursor-pointer hover:bg-grey"
+                                    } p-2  rounded-md bg-transparent`}
+                                  />
+                                </div>
+                              </Tooltip>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

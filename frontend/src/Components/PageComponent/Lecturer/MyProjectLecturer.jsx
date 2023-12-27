@@ -35,7 +35,13 @@ function MyProjectLecturer() {
   const [myProject, setMyProject] = useState([]);
 
   const [activeStatus, setActiveStatus] = useState("ALL");
-  const listStatus = ["ALL", "Active", "Finished", "Open Request"];
+  const listStatus = [
+    "ALL",
+    "Active",
+    "Finished",
+    "Open Request",
+    "Waiting to Start",
+  ];
 
   const closeModalDetail = () => {
     setModalOpenDetail(false);
@@ -198,6 +204,8 @@ function MyProjectLecturer() {
                                 ? "text-green-500"
                                 : project.projectStatus === "Finished"
                                 ? "text-red-500"
+                                : project.projectStatus === "Waiting to Start"
+                                ? "text-blue-500"
                                 : ""
                             } `}
                           >

@@ -70,7 +70,7 @@ const runInisialData = async () => {
   });
 };
 
-// menjalankan fungsi untuk inisial data
+// // menjalankan fungsi untuk inisial data
 // runInisialData();
 
 app.listen(process.env.APP_PORT, () =>

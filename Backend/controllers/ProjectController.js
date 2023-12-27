@@ -19,7 +19,7 @@ export const createProject = async (req, res) => {
     maxMembers,
     groupChatLink,
     skillTags,
-    roleTags,
+    roles,
   } = req.body;
 
   try {
@@ -38,22 +38,19 @@ export const createProject = async (req, res) => {
     const projectID = newProject.projectID;
 
     await Promise.all(
-      roleTags.map(async (roleData) => {
-        const [roleName, roleQuantity] = roleData.split(/\s*\(.*?\)\s*/);
-
+      roles.map(async (roleData) => {
         const [role, created] = await Role.findOrCreate({
-          where: { name: roleName },
+          where: { name: roleData.name },
         });
-        console.log(roleQuantity);
         await ProjectRole.create({
           roleID: role.roleID,
           projectID: projectID,
-          quantity: roleQuantity || 1,
+          quantity: roleData.quantity || 1, // Set default quantity to 1 if not specified
         });
 
         return role.roleID;
       }),
-    skillTags.map(async (skillName) => {
+      skillTags.map(async (skillName) => {
         const [skill, created] = await Skill.findOrCreate({
           where: { name: skillName },
         });
@@ -162,6 +159,89 @@ export const editProjectDesc = async (req, res) => {
   }
 };
 
+export const editProjectStartProject = async (req, res) => {
+  try {
+    const project = await Project.findByPk(req.params.projectID);
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    project.startProject = req.body.newStartProject;
+    await project.save();
+
+    return res
+      .status(200)
+      .json({ message: "Project start project updated successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Failed to update project start project", error });
+  }
+};
+export const editProjectEndProject = async (req, res) => {
+  try {
+    const project = await Project.findByPk(req.params.projectID);
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    project.endProject = req.body.newEndProject;
+    await project.save();
+
+    return res
+      .status(200)
+      .json({ message: "Project end project updated successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Failed to update project end project", error });
+  }
+};
+
+export const editProjectStatus = async (req, res) => {
+  try {
+    const project = await Project.findByPk(req.params.projectID);
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    project.projectStatus = req.body.newStatus;
+    await project.save();
+
+    return res
+      .status(200)
+      .json({ message: "Project status updated successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Failed to update project status", error });
+  }
+};
+
+export const editProjectOpenUntil = async (req, res) => {
+  try {
+    const project = await Project.findByPk(req.params.projectID);
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    project.openUntil = req.body.newOpenUntil;
+    await project.save();
+
+    return res
+      .status(200)
+      .json({ message: "Project open until updated successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Failed to update project open until", error });
+  }
+};
+
 export const editProjectTitle = async (req, res) => {
   try {
     const project = await Project.findByPk(req.params.projectID);
@@ -187,6 +267,9 @@ export const getAllOpenRequestProjects = async (req, res) => {
   try {
     const projects = await Project.findAll({
       order: [["projectID", "DESC"]],
+      where: {
+        projectStatus: "Open Request",
+      },
       include: {
         model: User,
         as: "projectOwner",
