@@ -6,8 +6,6 @@ import {
   getMyProjectsLecturer,
   getProjectByProjectID,
   getMyProjectsStudent,
-  testGetProjectAPI,
-  createProjectMember,
   editProjectDesc,
   editProjectTitle,
 } from "../controllers/ProjectController.js";
@@ -20,8 +18,6 @@ router.get("/student/projects/:userID", getMyProjectsStudent);
 router.get("/lecturer/projects/:userID", getMyProjectsLecturer);
 router.get("/project/:projectID", getProjectByProjectID);
 router.post("/projects", createProject);
-router.get("/testProjectAPI/:projectID", testGetProjectAPI);
-router.post("/projectMember", createProjectMember);
 router.put("/projects/:projectID/description", editProjectDesc);
 router.put("/projects/:projectID/title", editProjectTitle);
 

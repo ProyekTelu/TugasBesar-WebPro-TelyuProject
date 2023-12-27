@@ -3,7 +3,8 @@ import { Outlet, useNavigate } from "react-router-dom";
 import PageButton from "../Components/SideBarComponent/PageButton";
 import arrowLogo from "../img/arrow.png";
 import Logo from "../img/Logo.png";
-import Notification from "../Components/PageComponent/Notification";
+import NotificationStudent from "../Components/PageComponent/NotificationStudent";
+import NotificationLecturer from "../Components/PageComponent/Lecturer/NotificationLecturer";
 
 const Layout = () => {
   const currentNav = useNavigate();
@@ -142,9 +143,9 @@ const Layout = () => {
 
             {/* NOTIF BALOON */}
             {user.role === "student" ? 
-            <Notification />
+            <NotificationStudent />
             :
-            (<></>)
+            (<NotificationLecturer />)
             }
           </div>
         </div>

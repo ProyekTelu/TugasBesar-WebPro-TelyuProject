@@ -16,7 +16,7 @@ import axios from "axios";
 //   dotColor: "text-yellow-600",
 // }
 
-const Notification = () => {
+const NotificationStudent = () => {
   const [notifActive, setNotifActive] = useState(false);
   const [notifState, setNotifState] = useState("ALL");
   const [notificationElements, setNotificationsElements] = useState([])
@@ -147,7 +147,7 @@ const Notification = () => {
         style={{ userSelect: "none" }}
       >
         <h1 className="px-5 text-xl sm:text-2xl text-black font-bold ">
-          Notification
+          StudentNotificationStudent
         </h1>
         <div className="md:w-full text-xs sm:text-base sm:px-5 pt-2 flex gap-2 overflow-x-auto w-4/5 mx-auto pb-2 sm:pb-0 ">
           {options.map((option) => (
@@ -230,4 +230,4 @@ const Notification = () => {
   );
 };
 
-export default Notification;
+export default NotificationStudent;

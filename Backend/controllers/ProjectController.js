@@ -4,9 +4,7 @@ import Role from "../models/RoleModel.js";
 import User from "../models/UserModel.js";
 import ProjectSkill from "../models/ProjectSkillModel.js";
 import Skill from "../models/SkillModel.js";
-import ProjectMember from "../models/ProjectMemberModel.js";
-import { literal, Sequelize } from "sequelize";
-import { Op } from "sequelize";
+import { literal } from "sequelize";
 
 export const createProject = async (req, res) => {
   const {
@@ -317,44 +315,5 @@ export const getProjectByProjectID = async (req, res) => {
     res.status(200).json(project);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch projects", error });
-  }
-};
-
-export const createProjectMember = async (req, res) => {
-  try {
-    const [createProjectMember, created] = await ProjectMember.findOrCreate({
-      where: {
-        userID: req.body.userID,
-        roleID: req.body.roleID,
-        projectID: req.body.projectID,
-      },
-    });
-    if (created) {
-      res.status(201).json({
-        message: "User has been succesfully added to the project",
-        createProjectMember,
-      });
-    } else {
-      res.status(409).json({ message: "Record already exists" });
-    }
-  } catch (error) {
-    res.status(500).json({
-      message: "failed to add new member",
-      error: error,
-      body: req.body,
-    });
-  }
-};
-
-export const testGetProjectAPI = async (req, res) => {
-  try {
-    const testGetProjectAPI = await ProjectMember.findAll({
-      where: {
-        projectID: req.params.projectID,
-      },
-    });
-    res.status(200).json(testGetProjectAPI);
-  } catch (error) {
-    res.status(500).json({ message: "error dummy", error });
   }
 };
