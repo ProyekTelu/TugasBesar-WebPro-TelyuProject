@@ -115,21 +115,10 @@ export const deleteAllUsers = async (req, res) => {
 export const searchStudent = async (req, res) => {
   try {
     const searchText = req.params.searchQuery;
-    const projectID = req.params.projectID;
-
-    const projectMember = Project.findOne({
-      where: {
-        projectID: projectID,
-      },
-      attributes: ["ProjectMembers"],
-    }).map((member) => member.userID);
 
     const users = await User.findAll({
       where: {
         role: "Student",
-        userID: {
-          [Op.notIn]: projectMember,
-        },
         [Op.or]: [
           { firstName: { [Op.like]: `%${searchText}%` } },
           { lastName: { [Op.like]: `%${searchText}%` } },
