@@ -2,6 +2,7 @@ import User from "../models/UserModel.js";
 import argon2 from "argon2";
 import { Op, Sequelize, where } from "sequelize";
 import Invitation from "../models/InvitationModel.js";
+import Project from "../models/ProjectModel.js";
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -114,9 +115,19 @@ export const searchStudent = async (req, res) => {
     const searchText = req.params.searchQuery;
     const projectID = req.params.projectID;
 
+    const projectMember = Project.findOne({
+      where: {
+        projectID : projectID
+      },
+      attributes: ["ProjectMembers"]
+    }).map((member) => member.userID)
+
     const users = await User.findAll({
       where: {
         role: "Student",
+        userID: {
+          [Op.notIn]: projectMember,
+        },
         [Op.or]: [
           { firstName: { [Op.like]: `%${searchText}%` } },
           { lastName: { [Op.like]: `%${searchText}%` } },

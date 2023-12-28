@@ -6,8 +6,6 @@ import {
   getMyProjectsLecturer,
   getProjectByProjectID,
   getMyProjectsStudent,
-  testGetProjectAPI,
-  createProjectMember,
   editProjectDesc,
   editProjectTitle,
   editProjectStartProject,
@@ -16,6 +14,8 @@ import {
   editProjectOpenUntil,
   editProjectLink,
   deleteProjectById,
+  createProjectMember,
+  testGetProjectAPI,
 } from "../controllers/ProjectController.js";
 
 const router = express.Router();

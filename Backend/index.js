@@ -13,6 +13,7 @@ import MajorRoute from "./routes/MajorRoutes.js";
 import ProjectRoute from "./routes/ProjectRoutes.js";
 import RequestRoute from "./routes/RequestRoutes.js";
 import InvitationRoute from "./routes/InvitationRoutes.js";
+import ProjectMemberRoute from "./routes/ProjectMemberRoutes.js";
 
 //initial data import
 import FacultyAndMajor from "./InitialData/FacultyAndMajor.js";
@@ -24,6 +25,7 @@ import ProjectRoles from "./InitialData/ProjectRoles.js";
 import ProjectSkills from "./InitialData/ProjectSkills.js";
 import ProjectMembers from "./InitialData/ProjectMembers.js";
 import Invitations from "./InitialData/Invitations.js";
+
 
 dotenv.config();
 
@@ -44,6 +46,7 @@ app.use(UserRoute);
 app.use(AuthRoute);
 app.use(FacultyRoute);
 app.use(MajorRoute);
+app.use(ProjectMemberRoute);
 app.use(ProjectRoute);
 app.use(RequestRoute);
 app.use(InvitationRoute);
@@ -70,7 +73,7 @@ const runInisialData = async () => {
   });
 };
 
-// // menjalankan fungsi untuk inisial data
+// menjalankan fungsi untuk inisial data
 // runInisialData();
 
 app.listen(process.env.APP_PORT, () =>
