@@ -146,7 +146,7 @@ function MyProjectDetail() {
       const response = await axios.get(
         `http://localhost:5000/students/search/${searchQuery}/${projectId}`
       );
-      setSearchResults(response.data);
+      setSearchResults(response.data.filter((user) => selectedProject.ProjectMembers.every(member => member.userID !== user.userID)));
     } catch (error) {
       console.error("Error searching students:", error);
     } finally {
@@ -543,7 +543,7 @@ function MyProjectDetail() {
           </div>
           <div className="w-full mt-4 mx-auto flex justify-center ">
             <div className="flex flex-col w-full ">
-              <div className="border-grey border rounded-xl py-4 flex justify-center w-full min-h-screen lg:min-h-0 md:h-[83vh] relativee">
+              <div className="border-grey border rounded-xl h-[83vh] py-4 flex justify-center w-full min-h-screen lg:min-h-0 md:h-auto relativee">
                 <div className="w-full px-4 md:px-0 md:w-[50vw] py-2 md:py-10 gap-16 flex flex-col">
                   <div>
                     <h1 className="text-lg md:text-xl font-bold">
