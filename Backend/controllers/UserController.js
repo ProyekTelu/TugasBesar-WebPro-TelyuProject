@@ -119,10 +119,10 @@ export const searchStudent = async (req, res) => {
 
     const projectMember = Project.findOne({
       where: {
-        projectID : projectID
+        projectID: projectID,
       },
-      attributes: ["ProjectMembers"]
-    }).map((member) => member.userID)
+      attributes: ["ProjectMembers"],
+    }).map((member) => member.userID);
 
     const users = await User.findAll({
       where: {
@@ -179,18 +179,18 @@ export const updateUser = async (req, res) => {
     });
   }
 
-  const { firstName, lastName, phoneNumber} = req.body;
+  const { firstName, lastName, phoneNumber } = req.body;
   const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
 
   try {
     await User.update(
       {
-        "firstName": firstName,
-        "lastName":lastName,
-        "phoneNumber":phoneNumber,
-        "photoProfileName":fileName,
-        "photoProfileImage":fileName,
-        "photoProfileUrl":url,
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: phoneNumber,
+        photoProfileName: fileName,
+        photoProfileImage: fileName,
+        photoProfileUrl: url,
       },
       {
         where: {

@@ -41,7 +41,7 @@ function MyProjectDetail() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [isModalEditProjectOpen, setIsModalEditProjectOpen] = useState(false);
-  const [isProjectFull, setisProjectFull] = useState(false)
+  const [isProjectFull, setisProjectFull] = useState(false);
 
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -379,7 +379,10 @@ function MyProjectDetail() {
           `http://localhost:5000/project/${projectId}`
         );
         setSelectedProject(response.data);
-        setisProjectFull(selectedProject.projectMemberCount === selectedProject.totalMember)
+        selectedProject &&
+          setisProjectFull(
+            selectedProject.projectMemberCount === selectedProject.totalMember
+          );
       } catch (error) {
         console.error("Failed to fetch project:", error);
       } finally {
@@ -540,7 +543,7 @@ function MyProjectDetail() {
           </div>
           <div className="w-full mt-4 mx-auto flex justify-center ">
             <div className="flex flex-col w-full ">
-              <div className=" border h-[83vh] rounded-xl py-4 flex justify-center w-full min-h-screen lg:min-h-0 md:h-auto relative">
+              <div className="border-grey border rounded-xl py-4 flex justify-center w-full min-h-screen lg:min-h-0 md:h-[83vh] relativee">
                 <div className="w-full px-4 md:px-0 md:w-[50vw] py-2 md:py-10 gap-16 flex flex-col">
                   <div>
                     <h1 className="text-lg md:text-xl font-bold">
@@ -582,28 +585,45 @@ function MyProjectDetail() {
                           {selectedProject.totalMember + ")"}
                         </h1>
                       </div>
-                      {((selectedProject.ProjectMembers.length !== 0 &&
-                        ((user.role === "lecturer") ||
-                        user.role === "admin"))) && (
-                        <Tooltip content={`${!isProjectFull? "Add Member" : "Full Member"}`}>
-                          <div
-                            onClick={() => setIsModalInviteMemberOpen(true)}
-                            className={`${!isProjectFull ? "cursor-pointer hover:bg-grey duration-300 hover:rounded-xl active:bg-greyAlternative" : "text-greyAlternative pointer-events-none"} py-3  
-                            px-3 flex flex-row gap-3`}
+                      {selectedProject.ProjectMembers.length !== 0 &&
+                        (user.role === "lecturer" || user.role === "admin") && (
+                          <Tooltip
+                            content={`${
+                              !isProjectFull ? "Add Member" : "Full Member"
+                            }`}
                           >
-                            <IoMdPersonAdd className={`my-auto text-xl ${!isProjectFull? "cursor-pointer" : "pointer-events-none"}`} />
-                            {user.role === "admin" ||
-                              (user.role === "lecturer" && (
-                                <label
-                                  className={`hidden xs:block font-bold ${!isProjectFull? "cursor-pointer" : "pointer-events-none"}`}
-                                  htmlFor=""
-                                >
-                                  Invite a Student
-                                </label>
-                              ))}
-                          </div>
-                        </Tooltip>
-                      )}
+                            <div
+                              onClick={() => setIsModalInviteMemberOpen(true)}
+                              className={`${
+                                !isProjectFull
+                                  ? "cursor-pointer hover:bg-grey duration-300 hover:rounded-xl active:bg-greyAlternative"
+                                  : "text-greyAlternative pointer-events-none"
+                              } py-3  
+                            px-3 flex flex-row gap-3`}
+                            >
+                              <IoMdPersonAdd
+                                className={`my-auto text-xl ${
+                                  !isProjectFull
+                                    ? "cursor-pointer"
+                                    : "pointer-events-none"
+                                }`}
+                              />
+                              {user.role === "admin" ||
+                                (user.role === "lecturer" && (
+                                  <label
+                                    className={`hidden xs:block font-bold ${
+                                      !isProjectFull
+                                        ? "cursor-pointer"
+                                        : "pointer-events-none"
+                                    }`}
+                                    htmlFor=""
+                                  >
+                                    Invite a Student
+                                  </label>
+                                ))}
+                            </div>
+                          </Tooltip>
+                        )}
                     </div>
 
                     <div className="w-full mt-4 flex flex-col cursor-pointer group">
@@ -658,7 +678,10 @@ function MyProjectDetail() {
                           </div>
                         ))
                       ) : (
-                        <div className="flex flex-row gap-5  justify-center py-4  duration-300 px-3 w-full ">
+                        <div
+                          className="flex flex-row gap-5  justify-center py-4  duration-300 px-3 w-full "
+                          onClick={() => setIsModalInviteMemberOpen(true)}
+                        >
                           <div className="text-4xl">
                             <IoMdPersonAdd />
                           </div>
