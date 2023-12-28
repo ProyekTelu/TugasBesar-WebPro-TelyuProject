@@ -5,6 +5,7 @@ import User from "../models/UserModel.js";
 import skill from "../models/SkillModel.js";
 import ProjectSkillModel from "../models/ProjectModel.js";
 import Role from "../models/RoleModel.js";
+import ProjectMember from "../models/ProjectMemberModel.js";
 
 export const createRequest = async (req, res) => {
   try {
@@ -14,10 +15,10 @@ export const createRequest = async (req, res) => {
       where: {
         userID,
         projectID,
-        roleID,
         status: "pending",
       },
     });
+
 
     if (existingRequest) {
       return res
@@ -65,6 +66,7 @@ export const RequestByProjectID = async (req, res) => {
     res.status(500).json({ msg: err.message });
   }
 };
+
 export const getMyProjectRequestMember = async (req, res) => {
   try {
     const response = await Project.findAll({
@@ -96,5 +98,24 @@ export const getMyProjectRequestMember = async (req, res) => {
     res.status(200).json(response);
   } catch (err) {
     res.status(500).json({ msg: err.message });
+  }
+};
+
+export const existingRequest = async (req, res) => {
+  try {
+    const { userID, projectID } = req.params;
+    
+    const existingRequest = await Request.findOne({
+      where: {
+        userID,
+        projectID,
+        status: "pending",
+      },
+    });
+
+    res.json({ isRequested: !!existingRequest });
+  } catch (error) {
+    console.error("Error checking request:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
