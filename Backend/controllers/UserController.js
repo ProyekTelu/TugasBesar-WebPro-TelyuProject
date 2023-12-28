@@ -3,6 +3,8 @@ import argon2 from "argon2";
 import { Op, Sequelize, where } from "sequelize";
 import Invitation from "../models/InvitationModel.js";
 import Project from "../models/ProjectModel.js";
+import path from "path";
+import fs from "fs";
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -143,14 +145,52 @@ export const searchStudent = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-  try {
-    const { firstName, lastName, phoneNumber } = req.body;
+  const user = await User.findOne({
+    where: {
+      userID: req.params.userID,
+    },
+  });
 
+  if (!user) return res.status(404).json({ msg: "No Data Found" });
+
+  let fileName = "";
+
+  if (req.files === null) {
+    fileName = user.image;
+  } else {
+    const file = req.files.file;
+    console.log(file);
+    // const fileSize = file.data.length;
+    const ext = path.extname(file.name);
+    fileName = file.md5 + ext;
+    const allowedType = [".png", ".jpg", ".jpeg"];
+
+    if (!allowedType.includes(ext.toLowerCase()))
+      return res.status(422).json({ msg: "Invalid Images" });
+
+    // if (fileSize > 5000000)
+    //   return res.status(422).json({ msg: "Image must be less than 5 MB" });
+
+    // const filepath = `./public/images/${user.image}`;
+    // fs.unlinkSync(filepath);
+
+    file.mv(`./public/images/${fileName}`, (err) => {
+      if (err) return res.status(500).json({ msg: err.message });
+    });
+  }
+
+  const { firstName, lastName, phoneNumber} = req.body;
+  const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
+
+  try {
     await User.update(
       {
-        firstName,
-        lastName,
-        phoneNumber,
+        "firstName": firstName,
+        "lastName":lastName,
+        "phoneNumber":phoneNumber,
+        "photoProfileName":fileName,
+        "photoProfileImage":fileName,
+        "photoProfileUrl":url,
       },
       {
         where: {
@@ -158,16 +198,22 @@ export const updateUser = async (req, res) => {
         },
       }
     );
-
     const updatedUser = await User.findOne({
       where: {
         userID: req.params.userID,
       },
-      attributes: ["firstName", "lastName", "phoneNumber"],
+      attributes: [
+        "firstName",
+        "lastName",
+        "phoneNumber",
+        "photoProfileName",
+        "photoProfileImage",
+        "photoProfileUrl",
+      ],
     });
-
     res.status(200).json(updatedUser);
   } catch (error) {
-    res.status(500).json({ message: "User failed to be updated", error });
+    console.log(error.message);
+    res.status(500).json({ msg: "User failed to be updated", error });
   }
 };
