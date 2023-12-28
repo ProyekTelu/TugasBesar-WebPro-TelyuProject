@@ -4,6 +4,8 @@ import {
   getMyProjectRequestMember,
   RequestByProjectID,
   existingRequest,
+  addFromRequest,
+  changeStatus,
 } from "../controllers/RequestCotroller.js";
 import path from "path";
 import Request from "../models/RequestModel.js";
@@ -47,5 +49,8 @@ router.post("/createRequest", (req, res) => {
     }
   });
 });
+router.post("/createRequest", createRequest);
+router.post("/addNewMEM", addFromRequest);
+router.patch("/changeStatus/:as", changeStatus);
 
 export default router;
