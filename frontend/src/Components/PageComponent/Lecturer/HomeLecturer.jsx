@@ -27,6 +27,8 @@ function HomeLecturer() {
   const [isLoadingModalDetail, setIsLoadingModalDetail] = useState(false);
   const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
 
+  const [shouldUpdateProjects, setShouldUpdateProjects] = useState(false);
+
   useEffect(() => {
     if (!storedUser) {
       navigate("/");
@@ -99,6 +101,34 @@ function HomeLecturer() {
 
     fetchNewestProjects();
   }, []);
+
+  useEffect(() => {
+    const fetchNewestProjects = async () => {
+      setIsLoadingNewestProject(true);
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/newestProjects"
+        );
+        setNewestProject(response.data);
+        if (response.data.length === 0) {
+          setShowNoNewestProjectMessage(true);
+        }
+      } catch (error) {
+        console.error("Failed to fetch newest projects:", error);
+      } finally {
+        setIsLoadingNewestProject(false);
+      }
+    };
+
+    if (shouldUpdateProjects) {
+      fetchNewestProjects();
+      setShouldUpdateProjects(false);
+    }
+  }, [shouldUpdateProjects]);
+
+  const updateNewestProjects = () => {
+    setShouldUpdateProjects(true);
+  };
 
   useEffect(() => {
     const fetchMyProjects = async () => {
@@ -367,7 +397,12 @@ function HomeLecturer() {
         isOpen={isModalOpenCreate}
         onRequestClose={closeModalCreate}
       >
-        {isModalOpenCreate && <CreateProjectModal onClose={closeModalCreate} />}
+        {isModalOpenCreate && (
+          <CreateProjectModal
+            onClose={closeModalCreate}
+            onUpdateProjects={updateNewestProjects}
+          />
+        )}
       </Modal>
 
       {isLoadingModalDetail && (
