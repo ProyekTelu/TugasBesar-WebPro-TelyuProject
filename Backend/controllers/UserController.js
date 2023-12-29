@@ -174,12 +174,12 @@ export const updateUser = async (req, res) => {
   try {
     await User.update(
       {
-        firstName: firstName,
-        lastName: lastName,
-        phoneNumber: phoneNumber,
-        photoProfileName: fileName,
-        photoProfileImage: fileName,
-        photoProfileUrl: url,
+        "firstName": firstName,
+        "lastName": lastName,
+        "phoneNumber": phoneNumber,
+        "photoProfileName": fileName,
+        "photoProfileImage": fileName,
+        "photoProfileUrl": url,
       },
       {
         where: {
