@@ -141,6 +141,16 @@ function MyProjectDetail() {
     setIsModalInviteMemberOpen(false);
   };
 
+  const deleteProjectMemberByID = async() => {
+    try {
+      await axios.delete(
+        
+      )
+    } catch (error){
+
+    }
+  }
+
   const searchStudents = useCallback(async () => {
     try {
       const response = await axios.get(
@@ -668,7 +678,7 @@ function MyProjectDetail() {
                                     user.role === "admin") && (
                                     <MenuItem>
                                       <div className="text-primary">
-                                        <label htmlFor="">Kick Member</label>
+                                        <label onClick={deleteProjectMemberByID} htmlFor="">Kick Member</label>
                                       </div>
                                     </MenuItem>
                                   )}

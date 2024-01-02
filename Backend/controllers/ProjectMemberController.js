@@ -39,3 +39,24 @@ export const createProjectMember = async (req, res) => {
         });
     }
 };
+
+export const deleteProjectMember = async(req, res) => {
+    try {
+        const response = await ProjectMember.destroy(
+            {
+                where: {
+                    userID : req.params.userID
+                }
+            }
+        );
+        res.status(200).json({
+            message: `Success to delete ${req.params.userID}`,
+            response
+        });
+    } catch (error) {
+        res.status(200).json({
+            message: `Failedto delete ${req.params.userID}`,
+            error
+        });
+    }
+}
