@@ -133,76 +133,141 @@ export const searchStudent = async (req, res) => {
   }
 };
 
+// export const updateUser = async (req, res) => {
+//   const user = await User.findOne({
+//     where: {
+//       userID: req.params.userID,
+//     },
+//   });
+
+//   if (!user) return res.status(404).json({ msg: "No Data Found" });
+
+//   let fileName = user.photoProfileImage;
+
+//   if (req.files !== null) {
+//     const file = req.files.file;
+//     console.log(file);
+//     const ext = path.extname(file.name);
+//     fileName = file.md5 + ext;
+//     const allowedType = [".png", ".jpg", ".jpeg"];
+
+//     if (!allowedType.includes(ext.toLowerCase()))
+//       return res.status(422).json({ msg: "Invalid Images" });
+
+//     if (fileSize > 5000000)
+//       return res.status(422).json({ msg: "Image must be less than 5 MB" });
+
+//     const filepath = `./public/images/${fileName}`;
+//     fs.unlinkSync(filepath);
+
+//     file.mv(`./public/images/${fileName}`, (err) => {
+//       if (err) return res.status(500).json({ msg: err.message });
+//     });
+//   }
+
+//   const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
+
+//   try {
+//     const response = await User.update(
+//       {
+//         where: {
+//           userID: req.params.userID,
+//         },
+//       },
+//       {
+//         "firstName": req.body.firstName,
+//         "lastName": req.body.lastName,
+//         "phoneNumber": req.body.phoneNumber,
+//         "photoProfileImage": fileName,
+//         "photoProfileUrl": url,
+//       },
+//     );
+//     const updatedUser = await User.findOne({
+//       where: {
+//         userID: req.params.userID,
+//       },
+//       attributes: [
+//         "firstName",
+//         "lastName",
+//         "phoneNumber",
+//         "photoProfileName",
+//         "photoProfileImage",
+//         "photoProfileUrl",
+//       ],
+//     });
+//     res.status(200).json("Updated", response);
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(500).json({ msg: "User failed to be updated", error });
+//   }
+// };
+
 export const updateUser = async (req, res) => {
-  const user = await User.findOne({
-    where: {
-      userID: req.params.userID,
-    },
-  });
-
-  if (!user) return res.status(404).json({ msg: "No Data Found" });
-
-  let fileName = "";
-
-  if (req.files === null) {
-    fileName = user.image;
-  } else {
-    const file = req.files.file;
-    console.log(file);
-    // const fileSize = file.data.length;
-    const ext = path.extname(file.name);
-    fileName = file.md5 + ext;
-    const allowedType = [".png", ".jpg", ".jpeg"];
-
-    if (!allowedType.includes(ext.toLowerCase()))
-      return res.status(422).json({ msg: "Invalid Images" });
-
-    // if (fileSize > 5000000)
-    //   return res.status(422).json({ msg: "Image must be less than 5 MB" });
-
-    // const filepath = `./public/images/${user.image}`;
-    // fs.unlinkSync(filepath);
-
-    file.mv(`./public/images/${fileName}`, (err) => {
-      if (err) return res.status(500).json({ msg: err.message });
-    });
-  }
-
-  const { firstName, lastName, phoneNumber } = req.body;
-  const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
-
   try {
-    await User.update(
-      {
-        "firstName": firstName,
-        "lastName": lastName,
-        "phoneNumber": phoneNumber,
-        "photoProfileName": fileName,
-        "photoProfileImage": fileName,
-        "photoProfileUrl": url,
-      },
-      {
-        where: {
-          userID: req.params.userID,
+    if (!req.files) {
+      await User.update(
+        {
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          phoneNumber: req.body.phoneNumber,
+          lectureCode: req.body.lectureCode,
         },
-      }
-    );
+        {
+          where: {
+            userID: req.params.userID,
+          },
+        }
+      );
+    } else {
+      const photoFile = req.files.file;
+      const newFileName = photoFile.md5 + path.extname(photoFile.name);
+      const imagePath = `${req.protocol}://${req.get(
+        "host"
+      )}/images/${newFileName}`;
+
+      // Move the uploaded file to the 'images' folder
+      photoFile.mv(`./public/images/${newFileName}`, async (error) => {
+        if (error) {
+          return res.status(500).json({ error });
+        }
+
+        if (req.body.prevPhoto) {
+          fs.unlinkSync(`./public/images/${newFileName}`);
+        }
+
+        await User.update(
+          {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            phoneNumber: req.body.phoneNumber,
+            lectureCode: req.body.lectureCode,
+            photoProfileImage: newFileName,
+            photoProfileUrl: imagePath,
+          },
+          {
+            where: {
+              userID: req.params.userID,
+            },
+          }
+        );
+      });
+    }
+
     const updatedUser = await User.findOne({
-      where: {
+      where:{
         userID: req.params.userID,
-      },
-      attributes: [
-        "firstName",
-        "lastName",
-        "phoneNumber",
-        "photoProfileName",
-        "photoProfileImage",
-        "photoProfileUrl",
-      ],
+      }
+    })
+
+    res.status(200).json({
+      message: "User profile updated successfully",
+      data: updatedUser,
     });
-    res.status(200).json(updatedUser);
+
+
   } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ msg: "User failed to be updated", error });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
   }
 };

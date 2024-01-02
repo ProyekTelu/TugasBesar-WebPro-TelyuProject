@@ -6,7 +6,7 @@ import axios from "axios";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const User = JSON.parse(localStorage.getItem("user"));
+  const [User, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [firstName, setfirstName] = useState(User.firstName);
   const [lastName, setlastName] = useState(User.lastName);
   const [nomorInduk, setnim] = useState(User.userID);
@@ -25,23 +25,26 @@ const Profile = () => {
 
   const updateUser = async () => {
     try {
-      const updatedData = {
-        firstName,
-        lastName,
-        phoneNumber,
-      };
-      const respond = await axios.patch(
-        `http://localhost:5000/user/${User.userID}`,
-        updatedData
-      );
+      const formData = new FormData();
+      formData.append("firstName", firstName);
+      formData.append("lastName", lastName);
+      formData.append("phoneNumber", phoneNumber);
+      formData.append("lectureCode", kodeDosen);
+      formData.append("prevPhoto", User.photoProfileImage)
+      formData.append("file", userImage);
 
-      User.firstName = respond.data.firstName;
-      User.lastName = respond.data.lastName;
-      User.phoneNumber = respond.data.phoneNumber;
+      const response = await axios({
+        method: "post",
+        url: `http://localhost:5000/user/${User.userID}`,
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-      localStorage.setItem("user", JSON.stringify(User));
-
-      console.log("Profile updated successfully!");
+      localStorage.setItem("user", JSON.stringify(response.data.data));
+      setUser(JSON.parse(localStorage.getItem("user")))
+      setUserImage(null)
     } catch (error) {
       console.error("Error updating profile:", error);
     }
@@ -75,7 +78,7 @@ const Profile = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setUserImage(e.target.result);
+        setUserImage(file);
       };
       reader.readAsDataURL(file);
     }
@@ -120,12 +123,18 @@ const Profile = () => {
   return (
     <div className="p-4 md:p-12 overflow-y-auto">
       <div className="relative h-60 rounded-b-3xl flex justify-center sm:h-55">
-        <div className="absolute -bottom-2 sm:-bottom-0 md:-bottom-10">
+        <div
+          className={`absolute -bottom-2 sm:-bottom-0 md:-bottom-10
+        ${
+          photoProfile !== null
+            ? ""
+            : "border-2 border-greyAlternative rounded-full  "
+        }`}>
           <img
             src={photoProfile}
             className={`${
               isEditing
-                ? "inset-0 bg-gray-600 opacity-80 rounded-full cursor-pointer transition-transform transform-gpu hover:scale-105 focus:outline-none ring-2 ring-red-300"
+                ? "inset-0 bg-greyAlternative opacity-80 rounded-full cursor-pointer transition-transform transform-gpu hover:scale-105 focus:outline-none ring-2 ring-grey"
                 : "hover:opacity-80 transition-opacity pointer-events-none"
             } object-cover border-4 border-white w-40 h-40 sm:w-60 sm:h-60 md:w-72 md:h-72 aspect-square rounded-full`}
             alt="cover"
@@ -159,8 +168,7 @@ const Profile = () => {
               style={{ fontSize: "25px" }}
               className={`text-black ${
                 isEditButtonTextVisible ? "" : "invisible"
-              }`}
-            >
+              }`}>
               Edit
             </span>
           </div>
@@ -171,14 +179,12 @@ const Profile = () => {
       {/* Label Biodata */}
       <form
         className="flex flex-col sm:flex-row gap-4 xs:gap-6 md:gap-8 xl:gap-10"
-        action=""
-      >
+        action="">
         <div className="w-full xs:w-1/2">
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray"
-              htmlFor=""
-            >
+              htmlFor="">
               First Name
             </label>
             <input
@@ -196,8 +202,7 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               Last Name
             </label>
             <input
@@ -215,8 +220,7 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               Phone Number
             </label>
             <input
@@ -235,8 +239,7 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor=""
-              >
+                htmlFor="">
                 Lecturer Code
               </label>
               <input
@@ -256,8 +259,7 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor=""
-              >
+                htmlFor="">
                 Class
               </label>
               <input
@@ -274,8 +276,7 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               Faculty
             </label>
             <input
@@ -289,8 +290,7 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               NIM
             </label>
             <input
@@ -305,8 +305,7 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor=""
-              >
+                htmlFor="">
                 Role
               </label>
               <input
@@ -321,8 +320,7 @@ const Profile = () => {
           <div className="flex flex-col mt-4">
             <label
               className="font-medium text-xs md:text-base text-textGray "
-              htmlFor=""
-            >
+              htmlFor="">
               Gender
             </label>
             <input
@@ -337,8 +335,7 @@ const Profile = () => {
             <div className="flex flex-col mt-4">
               <label
                 className="font-medium text-xs md:text-base text-textGray "
-                htmlFor=""
-              >
+                htmlFor="">
                 Major
               </label>
               <input
@@ -359,16 +356,14 @@ const Profile = () => {
               className="rounded-md border border-transparent bg-secondary px-8 py-2 
                 text-base font-medium text-white duration-100 ease-out hover:bg-secondaryAlternative
                 hover:scale-105 active:scale-95"
-              onClick={handleDoneEditing}
-            >
+              onClick={handleDoneEditing}>
               Save
             </button>
             <button
               className="rounded-md border border-transparent bg-primary px-8 py-2 
                 text-base font-medium text-white duration-100 ease-out hover:bg-primaryAlternative
                 hover:scale-105 active:scale-95"
-              onClick={handleDoneEditing}
-            >
+              onClick={handleDoneEditing}>
               Cancel
             </button>
           </>
@@ -380,8 +375,7 @@ const Profile = () => {
             onClick={() => {
               localStorage.clear();
               navigate("/login");
-            }}
-          >
+            }}>
             Log Out
           </button>
         )}

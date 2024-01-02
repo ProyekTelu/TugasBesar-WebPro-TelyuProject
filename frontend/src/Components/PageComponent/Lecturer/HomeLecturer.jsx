@@ -198,7 +198,7 @@ function HomeLecturer() {
       <div>
         <div className="px-4 mb-2">
           <h1 className="text-xl md:text-2xl text-primary font-bold text-start">
-            Newest Projects!
+            Latest Projects!
           </h1>
         </div>
         <div className="max-h-full flex flex-col transition">
