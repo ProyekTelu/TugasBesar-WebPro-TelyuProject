@@ -32,13 +32,13 @@ const Invitation = db.define(
       allowNull: false,
     },
     status: {
-      type : DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     message: {
-      type : DataTypes.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
-    }
+    },
   },
   {
     freezeTableName: true,
@@ -60,6 +60,7 @@ Invitation.belongsTo(User, {
 Invitation.belongsTo(Project, {
   foreignKey: "projectID",
   targetKey: "projectID",
+  onDelete: "CASCADE",
 });
 
 export default Invitation;

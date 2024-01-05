@@ -4,9 +4,8 @@ import Role from "../models/RoleModel.js";
 import User from "../models/UserModel.js";
 import ProjectSkill from "../models/ProjectSkillModel.js";
 import Skill from "../models/SkillModel.js";
+import { literal } from "sequelize";
 import ProjectMember from "../models/ProjectMemberModel.js";
-import { literal, Sequelize } from "sequelize";
-import { Op } from "sequelize";
 
 export const createProject = async (req, res) => {
   const {
@@ -179,6 +178,7 @@ export const editProjectStartProject = async (req, res) => {
       .json({ message: "Failed to update project start project", error });
   }
 };
+
 export const editProjectEndProject = async (req, res) => {
   try {
     const project = await Project.findByPk(req.params.projectID);
@@ -260,6 +260,27 @@ export const editProjectTitle = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Failed to update project title", error });
+  }
+};
+
+export const editProjectLink = async (req, res) => {
+  try {
+    const project = await Project.findByPk(req.params.projectID);
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    project.groupLink = req.body.newLink;
+    await project.save();
+
+    return res
+      .status(200)
+      .json({ message: "Project group link updated successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Failed to update project group link", error });
   }
 };
 
@@ -439,5 +460,19 @@ export const testGetProjectAPI = async (req, res) => {
     res.status(200).json(testGetProjectAPI);
   } catch (error) {
     res.status(500).json({ message: "error dummy", error });
+  }
+};
+
+export const deleteProjectById = async (req, res) => {
+  try {
+    const project = await Project.findByPk(req.params.projectID);
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    await project.destroy();
+    res.status(200).json("Project deleted");
+  } catch (error) {
+    res.status(500).json({ message: "API error", error });
   }
 };

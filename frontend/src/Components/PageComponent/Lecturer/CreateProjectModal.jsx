@@ -5,7 +5,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function CreateProjectModal({ isOpen, onClose }) {
+function CreateProjectModal({ isOpen, onClose, onUpdateProjects }) {
   const storedUser = localStorage.getItem("user");
   const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
   const User = JSON.parse(localStorage.getItem("user"));
@@ -56,7 +56,7 @@ function CreateProjectModal({ isOpen, onClose }) {
         console.log("Project created:", createdProject);
 
         toast.success("Project Created Successfully!");
-
+        onUpdateProjects();
         onClose();
       } else {
         console.error("Failed to create project");

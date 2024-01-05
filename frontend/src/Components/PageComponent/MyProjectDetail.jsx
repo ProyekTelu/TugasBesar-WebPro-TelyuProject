@@ -7,7 +7,6 @@ import { MoonLoader } from "react-spinners";
 import { IoMdPersonAdd } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
-import styled, { css, createGlobalStyle } from "styled-components";
 import { Select, Option } from "@material-tailwind/react";
 import {
   Tooltip,
@@ -22,6 +21,8 @@ import { IoCaretBackCircleOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 function MyProjectDetail() {
   let { projectId } = useParams();
@@ -40,6 +41,7 @@ function MyProjectDetail() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [isModalEditProjectOpen, setIsModalEditProjectOpen] = useState(false);
+  const [isProjectFull, setisProjectFull] = useState(false);
 
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -53,6 +55,7 @@ function MyProjectDetail() {
   const [editStartDate, setEditStartDate] = useState(new Date());
   const [editEndDate, setEditEndDate] = useState(new Date());
   const [editDesc, setEditDesc] = useState("");
+  const [editLink, setEditLink] = useState("");
   const [editOpenUntilDate, setOpenUntilDate] = useState(new Date());
 
   const [isModalDateOpen, setIsModalDateOpen] = useState(false);
@@ -65,6 +68,7 @@ function MyProjectDetail() {
     setEditEndDate(selectedProject.endProject);
     setEditDesc(selectedProject.description);
     setEditStatus(selectedProject.projectStatus);
+    setEditLink(selectedProject.groupLink);
     setOpenUntilDate(selectedProject.openUntil);
   };
 
@@ -137,12 +141,22 @@ function MyProjectDetail() {
     setIsModalInviteMemberOpen(false);
   };
 
+  const deleteProjectMemberByID = async() => {
+    try {
+      await axios.delete(
+        
+      )
+    } catch (error){
+
+    }
+  }
+
   const searchStudents = useCallback(async () => {
     try {
       const response = await axios.get(
         `http://localhost:5000/students/search/${searchQuery}/${projectId}`
       );
-      setSearchResults(response.data);
+      setSearchResults(response.data.filter((user) => selectedProject.ProjectMembers.every(member => member.userID !== user.userID)));
     } catch (error) {
       console.error("Error searching students:", error);
     } finally {
@@ -240,6 +254,51 @@ function MyProjectDetail() {
     setEditDesc(newDescription);
   };
 
+  const isValidURL = (url) => {
+    const urlPattern = new RegExp(/^(ftp|http|https):\/\/[^ "]+$/i);
+
+    return urlPattern.test(url);
+  };
+
+  const handleEditLink = async (e) => {
+    const newLink = e.target.value;
+
+    // if (isValidURL(newLink)) {
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/projects/${selectedProject.projectID}/link`,
+        {
+          newLink: newLink,
+        }
+      );
+
+      if (response.status === 200) {
+        setEditLink(newLink);
+        if (errorDescMessageDisplayed) {
+          toast.dismiss(errorDescMessageDisplayed);
+          setErrorDescMessageDisplayed(null);
+        }
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+    // } else if (!isValidURL(newLink) && !errorDescMessageDisplayed) {
+    //   const toastId = toast.error("Link should be format like link.", {
+    //     position: "top-right",
+    //     hideProgressBar: true,
+    //     autoClose: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //   });
+    //   setErrorDescMessageDisplayed(toastId);
+    // }
+
+    setEditLink(newLink);
+  };
+
   const handleEditStartProject = async (e) => {
     const newStartProject = e;
 
@@ -330,6 +389,10 @@ function MyProjectDetail() {
           `http://localhost:5000/project/${projectId}`
         );
         setSelectedProject(response.data);
+        selectedProject &&
+          setisProjectFull(
+            selectedProject.projectMemberCount === selectedProject.totalMember
+          );
       } catch (error) {
         console.error("Failed to fetch project:", error);
       } finally {
@@ -413,8 +476,45 @@ function MyProjectDetail() {
                       </MenuItem>
                       {(user.role === "lecturer" || user.role === "admin") && (
                         <MenuItem>
-                          <div className="text-primary">
-                            <label htmlFor="">Delete Project</label>
+                          <div
+                            className="text-primary cursor-pointer"
+                            onClick={() => {
+                              confirmAlert({
+                                title: "Confirm Deletion",
+                                message:
+                                  "Are you sure you want to delete this project?",
+                                buttons: [
+                                  {
+                                    label: "Yes",
+                                    onClick: async () => {
+                                      try {
+                                        await axios.delete(
+                                          `http://localhost:5000/projects/${selectedProject.projectID}`
+                                        );
+                                        toast.success(
+                                          "Project deleted successfully"
+                                        );
+                                        navigate(-1);
+                                      } catch (error) {
+                                        console.error(
+                                          "Error deleting project:",
+                                          error
+                                        );
+                                        toast.error("Deletion error");
+                                      }
+                                    },
+                                  },
+                                  {
+                                    label: "No",
+                                    onClick: () => {},
+                                  },
+                                ],
+                              });
+                            }}
+                          >
+                            <label className="cursor-pointer" htmlFor="">
+                              Delete Project
+                            </label>
                           </div>
                         </MenuItem>
                       )}
@@ -453,7 +553,7 @@ function MyProjectDetail() {
           </div>
           <div className="w-full mt-4 mx-auto flex justify-center ">
             <div className="flex flex-col w-full ">
-              <div className="border-grey border rounded-xl py-4 flex justify-center w-full min-h-screen lg:min-h-0 md:h-[83vh] relative">
+              <div className="border-grey border rounded-xl h-[83vh] py-4 flex justify-center w-full min-h-screen lg:min-h-0 md:h-auto relativee">
                 <div className="w-full px-4 md:px-0 md:w-[50vw] py-2 md:py-10 gap-16 flex flex-col">
                   <div>
                     <h1 className="text-lg md:text-xl font-bold">
@@ -495,27 +595,45 @@ function MyProjectDetail() {
                           {selectedProject.totalMember + ")"}
                         </h1>
                       </div>
-                      {((selectedProject.ProjectMembers.length !== 0 &&
-                        user.role === "lecturer") ||
-                        user.role === "admin") && (
-                        <Tooltip content="Add member">
-                          <div
-                            onClick={() => setIsModalInviteMemberOpen(true)}
-                            className="cursor-pointer py-3 duration-300 hover:bg-grey active:bg-greyAlternative px-3 hover:rounded-xl flex flex-row gap-3"
+                      {selectedProject.ProjectMembers.length !== 0 &&
+                        (user.role === "lecturer" || user.role === "admin") && (
+                          <Tooltip
+                            content={`${
+                              !isProjectFull ? "Add Member" : "Full Member"
+                            }`}
                           >
-                            <IoMdPersonAdd className="my-auto text-xl cursor-pointer" />
-                            {user.role === "admin" ||
-                              (user.role === "lecturer" && (
-                                <label
-                                  className="hidden xs:block cursor-pointer font-bold"
-                                  htmlFor=""
-                                >
-                                  Invite a Student
-                                </label>
-                              ))}
-                          </div>
-                        </Tooltip>
-                      )}
+                            <div
+                              onClick={() => setIsModalInviteMemberOpen(true)}
+                              className={`${
+                                !isProjectFull
+                                  ? "cursor-pointer hover:bg-grey duration-300 hover:rounded-xl active:bg-greyAlternative"
+                                  : "text-greyAlternative pointer-events-none"
+                              } py-3  
+                            px-3 flex flex-row gap-3`}
+                            >
+                              <IoMdPersonAdd
+                                className={`my-auto text-xl ${
+                                  !isProjectFull
+                                    ? "cursor-pointer"
+                                    : "pointer-events-none"
+                                }`}
+                              />
+                              {user.role === "admin" ||
+                                (user.role === "lecturer" && (
+                                  <label
+                                    className={`hidden xs:block font-bold ${
+                                      !isProjectFull
+                                        ? "cursor-pointer"
+                                        : "pointer-events-none"
+                                    }`}
+                                    htmlFor=""
+                                  >
+                                    Invite a Student
+                                  </label>
+                                ))}
+                            </div>
+                          </Tooltip>
+                        )}
                     </div>
 
                     <div className="w-full mt-4 flex flex-col cursor-pointer group">
@@ -560,7 +678,7 @@ function MyProjectDetail() {
                                     user.role === "admin") && (
                                     <MenuItem>
                                       <div className="text-primary">
-                                        <label htmlFor="">Kick Member</label>
+                                        <label onClick={deleteProjectMemberByID} htmlFor="">Kick Member</label>
                                       </div>
                                     </MenuItem>
                                   )}
@@ -570,7 +688,10 @@ function MyProjectDetail() {
                           </div>
                         ))
                       ) : (
-                        <div className="flex flex-row gap-5  justify-center py-4  duration-300 px-3 w-full ">
+                        <div
+                          className="flex flex-row gap-5  justify-center py-4  duration-300 px-3 w-full "
+                          onClick={() => setIsModalInviteMemberOpen(true)}
+                        >
                           <div className="text-4xl">
                             <IoMdPersonAdd />
                           </div>
@@ -768,7 +889,7 @@ function MyProjectDetail() {
                 <div className="py-4 font-medium flex flex-col gap-4 w-full ">
                   <label htmlFor="">Name</label>
                   <div
-                    className={`relative w-full border rounded-2xl px-2 py-1 border-blackAlternative transition ${
+                    className={`relative w-full  rounded-2xl px-2 py-1 transition bg-white ${
                       user.role !== "student" ? "hover:outline" : ""
                     } outline-1 focus:outline focus:outline-2  outline-blackAlternative `}
                   >
@@ -776,7 +897,7 @@ function MyProjectDetail() {
                       type="text"
                       value={editTitle}
                       onChange={handleEditTitle}
-                      className="p-1 w-full border-none outline-none overflow-x-scroll"
+                      className="p-1 w-full border-none outline-none overflow-x-scroll bg-white"
                       disabled={user.role === "student"}
                     />
                   </div>
@@ -841,8 +962,10 @@ function MyProjectDetail() {
                         </label>
                         <div
                           className={`my-auto ${
-                            user.role === "student" ? "" : "cursor-pointer"
-                          } w-full relative flex flex-col py-1`}
+                            user.role === "student"
+                              ? ""
+                              : "cursor-pointer hover:bg-gray-100"
+                          } w-full relative flex flex-col py-1 bg-white rounded-md `}
                         >
                           <div
                             className="flex rounded-md"
@@ -861,17 +984,20 @@ function MyProjectDetail() {
                                       user.role === "student" ||
                                       editStatus !== "Open Request"
                                     }
+                                    onKeyDown={(e) => {
+                                      e.preventDefault();
+                                    }}
                                     maxDate={new Date(editStartDate)}
                                     className={`${
                                       user.role === "student"
                                         ? ""
-                                        : "cursor-pointer hover:bg-grey"
+                                        : "cursor-pointer "
                                     } ${
                                       editStatus !== "Open Request" &&
                                       user.role !== "student"
                                         ? "cursor-not-allowed"
                                         : ""
-                                    } p-2  rounded-md bg-transparent`}
+                                    } p-2  bg-transparent outline-none`}
                                   />
                                 </div>
                               </Tooltip>
@@ -885,8 +1011,10 @@ function MyProjectDetail() {
                         <label htmlFor="">Start Date</label>
                         <div
                           className={`my-auto ${
-                            user.role === "student" ? "" : "cursor-pointer"
-                          } w-full relative flex flex-col py-1`}
+                            user.role === "student"
+                              ? ""
+                              : "cursor-pointer hover:bg-gray-100"
+                          } w-full relative flex flex-col py-1 bg-white rounded-md `}
                         >
                           <div
                             className="flex  rounded-md"
@@ -906,11 +1034,14 @@ function MyProjectDetail() {
                                     endDate={new Date(editEndDate)}
                                     disabled={user.role === "student"}
                                     onChange={handleEditStartProject}
+                                    onKeyDown={(e) => {
+                                      e.preventDefault();
+                                    }}
                                     className={`${
                                       user.role === "student"
                                         ? ""
-                                        : "cursor-pointer hover:bg-grey"
-                                    } p-2  rounded-md bg-transparent`}
+                                        : "cursor-pointer "
+                                    } p-2  rounded-md bg-transparent outline-none`}
                                   />
                                 </div>
                               </Tooltip>
@@ -924,8 +1055,10 @@ function MyProjectDetail() {
                         </label>
                         <div
                           className={`my-auto ${
-                            user.role === "student" ? "" : "cursor-pointer"
-                          } w-full relative flex flex-col py-1`}
+                            user.role === "student"
+                              ? ""
+                              : "cursor-pointer hover:bg-gray-100"
+                          } w-full relative flex flex-col py-1 bg-white rounded-md `}
                         >
                           <div
                             className="flex rounded-md"
@@ -945,11 +1078,14 @@ function MyProjectDetail() {
                                     onChange={handleEditEndProject}
                                     disabled={user.role === "student"}
                                     minDate={new Date(editStartDate)}
+                                    onKeyDown={(e) => {
+                                      e.preventDefault();
+                                    }}
                                     className={`${
                                       user.role === "student"
                                         ? ""
-                                        : "cursor-pointer hover:bg-grey"
-                                    } p-2  rounded-md bg-transparent`}
+                                        : "cursor-pointer "
+                                    } p-2  rounded-md bg-transparent outline-none`}
                                   />
                                 </div>
                               </Tooltip>
@@ -960,6 +1096,7 @@ function MyProjectDetail() {
                     </div>
                   </div>
                   <hr />
+
                   <label
                     htmlFor=""
                     className="mt-1 text-base text-black font-bold"
@@ -970,7 +1107,7 @@ function MyProjectDetail() {
                     name=""
                     className={`p-2 rounded-2xl  outline-1 ${
                       user.role !== "student" ? "hover:outline" : ""
-                    } focus:outline-2 outline-blackAlternative  transition`}
+                    } focus:outline-2 outline-blackAlternative  transition bg-white`}
                     id=""
                     rows="5"
                     value={editDesc}
@@ -978,6 +1115,22 @@ function MyProjectDetail() {
                     placeholder="Add a message"
                     disabled={user.role === "student"}
                   ></textarea>
+
+                  <label
+                    htmlFor=""
+                    className="mt-1 text-base text-black font-bold"
+                  >
+                    Project Link
+                  </label>
+                  <input
+                    type="text"
+                    value={editLink}
+                    onChange={handleEditLink}
+                    className={`p-2 rounded-2xl  outline-1 ${
+                      user.role !== "student" ? "hover:outline" : ""
+                    } focus:outline-2 outline-blackAlternative  transition bg-white`}
+                    disabled={user.role === "student"}
+                  />
                 </div>
               </div>
             </div>

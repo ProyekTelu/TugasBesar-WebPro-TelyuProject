@@ -84,7 +84,6 @@ export const login = async (req, res) => {
 };
 
 export const signup = async (req, res) => {
-  const initialProfileImageBuffer = await fs.readFile("img/user.png");
   const {
     phoneNumber,
     firstName,
@@ -110,7 +109,6 @@ export const signup = async (req, res) => {
       lectureCode: lectureCode === null ? null : lectureCode.toUpperCase(),
       facultyCode: facultyCode,
       majorCode: majorCode,
-      photoProfile: initialProfileImageBuffer,
       kelas: kelas,
       role: role,
     });

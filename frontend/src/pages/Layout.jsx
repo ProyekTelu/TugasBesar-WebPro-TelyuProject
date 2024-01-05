@@ -3,7 +3,8 @@ import { Outlet, useNavigate } from "react-router-dom";
 import PageButton from "../Components/SideBarComponent/PageButton";
 import arrowLogo from "../img/arrow.png";
 import Logo from "../img/Logo.png";
-import Notification from "../Components/PageComponent/Notification";
+import NotificationStudent from "../Components/PageComponent/NotificationStudent";
+import NotificationLecturer from "../Components/PageComponent/Lecturer/NotificationLecturer";
 
 const Layout = () => {
   const currentNav = useNavigate();
@@ -16,10 +17,6 @@ const Layout = () => {
   const [isPageButtonShow, setIsPageButtonShow] = useState(false);
   const pageButtonRef = useRef(null);
   const [userImage, setUserImage] = useState(user.photoProfileUrl);
-
-  if (!localStorage.getItem("user")) {
-    currentNav("/");
-  }
 
   //convert blob ke gambar
   // useEffect(() => {
@@ -39,11 +36,15 @@ const Layout = () => {
     // Add event listener when the component mounts
     document.addEventListener("click", handleDocumentClick);
 
+    if (!localStorage.getItem("user")) {
+      currentNav("/");
+    }
+
     // Clean up the event listener when the component unmounts
     return () => {
       document.removeEventListener("click", handleDocumentClick);
     };
-  }, []);
+  }, [user]);
 
   const pageButtonContent =
     user.role === "student"
@@ -142,9 +143,9 @@ const Layout = () => {
 
             {/* NOTIF BALOON */}
             {user.role === "student" ? 
-            <Notification />
+            <NotificationStudent />
             :
-            (<></>)
+            (<NotificationLecturer />)
             }
           </div>
         </div>

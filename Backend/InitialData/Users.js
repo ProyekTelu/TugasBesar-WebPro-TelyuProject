@@ -9,12 +9,6 @@ const Users = async () => {
 
     const hashedPassword = await argon2.hash(password);
 
-    const imageName1 = "hasnan.png";
-    const url1 = `http://localhost:5000/images/${imageName1}`;
-
-    const imageName2 = "ijadAril.jpg";
-    const url2 = `http://localhost:5000/images/${imageName2}`;
-
     await User.create({
       firstName: "Zaky Admin",
       lastName: "Admin",
@@ -26,9 +20,8 @@ const Users = async () => {
       majorCode: "SE",
       kelas: "SE-45-02",
       phoneNumber: "0897228290299",
-      photoProfileName: imageName1,
-      photoProfileImage: imageName1,
-      photoProfileUrl: url1,
+      // photoProfileImage: imageName1,
+      // photoProfileUrl: url1,
       role: "admin",
     });
     await User.create({
@@ -42,9 +35,8 @@ const Users = async () => {
       majorCode: "SE",
       phoneNumber: "0897228290232",
       kelas: "SE-45-02",
-      photoProfileName: imageName1,
-      photoProfileImage: imageName1,
-      photoProfileUrl: url1,
+      // photoProfileImage: imageName1,
+      // photoProfileUrl: url1,
       role: "student",
     });
 
@@ -59,9 +51,8 @@ const Users = async () => {
       majorCode: null,
       phoneNumber: "0897228290232",
       kelas: "",
-      photoProfileName: imageName2,
-      photoProfileImage: imageName2,
-      photoProfileUrl: url2,
+      // photoProfileImage: imageName2,
+      // photoProfileUrl: url2,
       role: "lecturer",
     });
 
@@ -76,9 +67,8 @@ const Users = async () => {
       majorCode: "SE",
       kelas: "SE-45-02",
       phoneNumber: "081234567890",
-      photoProfileName: imageName2,
-      photoProfileImage: imageName2,
-      photoProfileUrl: url2,
+      // photoProfileImage: imageName2,
+      // photoProfileUrl: url2,
       role: "student",
     });
 
@@ -93,9 +83,8 @@ const Users = async () => {
       majorCode: "SE",
       kelas: "SE-45-01",
       phoneNumber: "087654321098",
-      photoProfileName: imageName1,
-      photoProfileImage: imageName1,
-      photoProfileUrl: url1,
+      // photoProfileImage: imageName1,
+      // photoProfileUrl: url1,
       role: "student",
     });
 
@@ -110,9 +99,8 @@ const Users = async () => {
       majorCode: "TT",
       kelas: "EE-45-03",
       phoneNumber: "085432109876",
-      photoProfileName: imageName1,
-      photoProfileImage: imageName1,
-      photoProfileUrl: url1,
+      // photoProfileImage: imageName1,
+      // photoProfileUrl: url1,
       role: "student",
     });
   } catch (e) {

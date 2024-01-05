@@ -60,7 +60,7 @@ function JoinForm({ title, closeModal }) {
           <AiFillCloseCircle className="text-4xl" />
         </button>
         <h1 className="text-center text-xl sm:text-2xl md:text-4xl font-bold">
-          Join Project
+          Join Project 
         </h1>
         <div className="w-full relative shadow-lg lg:flex-row p-5 my-4 rounded-lg justify-center h-full overflow-y-auto max-h-[75vh]">
           <form onSubmit={handleSubmit}>

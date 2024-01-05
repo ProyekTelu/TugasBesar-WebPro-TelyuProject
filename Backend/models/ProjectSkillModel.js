@@ -30,6 +30,7 @@ const ProjectSkill = db.define(
 Project.hasMany(ProjectSkill, {
   foreignKey: "projectID",
   sourceKey: "projectID",
+  onDelete: "CASCADE",
 });
 
 ProjectSkill.belongsTo(Skill, {

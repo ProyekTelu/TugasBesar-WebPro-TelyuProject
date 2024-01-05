@@ -26,6 +26,10 @@ export function Requested() {
   const [imageSrc, setImageSrc] = useState('');
   const [LoadingMyRequest, setIsLoadingMyRequest] = useState(false);
   const [NoMyRequest, setIsNoRequest] = useState(false);
+  
+  const [modal, setModal] = useState(false);
+
+
 
   useEffect(() => {
     if (!storedUser) {
@@ -64,21 +68,44 @@ export function Requested() {
     fetchRequestProject();
   }, [user]);
 
-  const DetailModal = async () =>{
-
-  }
 
 
-  const [modal, setModal] = useState(false);
-  const[SelectedRequest, setSelectedRequest] = useState([]);
 
-  const toggleModal = async (requestDetail) => {
+  const[selectedRequest, setSelectedRequest] = useState([]);
+  const [selectedProject, setSelectedProject] = useState([]);
+  // const[UYe, setselectedProject] =useState(selectDialogProject.projectID);
+  
+  // Ambil data dari modal dan dialog untuk di passing ke addNew member 
+  const[umo, setselectedRequest] = useState([]);
+  const[umo1, setselectedRequest1] = useState([]); 
+  const[umo2, setselectedProject1] = useState([]);  
+  const [umo3, setselectedRequest2]  = useState(["accepted"]);
+  const[umo4, setselectedRequest3] = useState([]);
+  
+  const toggleModal = async (projectID,requestID) => {
     try{
-      const respone = await axios.get(
-        `http://localhost:5000/requestProjectDetail/${requestDetail}`
-      );
-      setSelectedRequest(respone.data);
-      setModal(true);
+      setSelectedProject(seeRequest.find(project => project.projectID === projectID));
+      
+      if (selectedProject)  {
+        // Temukan permintaan dengan requestID yang sesuai di dalam proyek yang telah ditemukan
+        const selectedRequest = selectedProject.Requests.find(request => request.requestID === requestID);
+        setselectedProject1(selectedProject.projectID);
+        if (selectedRequest) {  
+          // Lakukan apa pun yang diperlukan dengan data permintaan yang telah ditemukan
+          setSelectedRequest(selectedRequest);
+          setselectedRequest(selectedRequest.userID);
+          setselectedRequest1(selectedRequest.Role.roleID);
+          setselectedRequest2(selectedRequest.status);
+          setselectedRequest3(selectedRequest.requestID);
+        
+          setModal(true);
+
+        } else {
+          console.error("Request not found for requestID:", requestID);
+        }
+      } else {
+        console.error("Project not found for projectID:", projectID);
+      }
     }catch(error){
       console.error("Failed to fetch project:", error);
     }
@@ -86,11 +113,83 @@ export function Requested() {
  
   };
 
+
+  const[selectDialogRequest, setselectDialogRequest] = useState([]);
+  const[selectDialogProject, setselectDialogProject] = useState("");
+  const[storevalue, setstotevalue] = useState('')
+  const saveData = async (projectID,requestID) => {
+    try{
+      setselectDialogProject(seeRequest.find(project1 => project1.projectID === projectID));
+       
+      if (selectDialogProject) {
+        // Temukan permintaan dengan requestID yang sesuai di dalam proyek yang telah ditemukan
+        const selectDialogRequest = selectDialogProject.Requests.find(request2 => request2.requestID === requestID);
+      
+        if (selectDialogRequest) {
+          // Lakukan apa pun yang diperlukan dengan data permintaan yang telah ditemukan
+          setselectDialogRequest(selectDialogRequest);
+          setOpen(true);
+
+         
+        } else {
+          console.error("Request not found for requestID:", requestID);
+        }
+      } else {
+        console.error("Project not found for projectID:", projectID);
+      }
+    }catch(error){
+      console.error("Failed to fetch project:", error);
+    }
+   
+ 
+  };
+
+const[SelectedForADD, setSelectedForADD] = useState([]);
+const[SelectedForADD2, setSelectedForADD2] = useState([]);
+// const[SelectedForADD3, setSelectedForADD3] = useState(selectDialogRequest.Role.name);
+  const accMember = async()=>{
+      try{
+        // setSelectedForADD(selectedProject.projectID);
+        // setSelectedForADD2(selectedRequest.requestID);
+      // setSelectedForADD3(selectedRequest.Role.name);
+
+       const newMEM = new FormData();
+       newMEM.append("projectID",umo2);
+       newMEM.append("userID",umo);
+       newMEM.append("roleID",umo1);
+       const response = await axios.post(
+        "http://localhost:5000/addNewMEM",
+        newMEM,
+        {
+        // SelectedForADD,
+          // SelectedForADD2,
+         
+       });
+       console.log("Request submitted successfully",response.data);
+       if(response != null){
+        const updatedData = {
+          status : "accepted"
+        };
+        await axios.patch(`http://localhost:5000/changeStatus/${umo4}`,
+        updatedData
+        );
+        umo3
+       };
+       setOpen(false);
+      }catch(err){
+        console.error("Error submitting request:", err);
+       
+      }
+  }
+
   //DIalog command
   const [open, setOpen] = useState(false);
+  const closeModalDetail = () => {
+    setModal(false);
+  };
 
-  const handleOpen = () => setOpen(!open);
-  const handleClose = () => setOpen(toggleModal);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
 
   // const [open, setOpen] = React.useState(false);
@@ -102,11 +201,11 @@ export function Requested() {
   //   setOpen(false);
   // }
 
-  if (modal) {
-    document.body.classList.add("active-modal");
-  }  else {
-    document.body.classList.remove("active-modal");
-  }
+  // if (modal) {
+  //   document.body.classList.add("active-modal");
+  // }  else {
+  //   document.body.classList.remove("active-modal");
+  // }
   //======================//
 
   return (
@@ -176,7 +275,7 @@ export function Requested() {
 
                   <div className=" flex flex-row md:flex-col justify-center gap-4 my-2">
                     <button
-                      onClick={handleOpen}
+                      onClick={() => saveData(request.projectID,req.requestID)}
                       className="  hover:bg-secondaryAlternative  transition-transform transform hover:scale-105 active:scale-95 p-4 bg-secondary  w-24 md:w-32 h-14   rounded-md text-white"
                     >
                       Approve
@@ -191,7 +290,7 @@ export function Requested() {
                 </div>
                 <div className="flex justify-center ">
                   <label
-                    onClick={() => toggleModal(request.projectID)}
+                    onClick={() => toggleModal(request.projectID,req.requestID)}
                     className="transition-transform transform hover:scale-105 mt-4 text-cyan-400 cursor-pointer active:scale-95"
                   >
                     View  {req.user.firstName}  Requested
@@ -209,11 +308,14 @@ export function Requested() {
         <Dialog
           open={open}
           handler={handleOpen}
+                       
           className="screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2"
         >
-          <DialogHeader></DialogHeader>
+          <form onSubmit={accMember}>
+          <DialogHeader>{selectDialogProject.title}</DialogHeader>
           <DialogBody className=" font-bold">
-            Apakah anda yakin dengan pilihan ini ?
+           <h2>Yakin menerima Request dari Mahasiswa dengan nim {selectDialogRequest.userID} ?</h2>
+            
           </DialogBody>
 
           <DialogFooter>
@@ -228,33 +330,33 @@ export function Requested() {
               </Button>
               <Button
                 className="hover:bg-secondaryAlternative  transition-transform transform hover:scale-105 active:scale-95 p-4 bg-secondary  w-15 md:w-32 h-11  rounded-md text-white"
-                onClick={handleOpen}
+                type='submit'
+              
               >
                 <span>Confirm</span>
               </Button>
             </div>
           </DialogFooter>
+          </form>
         </Dialog>
 
       </div>
   
       {modal && (
-        SelectedRequest.map((requestDetail, index)=>(
           
         <div
-          onClick={toggleModal}
+          onClick={closeModalDetail}
           className=" fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
         >
           
-          <div key={index}className="modal-container transition-transform transform hover:scale-110">
-          {requestDetail.Requests((reqReq, recsIndex)=>(
-            <div key={recsIndex}className=" -screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
+          <div className="modal-container transition-transform transform hover:scale-110">
+            <div className=" -screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2">
               <div className="  mb-1 flex justify-between ">
                 <h2 className=" text-primary text-3xl font-semibold my-auto">
-                  {requestDetail.title}
+                  {selectedProject.title}
                 </h2>
                 <button
-                  onClick={toggleModal}
+                  onClick={closeModalDetail}
                   className=" my-auto focus:outline-none transition-transform transform hover:scale-110"
                 >
                   <AiFillCloseCircle className="text-4xl" />
@@ -263,31 +365,31 @@ export function Requested() {
               <hr className="my-4 rounded-full bg-tertiaryAlternative" />
               <div className=" mb-1 flex justify-between">
                 <h2 className=" text-2xl font-semibold my-auto">
-                  Requested By {""}
+                  Requested By {selectedRequest.user.firstName}
                 </h2>
               </div>
               <div className=" mb-4 flex justify-between">
                 <h2 className=" text-1xl font-semibold my-auto">
-                  From team {"WPL"}
+                  Untuk masuk kedalam team {selectedRequest.Role.name}
                 </h2>
               </div>
 
               <div className="mb-4">
                 <label className="text-gray-600 font-semibold">Message :</label>
                 <p>
-                  {reqReq.message}
+                  {selectedRequest.message}
                 </p>
               </div>
               <div className="mb-9">
                 <label className="text-gray-600 font-semibold">
                   Dokumen File :
                 </label>
-                <p>https://git-scm.com/download/win</p>
+                <p>{selectedRequest.Requested}</p>
               </div>
 
               <div className=" flex flex-row gap-4 w-full align-bottom  justify-center">
                 <button
-                  onClick={handleOpen}
+                  onClick={() => saveData(selectedProject.projectID,selectedRequest.requestID)}
                   className="  hover:bg-secondaryAlternative transition-transform transform hover:scale-105 active:scale-95 p-4  bg-secondary  w-32  rounded-md  text-white"
                 >
                   Approve
@@ -300,12 +402,166 @@ export function Requested() {
                 </button>
               </div>
             </div>
-            ))};
+            
           </div>
         </div>
-     )) )};
+     )};
     </div>
   );
 }
 
 export default Requested;
+
+
+
+
+================================
+
+Back end 
+
+
+import Faculty from "../models/FacultyModel.js";
+import Request from "../models/RequestModel.js";
+import Project from "../models/ProjectModel.js";
+import User from "../models/UserModel.js";
+import skill from "../models/SkillModel.js";
+import ProjectSkillModel from "../models/ProjectModel.js";
+import Role from "../models/RoleModel.js";
+import ProjectMember from "../models/ProjectMemberModel.js";
+import { updateUser } from "./UserController.js";
+export const changeStatus = async (req,res) =>{
+   try{
+    const{status} = req.body;
+    await Request.update({
+      status,
+    },
+    {
+      where:{
+        userID: req.params.as
+      }
+    }
+    );
+
+    const updateStatus = await Request.findOne({
+      where:{
+        userID : req.params.as
+      },
+      attributes:["status"]
+    });
+    res.status(200).json(updateStatus);
+  }catch (error){
+    res.status(500).json({ message: "User failed to be updated", error });
+  }
+
+
+}
+export const addFromRequest = async (req,res) =>{
+ try{
+
+  const{projectID,userID,roleID} = req.body;
+  const newMem = await ProjectMember.create({
+    
+    userID,
+    roleID,
+    projectID,
+
+  });
+  res.status(201).json(newMem);
+ }catch(err){
+   console.error("error add Member :", err)
+   res.status(500).json({ msg: "Internal Server Error" });
+ }
+
+
+}
+export const createRequest = async (req, res) => {
+  try {
+    const { userID, projectID, roleID, message, cv } = req.body;
+
+    const existingRequest = await Request.findOne({
+      where: {
+        userID,
+        projectID,
+        roleID,
+        status: "pending",
+      },
+    });
+
+    if (existingRequest) {
+      return res
+        .status(400)
+        .json({ msg: "Request already exists for this project and role." });
+    }
+
+    const newRequest = await Request.create({
+      userID,
+      projectID,
+      roleID,
+      message,
+      cv,
+    });
+
+    res.status(201).json(newRequest);
+  } catch (error) {
+    console.error("Error creating request:", error);
+    res.status(500).json({ msg: "Internal Server Error" });
+  }
+};
+
+export const RequestByProjectID = async (req, res)=>{
+  try{
+  const response = await Project.findAll({
+    where: {
+      projectID: req.params.as,
+    },
+   include:[{
+    model: Request,
+      include:[{
+        model: User,
+        attributes: ["firstName", "lastName"],
+      }]
+  
+   }]
+})
+res.status(200).json(response);
+  }catch(err){
+    res.status(500).json({ msg: err.message });
+  }
+}
+export const getMyProjectRequestMember = async (req, res) => {
+  try {
+    const response = await Project.findAll({
+      where: {
+        projectOwnerID: req.params.as,
+      },
+
+      include: [
+        {
+          model: Request,
+          where:{
+              status : "pending"
+          },
+          include:[ {
+
+
+            model: User,
+            attributes: ["firstName", "lastName"],
+          },
+          {
+            model:Role,
+            attributes: ["roleID","name"],
+          }
+        ],
+        },
+      ],
+
+      // include: {
+      //   model: Request,
+      // },,
+    });
+
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};

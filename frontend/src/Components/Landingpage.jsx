@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Pagination, Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import logo from "../img/Logo.png";
 import inf from "../img/fit.png";
 import feb from "../img/feb.png";
@@ -9,6 +11,13 @@ import fri from "../img/fri.png";
 import kom from "../img/komunikasi.png";
 import fik from "../img/fik.png";
 import fit from "../img/fit.png";
+import bg1 from "../img/bg1.png";
+import bg2 from "../img/bg2.png";
+import bg3 from "../img/bg3.png";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
+import FacultyPopup from "../Components/SideBarComponent/FacultyPopup";
 
 const Footer = () => {
   return (
@@ -18,15 +27,53 @@ const Footer = () => {
   );
 };
 
+const SwiperSection = () => {
+  const images = [bg1, bg2, bg3];
+  return (
+    <div className="w-full md:w-1/3 lg:w-2/3 mx-auto my-10 md:my-20 rounded-r-2xl">
+      <Swiper
+        modules={[Pagination, Autoplay]}
+        className="h-full"
+        spaceBetween={22}
+        slidesPerView={1}
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 1500, disableOnInteraction: false }}
+      >
+        {images.map((image, index) => (
+          <SwiperSlide key={index} className="bg-cover">
+            <img
+              src={image}
+              className="w-full h-full object-cover rounded-xl"
+              alt={`${index}`}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  );
+};
+
 const CarouselItem = ({ faculty, expanded, toggleItem, index }) => {
   const images = [inf, feb, elk, fri, kom, fik, fit];
+  const [showPopup, setShowPopup] = useState(false);
+
+  const openPopup = () => {
+    setShowPopup(true);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
   return (
-    <div
-      key={index}
-      className="flex-none w-72 mr-4"
-      onClick={() => toggleItem(index)}
-    >
-      <div className="p-6 bg-white rounded-lg shadow-lg cursor-pointer transition transform hover:scale-105 duration-300">
+    <div key={index} className="relative">
+      <div
+        className="p-6 bg-white rounded-lg shadow-lg cursor-pointer transition transform hover:scale-105 duration-300"
+        onClick={() => {
+          toggleItem(index);
+          openPopup();
+        }}
+      >
         <h3 className="text-xl lg:text-2xl font-bold text-gray-800 mb-2">
           {faculty.name}
         </h3>
@@ -41,15 +88,22 @@ const CarouselItem = ({ faculty, expanded, toggleItem, index }) => {
             <div className="flex justify-end">
               <button
                 className="text-blue-500 hover:underline"
-                onClick={() => toggleItem(index)}
-              ></button>
+                onClick={() => {
+                  toggleItem(index);
+                  closePopup();
+                }}
+              >
+                Close
+              </button>
             </div>
           </div>
         )}
       </div>
+      {showPopup && <FacultyPopup faculty={faculty} closePopup={closePopup} />}
     </div>
   );
 };
+
 
 const Landingpage = () => {
   const [expanded, setExpanded] = useState(null);
@@ -60,27 +114,20 @@ const Landingpage = () => {
       ? JSON.parse(localStorage.getItem("user"))
       : null
   );
-  const [userImage, setUserImage] = useState("");
 
+  const [userImage, setUserImage] = useState("");
   useEffect(() => {
-    if (user) {
-      setUserImage(user.photoProfileUrl);
+    if (user !== null && user.photoProfile && user.photoProfile.data) {
+      const base64String = btoa(
+        new Uint8Array(user.photoProfile.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ""
+        )
+      );
+      const url = `data:image/png;base64,${base64String}`;
+      setUserImage(url);
     }
   }, [user]);
-
-  //convert blob ke gambar
-  // useEffect(() => {
-  //   if (user !== null && user.photoProfile && user.photoProfile.data) {
-  //     const base64String = btoa(
-  //       new Uint8Array(user.photoProfile.data).reduce(
-  //         (data, byte) => data + String.fromCharCode(byte),
-  //         ""
-  //       )
-  //     );
-  //     const url = `data:image/png;base64,${base64String}`;
-  //     setUserImage(url);
-  //   }
-  // }, [user]);
 
   const faculties = [
     {
@@ -149,7 +196,6 @@ const Landingpage = () => {
       setExpanded(faqIndex);
     }
   };
-
   return (
     <div className="w-screen min-h-screen flex flex-col overflow-x-hidden bg-white">
       <div className="flex justify-center w-full">
@@ -254,26 +300,52 @@ const Landingpage = () => {
           )}
         </div>
       </div>
-      <div className="w-3/4 md:w-3/4 mx-auto my-20">
-        <div className="mb-8">
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">
+      <div>
+        <SwiperSection />
+      </div>
+      <div className="w-full md:w-3/4 lg:w-2/3 mx-auto my-6 md:my-12">
+        <div className="mb-4">
+          <h2 className="text-lg md:text-2xl lg:text-3xl font-bold">
             FAKULTAS TELKOM UNIVERSITY
           </h2>
         </div>
-        <div className="flex overflow-x-auto">
-          {faculties.map((faculty, index) => (
-            <CarouselItem
-              key={index}
-              faculty={faculty}
-              expanded={expanded}
-              toggleItem={() => toggleFacultyItem(index)} // Change this line
-              index={index}
-            />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6">
+          {faculties.slice(0, 3).map((faculty, index) => (
+            <div key={index} className="relative">
+              <CarouselItem
+                faculty={faculty}
+                toggleItem={() => toggleFacultyItem(index)}
+                index={index}
+              />
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 mt-4 md:mt-6">
+          {faculties.slice(3, 6).map((faculty, index) => (
+            <div key={index} className="relative">
+              <CarouselItem
+                faculty={faculty}
+                toggleItem={() => toggleFacultyItem(index + 3)}
+                index={index + 3}
+              />
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6 mt-4 md:mt-6">
+          {faculties.slice(6, 7).map((faculty, index) => (
+            <div key={index} className="relative">
+              <CarouselItem
+                faculty={faculty}
+                toggleItem={() => toggleFacultyItem(index + 6)}
+                index={index + 6}
+              />
+            </div>
           ))}
         </div>
       </div>
-      <div className="w-3/4 md:w-3/4 mx-auto my-8">
-        <div className="mb-8">
+
+      <div className="w-full md:w-2/4 lg:w-2/3 mx-auto my-5 md:my-10">
+        <div className="mb-2">
           <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">
             Pertanyaan Umum (FAQ)
           </h2>
@@ -282,7 +354,7 @@ const Landingpage = () => {
           <div key={sectionIndex}>
             {section.items.map((item, itemIndex) => (
               <div
-                key={item.id} // Assuming you have an "id" property in your FAQ items
+                key={itemIndex} // Assuming you have an "id" property in your FAQ items
                 className="mb-6 p-6 bg-white rounded-lg shadow-lg cursor-pointer transition transform hover:scale-105 duration-300"
                 onClick={() => toggleFAQItem(sectionIndex, itemIndex)} // Change this line
               >
