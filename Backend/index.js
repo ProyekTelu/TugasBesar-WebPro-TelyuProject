@@ -69,12 +69,12 @@ const initializeData = async () => {
   await RequestIntial();
   fs.readdir(`./public/images`, (err, files) => {
     if (err) {
-      console.error('Error reading folder:', err);
+      console.error("Error reading folder:", err);
       return;
     }
     files.forEach((file) => {
-      const filePath = path.join('./public/images', file);
-  
+      const filePath = path.join("./public/images", file);
+
       fs.unlink(filePath, (err) => {
         if (err) {
           console.error(`Error deleting file ${file}:`, err);
