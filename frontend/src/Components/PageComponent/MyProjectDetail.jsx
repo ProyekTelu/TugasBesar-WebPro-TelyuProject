@@ -1058,6 +1058,7 @@ function MyProjectDetail() {
                                     wrapperClassName="date_Picker"
                                     showTimeSelect
                                     minDate={new Date(editOpenUntilDate)}
+                                    maxDate={new Date(editEndDate)}
                                     selected={new Date(editStartDate)}
                                     startDate={new Date(editStartDate)}
                                     endDate={new Date(editEndDate)}

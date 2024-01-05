@@ -104,7 +104,6 @@ const CarouselItem = ({ faculty, expanded, toggleItem, index }) => {
   );
 };
 
-
 const Landingpage = () => {
   const [expanded, setExpanded] = useState(null);
   const navigate = useNavigate();
@@ -115,19 +114,19 @@ const Landingpage = () => {
       : null
   );
 
-  const [userImage, setUserImage] = useState("");
-  useEffect(() => {
-    if (user !== null && user.photoProfile && user.photoProfile.data) {
-      const base64String = btoa(
-        new Uint8Array(user.photoProfile.data).reduce(
-          (data, byte) => data + String.fromCharCode(byte),
-          ""
-        )
-      );
-      const url = `data:image/png;base64,${base64String}`;
-      setUserImage(url);
-    }
-  }, [user]);
+  // const [userImage, setUserImage] = useState("");
+  // useEffect(() => {
+  //   if (user !== null && user.photoProfile && user.photoProfile.data) {
+  //     const base64String = btoa(
+  //       new Uint8Array(user.photoProfile.data).reduce(
+  //         (data, byte) => data + String.fromCharCode(byte),
+  //         ""
+  //       )
+  //     );
+  //     const url = `data:image/png;base64,${base64String}`;
+  //     setUserImage(url);
+  //   }
+  // }, [user]);
 
   const faculties = [
     {
@@ -204,9 +203,9 @@ const Landingpage = () => {
           id="navbar"
         >
           <div className="mb-4 md:mb-4 flex items-center">
-            <img src={logo} alt="Tel-u Project" className="w-14" />
+            <img src={logo} alt="Tel-U Project" className="w-14" />
             <p className="ml-2 text-2xl font-bold text-gray-800">
-              Tel-u Project
+              Tel-U Project
             </p>
           </div>
           {user !== null ? (
@@ -217,7 +216,7 @@ const Landingpage = () => {
               <div className={"flex flex-col items-center justify-center"}>
                 <div className="flex items-center gap-4 ">
                   <img
-                    src={userImage}
+                    src={user.photoProfileUrl}
                     alt="profileImage"
                     className="h-10 aspect-square rounded-full bg-white"
                   />
@@ -289,7 +288,7 @@ const Landingpage = () => {
               >
                 <div className="text-black font-bold mb-2 text-4xl text-center md:text-left flex flex-col md:gap-2">
                   <p>Open</p>
-                  <p>TelYu Project</p>
+                  <p>Tel-U Project</p>
                 </div>
                 <p className="text-gray-500 lg:text-xl text-center md:text-left">
                   Explore exciting project opportunities, collaborate with
