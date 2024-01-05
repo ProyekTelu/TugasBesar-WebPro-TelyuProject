@@ -52,7 +52,7 @@ function MyProjectDetail() {
 
   const listStatus = ["Active", "Waiting to Start", "Finished", "Open Request"];
 
-  console.log(selectedProject)
+  console.log(selectedProject);
 
   const [editTitle, setEditTitle] = useState("");
   const [editStatus, setEditStatus] = useState("");
@@ -128,7 +128,6 @@ function MyProjectDetail() {
       setMessage("");
       setInviteSelectedRole("Select Role");
 
-
       axios({
         method: "post",
         url: "http://localhost:5000/invitation",
@@ -144,27 +143,36 @@ function MyProjectDetail() {
           console.log(response);
         });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error("Send Invitation Error");
     }
     setIsModalInviteMemberOpen(false);
   };
 
-  const deleteProjectMemberByID = async(projectMemberID) => {
+  const deleteProjectMemberByID = async (projectMemberID) => {
     try {
-      setTriggerEffect(await axios.delete(`http://localhost:5000/projectMember/${projectMemberID}`))
-    } catch (error){
-      console.log(error)
+      setTriggerEffect(
+        await axios.delete(
+          `http://localhost:5000/projectMember/${projectMemberID}`
+        )
+      );
+    } catch (error) {
+      console.log(error);
     }
-  }
-
+  };
 
   const searchStudents = useCallback(async () => {
     try {
       const response = await axios.get(
         `http://localhost:5000/students/search/${searchQuery}/${projectId}`
       );
-      setSearchResults(response.data.filter((user) => selectedProject.ProjectMembers.every(member => member.userID !== user.userID)));
+      setSearchResults(
+        response.data.filter((user) =>
+          selectedProject.ProjectMembers.every(
+            (member) => member.userID !== user.userID
+          )
+        )
+      );
     } catch (error) {
       console.error("Error searching students:", error);
     } finally {
@@ -407,13 +415,12 @@ function MyProjectDetail() {
     fetchProject();
   }, [projectId, triggerEffect]);
 
-
-  useEffect(() =>{
+  useEffect(() => {
     selectedProject &&
-          setisProjectFull(
-            selectedProject.projectMemberCount === selectedProject.totalMember
-          );
-  })
+      setisProjectFull(
+        selectedProject.projectMemberCount === selectedProject.totalMember
+      );
+  });
 
   const formatDate = (inputDate) => {
     const date = new Date(inputDate);
@@ -684,12 +691,23 @@ function MyProjectDetail() {
                                   </Button>
                                 </MenuHandler>
                                 <MenuList>
-                                  {/* <MenuItem>Member Details</MenuItem> */}
+                                  <MenuItem>Member Details</MenuItem>
                                   {(user.role === "lecturer" ||
                                     user.role === "admin") && (
-                                    <MenuItem onClick={() => deleteProjectMemberByID(member.projectMemberID)} >
+                                    <MenuItem
+                                      onClick={() =>
+                                        deleteProjectMemberByID(
+                                          member.projectMemberID
+                                        )
+                                      }
+                                    >
                                       <div className="text-primary poin">
-                                        <label className="cursor-pointer" htmlFor="">Kick Member</label>
+                                        <label
+                                          className="cursor-pointer"
+                                          htmlFor=""
+                                        >
+                                          Kick Member
+                                        </label>
                                       </div>
                                     </MenuItem>
                                   )}
@@ -1146,7 +1164,6 @@ function MyProjectDetail() {
               </div>
             </div>
           </Modal>
-          
         </div>
       )}
     </div>
