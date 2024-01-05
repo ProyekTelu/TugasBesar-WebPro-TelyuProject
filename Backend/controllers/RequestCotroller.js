@@ -88,8 +88,9 @@ export const addFromRequest = async (req, res) => {
 export const createRequest = async (req, res) =>{
   if (req.files === null)
     return res.status(400).json({ msg: "No File Uploaded" });
+
   const file = req.files.cv;
-  const ext = path.extname(file.name); //ambil type
+  const ext = path.extname(file.name); // ambil type
   const name = file.name;
   const fileSize = file.data.length;
   const fileName = file.md5 + ext;
@@ -98,8 +99,9 @@ export const createRequest = async (req, res) =>{
 
   if (!allowedType.includes(ext.toLowerCase()))
     return res.status(422).json({ msg: "Type must be pdf" });
+  
   if (fileSize > 10000000)
-    return res.status(422).json({ msg: "Image must be less than 10 MB" });
+    return res.status(422).json({ msg: "File must be less than 10 MB" });
 
   file.mv(`./public/files/${fileName}`, async (err) => {
     if (err) return res.status(500).json({ msg: err.message });
