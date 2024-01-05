@@ -46,9 +46,13 @@ function MyProjectDetail() {
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const [triggerEffect, setTriggerEffect] = useState();
+
   //edit project var
 
   const listStatus = ["Active", "Waiting to Start", "Finished", "Open Request"];
+
+  console.log(selectedProject)
 
   const [editTitle, setEditTitle] = useState("");
   const [editStatus, setEditStatus] = useState("");
@@ -120,6 +124,10 @@ function MyProjectDetail() {
       formData.append("receiverID", selectedUser);
       formData.append("projectID", selectedProject.projectID);
       formData.append("message", message);
+      setSearchQuery("");
+      setMessage("");
+      setInviteSelectedRole("Select Role");
+
 
       axios({
         method: "post",
@@ -136,20 +144,20 @@ function MyProjectDetail() {
           console.log(response);
         });
     } catch (error) {
+      console.log(error)
       toast.error("Send Invitation Error");
     }
     setIsModalInviteMemberOpen(false);
   };
 
-  const deleteProjectMemberByID = async() => {
+  const deleteProjectMemberByID = async(projectMemberID) => {
     try {
-      await axios.delete(
-        
-      )
+      setTriggerEffect(await axios.delete(`http://localhost:5000/projectMember/${projectMemberID}`))
     } catch (error){
-
+      console.log(error)
     }
   }
+
 
   const searchStudents = useCallback(async () => {
     try {
@@ -389,10 +397,6 @@ function MyProjectDetail() {
           `http://localhost:5000/project/${projectId}`
         );
         setSelectedProject(response.data);
-        selectedProject &&
-          setisProjectFull(
-            selectedProject.projectMemberCount === selectedProject.totalMember
-          );
       } catch (error) {
         console.error("Failed to fetch project:", error);
       } finally {
@@ -401,7 +405,15 @@ function MyProjectDetail() {
     };
 
     fetchProject();
-  }, [projectId]);
+  }, [projectId, triggerEffect]);
+
+
+  useEffect(() =>{
+    selectedProject &&
+          setisProjectFull(
+            selectedProject.projectMemberCount === selectedProject.totalMember
+          );
+  })
 
   const formatDate = (inputDate) => {
     const date = new Date(inputDate);
@@ -607,9 +619,8 @@ function MyProjectDetail() {
                               className={`${
                                 !isProjectFull
                                   ? "cursor-pointer hover:bg-grey duration-300 hover:rounded-xl active:bg-greyAlternative"
-                                  : "text-greyAlternative pointer-events-none"
-                              } py-3  
-                            px-3 flex flex-row gap-3`}
+                                  : "text-greyAlternative pointer-events-none cursor-none"
+                              } py-3 px-3 flex flex-row gap-3`}
                             >
                               <IoMdPersonAdd
                                 className={`my-auto text-xl ${
@@ -673,12 +684,12 @@ function MyProjectDetail() {
                                   </Button>
                                 </MenuHandler>
                                 <MenuList>
-                                  <MenuItem>Member Details</MenuItem>
+                                  {/* <MenuItem>Member Details</MenuItem> */}
                                   {(user.role === "lecturer" ||
                                     user.role === "admin") && (
-                                    <MenuItem>
-                                      <div className="text-primary">
-                                        <label onClick={deleteProjectMemberByID} htmlFor="">Kick Member</label>
+                                    <MenuItem onClick={() => deleteProjectMemberByID(member.projectMemberID)} >
+                                      <div className="text-primary poin">
+                                        <label className="cursor-pointer" htmlFor="">Kick Member</label>
                                       </div>
                                     </MenuItem>
                                   )}
@@ -1135,6 +1146,7 @@ function MyProjectDetail() {
               </div>
             </div>
           </Modal>
+          
         </div>
       )}
     </div>

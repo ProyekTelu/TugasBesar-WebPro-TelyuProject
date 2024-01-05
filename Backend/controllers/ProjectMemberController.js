@@ -45,17 +45,17 @@ export const deleteProjectMember = async(req, res) => {
         const response = await ProjectMember.destroy(
             {
                 where: {
-                    userID : req.params.userID
+                    projectMemberID : req.params.projectMemberID
                 }
             }
         );
         res.status(200).json({
-            message: `Success to delete ${req.params.userID}`,
+            message: `Success to delete ${req.params.projectMemberID}`,
             response
         });
     } catch (error) {
         res.status(200).json({
-            message: `Failedto delete ${req.params.userID}`,
+            message: `Failedto delete ${req.params.projectMemberID}`,
             error
         });
     }

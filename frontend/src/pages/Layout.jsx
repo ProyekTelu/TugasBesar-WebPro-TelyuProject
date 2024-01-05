@@ -44,7 +44,11 @@ const Layout = () => {
     return () => {
       document.removeEventListener("click", handleDocumentClick);
     };
-  }, [user]);
+  });
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, [localStorage.getItem("user")]);
 
   const pageButtonContent =
     user.role === "student"

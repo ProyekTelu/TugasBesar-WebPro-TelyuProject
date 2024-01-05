@@ -27,6 +27,9 @@ import ProjectMembers from "./InitialData/ProjectMembers.js";
 import Invitations from "./InitialData/Invitations.js";
 import RequestIntial from "./InitialData/requestInitial.js";
 
+import path from "path";
+import fs from "fs";
+
 dotenv.config();
 
 const app = express();
@@ -64,6 +67,23 @@ const initializeData = async () => {
   await ProjectMembers();
   await Invitations();
   await RequestIntial();
+  fs.readdir(`./public/images`, (err, files) => {
+    if (err) {
+      console.error('Error reading folder:', err);
+      return;
+    }
+    files.forEach((file) => {
+      const filePath = path.join('./public/images', file);
+  
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.error(`Error deleting file ${file}:`, err);
+        } else {
+          console.log(`File ${file} deleted successfully.`);
+        }
+      });
+    });
+  });
 };
 
 //fungsi menjalankan inisial data
@@ -75,7 +95,7 @@ const runInisialData = async () => {
 };
 
 // menjalankan fungsi untuk inisial data
-// runInisialData();
+//runInisialData();
 
 app.listen(process.env.APP_PORT, () =>
   console.log("server listening on port " + process.env.APP_PORT)

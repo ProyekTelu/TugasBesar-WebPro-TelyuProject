@@ -167,6 +167,7 @@ export const updateUser = async (req, res) => {
         }
       );
     } else {
+
       const photoFile = req.files.file;
       const newFileName = photoFile.md5 + path.extname(photoFile.name);
       const imagePath = `${req.protocol}://${req.get(
@@ -175,12 +176,15 @@ export const updateUser = async (req, res) => {
 
       // Move the uploaded file to the 'images' folder
       photoFile.mv(`./public/images/${newFileName}`, async (error) => {
+
         if (error) {
           return res.status(500).json({ error });
         }
 
-        if (req.body.prevPhoto) {
-          fs.unlinkSync(`./public/images/${newFileName}`);
+        try {
+          fs.unlinkSync(`./public/images/${req.body.prevPhoto}`);
+        } catch (error){
+          console.log(error)
         }
 
         await User.update(
@@ -201,9 +205,9 @@ export const updateUser = async (req, res) => {
       });
     } 
 
-    res.status(200).json({message : "User Succesfully Updated"})
+    return res.status(200).json({message : "User Succesfully Updated"})
   } catch (error) {
-    res
+    return res
       .status(500)
       .json({ error: "Internal Server Error", details: error.message });
   }
