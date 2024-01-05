@@ -75,7 +75,7 @@ function MyProjectLecturer() {
     };
 
     fetchMyProjects();
-  }, [user.userID, activeStatus, searchTerm, setMyProject]);
+  }, [searchTerm, setMyProject]);
 
   let messageToShow = "";
   if (showNoProjectMessage) {
@@ -97,6 +97,8 @@ function MyProjectLecturer() {
   function closeModalCreate() {
     setModalOpenCreate(false);
   }
+
+  console.log(myProject)
 
   return (
     <div className="flex flex-col w-full p-4 md:p-12 h-screen md:min-h-screen overflow-y-auto relative">

@@ -392,7 +392,6 @@ export const getProjectByProjectID = async (req, res) => {
         },
         {
           model: ProjectMember,
-          attributes: ["userID"],
           include: [
             {
               model: User,
