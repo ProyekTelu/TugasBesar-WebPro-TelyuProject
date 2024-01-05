@@ -23,6 +23,8 @@ const Profile = () => {
   const [isEditButtonVisible, setIsEditButtonVisible] = useState(true);
   const [isEditButtonTextVisible, setIsEditButtonTextVisible] = useState(true);
 
+  const navigate = useNavigate();
+
   const updateUser = async () => {
     try {
       const formData = new FormData();
@@ -33,7 +35,7 @@ const Profile = () => {
       formData.append("prevPhoto", User.photoProfileImage)
       formData.append("file", userImage);
 
-      const response = await axios({
+      await axios({
         method: "post",
         url: `http://localhost:5000/user/${User.userID}`,
         data: formData,
@@ -42,9 +44,10 @@ const Profile = () => {
         },
       });
 
-      localStorage.setItem("user", JSON.stringify(response.data.data));
+      const response = await axios.get(`http://localhost:5000/users/${User.userID}`)
+
+      localStorage.setItem("user", JSON.stringify(response.data));
       setUser(JSON.parse(localStorage.getItem("user")))
-      setUserImage(null)
     } catch (error) {
       console.error("Error updating profile:", error);
     }
@@ -66,8 +69,6 @@ const Profile = () => {
     setphoneNumber(e.target.value);
   };
 
-  const navigate = useNavigate();
-
   const handleEditProfile = () => {
     setIsEditing(!isEditing);
     setIsEditButtonVisible(!isEditButtonVisible);
@@ -83,31 +84,7 @@ const Profile = () => {
       reader.readAsDataURL(file);
     }
   };
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (!file) {
-  //     console.error("No image selected");
-  //     return;
-  //   }
 
-  //   const formData = new FormData();
-  //   formData.append("photoProfile", file);
-
-  //   // Send to server
-  //   axios
-  //     .post("http://localhost:5000/updatePhotoProfile", formData, {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     })
-  //     .then((response) => {
-  //       setphotoProfile(response.data.photoProfileUrl);
-  //       console.log("Photo profile updated successfully!");
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error updating photo profile:", error);
-  //     });
-  // };
   const handleDoneEditing = async () => {
     try {
       await updateUser();

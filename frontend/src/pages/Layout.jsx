@@ -18,10 +18,6 @@ const Layout = () => {
   const pageButtonRef = useRef(null);
   const [userImage, setUserImage] = useState(user.photoProfileUrl);
 
-  if (!localStorage.getItem("user")) {
-    currentNav("/");
-  }
-
   //convert blob ke gambar
   // useEffect(() => {
   //   if (user.photoProfile && user.photoProfile.data) {
@@ -40,11 +36,15 @@ const Layout = () => {
     // Add event listener when the component mounts
     document.addEventListener("click", handleDocumentClick);
 
+    if (!localStorage.getItem("user")) {
+      currentNav("/");
+    }
+
     // Clean up the event listener when the component unmounts
     return () => {
       document.removeEventListener("click", handleDocumentClick);
     };
-  }, []);
+  }, [user]);
 
   const pageButtonContent =
     user.role === "student"
