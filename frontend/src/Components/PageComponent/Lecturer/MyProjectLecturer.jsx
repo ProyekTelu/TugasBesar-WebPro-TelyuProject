@@ -216,7 +216,7 @@ function MyProjectLecturer() {
                           {project.title}
                         </h1>
                       </div>
-                      <div className="px-4 my-auto transition duration-300 rounded-xl">
+                      <div className="px-4 my-auto transition duration-300 rounded-xl z-50">
                         <Menu>
                           <MenuHandler>
                             <Button variant="text">

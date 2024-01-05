@@ -27,6 +27,8 @@ function HomeLecturer() {
   const [isLoadingModalDetail, setIsLoadingModalDetail] = useState(false);
   const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
 
+  const [shouldUpdateProjects, setShouldUpdateProjects] = useState(false);
+
   useEffect(() => {
     if (!storedUser) {
       navigate("/");
@@ -101,6 +103,34 @@ function HomeLecturer() {
   }, []);
 
   useEffect(() => {
+    const fetchNewestProjects = async () => {
+      setIsLoadingNewestProject(true);
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/newestProjects"
+        );
+        setNewestProject(response.data);
+        if (response.data.length === 0) {
+          setShowNoNewestProjectMessage(true);
+        }
+      } catch (error) {
+        console.error("Failed to fetch newest projects:", error);
+      } finally {
+        setIsLoadingNewestProject(false);
+      }
+    };
+
+    if (shouldUpdateProjects) {
+      fetchNewestProjects();
+      setShouldUpdateProjects(false);
+    }
+  }, [shouldUpdateProjects]);
+
+  const updateNewestProjects = () => {
+    setShouldUpdateProjects(true);
+  };
+
+  useEffect(() => {
     const fetchMyProjects = async () => {
       setIsLoadingMyProject(true);
       try {
@@ -168,7 +198,7 @@ function HomeLecturer() {
       <div>
         <div className="px-4 mb-2">
           <h1 className="text-xl md:text-2xl text-primary font-bold text-start">
-            Newest Projects!
+            Latest Projects!
           </h1>
         </div>
         <div className="max-h-full flex flex-col transition">
@@ -367,7 +397,12 @@ function HomeLecturer() {
         isOpen={isModalOpenCreate}
         onRequestClose={closeModalCreate}
       >
-        {isModalOpenCreate && <CreateProjectModal onClose={closeModalCreate} />}
+        {isModalOpenCreate && (
+          <CreateProjectModal
+            onClose={closeModalCreate}
+            onUpdateProjects={updateNewestProjects}
+          />
+        )}
       </Modal>
 
       {isLoadingModalDetail && (

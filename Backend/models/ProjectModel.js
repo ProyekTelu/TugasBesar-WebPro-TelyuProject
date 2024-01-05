@@ -71,6 +71,7 @@ Project.belongsTo(User, {
 Project.hasMany(Request, {
   foreignKey: "projectID",
   sourceKey: "projectID",
+  onDelete: "CASCADE",
 });
 
 export default Project;
