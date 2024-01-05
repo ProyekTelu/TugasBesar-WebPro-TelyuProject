@@ -69,12 +69,12 @@ const initializeData = async () => {
   await RequestIntial();
   fs.readdir(`./public/images`, (err, files) => {
     if (err) {
-      console.error('Error reading folder:', err);
+      console.error("Error reading folder:", err);
       return;
     }
     files.forEach((file) => {
-      const filePath = path.join('./public/images', file);
-  
+      const filePath = path.join("./public/images", file);
+
       fs.unlink(filePath, (err) => {
         if (err) {
           console.error(`Error deleting file ${file}:`, err);
@@ -95,7 +95,7 @@ const runInisialData = async () => {
 };
 
 // menjalankan fungsi untuk inisial data
-//runInisialData();
+runInisialData();
 
 app.listen(process.env.APP_PORT, () =>
   console.log("server listening on port " + process.env.APP_PORT)

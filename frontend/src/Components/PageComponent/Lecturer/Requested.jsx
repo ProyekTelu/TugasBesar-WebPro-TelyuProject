@@ -11,6 +11,9 @@ import {
   DialogBody,
   DialogFooter,
   select,
+  Typography,
+  MenuItem,
+  IconButton,
 } from "@material-tailwind/react";
 
 //modal command
@@ -26,7 +29,6 @@ export function Requested() {
   const [imageSrc, setImageSrc] = useState("");
   const [LoadingMyRequest, setIsLoadingMyRequest] = useState(false);
   const [NoMyRequest, setIsNoRequest] = useState(false);
-
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export function Requested() {
         );
         setRequestProject(requestRespone.data);
 
-        if (requestRespone.data.lenght === 0) {
+        if (requestRespone.data.length === 0) {
           setIsNoRequest(true);
         }
       } catch (error) {
@@ -92,8 +94,9 @@ export function Requested() {
           setselectedRequest3(selectedRequest.requestID);
 
           setModal(true);
-          if (modal == true) {
+          if (modal === true) {
             setModal(false);
+            setOpen(true);
           }
         } else {
           console.error("Request not found for requestID:", requestID);
@@ -149,11 +152,19 @@ export function Requested() {
       // setSelectedForADD(selectedProject.projectID);
       // setSelectedForADD2(selectedRequest.requestID);
       // setSelectedForADD3(selectedRequest.Role.name);
+      const updatedData = {
+        status: "accepted",
+      };
+
+      await axios.patch(
+        `http://localhost:5000/changeStatus/${selectedRequest.requestID}`,
+        updatedData
+      );
 
       const newMEM = new FormData();
-      newMEM.append("projectID", umo2);
-      newMEM.append("userID", umo);
-      newMEM.append("roleID", umo1);
+      newMEM.append("projectID", selectedProject.projectID);
+      newMEM.append("userID", selectedRequest.userID);
+      newMEM.append("roleID", selectedRequest.Role.roleID);
       const response = await axios.post(
         "http://localhost:5000/addNewMEM",
         newMEM,
@@ -163,15 +174,7 @@ export function Requested() {
         }
       );
       console.log("Request submitted successfully", response.data);
-      if (response != null) {
-        const updatedData = {
-          status: "accepted",
-        };
-        await axios.patch(
-          `http://localhost:5000/changeStatus/${umo4}`,
-          updatedData
-        );
-      }
+
       setOpen(false);
     } catch (err) {
       console.error("Error submitting request:", err);
@@ -184,8 +187,79 @@ export function Requested() {
     setModal(false);
   };
 
-  const handleOpen = () => setOpen(true);
+  const DeclineMember = async () => {
+    try {
+      const updatedDatas = {
+        status: "rejected",
+      };
+
+      await axios.patch(
+        `http://localhost:5000/changeStatus/${selectedRequest.requestID}`,
+        updatedDatas
+      );
+    } catch (err) {
+      console.error("Error submitting request:", err);
+    }
+  };
+
+  // const handleOpen = () => setOpen(false);
+  const handleOpen = (projectID, requestID) => {
+    try {
+      setSelectedProject(
+        seeRequest.find((project) => project.projectID === projectID)
+      );
+
+      if (selectedProject) {
+        // Temukan permintaan dengan requestID yang sesuai di dalam proyek yang telah ditemukan
+        const selectedRequest = selectedProject.Requests.find(
+          (request) => request.requestID === requestID
+        );
+        setselectedProject1(selectedProject.projectID);
+        if (selectedRequest) {
+          // Lakukan apa pun yang diperlukan dengan data permintaan yang telah ditemukan
+          setSelectedRequest(selectedRequest);
+          setOpen(true);
+        } else {
+          console.error("Request not found for requestID:", requestID);
+        }
+      } else {
+        console.error("Project not found for projectID:", projectID);
+      }
+    } catch (error) {
+      console.error("Failed to fetch project:", error);
+    }
+  };
+
   const handleClose = () => setOpen(false);
+  const [open2, setGetOpen] = useState(false);
+
+  const handleopen2 = (projectID, requestID) => {
+    try {
+      setSelectedProject(
+        seeRequest.find((project) => project.projectID === projectID)
+      );
+
+      if (selectedProject) {
+        // Temukan permintaan dengan requestID yang sesuai di dalam proyek yang telah ditemukan
+        const selectedRequest = selectedProject.Requests.find(
+          (request) => request.requestID === requestID
+        );
+        setselectedProject1(selectedProject.projectID);
+        if (selectedRequest) {
+          // Lakukan apa pun yang diperlukan dengan data permintaan yang telah ditemukan
+          setSelectedRequest(selectedRequest);
+          setGetOpen(true);
+        } else {
+          console.error("Request not found for requestID:", requestID);
+        }
+      } else {
+        console.error("Project not found for projectID:", projectID);
+      }
+    } catch (error) {
+      console.error("Failed to fetch project:", error);
+    }
+  };
+  const handleClose2 = () => setGetOpen(false);
 
   // const [open, setOpen] = React.useState(false);
   // const handleOpen = () => {
@@ -198,8 +272,7 @@ export function Requested() {
 
   // if (modal) {
   //   document.body.classList.add("active-modal");
-  // }  else {
-  //   document.body.classList.remove("active-modal");
+  // }  else {  //   document.body.classList.remove("active-modal");
   // }
   //======================//
 
@@ -220,12 +293,22 @@ export function Requested() {
           />
         </div>
 
+        {LoadingMyRequest ? (
+          // <div loading={LoadingMyRequest}></div> //bikin error ini
+          <div></div>
+        ) : NoMyRequest ? (
+          <div className="w-full z-10 border px-6 pt-6 pb-10 rounded-lg flex items-center justify-center cursor-pointer transition text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+            You dont have any Request
+          </div>
+        ) : (
+          ""
+        )}
         {seeRequest.map((request, index) => (
           <div key={index} className=" w-full flex flex-col ">
             {request.Requests.map((req, reqIndex) => (
               <div
                 key={reqIndex}
-                className="w-full shadow-md flex flex-col  rounded-lg  duration-300  bg-whiteAlternative p-4 mb-3"
+                className="w-full flex flex-col shadow rounded-lg  duration-300  bg-whiteAlternative p-4 mb-3"
               >
                 <div className="flex flex-col md:flex-row justify-center w-full px-4">
                   <div>
@@ -264,13 +347,17 @@ export function Requested() {
 
                   <div className=" flex flex-row md:flex-col justify-center gap-4 my-2">
                     <button
-                      onClick={() => saveData(request.projectID, req.requestID)}
+                      onClick={() =>
+                        handleOpen(request.projectID, req.requestID)
+                      }
                       className="  hover:bg-secondaryAlternative  transition-transform transform hover:scale-105 active:scale-95 p-4 bg-secondary  w-24 md:w-32 h-14   rounded-md text-white"
                     >
                       Approve
                     </button>
                     <button
-                      onClick={handleOpen}
+                      onClick={() =>
+                        handleopen2(request.projectID, req.requestID)
+                      }
                       className="  hover:bg-primaryAlternative transition-transform transform hover:scale-105 active:scale-95  p-4 bg-primary w-24  h-14  md:w-32  rounded-md text-white"
                     >
                       Decline
@@ -292,19 +379,38 @@ export function Requested() {
           </div>
         ))}
       </div>
+      {/* Dialog untuk Accept request dari Mahasiswa */}
       <div>
         <Dialog
           open={open}
           handler={handleOpen}
-          className="screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2"
+          animate={{
+            mount: { scale: 1, y: 0 },
+            unmount: { scale: 0.9, y: -100 },
+          }}
+          className=" text-center screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2"
         >
           <form onSubmit={accMember}>
-            <DialogHeader>{selectDialogProject.title}</DialogHeader>
-            <DialogBody className=" font-bold">
-              <h2>
-                Yakin menerima Request dari Mahasiswa dengan nim{" "}
-                {selectDialogRequest.userID} ?
-              </h2>
+            <DialogHeader>
+              <Typography
+                className=" text-secondary text-center font-bold"
+                variant="h4"
+              >
+                Notification Menerima Request{" "}
+              </Typography>
+            </DialogHeader>
+            <DialogBody divider className="grid place-items-center gap-4">
+              <Typography
+                className="text-center font-bold"
+                color="black"
+                variant="h4"
+              >
+                {selectedProject.title}
+              </Typography>
+              <Typography className="text-center font-bold">
+                Yakin ingin menerima Request dari Mahasiswa dengan nim{" "}
+                {selectedRequest.userID} ?
+              </Typography>
             </DialogBody>
 
             <DialogFooter>
@@ -313,6 +419,61 @@ export function Requested() {
                   variant="text"
                   color="red"
                   onClick={handleClose}
+                  className="mr-1"
+                >
+                  <span>Cancel</span>
+                </Button>
+                <Button
+                  className="hover:bg-secondaryAlternative  transition-transform transform hover:scale-105 active:scale-95 p-4 bg-secondary  w-15 md:w-32 h-11  rounded-md text-white"
+                  type="submit"
+                >
+                  <span>Confirm</span>
+                </Button>
+              </div>
+            </DialogFooter>
+          </form>
+        </Dialog>
+      </div>
+      {/* Dialog untuk Decline request dari Mahasiswa */}
+      <div>
+        <Dialog
+          open={open2}
+          handler={handleopen2}
+          animate={{
+            mount: { scale: 1, y: 0 },
+            unmount: { scale: 0.9, y: -100 },
+          }}
+          className="screen xs:max-w-[80vw] md:w-[60vw] xl:w-[35vw] h-screen xs:h-auto xs:max-h-[80vh] overflow-y-auto md:overflow-hidden bg-whiteAlternative rounded-xl px-6 py-6 border-2"
+        >
+          <form onSubmit={DeclineMember}>
+            <DialogHeader>
+              <Typography
+                className=" text-primary text-center font-bold"
+                variant="h4"
+              >
+                Notification Menolak Request{" "}
+              </Typography>
+            </DialogHeader>
+            <DialogBody divider className="grid place-items-center gap-4">
+              <Typography
+                className="text-center font-bold"
+                color="black"
+                variant="h4"
+              >
+                {selectedProject.title}
+              </Typography>
+              <h2>
+                Yakin ingin Menolak Request dari Mahasiswa dengan nim{" "}
+                {selectedRequest.userID} ?
+              </h2>
+            </DialogBody>
+
+            <DialogFooter>
+              <div className="flex flex-row-reverse justify-center gap-4 my-2">
+                <Button
+                  variant="text"
+                  color="red"
+                  onClick={handleClose2}
                   className="mr-1"
                 >
                   <span>Cancel</span>
@@ -372,7 +533,7 @@ export function Requested() {
               <div className=" flex flex-row gap-4 w-full align-bottom  justify-center">
                 <button
                   onClick={() =>
-                    saveData(
+                    toggleModal(
                       selectedProject.projectID,
                       selectedRequest.requestID
                     )
@@ -382,7 +543,12 @@ export function Requested() {
                   Approve
                 </button>
                 <button
-                  onClick={handleOpen}
+                  onClick={() =>
+                    handleopen2(
+                      selectedProject.projectID,
+                      selectedRequest.requestID
+                    )
+                  }
                   className="hover:bg-primaryAlternative transition-transform transform hover:scale-105 active:scale-95 p-4 bg-primary w-32  rounded-md text-white"
                 >
                   Decline
