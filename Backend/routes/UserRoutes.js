@@ -22,6 +22,6 @@ router.patch("/users/:userID", updateUserByNomorInduk);
 router.delete("/users/:userID", adminOnly, deleteUserByNomorInduk);
 router.delete("/users", deleteAllUsers);
 router.get("/students/search/:searchQuery/:projectID", searchStudent);
-router.post("/user/:userID", updateUser);
+router.put("/user/:userID", updateUser);
 
 export default router;

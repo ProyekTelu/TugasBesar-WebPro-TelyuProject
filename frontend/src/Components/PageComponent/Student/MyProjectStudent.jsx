@@ -80,6 +80,8 @@ function MyProjectStudent() {
     fetchMyProjects();
   }, [user.userID, activeStatus, searchTerm, setMyProject]);
 
+  console.log(myProject)
+
   let messageToShow = "";
   if (showNoProjectMessage) {
     messageToShow = "You don't have any Project";
