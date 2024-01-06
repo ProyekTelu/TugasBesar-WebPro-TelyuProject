@@ -6,7 +6,9 @@ import skill from "../models/SkillModel.js";
 import ProjectSkillModel from "../models/ProjectModel.js";
 import Role from "../models/RoleModel.js";
 import ProjectMember from "../models/ProjectMemberModel.js";
+import path from "path";
 import { updateUser } from "./UserController.js";
+
 export const changeStatus = async (req, res) => {
   try {
     const { status } = req.body;
@@ -32,6 +34,7 @@ export const changeStatus = async (req, res) => {
     res.status(500).json({ message: "User failed to be updated", error });
   }
 };
+
 export const addFromRequest = async (req, res) => {
   try {
     const { projectID, userID, roleID } = req.body;
@@ -46,40 +49,77 @@ export const addFromRequest = async (req, res) => {
     res.status(500).json({ msg: "Internal Server Error" });
   }
 };
-export const createRequest = async (req, res) => {
-  try {
-    const { userID, projectID, roleID, message } = req.body;
 
-    const existingRequest = await Request.findOne({
-      where: {
-        userID,
-        projectID,
+// export const createRequest = async (req, res) => {
+//   try {
+//     const { userID, projectID, roleID, message } = req.body;
+
+//     const existingRequest = await Request.findOne({
+//       where: {
+//         userID,
+//         projectID,
+//         status: "pending",
+//       },
+//     });
+
+//     if (existingRequest) {
+//       return res
+//         .status(400)
+//         .json({ msg: "Request already exists for this project and role." });
+//     }
+
+//     const cvPath = req.file.path;
+
+//     const newRequest = await Request.create({
+//       userID,
+//       projectID,
+//       roleID,
+//       message,
+//       cv: cvPath,
+//     });
+
+//     res.status(201).json(newRequest);
+//   } catch (error) {
+//     console.error("Error creating request:", error);
+//     res.status(500).json({ msg: "Internal Server Error" });
+//   }
+// };
+
+export const createRequest = async (req, res) =>{
+  if (req.files === null)
+    return res.status(400).json({ msg: "No File Uploaded" });
+
+  const file = req.files.cv;
+  const ext = path.extname(file.name); // ambil type
+  const name = file.name;
+  const fileSize = file.data.length;
+  const fileName = file.md5 + ext;
+  const url = `${req.protocol}://${req.get("host")}/files/${fileName}`;
+  const allowedType = [".pdf"];
+
+  if (!allowedType.includes(ext.toLowerCase()))
+    return res.status(422).json({ msg: "Type must be pdf" });
+  
+  if (fileSize > 10000000)
+    return res.status(422).json({ msg: "File must be less than 10 MB" });
+
+  file.mv(`./public/files/${fileName}`, async (err) => {
+    if (err) return res.status(500).json({ msg: err.message });
+    try {
+      await Request.create({
+        userID: req.body.userID,
+        projectID: req.body.projectID,
+        roleID: req.body.roleID,
+        message: req.body.message,
+        cv: url,
         status: "pending",
-      },
-    });
-
-    if (existingRequest) {
-      return res
-        .status(400)
-        .json({ msg: "Request already exists for this project and role." });
+      });
+      res.status(201).json({ msg: "Request created Successfully" });
+    } catch (error) {
+      console.log(error.message);
     }
-
-    const cvPath = req.file.path;
-
-    const newRequest = await Request.create({
-      userID,
-      projectID,
-      roleID,
-      message,
-      cv: cvPath,
-    });
-
-    res.status(201).json(newRequest);
-  } catch (error) {
-    console.error("Error creating request:", error);
-    res.status(500).json({ msg: "Internal Server Error" });
-  }
-};
+  });
+}
 
 export const RequestByProjectID = async (req, res) => {
   try {
