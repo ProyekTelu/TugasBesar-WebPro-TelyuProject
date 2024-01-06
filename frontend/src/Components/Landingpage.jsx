@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import logo from "../img/Logo.png";
-import inf from "../img/fit.png";
+import inf from "../img/informatik.png";
 import feb from "../img/feb.png";
 import elk from "../img/elektro.png";
 import fri from "../img/fri.png";
@@ -18,6 +19,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import FacultyPopup from "../Components/SideBarComponent/FacultyPopup";
+
 
 const Footer = () => {
   return (
@@ -196,6 +198,22 @@ const Landingpage = () => {
       setExpanded(faqIndex);
     }
   };
+  const [landing, setLanding] = useState([]);
+  useEffect(() => {
+    const fetchRequestProject = async () => {
+      try {
+        const requestLanding = await axios.get(
+        " http://localhost:5000/landing"
+        );
+        setLanding(requestLanding.data);
+        
+      } catch (error) {
+        console.error("Failed to Get Requested");
+      } 
+        
+    };
+      fetchRequestProject();
+  }, []);
   return (
     <div className="w-screen min-h-screen flex flex-col overflow-x-hidden bg-white">
       <div className="flex justify-center w-full">
