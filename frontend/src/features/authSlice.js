@@ -18,7 +18,7 @@ export const loginUser = createAsyncThunk(
         email: user.email,
         password: user.password,
       });
-      const token = response.data.token;
+      const token = response.data["token"];
       const decodedUser = jwt_decode(token);
       const userData = JSON.stringify(decodedUser);
       localStorage.setItem("user", userData);

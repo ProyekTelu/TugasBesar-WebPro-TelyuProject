@@ -16,10 +16,6 @@ const Faculty = db.define(
       allowNull: false,
       unique: true,
     },
-    description:{
-      type : DataTypes.TEXT,
-
-    }
   },
   {
     freezeTableName: true,
