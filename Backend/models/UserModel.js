@@ -71,10 +71,6 @@ const User = db.define(
     phoneNumber: {
       type: DataTypes.STRING,
     },
-    photoProfileName: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
     photoProfileImage: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -116,9 +112,9 @@ User.addHook("beforeCreate", async (user) => {
   user.userID = generatedUserID;
 });
 
-Faculty.hasMany(User, {
-  foreignKey: "facultyCode",
-  sourceKey: "code",
+User.belongsTo(Faculty, {
+  foreignKey: "facultyCode", 
+  targetKey: "code",
 });
 
 User.belongsTo(Major, {

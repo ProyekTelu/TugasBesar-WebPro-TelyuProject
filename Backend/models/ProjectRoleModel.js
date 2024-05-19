@@ -33,6 +33,7 @@ const ProjectRole = db.define(
 Project.hasMany(ProjectRole, {
   foreignKey: "projectID",
   sourceKey: "projectID",
+  onDelete: "CASCADE",
 });
 
 ProjectRole.belongsTo(Role, {
