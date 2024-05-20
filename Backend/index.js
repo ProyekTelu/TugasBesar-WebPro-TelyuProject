@@ -97,6 +97,5 @@ const runInisialData = async () => {
 // menjalankan fungsi untuk inisial data
 // runInisialData();
 
-app.listen(process.env.APP_PORT, () =>
-  console.log("server listening on port " + process.env.APP_PORT)
-);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("server listening on port " + PORT));
