@@ -135,7 +135,7 @@ export const getNewestProjects = async (req, res) => {
           [
             literal(`(
               SELECT COUNT(*)
-              FROM projectMember
+              FROM ProjectMember
               WHERE ProjectMember.projectID = Project.projectID
             )`),
             "projectMemberCount",
@@ -422,7 +422,7 @@ export const getProjectByProjectID = async (req, res) => {
           [
             literal(`(
               SELECT COUNT(*)
-              FROM projectMember
+              FROM ProjectMember
               WHERE ProjectMember.projectID = Project.projectID
             )`),
             "projectMemberCount",
