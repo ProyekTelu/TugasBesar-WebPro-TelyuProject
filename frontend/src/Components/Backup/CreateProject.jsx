@@ -59,7 +59,7 @@ const CreateProject = () => {
     >
       <div className="columns w-2/3  flex justify-center flex-col relative">
         <IoCaretBackCircleOutline
-          onClick={(e) => window.history.back()} 
+          onClick={(e) => window.history.back()}
           className="text-4xl absolute left-[-6rem] cursor-pointer"
         />
         <h1 className="text-center mt-4 text-xl xs:text-lg sm:text-2xl md:text-4xl md:my-4 font-bold">
@@ -218,7 +218,7 @@ const CreateProject = () => {
                   ? "bg-black cursor-not-allowed"
                   : " bg-primary hover:bg-brightPrimary cursor-pointer"
               }`}
-              disabled={!isInputComplete}
+              // disabled={!isInputComplete}
             >
               Create
             </button>
