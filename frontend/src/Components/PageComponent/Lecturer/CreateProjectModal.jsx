@@ -393,12 +393,13 @@ function CreateProjectModal({ isOpen, onClose, onUpdateProjects }) {
             <div className="w-[200px] mx-auto flex flex-col mt-2 pt-0 xs:pt-2">
               <button
                 type="submit"
-                className={`" text-white py-2 sm:py-3 text-xs md:text-lg px-8 md:px-5 rounded-md md:rounded-lg block" ${
-                  !isInputComplete
-                    ? "bg-black cursor-not-allowed"
-                    : " bg-secondary hover:bg-brightPrimary cursor-pointer"
-                }`}
-                disabled={!isInputComplete}
+                className={`" text-white py-2 sm:py-3 text-xs md:text-lg px-8 md:px-5 rounded-md md:rounded-lg block" $`}
+                // disabled={!isInputComplete}
+                // {
+                //   !isInputComplete
+                //     ? "bg-black cursor-not-allowed"
+                //     : " bg-secondary hover:bg-brightPrimary cursor-pointer"
+                // }
               >
                 Create
               </button>
