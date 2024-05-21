@@ -1,13 +1,8 @@
 import User from "../models/UserModel.js";
-import argon2 from "argon2";
-import { Op, Sequelize, where } from "sequelize";
-import Invitation from "../models/InvitationModel.js";
-import Project from "../models/ProjectModel.js";
+import { Op } from "sequelize";
 import path from "path";
 import fs from "fs";
 import Faculty from "../models/FacultyModel.js";
-import { response } from "express";
-import { error } from "console";
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -75,7 +70,8 @@ export const createUser = async (req, res) => {
     kelas,
     role,
   } = req.body;
-  const hashPassword = await argon2.hash(password);
+  const saltRounds = 10;
+  const hashPassword = await bcrypt.hash(password, saltRounds);
   try {
     await User.create({
       nomorInduk: nomorInduk,
