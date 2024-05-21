@@ -1,7 +1,7 @@
 import { HasMany, Sequelize } from "sequelize";
 import db from "../config/Database.js";
 import Faculty from "./FacultyModel.js";
-import Major from "./majorModel.js";
+import Major from "./MajorModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -113,7 +113,7 @@ User.addHook("beforeCreate", async (user) => {
 });
 
 User.belongsTo(Faculty, {
-  foreignKey: "facultyCode", 
+  foreignKey: "facultyCode",
   targetKey: "code",
 });
 
