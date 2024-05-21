@@ -1,4 +1,5 @@
 import { Sequelize } from "sequelize";
+import mysql2 from "mysql2";
 
 const db = new Sequelize(
   "freedb_telyu_project",
@@ -7,6 +8,7 @@ const db = new Sequelize(
   {
     host: "sql.freedb.tech",
     dialect: "mysql",
+    dialectModule: mysql2,
   }
 );
 

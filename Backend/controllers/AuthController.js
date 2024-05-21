@@ -3,7 +3,7 @@ import argon2d from "argon2";
 import dotenv from "dotenv";
 import argon2 from "argon2";
 import Faculty from "../models/FacultyModel.js";
-import Major from "../models/majorModel.js";
+import Major from "../models/MajorModel.js";
 import jwt from "jsonwebtoken";
 dotenv.config();
 
