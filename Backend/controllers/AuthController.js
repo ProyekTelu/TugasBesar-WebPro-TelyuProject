@@ -5,7 +5,6 @@ import argon2 from "argon2";
 import Faculty from "../models/FacultyModel.js";
 import Major from "../models/MajorModel.js";
 import jwt from "jsonwebtoken";
-import fs from "fs/promises";
 dotenv.config();
 
 const capitalize = (str) => {

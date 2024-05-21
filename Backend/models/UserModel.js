@@ -1,7 +1,7 @@
 import { HasMany, Sequelize } from "sequelize";
 import db from "../config/Database.js";
-import Faculty from "./FacultyModel.js";
 import Major from "./MajorModel.js";
+import Faculty from "./FacultyModel.js";
 
 const { DataTypes } = Sequelize;
 

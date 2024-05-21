@@ -1,5 +1,5 @@
-import Faculty from "../models/FacultyModel.js";
 import Major from "../models/MajorModel.js";
+import Faculty from "../models/FacultyModel.js";
 
 const FacultyAndMajor = async () => {
   try {
