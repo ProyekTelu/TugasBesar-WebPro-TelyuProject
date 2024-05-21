@@ -29,7 +29,6 @@ import RequestIntial from "./InitialData/requestInitial.js";
 
 import path from "path";
 import fs from "fs";
-import User from "./models/UserModel.js";
 
 dotenv.config();
 
@@ -88,89 +87,8 @@ const initializeData = async () => {
   });
 };
 
-app.get("/", async (req, res) => {
-  try {
-    const response = await User.findAll({
-      where: {
-        role: "student",
-      },
-      attributes: { exclude: ["photoProfile"] },
-    });
-    res.status(200).json(response);
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-app.get("/login", async (req, res) => {
-  try {
-    const user = await User.findOne({
-      where: {
-        email: req.body.email.toLowerCase(),
-      },
-    });
-
-    if (!user) return res.status(404).json({ msg: "User not found" });
-
-    const passwordSesuai = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
-
-    if (!passwordSesuai) return res.status(400).json({ msg: "Wrong password" });
-
-    const faculty = await Faculty.findOne({
-      where: {
-        code: user.facultyCode,
-      },
-    });
-
-    if (!faculty) return res.status(400).json({ msg: "Faculty Not Found" });
-
-    var majorName = null;
-
-    if (user.role === "student") {
-      const major = await Major.findOne({
-        where: {
-          code: user.majorCode,
-        },
-      });
-
-      if (!major) return res.status(400).json({ msg: "Major Not Found" });
-
-      majorName = major.name;
-    }
-
-    const userData = {
-      userID: user.userID,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      phoneNumber: user.phoneNumber,
-      photoProfileUrl: user.photoProfileUrl,
-      photoProfileName: user.photoProfileName,
-      photoProfileImage: user.photoProfileImage,
-      email: user.email,
-      gender: user.gender,
-      lectureCode: user.lectureCode,
-      facultyCode: user.facultyCode,
-      facultyName: faculty.name,
-      majorCode: user.majorCode,
-      majorName: majorName,
-      kelas: user.kelas,
-      role: user.role,
-    };
-
-    const secretKey = "KKAOKSOA922K32NNAMBASINGK2K2IKA2Bassaj9J2";
-
-    const token = jwt.sign(userData, secretKey, {
-      expiresIn: "1h",
-    });
-
-    res.status(200).json({ token: token, user: userData });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error.message });
-  }
+app.get("/", (req, res) => {
+  res.send("Selamat datang di tel-u Project");
 });
 
 //fungsi menjalankan inisial data
