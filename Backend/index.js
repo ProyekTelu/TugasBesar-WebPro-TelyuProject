@@ -6,26 +6,26 @@ import fileUpload from "express-fileupload";
 import db from "./config/Database.js";
 
 //route
-import UserRoute from "./routes/UserRoutes.js";
-import AuthRoute from "./routes/AuthRoutes.js";
-import FacultyRoute from "./routes/FacultyRoutes.js";
-import MajorRoute from "./routes/MajorRoutes.js";
-import ProjectRoute from "./routes/ProjectRoutes.js";
-import RequestRoute from "./routes/RequestRoutes.js";
-import InvitationRoute from "./routes/InvitationRoutes.js";
-import ProjectMemberRoute from "./routes/ProjectMemberRoutes.js";
+import UserRoute from "./app/routes/UserRoutes.js";
+import AuthRoute from "./app/routes/AuthRoutes.js";
+import FacultyRoute from "./app/routes/FacultyRoutes.js";
+import MajorRoute from "./app/routes/MajorRoutes.js";
+import ProjectRoute from "./app/routes/ProjectRoutes.js";
+import RequestRoute from "./app/routes/RequestRoutes.js";
+import InvitationRoute from "./app/routes/InvitationRoutes.js";
+import ProjectMemberRoute from "./app/routes/ProjectMemberRoutes.js";
 
 //initial data import
-import FacultyAndMajor from "./InitialData/FacultyAndMajor.js";
-import Projects from "./InitialData/Projects.js";
-import Roles from "./InitialData/Roles.js";
-import Skills from "./InitialData/Skills.js";
-import Users from "./InitialData/Users.js";
-import ProjectRoles from "./InitialData/ProjectRoles.js";
-import ProjectSkills from "./InitialData/ProjectSkills.js";
-import ProjectMembers from "./InitialData/ProjectMembers.js";
-import Invitations from "./InitialData/Invitations.js";
-import RequestIntial from "./InitialData/requestInitial.js";
+import FacultyAndMajor from "./app/InitialData/FacultyAndMajor.js";
+import Projects from "./app/InitialData/Projects.js";
+import Roles from "./app/InitialData/Roles.js";
+import Skills from "./app/InitialData/Skills.js";
+import Users from "./app/InitialData/Users.js";
+import ProjectRoles from "./app/InitialData/ProjectRoles.js";
+import ProjectSkills from "./app/InitialData/ProjectSkills.js";
+import ProjectMembers from "./app/InitialData/ProjectMembers.js";
+import Invitations from "./app/InitialData/Invitations.js";
+import RequestIntial from "./app/InitialData/requestInitial.js";
 
 import path from "path";
 import fs from "fs";
@@ -40,7 +40,6 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
-
 app.use(express.json());
 app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }));
@@ -88,7 +87,7 @@ const initializeData = async () => {
 };
 
 app.get("/", (req, res) => {
-  res.send("Selamat datang di tel-u Project");
+  res.send("Selamat datang di tel-y");
 });
 
 //fungsi menjalankan inisial data
