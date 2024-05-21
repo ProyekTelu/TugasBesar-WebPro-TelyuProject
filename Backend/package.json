@@ -7,13 +7,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "vercel-build": "echo Helo",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "build": "npm install argon2"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "argon2": "^0.31.1",
+    "argon2": "^0.40.1",
     "clean": "^4.0.2",
     "connect-session-sequelize": "^7.1.7",
     "cors": "^2.8.5",
