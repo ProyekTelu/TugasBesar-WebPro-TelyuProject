@@ -29,6 +29,7 @@ import RequestIntial from "./InitialData/requestInitial.js";
 
 import path from "path";
 import fs from "fs";
+import { getAllUsers } from "./controllers/UserController.js";
 
 dotenv.config();
 
