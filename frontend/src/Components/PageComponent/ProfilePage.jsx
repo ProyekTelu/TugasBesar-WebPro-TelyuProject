@@ -3,6 +3,7 @@ import EditProfile from "../../img/editing.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CgProfile } from "react-icons/cg";
+import { url } from "../../app/url";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -36,7 +37,7 @@ const Profile = () => {
       setTriggerEffect(
         await axios({
           method: "put",
-          url: `http://localhost:5000/user/${User.userID}`,
+          url: `${url}/user/${User.userID}`,
           data: formData,
         })
       );
@@ -50,9 +51,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/users/${User.userID}`
-        );
+        const response = await axios.get(`${url}/users/${User.userID}`);
         localStorage.setItem("user", JSON.stringify(response.data));
         setUser(JSON.parse(localStorage.getItem("user")));
       } catch (error) {

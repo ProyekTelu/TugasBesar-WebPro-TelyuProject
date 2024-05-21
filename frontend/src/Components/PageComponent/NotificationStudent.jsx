@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
+import { url } from "../../app/url";
 
 // {
 //   id: 1,
@@ -61,9 +62,7 @@ const NotificationStudent = () => {
 
   const fetchNotificationElements = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/invitation/${userID}`
-      );
+      const response = await axios.get(`${url}/invitation/${userID}`);
       setNotificationsElements(response.data);
       console.log(notificationElements);
     } catch (error) {
@@ -91,7 +90,7 @@ const NotificationStudent = () => {
 
       axios({
         method: "post",
-        url: "http://localhost:5000/invitationResponse",
+        url: `${url}/invitationResponse`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       })

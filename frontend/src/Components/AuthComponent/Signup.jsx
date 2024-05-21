@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import TelyuProjectLogo from "../../img/Logo.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { url } from "../../app/url";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -136,7 +137,7 @@ const Signup = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/faculty")
+      .get(`${url}/faculty`)
       .then((response) => {
         setFakultas(response.data);
       })
@@ -148,7 +149,7 @@ const Signup = () => {
   useEffect(() => {
     if (selectedFakultas) {
       axios
-        .get(`http://localhost:5000/major/${selectedFakultas}`)
+        .get(`${url}/major/${selectedFakultas}`)
         .then((response) => {
           setMajors(response.data);
         })
@@ -166,7 +167,7 @@ const Signup = () => {
 
   const checkEmail = () => {
     axios
-      .post("http://localhost:5000/checkMail", {
+      .post(`${url}/checkMail`, {
         email: email,
       })
       .then((response) => {
