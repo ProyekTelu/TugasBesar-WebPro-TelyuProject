@@ -1,5 +1,5 @@
 import express from "express";
-// import cors from "cors";
+import cors from "cors";
 import dotenv from "dotenv";
 
 import fileUpload from "express-fileupload";
@@ -29,45 +29,18 @@ import RequestIntial from "./InitialData/requestInitial.js";
 
 import path from "path";
 import fs from "fs";
-import { getAllUsers } from "./controllers/UserController.js";
+import User from "./models/UserModel.js";
 
 dotenv.config();
 
 const app = express();
 
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: "http://localhost:3000",
-//   })
-// );
-
-const allowCors = (fn) => async (req, res) => {
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  // another common pattern
-  // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET,OPTIONS,PATCH,DELETE,POST,PUT"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
-  );
-  if (req.method === "OPTIONS") {
-    res.status(200).end();
-    return;
-  }
-  return await fn(req, res);
-};
-
-const handler = (req, res) => {
-  const d = new Date();
-  res.end(d.toString());
-};
-
-allowCors(handler);
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
 
 app.use(express.json());
 app.use(fileUpload());
@@ -82,10 +55,6 @@ app.use(ProjectMemberRoute);
 app.use(ProjectRoute);
 app.use(RequestRoute);
 app.use(InvitationRoute);
-
-const router = express.Router();
-
-router.get("/users", getAllUsers);
 
 //kumpulan inisial data
 const initializeData = async () => {
@@ -119,8 +88,18 @@ const initializeData = async () => {
   });
 };
 
-app.get("/", (req, res) => {
-  res.send("Selamat datang di tel-u Project");
+app.get("/", async (req, res) => {
+  try {
+    const response = await User.findAll({
+      where: {
+        role: "student",
+      },
+      attributes: { exclude: ["photoProfile"] },
+    });
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 //fungsi menjalankan inisial data
