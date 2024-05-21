@@ -86,6 +86,10 @@ const initializeData = async () => {
   });
 };
 
+app.get("/", (req, res) => {
+  res.send("Selamat datang di tel-u Project");
+});
+
 //fungsi menjalankan inisial data
 const runInisialData = async () => {
   await db.drop();
