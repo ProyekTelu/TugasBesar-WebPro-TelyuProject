@@ -1,5 +1,5 @@
 import User from "../models/UserModel.js";
-import argon2 from "argon2";
+import bcrypt from "bcrypt";
 import path from "path";
 import fs from "fs/promises";
 
@@ -7,7 +7,8 @@ const Users = async () => {
   try {
     const password = "123";
 
-    const hashedPassword = await argon2.hash(password);
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     await User.create({
       firstName: "Zaky Admin",

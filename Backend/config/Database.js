@@ -2,11 +2,11 @@ import { Sequelize } from "sequelize";
 import mysql2 from "mysql2";
 
 const db = new Sequelize(
-  "freedb_telyu_project",
-  "freedb_bukanzaky",
-  "nfjMy$MjGPPaJ4f",
+  "u741231707_telyu_project",
+  "u741231707_zaky",
+  "12345678Zaky",
   {
-    host: "sql.freedb.tech",
+    host: "srv1412.hstgr.io",
     dialect: "mysql",
     dialectModule: mysql2,
   }

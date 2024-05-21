@@ -1,7 +1,7 @@
 import User from "../models/UserModel.js";
-import argon2d from "argon2";
 import dotenv from "dotenv";
-import argon2 from "argon2";
+import bcrypt from "bcrypt";
+
 import Faculty from "../models/FacultyModel.js";
 import Major from "../models/MajorModel.js";
 import jwt from "jsonwebtoken";
@@ -21,9 +21,9 @@ export const login = async (req, res) => {
 
     if (!user) return res.status(404).json({ msg: "User not found" });
 
-    const passwordSesuai = await argon2d.verify(
-      user.password,
-      req.body.password
+    const passwordSesuai = await bcrypt.compare(
+      req.body.password,
+      user.password
     );
 
     if (!passwordSesuai) return res.status(400).json({ msg: "Wrong password" });
@@ -96,7 +96,8 @@ export const signup = async (req, res) => {
     kelas,
     role,
   } = req.body;
-  const hashPassword = await argon2.hash(password);
+  const saltRounds = 10;
+  const hashPassword = await bcrypt.hash(password, saltRounds);
   try {
     await User.create({
       phoneNumber: phoneNumber,
