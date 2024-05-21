@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "clean": "^4.0.2",
     "connect-session-sequelize": "^7.1.7",
     "cors": "^2.8.5",

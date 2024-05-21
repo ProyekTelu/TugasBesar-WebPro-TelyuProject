@@ -3,6 +3,7 @@ import { Op } from "sequelize";
 import path from "path";
 import fs from "fs";
 import Faculty from "../models/FacultyModel.js";
+import bcrypt from "bcryptjs";
 
 export const getAllUsers = async (req, res) => {
   try {

@@ -1,6 +1,6 @@
 import User from "../models/UserModel.js";
 import dotenv from "dotenv";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 import Faculty from "../models/FacultyModel.js";
 import Major from "../models/MajorModel.js";
