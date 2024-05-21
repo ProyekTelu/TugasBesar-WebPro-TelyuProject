@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import fileUpload from "express-fileupload";
-import db from "./config/Database.js";
+import db from "./app/config/Database.js";
 
 //route
 import UserRoute from "./app/routes/UserRoutes.js";
@@ -33,6 +33,8 @@ import fs from "fs";
 dotenv.config();
 
 const app = express();
+
+export const maxDuration = 50;
 
 app.use(
   cors({
