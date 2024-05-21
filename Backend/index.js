@@ -82,6 +82,10 @@ app.use(ProjectRoute);
 app.use(RequestRoute);
 app.use(InvitationRoute);
 
+const router = express.Router();
+
+router.get("/users", getAllUsers);
+
 //kumpulan inisial data
 const initializeData = async () => {
   await db.sync();
