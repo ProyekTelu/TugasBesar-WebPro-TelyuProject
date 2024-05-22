@@ -29,7 +29,6 @@ import RequestIntial from "./InitialData/requestInitial.js";
 
 import path from "path";
 import fs from "fs";
-import VercelMaxDuration from "./config/VercelMaxDuration.js";
 
 dotenv.config();
 
