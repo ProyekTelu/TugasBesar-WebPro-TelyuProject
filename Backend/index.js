@@ -46,7 +46,6 @@ app.use(express.json());
 app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
-app.use(VercelMaxDuration);
 
 app.use(UserRoute);
 app.use(AuthRoute);
