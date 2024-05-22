@@ -29,6 +29,7 @@ import RequestIntial from "./InitialData/requestInitial.js";
 
 import path from "path";
 import fs from "fs";
+import VercelMaxDuration from "./config/VercelMaxDuration.js";
 
 dotenv.config();
 
@@ -41,12 +42,11 @@ app.use(
   })
 );
 
-export const maxDuration = 49;
-
 app.use(express.json());
 app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(VercelMaxDuration);
 
 app.use(UserRoute);
 app.use(AuthRoute);
