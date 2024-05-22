@@ -15,6 +15,7 @@ import {
   MenuItem,
   IconButton,
 } from "@material-tailwind/react";
+import { url } from "../../../app/url";
 
 //modal command
 export function Requested() {
@@ -46,7 +47,7 @@ export function Requested() {
       setIsLoadingMyRequest(true);
       try {
         const requestRespone = await axios.get(
-          `http://localhost:5000/requestMember/${user.userID}`
+          `${url}/requestMember/${user.userID}`
         );
         setRequestProject(requestRespone.data);
 
@@ -157,7 +158,7 @@ export function Requested() {
       };
 
       await axios.patch(
-        `http://localhost:5000/changeStatus/${selectedRequest.requestID}`,
+        `${url}/changeStatus/${selectedRequest.requestID}`,
         updatedData
       );
 
@@ -165,14 +166,10 @@ export function Requested() {
       newMEM.append("projectID", selectedProject.projectID);
       newMEM.append("userID", selectedRequest.userID);
       newMEM.append("roleID", selectedRequest.Role.roleID);
-      const response = await axios.post(
-        "http://localhost:5000/addNewMEM",
-        newMEM,
-        {
-          // SelectedForADD,
-          // SelectedForADD2,
-        }
-      );
+      const response = await axios.post(`${url}/addNewMEM`, newMEM, {
+        // SelectedForADD,
+        // SelectedForADD2,
+      });
       console.log("Request submitted successfully", response.data);
 
       setOpen(false);
@@ -194,7 +191,7 @@ export function Requested() {
       };
 
       await axios.patch(
-        `http://localhost:5000/changeStatus/${selectedRequest.requestID}`,
+        `${url}/changeStatus/${selectedRequest.requestID}`,
         updatedDatas
       );
     } catch (err) {

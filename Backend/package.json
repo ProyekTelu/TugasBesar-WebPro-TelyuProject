@@ -5,13 +5,15 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "vercel-build": "echo Helo",
+    "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "argon2": "^0.31.1",
+    "bcryptjs": "^2.4.3",
     "clean": "^4.0.2",
     "connect-session-sequelize": "^7.1.7",
     "cors": "^2.8.5",

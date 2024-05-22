@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { url } from "../../../app/url";
 
 function CreateProjectModal({ isOpen, onClose, onUpdateProjects }) {
   const storedUser = localStorage.getItem("user");
@@ -43,7 +44,7 @@ function CreateProjectModal({ isOpen, onClose, onUpdateProjects }) {
         roles,
       };
 
-      const response = await fetch("http://localhost:5000/projects", {
+      const response = await fetch(`${url}/projects`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

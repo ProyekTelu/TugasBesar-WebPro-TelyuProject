@@ -1,4 +1,4 @@
-import Major from "../models/majorModel.js";
+import Major from "../models/MajorModel.js";
 
 export const getAllMajor = async (req, res) => {
   try {

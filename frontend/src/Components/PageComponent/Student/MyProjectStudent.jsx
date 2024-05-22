@@ -19,6 +19,7 @@ import { FaDotCircle } from "react-icons/fa";
 import { Select, Option } from "@material-tailwind/react";
 import ProjectDetailModal from "../ProjectDetailModal";
 import { useNavigate } from "react-router-dom";
+import { url } from "../../../app/url";
 
 function MyProjectStudent() {
   const storedUser = localStorage.getItem("user");
@@ -55,7 +56,7 @@ function MyProjectStudent() {
       setIsLoadingMyProject(true);
       try {
         const response = await axios.get(
-          `http://localhost:5000/student/projects/${user.userID}`
+          `${url}/student/projects/${user.userID}`
         );
 
         const filteredProjects =
@@ -80,7 +81,7 @@ function MyProjectStudent() {
     fetchMyProjects();
   }, [user.userID, activeStatus, searchTerm, setMyProject]);
 
-  console.log(myProject)
+  console.log(myProject);
 
   let messageToShow = "";
   if (showNoProjectMessage) {

@@ -13,6 +13,7 @@ import Modal from "react-modal";
 import ProjectDetailModal from "../ProjectDetailModal";
 import { Select, Option } from "@material-tailwind/react";
 import MyProjectTableStudent from "./HomeComponents/MyProjectTableStudent";
+import { url } from "../../../app/url";
 
 function HomeStudent() {
   const navigate = useNavigate();
@@ -88,9 +89,7 @@ function HomeStudent() {
     const fetchNewestProjects = async () => {
       setIsLoadingNewestProject(true);
       try {
-        const response = await axios.get(
-          "http://localhost:5000/newestProjects"
-        );
+        const response = await axios.get(`${url}/newestProjects`);
         setNewestProject(response.data);
         if (response.data.length === 0) {
           setShowNoNewestProjectMessage(true);
@@ -110,7 +109,7 @@ function HomeStudent() {
       setIsLoadingMyProject(true);
       try {
         const response = await axios.get(
-          `http://localhost:5000/student/projects/${user.userID}`
+          `${url}/student/projects/${user.userID}`
         );
         if (response.data.length === 0) {
           setShowNoProjectMessage(true);
@@ -143,9 +142,7 @@ function HomeStudent() {
   const openModalDetail = async (projectId) => {
     try {
       setIsLoadingModalDetail(true);
-      const response = await axios.get(
-        `http://localhost:5000/project/${projectId}`
-      );
+      const response = await axios.get(`${url}/project/${projectId}`);
       setSelectedProject(response.data);
       setModalOpenDetail(true);
     } catch (error) {
@@ -174,7 +171,8 @@ function HomeStudent() {
             spaceBetween={22}
             pagination
             navigation
-            slidesPerView={slidesPerView}>
+            slidesPerView={slidesPerView}
+          >
             {isLoadingNewestProject ? (
               <SwiperSlide className="w-full z-10 border px-6 pt-6 pb-10 rounded-lg flex items-center justify-center cursor-pointer transition">
                 <MoonLoader
@@ -191,7 +189,8 @@ function HomeStudent() {
               newestProject.map((project, index) => (
                 <SwiperSlide
                   key={index}
-                  className="w-full z-10 h-full lg:flex-col border px-6 pt-6 pb-10 rounded-lg justify-center  cursor-pointer transition hover:border-greyAlternative active:border-gray-500 duration-200">
+                  className="w-full z-10 h-full lg:flex-col border px-6 pt-6 pb-10 rounded-lg justify-center  cursor-pointer transition hover:border-greyAlternative active:border-gray-500 duration-200"
+                >
                   <div className="flex flex-col sm:flex-row w-full justify-between">
                     <div className="">
                       <h1 className="text-left  text-base md:text-base lg:text-xl font-bold line-clamp-1">
@@ -222,7 +221,8 @@ function HomeStudent() {
                       {project.ProjectSkills.map((skill, index) => (
                         <div
                           key={index}
-                          className="bg-primary px-3 py-1 text-whiteAlternative font-medium rounded-full flex items-center justify-between mr-2">
+                          className="bg-primary px-3 py-1 text-whiteAlternative font-medium rounded-full flex items-center justify-between mr-2"
+                        >
                           <span className="text-[10px] md:text-xs ">
                             {skill.Skill.name}
                           </span>
@@ -236,7 +236,8 @@ function HomeStudent() {
                       {project.ProjectRoles.map((role, index) => (
                         <div
                           key={index}
-                          className="bg-blue-400 px-3 py-1 text-whiteAlternative font-medium rounded-full flex items-center justify-between mr-2">
+                          className="bg-blue-400 px-3 py-1 text-whiteAlternative font-medium rounded-full flex items-center justify-between mr-2"
+                        >
                           <span className="text-[10px] md:text-xs">
                             {role.Role.name}
                           </span>
@@ -252,7 +253,8 @@ function HomeStudent() {
                     <button
                       className="px-2 py-2 md:py-3 md:px-4 text-[8px] rounded-md font-semibold text-xs md:text-sm xl:text-base  text-white bg-secondary  mt-2 duration-75 ease-out hover:shadow-md  active:scale-95"
                       type="submit"
-                      onClick={() => openModalDetail(project.projectID)}>
+                      onClick={() => openModalDetail(project.projectID)}
+                    >
                       Project Detail
                     </button>
                   </div>
@@ -283,7 +285,8 @@ function HomeStudent() {
                 value={activeStatus}
                 color="blue-gray"
                 onChange={(value) => setActiveStatus(value)}
-                className="font-medium ">
+                className="font-medium "
+              >
                 {listStatus.map((status, index) => (
                   <Option key={index} value={status} className="text-gray-800">
                     {status}
@@ -331,7 +334,8 @@ function HomeStudent() {
           style={{ userSelect: "none" }}
           onClick={() => {
             navigate("/telyuProject/listProject");
-          }}>
+          }}
+        >
           <BsFillPlayFill className="w-10 h-10 md:w-20 md:h-20 lg:h-36 lg:w-36" />
           <div className="text-base md:text-xl lg:text-5xl flex font-bold">
             Find <br /> Projects
@@ -342,7 +346,8 @@ function HomeStudent() {
       <Modal
         className="w-sreen h-screen flex items-center justify-center z-50 bg-opacity-5 backdrop-blur-sm"
         isOpen={isModalOpenDetail}
-        onRequestClose={closeModalDetail}>
+        onRequestClose={closeModalDetail}
+      >
         {isModalOpenDetail && (
           <ProjectDetailModal
             className="absolute right-0 left-0 top-0 bottom-0"

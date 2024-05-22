@@ -14,6 +14,8 @@ import {
 
 const router = express.Router();
 
+export const maxDuration = 50;
+
 router.get("/users", getAllUsers);
 router.get("/students", getAllStudent);
 router.get("/users/:userID", getUserById);

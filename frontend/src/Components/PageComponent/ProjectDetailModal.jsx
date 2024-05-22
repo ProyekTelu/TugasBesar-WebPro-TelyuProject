@@ -14,6 +14,7 @@ import {
   MenuItem,
   Button,
 } from "@material-tailwind/react";
+import { url } from "../../app/url";
 
 function ProjectDetailModal({ onClose, selectedProject }) {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ function ProjectDetailModal({ onClose, selectedProject }) {
     const checkRequest = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/existingRequest/${currentUserId}/${projectID}`
+          `${url}/existingRequest/${currentUserId}/${projectID}`
         );
         setIsRequested(response.data.isRequested);
       } catch (error) {
@@ -121,15 +122,11 @@ function ProjectDetailModal({ onClose, selectedProject }) {
 
       console.log(uploadedCV);
 
-      const response = await axios.post(
-        "http://localhost:5000/createRequest",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(`${url}/createRequest`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       console.log("Request submitted successfully:", response.data);
       toast.success("Join request submitted successfully!");
