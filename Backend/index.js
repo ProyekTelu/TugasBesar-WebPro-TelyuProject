@@ -41,7 +41,7 @@ app.use(
   })
 );
 
-export const maxDuration = 50;
+export const maxDuration = 49;
 
 app.use(express.json());
 app.use(fileUpload());
