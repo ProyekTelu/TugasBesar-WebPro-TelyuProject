@@ -134,7 +134,7 @@ const FacultyAndMajor = async () => {
 
     await Major.create({
       name: "Teknologi Informasi",
-      code: "TI",
+      code: "IT",
       degree: "S1",
       facultyCode: "FIF",
       yearAppear: 2000,
@@ -163,6 +163,151 @@ const FacultyAndMajor = async () => {
       facultyCode: "FIF",
       yearAppear: 2000,
     });
+
+    await Major.create({
+      name: "Sistem Informasi",
+      code: "SI",
+      degree: "S1",
+      facultyCode: "FRI",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Teknik Industri",
+      code: "TI",
+      degree: "S1",
+      facultyCode: "FRI",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Digital Supply Chain",
+      code: "DSC",
+      degree: "S1",
+      facultyCode: "FRI",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Terapan Digital Creative Multimedia",
+      code: "TD",
+      degree: "S1",
+      facultyCode: "FIT",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Rekayasa Perangkat Lunak Aplikasi",
+      code: "RPLA",
+      degree: "D3",
+      facultyCode: "FIT",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Perhotelan",
+      code: "PH",
+      degree: "S1",
+      facultyCode: "FIT",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Desain Komunikasi Visual",
+      code: "DK",
+      degree: "S1",
+      facultyCode: "FIK",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Desain Interior",
+      code: "DI",
+      degree: "S1",
+      facultyCode: "FIK",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Desain Produk & Inovasi",
+      code: "DP",
+      degree: "S1",
+      facultyCode: "FIK",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Kriya",
+      code: "SR",
+      degree: "S1",
+      facultyCode: "FIK",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Creative Arts",
+      code: "CA",
+      degree: "S1",
+      facultyCode: "FIK",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Film dan Animasi",
+      code: "FA",
+      degree: "S1",
+      facultyCode: "FIK",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "MBTI",
+      code: "MB",
+      degree: "S1",
+      facultyCode: "FEB",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Akutansi",
+      code: "AK",
+      degree: "S1",
+      facultyCode: "FEB",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Ilmu Komunikasi",
+      code: "IK",
+      degree: "S1",
+      facultyCode: "FKB",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Administrasi Bisnis",
+      code: "AB",
+      degree: "S1",
+      facultyCode: "FKB",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Digital Public Relation",
+      code: "PR",
+      degree: "S1",
+      facultyCode: "FKB",
+      yearAppear: 2000,
+    });
+
+    await Major.create({
+      name: "Digital Content Broadcasting",
+      code: "CB",
+      degree: "S1",
+      facultyCode: "FKB",
+      yearAppear: 2000,
+    });
+
   } catch (error) {
     console.error("Gagal menambahkan data awal Faculty & Major:", error);
   }
