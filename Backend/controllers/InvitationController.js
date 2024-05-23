@@ -16,9 +16,9 @@ export const createInvitation = async (req, res) => {
       },
     });
     if (created) {
-      res.status(201).json(invitation);
+      res.status(200).json(invitation);
     } else {
-      res.status(409).json({ message: "Record already exists" });
+      res.status(400).json({ message: "Record already exists" });
     }
   } catch (error) {
     res.status(500).json({ message: "failed to create invitation" }, error);
