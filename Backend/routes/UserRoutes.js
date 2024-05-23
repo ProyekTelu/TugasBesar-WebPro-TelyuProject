@@ -6,17 +6,19 @@ import {
   deleteUserByNomorInduk,
   getAllStudent,
   getAllUsers,
-  getUsersByNomorInduk,
   updateUserByNomorInduk,
   searchStudent,
   updateUser,
+  getUserById,
 } from "../controllers/UserController.js";
 
 const router = express.Router();
 
+export const maxDuration = 50;
+
 router.get("/users", getAllUsers);
 router.get("/students", getAllStudent);
-router.get("/users/:userID", getUsersByNomorInduk);
+router.get("/users/:userID", getUserById);
 router.post("/users", createUser);
 router.patch("/users/:userID", updateUserByNomorInduk);
 router.delete("/users/:userID", adminOnly, deleteUserByNomorInduk);

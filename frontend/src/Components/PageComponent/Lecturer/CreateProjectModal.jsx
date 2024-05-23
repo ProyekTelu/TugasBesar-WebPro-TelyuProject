@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { url } from "../../../app/url";
 
 function CreateProjectModal({ isOpen, onClose, onUpdateProjects }) {
   const storedUser = localStorage.getItem("user");
@@ -43,7 +44,7 @@ function CreateProjectModal({ isOpen, onClose, onUpdateProjects }) {
         roles,
       };
 
-      const response = await fetch("http://localhost:5000/projects", {
+      const response = await fetch(`${url}/projects`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -393,12 +394,13 @@ function CreateProjectModal({ isOpen, onClose, onUpdateProjects }) {
             <div className="w-[200px] mx-auto flex flex-col mt-2 pt-0 xs:pt-2">
               <button
                 type="submit"
-                className={`" text-white py-2 sm:py-3 text-xs md:text-lg px-8 md:px-5 rounded-md md:rounded-lg block" ${
-                  !isInputComplete
-                    ? "bg-black cursor-not-allowed"
-                    : " bg-secondary hover:bg-brightPrimary cursor-pointer"
-                }`}
-                disabled={!isInputComplete}
+                className={`" text-white py-2 sm:py-3 text-xs md:text-lg px-8 md:px-5 rounded-md md:rounded-lg block" $`}
+                // disabled={!isInputComplete}
+                // {
+                //   !isInputComplete
+                //     ? "bg-black cursor-not-allowed"
+                //     : " bg-secondary hover:bg-brightPrimary cursor-pointer"
+                // }
               >
                 Create
               </button>

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import { url } from "../app/url";
 
 const initialState = {
   user: null,
@@ -14,7 +15,7 @@ export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (user, thunkAPI) => {
     try {
-      const response = await axios.post("http://localhost:5000/login", {
+      const response = await axios.post(`${url}/login`, {
         email: user.email,
         password: user.password,
       });
@@ -39,7 +40,7 @@ export const signupUser = createAsyncThunk(
     try {
       const splitedEmail = user.email.split("@");
       const domain = splitedEmail[1];
-      const response = await axios.post("http://localhost:5000/signup", {
+      const response = await axios.post(`${url}/signup`, {
         phoneNumber: user.phoneNumber,
         firstName: user.firstName,
         lastName: user.lastName,

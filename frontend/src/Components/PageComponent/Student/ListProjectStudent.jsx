@@ -4,6 +4,7 @@ import CardListProject from "./CardListProject";
 import { AiOutlineSearch } from "react-icons/ai";
 import JoinForm from "./JoinForm";
 import axios from "axios";
+import { url } from "../../../app/url";
 
 function ListProjectStudent() {
   const [isShowRequestForm, setIsShowRequestForm] = useState(false);
@@ -13,9 +14,7 @@ function ListProjectStudent() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/openRequestProjects"
-        );
+        const response = await axios.get(`${url}/openRequestProjects`);
         setDataProject(response.data);
       } catch (error) {
         console.error("Failed to fetch projects:", error);

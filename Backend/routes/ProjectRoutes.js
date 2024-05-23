@@ -20,6 +20,8 @@ import {
 
 const router = express.Router();
 
+export const maxDuration = 50;
+
 router.get("/newestProjects", getNewestProjects);
 router.get("/openRequestProjects", getAllOpenRequestProjects);
 router.get("/student/projects/:userID", getMyProjectsStudent);
