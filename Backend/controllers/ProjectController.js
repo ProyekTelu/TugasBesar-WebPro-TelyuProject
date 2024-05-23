@@ -243,7 +243,7 @@ export const editProjectOpenUntil = async (req, res) => {
     }
 
     project.openUntil = req.body.newOpenUntil;
-    await project.save();
+    await project.save(); 
 
     return res
       .status(200)
