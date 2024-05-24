@@ -61,14 +61,6 @@ const FacultyAndMajor = async () => {
     });
 
     await Major.create({
-      name: "Teknik Elektro",
-      code: "MTE",
-      degree: "S2",
-      facultyCode: "FTE",
-      yearAppear: 2000,
-    });
-
-    await Major.create({
       name: "Teknik Telekomunikasi",
       code: "TT",
       degree: "S1",
@@ -103,22 +95,6 @@ const FacultyAndMajor = async () => {
     await Major.create({
       name: "Informatika",
       code: "IF",
-      degree: "S1",
-      facultyCode: "FIF",
-      yearAppear: 2000,
-    });
-
-    await Major.create({
-      name: "Informatika",
-      code: "MIF",
-      degree: "S2",
-      facultyCode: "FIF",
-      yearAppear: 2000,
-    });
-
-    await Major.create({
-      name: "Informatika",
-      code: "DIF",
       degree: "S3",
       facultyCode: "FIF",
       yearAppear: 2000,
