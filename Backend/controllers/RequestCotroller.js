@@ -8,6 +8,37 @@ import Role from "../models/RoleModel.js";
 import ProjectMember from "../models/ProjectMemberModel.js";
 import path from "path";
 import { updateUser } from "./UserController.js";
+import { Sequelize } from "sequelize";
+import db from "../config/Database.js";
+
+const { DataTypes } = Sequelize;
+
+export const downloadPdf = async (req, res) => {
+  try {
+    const requestId = req.params.id;
+
+    // Cari request berdasarkan ID
+    const request = await Request.findOne({
+      where: { requestID: requestId },
+      attributes: ["cv"],
+    });
+
+    if (!request) {
+      return res.status(404).json({ msg: "Request not found" });
+    }
+
+    const cvBuffer = request.cv;
+    if (!cvBuffer) {
+      return res.status(404).json({ msg: "CV not found" });
+    }
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", `attachment; filename=cv_${requestId}.pdf`);
+    res.send(cvBuffer);
+  } catch (error) {
+    res.status(500).json({ msg: "Server error", error: error.message });
+  }
+};
 
 export const changeStatus = async (req, res) => {
   try {
