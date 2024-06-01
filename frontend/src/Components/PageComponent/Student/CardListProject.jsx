@@ -3,6 +3,7 @@ import JoinForm from "./JoinForm";
 import Modal from "react-modal";
 import axios from "axios";
 import ProjectDetailModal from "../ProjectDetailModal";
+import { url } from "../../../app/url";
 
 function CardListProject({ items, handleRequestForm }) {
   const [isModalOpenDetail, setModalOpenDetail] = useState(false);
@@ -26,9 +27,7 @@ function CardListProject({ items, handleRequestForm }) {
   const openModalDetail = async (projectId) => {
     try {
       setIsLoadingModalDetail(true);
-      const response = await axios.get(
-        `http://localhost:5000/project/${projectId}`
-      );
+      const response = await axios.get(`${url}/project/${projectId}`);
       setSelectedProject(response.data);
       setModalOpenDetail(true);
     } catch (error) {

@@ -14,6 +14,7 @@ import Modal from "react-modal";
 import ProjectDetailModal from "../ProjectDetailModal";
 import CreateProjectModal from "./CreateProjectModal";
 import MyProjectTableLecturer from "./HomeComponents/MyProjectTableLecturer";
+import { url } from "../../../app/url";
 
 function HomeLecturer() {
   const navigate = useNavigate();
@@ -85,9 +86,7 @@ function HomeLecturer() {
     const fetchNewestProjects = async () => {
       setIsLoadingNewestProject(true);
       try {
-        const response = await axios.get(
-          "http://localhost:5000/newestProjects"
-        );
+        const response = await axios.get(`${url}/newestProjects`);
         setNewestProject(response.data);
         if (response.data.length === 0) {
           setShowNoNewestProjectMessage(true);
@@ -106,9 +105,7 @@ function HomeLecturer() {
     const fetchNewestProjects = async () => {
       setIsLoadingNewestProject(true);
       try {
-        const response = await axios.get(
-          "http://localhost:5000/newestProjects"
-        );
+        const response = await axios.get(`${url}/newestProjects`);
         setNewestProject(response.data);
         if (response.data.length === 0) {
           setShowNoNewestProjectMessage(true);
@@ -135,7 +132,7 @@ function HomeLecturer() {
       setIsLoadingMyProject(true);
       try {
         const response = await axios.get(
-          `http://localhost:5000/lecturer/projects/${user.userID}`
+          `${url}/lecturer/projects/${user.userID}`
         );
         if (response.data.length === 0) {
           setShowNoProjectMessage(true);
@@ -169,9 +166,7 @@ function HomeLecturer() {
   const openModalDetail = async (projectId) => {
     try {
       setIsLoadingModalDetail(true);
-      const response = await axios.get(
-        `http://localhost:5000/project/${projectId}`
-      );
+      const response = await axios.get(`${url}/project/${projectId}`);
       setSelectedProject(response.data);
       setModalOpenDetail(true);
     } catch (error) {

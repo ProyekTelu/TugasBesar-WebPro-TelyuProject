@@ -18,6 +18,7 @@ import { FaDotCircle } from "react-icons/fa";
 import { Select, Option } from "@material-tailwind/react";
 import ProjectDetailModal from "../ProjectDetailModal";
 import CreateProjectModal from "./CreateProjectModal";
+import { url } from "../../../app/url";
 
 function MyProjectLecturer() {
   const storedUser = localStorage.getItem("user");
@@ -52,7 +53,7 @@ function MyProjectLecturer() {
       setIsLoadingMyProject(true);
       try {
         const response = await axios.get(
-          `http://localhost:5000/lecturer/projects/${user.userID}`
+          `${url}/lecturer/projects/${user.userID}`
         );
 
         const filteredProjects =
@@ -98,7 +99,7 @@ function MyProjectLecturer() {
     setModalOpenCreate(false);
   }
 
-  console.log(myProject)
+  console.log(myProject);
 
   return (
     <div className="flex flex-col w-full p-4 md:p-12 h-screen md:min-h-screen overflow-y-auto relative">

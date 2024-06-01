@@ -146,11 +146,11 @@ const Layout = () => {
             <Outlet />
 
             {/* NOTIF BALOON */}
-            {user.role === "student" ? 
-            <NotificationStudent />
-            :
-            (<NotificationLecturer />)
-            }
+            {user.role === "student" ? (
+              <NotificationStudent />
+            ) : (
+              <NotificationLecturer />
+            )}
           </div>
         </div>
 

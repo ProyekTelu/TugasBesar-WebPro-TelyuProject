@@ -23,6 +23,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import { url } from "../../app/url";
 
 function MyProjectDetail() {
   let { projectId } = useParams();
@@ -130,7 +131,7 @@ function MyProjectDetail() {
 
       axios({
         method: "post",
-        url: "http://localhost:5000/invitation",
+        url: `${url}/invitation`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       })
@@ -152,9 +153,7 @@ function MyProjectDetail() {
   const deleteProjectMemberByID = async (projectMemberID) => {
     try {
       setTriggerEffect(
-        await axios.delete(
-          `http://localhost:5000/projectMember/${projectMemberID}`
-        )
+        await axios.delete(`${url}/projectMember/${projectMemberID}`)
       );
     } catch (error) {
       console.log(error);
@@ -164,7 +163,7 @@ function MyProjectDetail() {
   const searchStudents = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/students/search/${searchQuery}/${projectId}`
+        `${url}/students/search/${searchQuery}/${projectId}`
       );
       setSearchResults(
         response.data.filter((user) =>
@@ -189,7 +188,7 @@ function MyProjectDetail() {
     if (newTitle.length >= 3) {
       try {
         const response = await axios.put(
-          `http://localhost:5000/projects/${selectedProject.projectID}/title`,
+          `${url}/projects/${selectedProject.projectID}/title`,
           {
             newTitle: newTitle,
           }
@@ -234,7 +233,7 @@ function MyProjectDetail() {
     if (newDescription.length >= 12) {
       try {
         const response = await axios.put(
-          `http://localhost:5000/projects/${selectedProject.projectID}/description`,
+          `${url}/projects/${selectedProject.projectID}/description`,
           {
             newDescription: newDescription,
           }
@@ -282,7 +281,7 @@ function MyProjectDetail() {
     // if (isValidURL(newLink)) {
     try {
       const response = await axios.put(
-        `http://localhost:5000/projects/${selectedProject.projectID}/link`,
+        `${url}/projects/${selectedProject.projectID}/link`,
         {
           newLink: newLink,
         }
@@ -320,7 +319,7 @@ function MyProjectDetail() {
 
     try {
       await axios.put(
-        `http://localhost:5000/projects/${selectedProject.projectID}/startProject`,
+        `${url}/projects/${selectedProject.projectID}/startProject`,
         {
           newStartProject: newStartProject,
         }
@@ -337,7 +336,7 @@ function MyProjectDetail() {
 
     try {
       await axios.put(
-        `http://localhost:5000/projects/${selectedProject.projectID}/endProject`,
+        `${url}/projects/${selectedProject.projectID}/endProject`,
         {
           newEndProject: newEndProject,
         }
@@ -354,7 +353,7 @@ function MyProjectDetail() {
 
     try {
       await axios.put(
-        `http://localhost:5000/projects/${selectedProject.projectID}/openUntil`,
+        `${url}/projects/${selectedProject.projectID}/openUntil`,
         {
           newOpenUntil: newOpenUntil,
         }
@@ -370,12 +369,9 @@ function MyProjectDetail() {
     const newStatus = e;
 
     try {
-      await axios.put(
-        `http://localhost:5000/projects/${selectedProject.projectID}/status`,
-        {
-          newStatus: newStatus,
-        }
-      );
+      await axios.put(`${url}/projects/${selectedProject.projectID}/status`, {
+        newStatus: newStatus,
+      });
       setEditStatus(newStatus);
       selectedProject.projectStatus = newStatus;
     } catch (error) {
@@ -401,9 +397,7 @@ function MyProjectDetail() {
     const fetchProject = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(
-          `http://localhost:5000/project/${projectId}`
-        );
+        const response = await axios.get(`${url}/project/${projectId}`);
         setSelectedProject(response.data);
       } catch (error) {
         console.error("Failed to fetch project:", error);
@@ -508,7 +502,7 @@ function MyProjectDetail() {
                                     onClick: async () => {
                                       try {
                                         await axios.delete(
-                                          `http://localhost:5000/projects/${selectedProject.projectID}`
+                                          `${url}/projects/${selectedProject.projectID}`
                                         );
                                         toast.success(
                                           "Project deleted successfully"

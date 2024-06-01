@@ -6,6 +6,7 @@ import ProjectSkill from "../models/ProjectSkillModel.js";
 import Skill from "../models/SkillModel.js";
 import { literal } from "sequelize";
 import ProjectMember from "../models/ProjectMemberModel.js";
+import admin from "../services/firebase.js";
 
 export const createProject = async (req, res) => {
   const {
@@ -44,7 +45,7 @@ export const createProject = async (req, res) => {
         await ProjectRole.create({
           roleID: role.roleID,
           projectID: projectID,
-          quantity: roleData.quantity || 1, // Set default quantity to 1 if not specified
+          quantity: roleData.quantity || 1,
         });
 
         return role.roleID;
@@ -63,6 +64,18 @@ export const createProject = async (req, res) => {
       })
     );
 
+    const message = {
+      notification: {
+        title: "New Project Created",
+        body: `You have a new project  to join.`,
+      },
+      topic: "projects",
+    };
+
+    const response = await admin.messaging().send(message);
+    console.log("Successfully sent message:", response);
+
+    // res.status(201);
     res.status(201).json(newProject);
   } catch (error) {
     console.error("Error during project creation:", error);
@@ -122,7 +135,7 @@ export const getNewestProjects = async (req, res) => {
           [
             literal(`(
               SELECT COUNT(*)
-              FROM projectMember
+              FROM ProjectMember
               WHERE ProjectMember.projectID = Project.projectID
             )`),
             "projectMemberCount",
@@ -409,7 +422,7 @@ export const getProjectByProjectID = async (req, res) => {
           [
             literal(`(
               SELECT COUNT(*)
-              FROM projectMember
+              FROM ProjectMember
               WHERE ProjectMember.projectID = Project.projectID
             )`),
             "projectMemberCount",

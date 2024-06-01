@@ -11,6 +11,8 @@ import Request from "../models/RequestModel.js";
 const router = express.Router();
 import { downloadPdf } from "../controllers/RequestCotroller.js";
 
+export const maxDuration = 50;
+
 router.get("/requestMember/:as", getMyProjectRequestMember);
 router.get("/requestProjectDetail/:as", RequestByProjectID);
 router.get("/existingRequest/:userID/:projectID", existingRequest);

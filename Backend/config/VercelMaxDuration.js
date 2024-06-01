@@ -1,0 +1,1 @@
+const maxDuration = 49;

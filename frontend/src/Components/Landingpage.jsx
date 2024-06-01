@@ -19,7 +19,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 import FacultyPopup from "../Components/SideBarComponent/FacultyPopup";
-
+import { url } from "../app/url";
 
 const Footer = () => {
   return (
@@ -201,17 +201,13 @@ const Landingpage = () => {
   useEffect(() => {
     const fetchRequestProject = async () => {
       try {
-        const requestLanding = await axios.get(
-        " http://localhost:5000/landing"
-        );
+        const requestLanding = await axios.get(`${url}/landing`);
         setLanding(requestLanding.data);
-        
       } catch (error) {
         console.error("Failed to Get Requested");
-      } 
-        
+      }
     };
-      fetchRequestProject();
+    fetchRequestProject();
   }, []);
   return (
     <div className="w-screen min-h-screen flex flex-col overflow-x-hidden bg-white">

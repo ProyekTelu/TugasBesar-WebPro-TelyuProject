@@ -40,6 +40,7 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
+
 app.use(express.json());
 app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }));
@@ -86,6 +87,10 @@ const initializeData = async () => {
   });
 };
 
+app.get("/", (req, res) => {
+  res.send("Selamat datang di tel-u Project");
+});
+
 //fungsi menjalankan inisial data
 const runInisialData = async () => {
   await db.drop();
@@ -97,6 +102,5 @@ const runInisialData = async () => {
 // menjalankan fungsi untuk inisial data
 // runInisialData();
 
-app.listen(process.env.APP_PORT, () =>
-  console.log("server listening on port " + process.env.APP_PORT)
-);
+const PORT = process.env.APP_PORT || 5000;
+app.listen(PORT, () => console.log("server listening on port " + PORT));

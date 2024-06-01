@@ -1,13 +1,9 @@
 import User from "../models/UserModel.js";
-import argon2 from "argon2";
-import { Op, Sequelize, where } from "sequelize";
-import Invitation from "../models/InvitationModel.js";
-import Project from "../models/ProjectModel.js";
+import { Op } from "sequelize";
 import path from "path";
 import fs from "fs";
 import Faculty from "../models/FacultyModel.js";
-import { response } from "express";
-import { error } from "console";
+import bcrypt from "bcryptjs";
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -34,7 +30,7 @@ export const getAllStudent = async (req, res) => {
   }
 };
 
-export const getUsersByNomorInduk = async (req, res) => {
+export const getUserById = async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
@@ -43,7 +39,7 @@ export const getUsersByNomorInduk = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     const faculty = await Faculty.findOne({
@@ -57,7 +53,7 @@ export const getUsersByNomorInduk = async (req, res) => {
 
     res.status(200).json(response);
   } catch (error) {
-    res.status(500).json({message : "failed to get user information", error});
+    res.status(500).json({ message: "failed to get user information", error });
   }
 };
 
@@ -75,7 +71,8 @@ export const createUser = async (req, res) => {
     kelas,
     role,
   } = req.body;
-  const hashPassword = await argon2.hash(password);
+  const saltRounds = 10;
+  const hashPassword = await bcrypt.hash(password, saltRounds);
   try {
     await User.create({
       nomorInduk: nomorInduk,
@@ -110,7 +107,7 @@ export const deleteUserByNomorInduk = async (req, res) => {
     await User.destroy({
       where: {
         userID: req.params.userID,
-      }
+      },
     });
     res.status(201).json({ msg: "User Created" });
   } catch (error) {
@@ -167,7 +164,6 @@ export const updateUser = async (req, res) => {
         }
       );
     } else {
-
       const photoFile = req.files.file;
       const newFileName = photoFile.md5 + path.extname(photoFile.name);
       const imagePath = `${req.protocol}://${req.get(
@@ -176,15 +172,14 @@ export const updateUser = async (req, res) => {
 
       // Move the uploaded file to the 'images' folder
       photoFile.mv(`./public/images/${newFileName}`, async (error) => {
-
         if (error) {
           return res.status(500).json({ error });
         }
 
         try {
           fs.unlinkSync(`./public/images/${req.body.prevPhoto}`);
-        } catch (error){
-          console.log(error)
+        } catch (error) {
+          console.log(error);
         }
 
         await User.update(
@@ -203,16 +198,15 @@ export const updateUser = async (req, res) => {
           }
         );
       });
-    } 
+    }
 
-    return res.status(200).json({message : "User Succesfully Updated"})
+    return res.status(200).json({ message: "User Succesfully Updated" });
   } catch (error) {
     return res
       .status(500)
       .json({ error: "Internal Server Error", details: error.message });
   }
 };
-
 
 // ===== Backup Code =====
 
