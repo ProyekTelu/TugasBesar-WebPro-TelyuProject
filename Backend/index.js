@@ -37,7 +37,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: "https://srv531466.hstgr.cloud/",
+    origin: "https://teluproject.vercel.app/",
   })
 );
 
