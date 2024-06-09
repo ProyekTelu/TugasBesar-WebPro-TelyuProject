@@ -33,7 +33,10 @@ export const downloadPdf = async (req, res) => {
     }
 
     res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", `attachment; filename=cv_${requestId}.pdf`);
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=cv_${requestId}.pdf`
+    );
     res.send(cvBuffer);
   } catch (error) {
     res.status(500).json({ msg: "Server error", error: error.message });
