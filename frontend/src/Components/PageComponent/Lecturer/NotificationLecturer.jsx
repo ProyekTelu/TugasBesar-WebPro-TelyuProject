@@ -62,7 +62,7 @@ const NotificationLecturer = () => {
 
   const fetchNotificationElements = async () => {
     try {
-      const response = await axios.get(`${url}{/invitation/${userID}`);
+      const response = await axios.get(`${url}/invitation/${userID}`);
       setNotificationsElements(response.data);
       console.log(notificationElements);
     } catch (error) {
