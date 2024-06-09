@@ -174,7 +174,7 @@ export const updateUser = async (req, res) => {
           { where: { userID } }
         );
       } else {
-        // New image uploaded
+        // New image uploade
         const photoFile = req.file;
         const newFileName = `${photoFile.originalname}_${Date.now()}`;
         const file = bucket.file(`userProfile/${newFileName}`);
@@ -220,7 +220,7 @@ export const updateUser = async (req, res) => {
         blobStream.end(photoFile.buffer);
       }
     } catch (error) {
-      return res.status(500).json({ error: "Internal Server Error", details: error.message });
+      return res.status(500).json({ error: "Internal Server Error", details: error.message, });
     }
   });
 };
