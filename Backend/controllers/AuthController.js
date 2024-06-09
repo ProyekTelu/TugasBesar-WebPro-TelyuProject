@@ -96,6 +96,7 @@ export const signup = async (req, res) => {
     kelas,
     role,
   } = req.body;
+
   const saltRounds = 10;
   const hashPassword = await bcrypt.hash(password, saltRounds);
   try {
@@ -108,11 +109,18 @@ export const signup = async (req, res) => {
       gender: gender,
       lectureCode: lectureCode === null ? null : lectureCode.toUpperCase(),
       facultyCode: facultyCode,
-      majorCode: majorCode,
+      majorCode: majorCode == "" ? null : majorCode.toUpperCase(),
       kelas: kelas,
       role: role,
     });
-    res.status(201).json({ msg: "Sign Up Complete" });
+
+    const user = await User.findOne({
+      where: {
+        email: req.body.email.toLowerCase(),
+      },
+    });
+
+    res.status(200).json({ msg: "Sign Up Complete" , user : {userID: user.userID }});
   } catch (error) {
     console.log(error.message);
   }
