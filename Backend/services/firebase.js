@@ -6,6 +6,9 @@ dotenv.config();
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
+  storageBucket: 'gs://telu-project.appspot.com'
 });
 
-export default admin;
+const bucket = admin.storage().bucket();
+
+export { admin, bucket };

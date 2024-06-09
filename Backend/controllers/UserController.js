@@ -4,6 +4,11 @@ import path from "path";
 import fs from "fs";
 import Faculty from "../models/FacultyModel.js";
 import bcrypt from "bcryptjs";
+import { bucket } from '../firebase.js';
+import multer from 'multer';
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage }).single('file');
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -148,64 +153,76 @@ export const searchStudent = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-  try {
-    if (!req.files) {
-      await User.update(
-        {
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          phoneNumber: req.body.phoneNumber,
-          lectureCode: req.body.lectureCode,
-        },
-        {
-          where: {
-            userID: req.params.userID,
-          },
-        }
-      );
-    } else {
-      const photoFile = req.files.file;
-      const newFileName = photoFile.md5 + path.extname(photoFile.name);
-      const imagePath = `${req.protocol}://${req.get(
-        "host"
-      )}/images/${newFileName}`;
-
-      // Move the uploaded file to the 'images' folder
-      photoFile.mv(`./public/images/${newFileName}`, async (error) => {
-        if (error) {
-          return res.status(500).json({ error });
-        }
-
-        try {
-          fs.unlinkSync(`./public/images/${req.body.prevPhoto}`);
-        } catch (error) {
-          console.log(error);
-        }
-
-        await User.update(
-          {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            phoneNumber: req.body.phoneNumber,
-            lectureCode: req.body.lectureCode,
-            photoProfileImage: newFileName,
-            photoProfileUrl: imagePath,
-          },
-          {
-            where: {
-              userID: req.params.userID,
-            },
-          }
-        );
-      });
+  upload(req, res, async (err) => {
+    if (err) {
+      return res.status(500).json({ error: "Failed to upload file", details: err.message });
     }
 
-    return res.status(200).json({ message: "User Succesfully Updated" });
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ error: "Internal Server Error", details: error.message });
-  }
+    try {
+      const { firstName, lastName, phoneNumber, lectureCode } = req.body;
+      const userID = req.params.userID;
+      const user = await User.findOne({ where: { userID } });
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      if (!req.file) {
+        // No new image uploaded, update other fields only
+        await User.update(
+          { firstName, lastName, phoneNumber, lectureCode },
+          { where: { userID } }
+        );
+      } else {
+        // New image uploaded
+        const photoFile = req.file;
+        const newFileName = `${photoFile.originalname}_${Date.now()}`;
+        const file = bucket.file(`userProfile/${newFileName}`);
+
+        // Upload the file to Firebase Storage
+        const blobStream = file.createWriteStream({
+          metadata: { contentType: photoFile.mimetype },
+        });
+
+        blobStream.on('error', (error) => {
+          return res.status(500).json({ error });
+        });
+
+        blobStream.on('finish', async () => {
+          // Get the public URL of the uploaded image
+          const imagePath = await file.getSignedUrl({
+            action: 'read',
+            expires: '03-09-2491', // Set an appropriate expiry date
+          });
+
+          // Update user details with the new image URL
+          await User.update(
+            {
+              firstName,
+              lastName,
+              phoneNumber,
+              lectureCode,
+              photoProfileImage: newFileName,
+              photoProfileUrl: imagePath[0],
+            },
+            { where: { userID } }
+          );
+
+          // Optionally, delete the previous image from storage if needed
+          if (user.photoProfileImage) {
+            const oldFile = bucket.file(`userProfile/${user.photoProfileImage}`);
+            await oldFile.delete();
+          }
+
+          return res.status(200).json({ message: "User successfully updated" });
+        });
+
+        blobStream.end(photoFile.buffer);
+      }
+    } catch (error) {
+      return res.status(500).json({ error: "Internal Server Error", details: error.message });
+    }
+  });
 };
 
 // ===== Backup Code =====
