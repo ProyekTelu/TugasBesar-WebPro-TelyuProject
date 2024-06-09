@@ -6,7 +6,7 @@ import ProjectSkill from "../models/ProjectSkillModel.js";
 import Skill from "../models/SkillModel.js";
 import { literal } from "sequelize";
 import ProjectMember from "../models/ProjectMemberModel.js";
-import admin from "../services/firebase.js";
+import {admin} from "../services/firebase.js";
 
 export const createProject = async (req, res) => {
   const {

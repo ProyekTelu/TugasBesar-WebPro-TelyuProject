@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs";
 import Faculty from "../models/FacultyModel.js";
 import bcrypt from "bcryptjs";
-import { bucket } from '../firebase.js';
+import { bucket } from '../services/firebase.js'; 
 import multer from 'multer';
 
 const storage = multer.memoryStorage();
@@ -220,7 +220,7 @@ export const updateUser = async (req, res) => {
         blobStream.end(photoFile.buffer);
       }
     } catch (error) {
-      return res.status(500).json({ error: "Internal Server Error", details: error.message, });
+      return res.status(500).json({ error: "Internal Server Error", details: error.message, }); 
     }
   });
 };
