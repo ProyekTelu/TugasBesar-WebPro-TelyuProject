@@ -116,7 +116,7 @@ export const addFromRequest = async (req, res) => {
 //   }
 // };
 
-export const createRequest = async (req, res) =>{
+export const createRequest = async (req, res) => {
   if (req.files === null)
     return res.status(400).json({ msg: "No File Uploaded" });
 
@@ -130,7 +130,7 @@ export const createRequest = async (req, res) =>{
 
   if (!allowedType.includes(ext.toLowerCase()))
     return res.status(422).json({ msg: "Type must be pdf" });
-  
+
   if (fileSize > 10000000)
     return res.status(422).json({ msg: "File must be less than 10 MB" });
 
@@ -150,7 +150,7 @@ export const createRequest = async (req, res) =>{
       console.log(error.message);
     }
   });
-}
+};
 
 export const RequestByProjectID = async (req, res) => {
   try {
