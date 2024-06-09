@@ -37,7 +37,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: "https://teluproject.vercel.app/",
+    origin: "https://teluproject.vercel.app",
   })
 );
 
