@@ -243,7 +243,7 @@ export const editProjectOpenUntil = async (req, res) => {
     }
 
     project.openUntil = req.body.newOpenUntil;
-    await project.save(); 
+    await project.save();
 
     return res
       .status(200)
@@ -321,6 +321,7 @@ export const getMyProjectsStudent = async (req, res) => {
   try {
     const userId = req.params.userID;
     const projects = await Project.findAll({
+      order: [["projectID", "DESC"]],
       include: [
         {
           model: ProjectMember,
@@ -347,6 +348,7 @@ export const getMyProjectsLecturer = async (req, res) => {
   try {
     const userId = req.params.userID;
     const projects = await Project.findAll({
+      order: [["projectID", "DESC"]],
       include: [
         {
           model: ProjectMember,
