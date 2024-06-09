@@ -161,7 +161,7 @@ const NotificationStudent = () => {
         style={{ userSelect: "none" }}
       >
         <h1 className="px-5 text-xl sm:text-2xl text-black font-bold ">
-          StudentNotificationStudent
+          Studen Notification
         </h1>
         <div className="md:w-full text-xs sm:text-base sm:px-5 pt-2 flex gap-2 overflow-x-auto w-4/5 mx-auto pb-2 sm:pb-0 ">
           {options.map((option, index) => (
