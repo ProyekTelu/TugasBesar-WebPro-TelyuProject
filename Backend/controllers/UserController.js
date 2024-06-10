@@ -4,11 +4,11 @@ import path from "path";
 import fs from "fs";
 import Faculty from "../models/FacultyModel.js";
 import bcrypt from "bcryptjs";
-import { bucket } from '../services/firebase.js'; 
-import multer from 'multer';
+import { bucket } from "../services/firebase.js";
+import multer from "multer";
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage }).single('file');
+const upload = multer({ storage }).single("file");
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -155,7 +155,9 @@ export const searchStudent = async (req, res) => {
 export const updateUser = async (req, res) => {
   upload(req, res, async (err) => {
     if (err) {
-      return res.status(500).json({ error: "Failed to upload file", details: err.message });
+      return res
+        .status(500)
+        .json({ error: "Failed to upload file", details: err.message });
     }
 
     try {
@@ -184,15 +186,15 @@ export const updateUser = async (req, res) => {
           metadata: { contentType: photoFile.mimetype },
         });
 
-        blobStream.on('error', (error) => {
+        blobStream.on("error", (error) => {
           return res.status(500).json({ error });
         });
 
-        blobStream.on('finish', async () => {
+        blobStream.on("finish", async () => {
           // Get the public URL of the uploaded image
           const imagePath = await file.getSignedUrl({
-            action: 'read',
-            expires: '03-09-2491', // Set an appropriate expiry date
+            action: "read",
+            expires: "03-09-2491", // Set an appropriate expiry date
           });
 
           // Update user details with the new image URL
@@ -210,7 +212,9 @@ export const updateUser = async (req, res) => {
 
           // Optionally, delete the previous image from storage if needed
           if (user.photoProfileImage) {
-            const oldFile = bucket.file(`userProfile/${user.photoProfileImage}`);
+            const oldFile = bucket.file(
+              `userProfile/${user.photoProfileImage}`
+            );
             await oldFile.delete();
           }
 
@@ -220,7 +224,9 @@ export const updateUser = async (req, res) => {
         blobStream.end(photoFile.buffer);
       }
     } catch (error) {
-      return res.status(500).json({ error: "Internal Server Error", details: error.message, }); 
+      return res
+        .status(500)
+        .json({ error: "Internal Server Error", details: error.message });
     }
   });
 };

@@ -125,20 +125,31 @@ export const createRequest = async (req, res) => {
   if (req.files && req.files.cv) {
     const file = req.files.cv;
     const ext = path.extname(file.name);
-    const name = file.name;
     const fileSize = file.data.length;
-    const fileName = file.md5 + ext;
-    fileUrl = `${req.protocol}://${req.get("host")}/files/${fileName}`;
-    const allowedType = [".pdf"];
+    const fileName = `requestDocument/${file.md5}${ext}`;
+    const allowedType = [".pdf", ".docx"];
 
-    if (!allowedType.includes(ext.toLowerCase()))
-      return res.status(422).json({ msg: "Type must be pdf" });
+    if (!allowedType.includes(ext.toLowerCase())) {
+      return res.status(422).json({ msg: "Type must be pdf or docx" });
+    }
 
-    if (fileSize > 10000000)
-      return res.status(422).json({ msg: "File must be less than 10 MB" });
+    if (fileSize > 100000000) {
+      return res.status(422).json({ msg: "File must be less than 100 MB" });
+    }
 
-    file.mv(`./public/files/${fileName}`, async (err) => {
-      if (err) return res.status(500).json({ msg: err.message });
+    const fileUpload = bucket.file(fileName);
+    const blobStream = fileUpload.createWriteStream({
+      metadata: {
+        contentType: file.mimetype,
+      },
+    });
+
+    blobStream.on("error", (err) => {
+      return res.status(500).json({ msg: err.message });
+    });
+
+    blobStream.on("finish", async () => {
+      fileUrl = `https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`;
       try {
         await Request.create({
           userID: req.body.userID,
@@ -154,6 +165,8 @@ export const createRequest = async (req, res) => {
         res.status(500).json({ msg: "Internal Server Error" });
       }
     });
+
+    blobStream.end(file.data);
   } else {
     try {
       await Request.create({
