@@ -84,93 +84,72 @@ export const addFromRequest = async (req, res) => {
   }
 };
 
-// export const createRequest = async (req, res) => {
-//   try {
-//     const { userID, projectID, roleID, message } = req.body;
-
-//     const existingRequest = await Request.findOne({
-//       where: {
-//         userID,
-//         projectID,
-//         status: "pending",
-//       },
-//     });
-
-//     if (existingRequest) {
-//       return res
-//         .status(400)
-//         .json({ msg: "Request already exists for this project and role." });
-//     }
-
-//     const cvPath = req.file.path;
-
-//     const newRequest = await Request.create({
-//       userID,
-//       projectID,
-//       roleID,
-//       message,
-//       cv: cvPath,
-//     });
-
-//     res.status(201).json(newRequest);
-//   } catch (error) {
-//     console.error("Error creating request:", error);
-//     res.status(500).json({ msg: "Internal Server Error" });
-//   }
-// };
-
 export const createRequest = async (req, res) => {
   let fileUrl = null;
 
   console.log(req.body);
 
-  if (req.files && req.files.cv) {
-    const file = req.files.cv;
-    const ext = path.extname(file.name);
-    const fileSize = file.data.length;
-    const fileName = `requestDocument/${file.md5}${ext}`;
-    const allowedType = [".pdf", ".docx"];
-
-    if (!allowedType.includes(ext.toLowerCase())) {
-      return res.status(422).json({ msg: "Type must be pdf or docx" });
-    }
-
-    if (fileSize > 100000000) {
-      return res.status(422).json({ msg: "File must be less than 100 MB" });
-    }
-
-    const fileUpload = bucket.file(fileName);
-    const blobStream = fileUpload.createWriteStream({
-      metadata: {
-        contentType: file.mimetype,
+  try {
+    const existingRequest = await Request.findOne({
+      where: {
+        userID: req.body.userID,
+        projectID: req.body.projectID,
+        roleID: req.body.roleID,
       },
     });
 
-    blobStream.on("error", (err) => {
-      return res.status(500).json({ msg: err.message });
-    });
+    if (existingRequest) {
+      return res
+        .status(409)
+        .json({ msg: "Request for the same role already exists" });
+    }
 
-    blobStream.on("finish", async () => {
-      fileUrl = `https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`;
-      try {
-        await Request.create({
-          userID: req.body.userID,
-          projectID: req.body.projectID,
-          roleID: req.body.roleID,
-          message: req.body.message,
-          cv: fileUrl,
-          status: "pending",
-        });
-        res.status(201).json({ msg: "Request created Successfully" });
-      } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ msg: error.message });
+    if (req.files && req.files.cv) {
+      const file = req.files.cv;
+      const ext = path.extname(file.name);
+      const fileSize = file.data.length;
+      const fileName = `requestDocument/${file.md5}${ext}`;
+      const allowedType = [".pdf", ".docx"];
+
+      if (!allowedType.includes(ext.toLowerCase())) {
+        return res.status(422).json({ msg: "Type must be pdf or docx" });
       }
-    });
 
-    blobStream.end(file.data);
-  } else {
-    try {
+      if (fileSize > 100000000) {
+        return res.status(422).json({ msg: "File must be less than 100 MB" });
+      }
+
+      const fileUpload = bucket.file(fileName);
+      const blobStream = fileUpload.createWriteStream({
+        metadata: {
+          contentType: file.mimetype,
+        },
+      });
+
+      blobStream.on("error", (err) => {
+        return res.status(500).json({ msg: err.message });
+      });
+
+      blobStream.on("finish", async () => {
+        fileUrl = `https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`;
+        try {
+          await Request.create({
+            userID: req.body.userID,
+            projectID: req.body.projectID,
+            roleID: req.body.roleID,
+            message: req.body.message,
+            cv: fileUrl,
+            status: "pending",
+          });
+          res.status(201).json({ msg: "Request created Successfully" });
+        } catch (error) {
+          console.log(error.message);
+          res.status(500).json({ msg: error.message });
+        }
+      });
+
+      blobStream.end(file.data);
+    } else {
       await Request.create({
         userID: req.body.userID,
         projectID: req.body.projectID,
@@ -180,10 +159,10 @@ export const createRequest = async (req, res) => {
         status: "pending",
       });
       res.status(201).json({ msg: "Request created Successfully" });
-    } catch (error) {
-      console.log(error.message);
-      res.status(500).json({ msg: error.message });
     }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ msg: error.message });
   }
 };
 
