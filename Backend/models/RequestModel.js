@@ -32,7 +32,7 @@ const Request = db.define(
       type: DataTypes.TEXT,
     },
     cv: {
-      type: DataTypes.BLOB("long"),
+      type: DataTypes.STRING,
     },
     status: {
       type: DataTypes.ENUM("pending", "accepted", "rejected"),

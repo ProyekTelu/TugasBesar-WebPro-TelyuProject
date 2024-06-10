@@ -162,7 +162,7 @@ export const createRequest = async (req, res) => {
         res.status(201).json({ msg: "Request created Successfully" });
       } catch (error) {
         console.log(error.message);
-        res.status(500).json({ msg: "Internal Server Error" });
+        res.status(500).json({ msg: error.message });
       }
     });
 
@@ -180,7 +180,7 @@ export const createRequest = async (req, res) => {
       res.status(201).json({ msg: "Request created Successfully" });
     } catch (error) {
       console.log(error.message);
-      res.status(500).json({ msg: "Internal Server Error" });
+      res.status(500).json({ msg: error.message });
     }
   }
 };
