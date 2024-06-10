@@ -122,6 +122,8 @@ export const addFromRequest = async (req, res) => {
 export const createRequest = async (req, res) => {
   let fileUrl = null;
 
+  console.log(req.body);
+
   if (req.files && req.files.cv) {
     const file = req.files.cv;
     const ext = path.extname(file.name);
